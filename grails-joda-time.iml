@@ -1891,6 +1891,9 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins">
+      <sourceFolder url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/build-test-data-0.2.1/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/build-test-data-0.2.1/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/build-test-data-0.2.1/src/java" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/functional-test-1.2.5/src/groovy" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$">
@@ -1915,9 +1918,13 @@
       <library name="Grails User Library">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
+          <root url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/hibernate-1.1.1/lib" />
+          <root url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/functional-test-1.2.5/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/functional-test-1.2.5/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/hibernate-1.1.1/lib" recursive="false" />
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
