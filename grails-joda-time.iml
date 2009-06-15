@@ -1890,6 +1890,9 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins">
+      <sourceFolder url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/functional-test-1.2.5/src/groovy" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/grails-app/conf" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/conf/hibernate" isTestSource="false" />
