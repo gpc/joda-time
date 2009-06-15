@@ -9,14 +9,14 @@ included so that you can bind from form inputs to Joda Time fields on domain or 
 </description>
   <documentation>http://grails.org/JodaTime+Plugin</documentation>
   <resources>
+    <resource>BootStrap</resource>
+    <resource>Config</resource>
+    <resource>DataSource</resource>
     <resource>spring.resources</resource>
     <resource>UrlMappings</resource>
-    <resource>Config</resource>
-    <resource>BootStrap</resource>
-    <resource>DataSource</resource>
     <resource>com.energizedwork.grails.plugins.jodatime.test.PersonController</resource>
-    <resource>com.energizedwork.grails.plugins.jodatime.JodaTimeTagLib</resource>
     <resource>com.energizedwork.grails.plugins.jodatime.test.Person</resource>
+    <resource>com.energizedwork.grails.plugins.jodatime.JodaTimeTagLib</resource>
   </resources>
   <dependencies>
     <plugin name='core' version='1.1 &gt; *' />

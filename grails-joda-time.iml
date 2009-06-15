@@ -1918,8 +1918,8 @@
       <library name="Grails User Library">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
-          <root url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/hibernate-1.1.1/lib" />
           <root url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/functional-test-1.2.5/lib" />
+          <root url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/hibernate-1.1.1/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

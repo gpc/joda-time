@@ -241,7 +241,7 @@
   </component>
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectKey">
-    <option name="state" value="project:///home/rob/workspace/grails-joda-time/grails-joda-time.ipr" />
+    <option name="state" value="project:///Users/rob/IdeaProjects/grails-joda-time/grails-joda-time.ipr" />
   </component>
   <component name="ProjectModuleManager">
     <modules>
@@ -295,7 +295,7 @@
     </library>
   </component>
   <UsedPathMacros>
-    <macro name="USER_HOME" />
+    <macro name="USER_HOME" description="" />
   </UsedPathMacros>
 </project>
 
