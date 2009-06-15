@@ -1,0 +1,24 @@
+<plugin name='joda-time' version='0.4.2' grailsVersion='1.1 &gt; *'>
+  <author>Rob Fletcher</author>
+  <authorEmail>rob@energizedwork.com</authorEmail>
+  <title>Joda-Time Plugin</title>
+  <description>\
+The Joda-Time Plugin integrates the &lt;a href="http://joda-time.sourceforge.net/"&gt;Joda Time&lt;/a&gt; date/time library into
+Grails. The plugin includes the Joda Time library as well as classes for Hibernate persistence. Binding support is
+included so that you can bind from form inputs to Joda Time fields on domain or command objects.
+</description>
+  <documentation>http://grails.org/JodaTime+Plugin</documentation>
+  <resources>
+    <resource>spring.resources</resource>
+    <resource>UrlMappings</resource>
+    <resource>Config</resource>
+    <resource>BootStrap</resource>
+    <resource>DataSource</resource>
+    <resource>com.energizedwork.grails.plugins.jodatime.test.PersonController</resource>
+    <resource>com.energizedwork.grails.plugins.jodatime.JodaTimeTagLib</resource>
+    <resource>com.energizedwork.grails.plugins.jodatime.test.Person</resource>
+  </resources>
+  <dependencies>
+    <plugin name='core' version='1.1 &gt; *' />
+  </dependencies>
+</plugin>

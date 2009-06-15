@@ -1,0 +1,11 @@
+BACKLOG
+- support GrailsUI, RichUI
+- allow minutes on dateTimePicker to be restricted, e.g. only allow selection of every 5 minutes
+- support for Duration
+- support for Interval
+- support for Period
+- selection tag for DateTimeZone
+- selection tag for Chronology
+- support for javascript date pickers (bind date/times in ISO format?)
+
+KNOWN BUGS

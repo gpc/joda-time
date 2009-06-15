@@ -1,0 +1,11 @@
+--- list.gsp
++++ src/templates/scaffolding/list.gsp	2009-03-03 06:04:47.000000000 +0000
+@@ -31,7 +31,7 @@
+                             Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
+                             props.eachWithIndex { p,i ->
+                    	            if(i < 6) {
+-                   	                if(p.isAssociation()) { %>
++                   	                if(!p.type.name.startsWith('org.joda.time') && p.isAssociation()) { %>
+                    	        <th>${p.naturalName}</th>
+                    	    <%          } else { %>
+                    	        <g:sortableColumn property="${p.name}" title="${p.naturalName}" />
