@@ -1,4 +1,4 @@
-package com.energizedwork.grails.plugins.jodatime.test
+package com.energizedwork.grails.plugins.jodatime
 
 import com.energizedwork.grails.plugins.jodatime.test.Person
 import functionaltestplugin.FunctionalTestCase
@@ -15,7 +15,7 @@ class ScaffoldingTests extends FunctionalTestCase {
 	void setUp() {
 		super.setUp()
 
-		baseURL = "http://localhost:8080/joda-time"
+		baseURL = "http://localhost:${System.properties.'server.port'}/joda-time"
 
 		rob = new Person(name: "Rob")
 		rob.birthday = new LocalDate(1971, 11, 29)
@@ -140,5 +140,4 @@ class ScaffoldingTests extends FunctionalTestCase {
 		Element node = byXPath(xpath)
 		assertEquals(expected, node.textContent)
 	}
-
 }
