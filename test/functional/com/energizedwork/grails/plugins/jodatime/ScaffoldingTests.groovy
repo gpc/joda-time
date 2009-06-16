@@ -15,7 +15,8 @@ class ScaffoldingTests extends FunctionalTestCase {
 	void setUp() {
 		super.setUp()
 
-		baseURL = "http://localhost:${System.properties.'server.port'}/joda-time"
+		def port = System.properties."server.port" ?: 8080
+		baseURL = "http://localhost:${port}/joda-time"
 
 		rob = new Person(name: "Rob")
 		rob.birthday = new LocalDate(1971, 11, 29)
