@@ -1,8 +1,6 @@
 package com.energizedwork.grails.plugins.jodatime
 
 import com.energizedwork.grails.plugins.jodatime.test.Record
-import org.joda.time.DateTimeUtils
-import org.joda.time.DateTime
 
 class AutoTimestampingTests extends GroovyTestCase {
 
