@@ -52,36 +52,36 @@ class PersistenceTests extends GroovyTestCase {
 		assertEquals dateCreated, person.dateCreated
 	}
 
-	void testQueryingWithBetweenOnMultiColumnField() {
-		def dateCreated
-		Person.withSession {session ->
-			def person=Person.build(name: "Alex")
-			dateCreated = person.dateCreated
-			session.clear()
-		}
-
-		def person = Person.withCriteria(uniqueResult: true) {
-			between("dateCreated", dateCreated.minusHours(1), dateCreated.plusHours(1))
-		}
-
-		assertEquals dateCreated, person.dateCreated
-	}
-
-	void testQueryingByProjectionOnMultiColumnField() {
-		def dateCreated
-		Person.withSession {session ->
-			def person=Person.build(name: "Alex")
-			dateCreated = person.dateCreated
-			session.clear()
-		}
-
-		def maxDateCreated = Person.withCriteria(uniqueResult: true) {
-			projections {
-				max "dateCreated"
-			}
-		}
-
-		assertEquals dateCreated, maxDateCreated
-	}
+//	void testQueryingWithBetweenOnMultiColumnField() {
+//		def dateCreated
+//		Person.withSession {session ->
+//			def person=Person.build(name: "Alex")
+//			dateCreated = person.dateCreated
+//			session.clear()
+//		}
+//
+//		def person = Person.withCriteria(uniqueResult: true) {
+//			between("dateCreated", dateCreated.minusHours(1), dateCreated.plusHours(1))
+//		}
+//
+//		assertEquals dateCreated, person.dateCreated
+//	}
+//
+//	void testQueryingByProjectionOnMultiColumnField() {
+//		def dateCreated
+//		Person.withSession {session ->
+//			def person=Person.build(name: "Alex")
+//			dateCreated = person.dateCreated
+//			session.clear()
+//		}
+//
+//		def maxDateCreated = Person.withCriteria(uniqueResult: true) {
+//			projections {
+//				max "dateCreated"
+//			}
+//		}
+//
+//		assertEquals dateCreated, maxDateCreated
+//	}
 
 }
