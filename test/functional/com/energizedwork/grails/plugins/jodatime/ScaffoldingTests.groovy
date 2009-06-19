@@ -2,11 +2,13 @@ package com.energizedwork.grails.plugins.jodatime
 
 import com.energizedwork.grails.plugins.jodatime.test.Person
 import functionaltestplugin.FunctionalTestCase
+import javax.servlet.http.HttpServletResponse
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
-import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.format.DateTimeFormat
 import org.w3c.dom.Element
 import static javax.servlet.http.HttpServletResponse.SC_OK
+import org.joda.time.format.ISODateTimeFormat
 
 class ScaffoldingTests extends FunctionalTestCase {
 
@@ -18,10 +20,7 @@ class ScaffoldingTests extends FunctionalTestCase {
 		def port = System.properties."server.port" ?: 8080
 		baseURL = "http://localhost:${port}/joda-time"
 
-		rob = new Person(name: "Rob")
-		rob.birthday = new LocalDate(1971, 11, 29)
-		rob.alarmClock = new LocalTime(6, 0)
-		assert rob.save(flush: true)
+		rob = Person.build(name: "Rob", birthday: new LocalDate(1971, 11, 29), alarmClock: new LocalTime(6, 0))
 	}
 
 	void tearDown() {
@@ -40,7 +39,7 @@ class ScaffoldingTests extends FunctionalTestCase {
 		assertStatus SC_OK
 		assertTitle "Create Person"
 
-		form("") {
+		form() {
 			name = "Alex"
 			alarmClock_hour = "07"
 			alarmClock_minute = "00"
@@ -63,11 +62,14 @@ class ScaffoldingTests extends FunctionalTestCase {
 		assertTitle "Show Person"
 
 		assertTextByXPath("Rob", "//tr[td[1]/text() = 'Name:']/td[@class='value']")
+//		assertTextByXPath("06:00", "//tr[td[1]/text() = 'Alarm Clock:']/td[@class='value']")
+//		assertTextByXPath("29/11/71", "//tr[td[1]/text() = 'Birthday:']/td[@class='value']")
 		assertTextByXPath("06:00:00.000", "//tr[td[1]/text() = 'Alarm Clock:']/td[@class='value']")
 		assertTextByXPath("1971-11-29", "//tr[td[1]/text() = 'Birthday:']/td[@class='value']")
 
 		String createdDate = byXPath("//tr[td[1]/text() = 'Date Created:']/td[@class='value']")?.textContent
 		try {
+//			DateTimeFormat.forStyle("SS").withLocale(Locale.default).parseDateTime(createdDate)
 			ISODateTimeFormat.dateTime().parseDateTime(createdDate)
 		} catch(IllegalArgumentException e) {
 			fail "Could not parse '$createdDate' as DateTime"
@@ -79,7 +81,7 @@ class ScaffoldingTests extends FunctionalTestCase {
 		assertStatus SC_OK
 		assertTitle "Edit Person"
 
-		form("") {
+		form() {
 			assertEquals("Rob", name)
 			assertEquals(["06"], alarmClock_hour)
 			assertEquals(["00"], alarmClock_minute)
@@ -90,11 +92,8 @@ class ScaffoldingTests extends FunctionalTestCase {
 	}
 
 	void testListViewIsSortable() {
-		Person ilse = new Person(name: "Ilse", birthday: new LocalDate(1972, 7, 6), alarmClock: new LocalTime(7, 15))
-		Person alex = new Person(name: "Alex", birthday: new LocalDate(2008, 10, 2), alarmClock: new LocalTime(7, 0))
-		[ilse, alex].each {
-			assert it.save(flush: true)
-		}
+		Person.build(name: "Ilse", birthday: new LocalDate(1972, 7, 6), alarmClock: new LocalTime(7, 15))
+		Person.build(name: "Alex", birthday: new LocalDate(2008, 10, 2), alarmClock: new LocalTime(7, 0))
 
 		get "/person/list"
 		assertStatus SC_OK
