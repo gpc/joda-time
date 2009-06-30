@@ -241,11 +241,12 @@
   </component>
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectKey">
-    <option name="state" value="project:///home/rob/workspace/grails-joda-time/grails-joda-time.ipr" />
+    <option name="state" value="project:///Users/rob/IdeaProjects/grails-joda-time/grails-joda-time.ipr" />
   </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/grails-joda-time.iml" filepath="$PROJECT_DIR$/grails-joda-time.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/projects/jodaTimeTest/jodaTimeTest.iml" filepath="$PROJECT_DIR$/test/projects/jodaTimeTest/jodaTimeTest.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
@@ -295,7 +296,7 @@
     </library>
   </component>
   <UsedPathMacros>
-    <macro name="USER_HOME" />
+    <macro name="USER_HOME" description="" />
   </UsedPathMacros>
 </project>
 

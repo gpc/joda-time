@@ -18,7 +18,7 @@ class ScaffoldingTests extends FunctionalTestCase {
 		super.setUp()
 
 		def port = System.properties."server.port" ?: 8080
-		baseURL = "http://localhost:${port}/joda-time"
+		baseURL = "http://localhost:${port}/jodaTimeTest"
 
 		rob = Person.build(name: "Rob", birthday: new LocalDate(1971, 11, 29), alarmClock: new LocalTime(6, 0))
 	}
@@ -57,15 +57,15 @@ class ScaffoldingTests extends FunctionalTestCase {
 	}
 
 	void testShowPerson() {
-		get "/person/show/$rob.id"
+		get("/person/show/$rob.id"){
+			headers["Accept-Language"] = "en_GB"
+		}
 		assertStatus SC_OK
 		assertTitle "Show Person"
 
 		assertTextByXPath("Rob", "//tr[td[1]/text() = 'Name:']/td[@class='value']")
-//		assertTextByXPath("06:00", "//tr[td[1]/text() = 'Alarm Clock:']/td[@class='value']")
-//		assertTextByXPath("29/11/71", "//tr[td[1]/text() = 'Birthday:']/td[@class='value']")
-		assertTextByXPath("06:00:00.000", "//tr[td[1]/text() = 'Alarm Clock:']/td[@class='value']")
-		assertTextByXPath("1971-11-29", "//tr[td[1]/text() = 'Birthday:']/td[@class='value']")
+		assertTextByXPath("06:00", "//tr[td[1]/text() = 'Alarm Clock:']/td[@class='value']")
+		assertTextByXPath("29/11/71", "//tr[td[1]/text() = 'Birthday:']/td[@class='value']")
 
 		String createdDate = byXPath("//tr[td[1]/text() = 'Date Created:']/td[@class='value']")?.textContent
 		try {

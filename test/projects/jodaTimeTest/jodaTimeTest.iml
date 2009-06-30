@@ -4,6 +4,33 @@
     <facet type="Grails" name="Grails">
       <configuration />
     </facet>
+    <facet type="web" name="GrailsWeb">
+      <configuration>
+        <webroots>
+          <root url="file://$MODULE_DIR$/web-app" relative="/" />
+          <root url="file://$MODULE_DIR$/web-app" relative="/" />
+        </webroots>
+        <sourceRoots />
+        <building>
+          <setting name="EXPLODED_URL" value="file://" />
+          <setting name="EXPLODED_ENABLED" value="false" />
+          <setting name="JAR_URL" value="file://" />
+          <setting name="JAR_ENABLED" value="false" />
+          <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
+        </building>
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="Grails" name="Grails" removed="false">
+          <file>file://$MODULE_DIR$/web-app/WEB-INF/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/web-app/WEB-INF/applicationContext.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+    <facet type="Grails" name="Grails">
+      <configuration />
+    </facet>
   </component>
   <component name="GrailsPluginsStorage">
     <option name="availablePluginsMap">
@@ -2050,28 +2077,23 @@
     </option>
     <option name="fullPluginsInfo">
       <map>
-        <entry key="functional-test">
+        <entry key="build-test-data">
           <value>
             <GrailsPlugin>
-              <option name="author" value="Marc Palmer" />
-              <option name="description" value="Simple 'pure grails' functional testing for your web applications" />
-              <option name="email" value="marc@anyware.co.uk" />
-              <option name="name" value="functional-test" />
-              <option name="release" value="1.2.7" />
-              <option name="title" value="Name: functional-test&#9;| Latest release: 1.2.7" />
-              <option name="url" value="http://grails.org/Grails+Functional+Testing" />
+              <option name="author" value="Ted Naleid and Joe Hoover" />
+              <option name="description" value="\" />
+              <option name="email" value="contact@naleid.com" />
+              <option name="name" value="build-test-data" />
+              <option name="release" value="0.2.1" />
+              <option name="title" value="Name: build-test-data&#9;| Latest release: 0.2.1" />
+              <option name="url" value="http://bitbucket.org/tednaleid/grails-test-data/wiki/Home" />
               <option name="versions">
                 <set>
-                  <option value="1.0" />
-                  <option value="1.1" />
-                  <option value="1.2" />
-                  <option value="1.2.1" />
-                  <option value="1.2.2" />
-                  <option value="1.2.3" />
-                  <option value="1.2.4" />
-                  <option value="1.2.5" />
-                  <option value="1.2.6" />
-                  <option value="1.2.7" />
+                  <option value="0.1" />
+                  <option value="0.1.1" />
+                  <option value="0.1.2" />
+                  <option value="0.2" />
+                  <option value="0.2.1" />
                 </set>
               </option>
             </GrailsPlugin>
@@ -2082,14 +2104,18 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$USER_HOME$/.grails/1.2-M1/projects/jodaTimeTest/plugins">
+      <sourceFolder url="file://$USER_HOME$/.grails/1.2-M1/projects/jodaTimeTest/plugins/build-test-data-0.2.1/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.2-M1/projects/jodaTimeTest/plugins/build-test-data-0.2.1/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.2-M1/projects/jodaTimeTest/plugins/build-test-data-0.2.1/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/1.2-M1/projects/jodaTimeTest/plugins/functional-test-1.2.7/src/groovy" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/grails-app/conf" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/conf/hibernate" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/controllers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/domain" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/services" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/taglib" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/scripts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/groovy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/functional" isTestSource="true" />
@@ -2110,6 +2136,7 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="grails-joda-time" />
   </component>
 </module>
 
