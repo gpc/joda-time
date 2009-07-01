@@ -14,6 +14,8 @@ included so that you can bind from form inputs to Joda Time fields on domain or 
     <resource>DataSource</resource>
     <resource>UrlMappings</resource>
     <resource>spring.resources</resource>
+    <resource>com.energizedwork.grails.plugins.jodatime.test.PersonController</resource>
+    <resource>com.energizedwork.grails.plugins.jodatime.test.Person</resource>
     <resource>com.energizedwork.grails.plugins.jodatime.test.Record</resource>
     <resource>com.energizedwork.grails.plugins.jodatime.JodaTimeTagLib</resource>
   </resources>

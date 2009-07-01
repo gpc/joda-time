@@ -9,6 +9,8 @@ import org.joda.time.format.DateTimeFormat
 import org.w3c.dom.Element
 import static javax.servlet.http.HttpServletResponse.SC_OK
 import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormat
 
 class ScaffoldingTests extends FunctionalTestCase {
 
@@ -18,7 +20,7 @@ class ScaffoldingTests extends FunctionalTestCase {
 		super.setUp()
 
 		def port = System.properties."server.port" ?: 8080
-		baseURL = "http://localhost:${port}/jodaTimeTest"
+		baseURL = "http://localhost:${port}/joda-time"
 
 		rob = Person.build(name: "Rob", birthday: new LocalDate(1971, 11, 29), alarmClock: new LocalTime(6, 0))
 	}
@@ -57,22 +59,36 @@ class ScaffoldingTests extends FunctionalTestCase {
 	}
 
 	void testShowPerson() {
-		get("/person/show/$rob.id"){
-			headers["Accept-Language"] = "en_GB"
-		}
-		assertStatus SC_OK
-		assertTitle "Show Person"
+		[Locale.UK, Locale.US, Locale.FRANCE, Locale.GERMANY, Locale.CANADA, Locale.CANADA_FRENCH].each {locale ->
+			get("/person/show/$rob.id?lang=$locale")
+			assertStatus SC_OK
+			assertTitle "Show Person"
 
-		assertTextByXPath("Rob", "//tr[td[1]/text() = 'Name:']/td[@class='value']")
-		assertTextByXPath("06:00", "//tr[td[1]/text() = 'Alarm Clock:']/td[@class='value']")
-		assertTextByXPath("29/11/71", "//tr[td[1]/text() = 'Birthday:']/td[@class='value']")
+			assertTextByXPath("Rob", "//tr[td[1]/text() = 'Name:']/td[@class='value']")
 
-		String createdDate = byXPath("//tr[td[1]/text() = 'Date Created:']/td[@class='value']")?.textContent
-		try {
-//			DateTimeFormat.forStyle("SS").withLocale(Locale.default).parseDateTime(createdDate)
-			ISODateTimeFormat.dateTime().parseDateTime(createdDate)
-		} catch(IllegalArgumentException e) {
-			fail "Could not parse '$createdDate' as DateTime"
+			String alarmClock = byXPath("//tr[td[1]/text() = 'Alarm Clock:']/td[@class='value']")?.textContent
+			try {
+				def formatter = DateTimeFormat.forStyle("-S").withLocale(locale)
+				assertEquals(rob.alarmClock, formatter.parseDateTime(alarmClock).toLocalTime())
+			} catch (IllegalArgumentException e) {
+				fail "Could not parse '$alarmClock' as time with format ${DateTimeFormat.patternForStyle("-S", locale)} and locale $locale"
+			}
+
+			String birthday = byXPath("//tr[td[1]/text() = 'Birthday:']/td[@class='value']")?.textContent
+			try {
+				def formatter = DateTimeFormat.forStyle("S-").withLocale(locale)
+				assertEquals(rob.birthday, formatter.parseDateTime(birthday).toLocalDate())
+			} catch (IllegalArgumentException e) {
+				fail "Could not parse '$birthday' as time with format ${DateTimeFormat.patternForStyle("S-", locale)} and locale $locale"
+			}
+
+			String dateCreated = byXPath("//tr[td[1]/text() = 'Date Created:']/td[@class='value']")?.textContent
+			try {
+				def formatter = DateTimeFormat.forStyle("SS").withLocale(locale)
+				formatter.parseDateTime(dateCreated)
+			} catch (IllegalArgumentException e) {
+				fail "Could not parse '$dateCreated' as date/time with format ${DateTimeFormat.patternForStyle("SS", locale)} and locale $locale"
+			}
 		}
 	}
 
