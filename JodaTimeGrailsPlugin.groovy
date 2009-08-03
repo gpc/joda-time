@@ -4,7 +4,6 @@ class JodaTimeGrailsPlugin {
     def version = '0.4.3'
     def dependsOn = [core: '1.1 > *']
 
-    // TODO Fill in these fields
     def author = "Rob Fletcher"
     def authorEmail = "rob@energizedwork.com"
     def title = "Joda-Time Plugin"
@@ -22,7 +21,9 @@ included so that you can bind from form inputs to Joda Time fields on domain or 
 		'grails-app/domain/**',
 		'grails-app/views/**',
 		'grails-app/i18n/**',
-		'web-app/**'
+		'web-app/**',
+		'scripts/Prepare.groovy',
+		'scripts/ListPluginUpdates.groovy'
 	]
 
     def doWithSpring = {
