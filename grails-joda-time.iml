@@ -4,6 +4,19 @@
     <facet type="Grails" name="Grails">
       <configuration />
     </facet>
+    <facet type="web" name="GrailsWeb">
+      <configuration>
+        <webroots />
+        <sourceRoots />
+        <building>
+          <setting name="EXPLODED_URL" value="file://" />
+          <setting name="EXPLODED_ENABLED" value="false" />
+          <setting name="JAR_URL" value="file://" />
+          <setting name="JAR_ENABLED" value="false" />
+          <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
+        </building>
+      </configuration>
+    </facet>
   </component>
   <component name="GrailsPluginsStorage">
     <option name="availablePluginsMap">
@@ -329,6 +342,15 @@
               <option name="name" value="console" />
               <option name="release" value="0.2.2" />
               <option name="title" value="Web-based Groovy Console for Grails" />
+            </GrailsPlugin>
+          </value>
+        </entry>
+        <entry key="contact-me">
+          <value>
+            <GrailsPlugin>
+              <option name="name" value="contact-me" />
+              <option name="release" value="0.1" />
+              <option name="title" value="Plugin summary/headline" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -685,7 +707,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="form-helper" />
-              <option name="release" value="0.2.4" />
+              <option name="release" value="0.2.5" />
               <option name="title" value="Form Helper" />
             </GrailsPlugin>
           </value>
@@ -1744,7 +1766,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="springws" />
-              <option name="release" value="0.2.1" />
+              <option name="release" value="0.2.2" />
               <option name="title" value="This plugin adds contract driven web service capabilities to a Grails application." />
             </GrailsPlugin>
           </value>
@@ -2050,28 +2072,24 @@
     </option>
     <option name="fullPluginsInfo">
       <map>
-        <entry key="functional-test">
+        <entry key="build-test-data">
           <value>
             <GrailsPlugin>
-              <option name="author" value="Marc Palmer" />
-              <option name="description" value="Simple 'pure grails' functional testing for your web applications" />
-              <option name="email" value="marc@anyware.co.uk" />
-              <option name="name" value="functional-test" />
-              <option name="release" value="1.2.7" />
-              <option name="title" value="Name: functional-test&#9;| Latest release: 1.2.7" />
-              <option name="url" value="http://grails.org/Grails+Functional+Testing" />
+              <option name="author" value="Ted Naleid and Joe Hoover" />
+              <option name="description" value="\" />
+              <option name="email" value="contact@naleid.com" />
+              <option name="name" value="build-test-data" />
+              <option name="release" value="0.2.2" />
+              <option name="title" value="Name: build-test-data&#9;| Latest release: 0.2.2" />
+              <option name="url" value="http://bitbucket.org/tednaleid/grails-test-data/wiki/Home" />
               <option name="versions">
                 <set>
-                  <option value="1.0" />
-                  <option value="1.1" />
-                  <option value="1.2" />
-                  <option value="1.2.1" />
-                  <option value="1.2.2" />
-                  <option value="1.2.3" />
-                  <option value="1.2.4" />
-                  <option value="1.2.5" />
-                  <option value="1.2.6" />
-                  <option value="1.2.7" />
+                  <option value="0.1" />
+                  <option value="0.1.1" />
+                  <option value="0.1.2" />
+                  <option value="0.2" />
+                  <option value="0.2.1" />
+                  <option value="0.2.2" />
                 </set>
               </option>
             </GrailsPlugin>
