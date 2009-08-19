@@ -15,6 +15,12 @@
           <setting name="JAR_ENABLED" value="false" />
           <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
         </building>
+        <packaging>
+          <containerElement type="library" name="Grails User Library" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib" />
+          </containerElement>
+        </packaging>
       </configuration>
     </facet>
   </component>
@@ -43,17 +49,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="amazon-s3" />
-              <option name="release" value="0.6.2" />
+              <option name="release" value="0.5.1" />
               <option name="title" value="Provides tools to host media assets on Amazon's Simple Storage Service (S3)" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="amazonfps">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="amazonfps" />
-              <option name="release" value="0.2.4" />
-              <option name="title" value="Amazon Fps plugin is based on the 20080917 version of Amazon FPS Advanced Start" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -70,7 +67,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="app-engine" />
-              <option name="release" value="0.8.2" />
+              <option name="release" value="0.7" />
               <option name="title" value="Grails AppEngine plugin" />
             </GrailsPlugin>
           </value>
@@ -115,7 +112,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="autobase" />
-              <option name="release" value="0.8.5" />
+              <option name="release" value="0.8.3" />
               <option name="title" value="Automate your database work as much as possible" />
             </GrailsPlugin>
           </value>
@@ -153,15 +150,6 @@
               <option name="name" value="background-thread" />
               <option name="release" value="1.3" />
               <option name="title" value="Background Thread Plugin" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="barcode4j">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="barcode4j" />
-              <option name="release" value="0.1" />
-              <option name="title" value="Barcode4j plugin" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -205,7 +193,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="build-test-data" />
-              <option name="release" value="0.2.1" />
+              <option name="release" value="0.1.2" />
               <option name="title" value="Build Test Data Plugin" />
             </GrailsPlugin>
           </value>
@@ -232,7 +220,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="calendar" />
-              <option name="release" value="1.2.0-SNAPSHOT2" />
+              <option name="release" value="1.2.0-SNAPSHOT" />
               <option name="title" value="Grails Calendar Plugin" />
             </GrailsPlugin>
           </value>
@@ -255,15 +243,6 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="circuit-breaker">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="circuit-breaker" />
-              <option name="release" value="0.2" />
-              <option name="title" value="Circuit Breaker Plugin" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="clamav">
           <value>
             <GrailsPlugin>
@@ -277,7 +256,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="cms" />
-              <option name="release" value="0.1.7.1" />
+              <option name="release" value="0.1.1" />
               <option name="title" value="A Simple CMS for Grails" />
             </GrailsPlugin>
           </value>
@@ -295,17 +274,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="code-editor" />
-              <option name="release" value="0.2.4" />
+              <option name="release" value="0.2.2" />
               <option name="title" value="CodeEditor a Web Based IDE For Grails Developers" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="codenarc">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="codenarc" />
-              <option name="release" value="0.1" />
-              <option name="title" value="CodeNarc plugin" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -322,7 +292,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="commentable" />
-              <option name="release" value="0.7.4" />
+              <option name="release" value="0.7.3" />
               <option name="title" value="Commentable Plugin" />
             </GrailsPlugin>
           </value>
@@ -345,20 +315,11 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="contact-me">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="contact-me" />
-              <option name="release" value="0.1" />
-              <option name="title" value="Plugin summary/headline" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="contentmanager">
           <value>
             <GrailsPlugin>
               <option name="name" value="contentmanager" />
-              <option name="release" value="0.3" />
+              <option name="release" value="0.1" />
               <option name="title" value="Blog and content management" />
             </GrailsPlugin>
           </value>
@@ -412,7 +373,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="db-stuff" />
-              <option name="release" value="0.2.7" />
+              <option name="release" value="0.2.6" />
               <option name="title" value="db schema managment and data import/export. Generate generic schema files and import or export base/seed/test data into your database." />
             </GrailsPlugin>
           </value>
@@ -421,7 +382,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="db-util" />
-              <option name="release" value="0.4" />
+              <option name="release" value="0.3" />
               <option name="title" value="DB Utils - Embedded" />
             </GrailsPlugin>
           </value>
@@ -573,7 +534,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="export" />
-              <option name="release" value="0.3" />
+              <option name="release" value="0.2" />
               <option name="title" value="Export functionality" />
             </GrailsPlugin>
           </value>
@@ -627,7 +588,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="falcone-util" />
-              <option name="release" value="0.7" />
+              <option name="release" value="0.5" />
               <option name="title" value="Falcone Util Project" />
             </GrailsPlugin>
           </value>
@@ -636,7 +597,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="fckeditor" />
-              <option name="release" value="0.9.3" />
+              <option name="release" value="0.9.2" />
               <option name="title" value="Grails plugin for using FCKeditor rich editing features in a Grails application" />
             </GrailsPlugin>
           </value>
@@ -672,7 +633,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="fixtures" />
-              <option name="release" value="0.8" />
+              <option name="release" value="0.7.1" />
               <option name="title" value="fixtures" />
             </GrailsPlugin>
           </value>
@@ -699,7 +660,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="flex-scaffold" />
-              <option name="release" value="0.1.1 (?)" />
+              <option name="release" value="0.1.1" />
+              <option name="title" value="Grails Flex Scaffold (GFS)" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -707,17 +669,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="form-helper" />
-              <option name="release" value="0.2.5" />
+              <option name="release" value="0.2.4" />
               <option name="title" value="Form Helper" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="freemarker">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="freemarker" />
-              <option name="release" value="0.1.1" />
-              <option name="title" value="FreeMarker Grails Plugin" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -734,7 +687,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="functional-test" />
-              <option name="release" value="1.2.7" />
+              <option name="release" value="1.2.5" />
               <option name="title" value="Functional Testing" />
             </GrailsPlugin>
           </value>
@@ -743,7 +696,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="gdsflex" />
-              <option name="release" value="0.5" />
+              <option name="release" value="0.4" />
               <option name="title" value="Integration between Grails and GraniteDS/Flex" />
             </GrailsPlugin>
           </value>
@@ -778,8 +731,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="gorm-jpa" />
-              <option name="release" value="0.2" />
-              <option name="title" value="GORM-JPA Plugin" />
+              <option name="release" value="no releases" />
+              <option name="title" value="No description available" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -787,7 +740,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="gorm-labs" />
-              <option name="release" value="0.6.4" />
+              <option name="release" value="0.6.1" />
               <option name="title" value="GORM Labs" />
             </GrailsPlugin>
           </value>
@@ -886,7 +839,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="i18n-gettext" />
-              <option name="release" value="0.85" />
+              <option name="release" value="0.84" />
               <option name="title" value="I18n gettext plugin for grails" />
             </GrailsPlugin>
           </value>
@@ -897,24 +850,6 @@
               <option name="name" value="i18n-templates" />
               <option name="release" value="1.1.0.1" />
               <option name="title" value="I18n Templates" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="ibm-i">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="ibm-i" />
-              <option name="release" value="0.3" />
-              <option name="title" value="Add IBM i support to your environment" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="ic-alendar">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="ic-alendar" />
-              <option name="release" value="0.2" />
-              <option name="title" value="This plugin contains a builder to easily convert your event into the iCalendar format" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -972,15 +907,6 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="jabber">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="jabber" />
-              <option name="release" value="0.1" />
-              <option name="title" value="Jabber Plugin" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="jackrabbit">
           <value>
             <GrailsPlugin>
@@ -994,7 +920,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="jasper" />
-              <option name="release" value="0.9.5 (?)" />
+              <option name="release" value="0.9.5" />
+              <option name="title" value="Easily launch Jasper reports from a Grails application." />
             </GrailsPlugin>
           </value>
         </entry>
@@ -1002,7 +929,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="javascript-validator" />
-              <option name="release" value="0.9" />
+              <option name="release" value="0.7" />
               <option name="title" value="Client Side Javascript Validator" />
             </GrailsPlugin>
           </value>
@@ -1011,7 +938,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="jawr" />
-              <option name="release" value="2.8" />
+              <option name="release" value="2.51" />
               <option name="title" value="adds Jawr (https://jawr.dev.java.net) functionality to Grails applications." />
             </GrailsPlugin>
           </value>
@@ -1047,8 +974,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="jcr" />
-              <option name="release" value="no releases" />
-              <option name="title" value="No description available" />
+              <option name="release" value="0.2-SNAPSHOT (?)" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -1065,7 +991,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="jmx" />
-              <option name="release" value="0.6" />
+              <option name="release" value="0.5" />
               <option name="title" value="The JMX Grails Plugin" />
             </GrailsPlugin>
           </value>
@@ -1074,7 +1000,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="joda-time" />
-              <option name="release" value="0.4.2" />
+              <option name="release" value="0.4.1" />
               <option name="title" value="Joda-Time Plugin" />
             </GrailsPlugin>
           </value>
@@ -1092,7 +1018,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="jquery" />
-              <option name="release" value="1.3.2.4" />
+              <option name="release" value="1.0RC2b" />
               <option name="title" value="JQuery for Grails" />
             </GrailsPlugin>
           </value>
@@ -1124,39 +1050,12 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="jsword">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="jsword" />
-              <option name="release" value="0.1" />
-              <option name="title" value="jsword is a bible study/search engine" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="jtopen">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="jtopen" />
-              <option name="release" value="0.3" />
-              <option name="title" value="JTOpen plugin" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="jttaglib">
           <value>
             <GrailsPlugin>
               <option name="name" value="jttaglib" />
               <option name="release" value="0.2" />
               <option name="title" value=" " />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="ki">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="ki" />
-              <option name="release" value="0.1" />
-              <option name="title" value="Apache Ki Integration for Grails" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -1173,7 +1072,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="ldap" />
-              <option name="release" value="0.8.2" />
+              <option name="release" value="0.8.1" />
               <option name="title" value="Adds easy to use LDAP connectivity" />
             </GrailsPlugin>
           </value>
@@ -1182,7 +1081,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="ldap-server" />
-              <option name="release" value="0.1.6" />
+              <option name="release" value="0.1" />
               <option name="title" value="Embedded LDAP Server Plugin" />
             </GrailsPlugin>
           </value>
@@ -1193,15 +1092,6 @@
               <option name="name" value="license" />
               <option name="release" value="0.1" />
               <option name="title" value="This plugin provides license management to Grails application." />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="liferay-exploded">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="liferay-exploded" />
-              <option name="release" value="0.8" />
-              <option name="title" value="Plugin that creates fast, temporary deployment artifacts for Liferay." />
             </GrailsPlugin>
           </value>
         </entry>
@@ -1231,15 +1121,6 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="logdigger-connector">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="logdigger-connector" />
-              <option name="release" value="0.9.3.1" />
-              <option name="title" value="LogDigger Connector for Grails" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="logging">
           <value>
             <GrailsPlugin>
@@ -1262,7 +1143,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="mail" />
-              <option name="release" value="0.7" />
+              <option name="release" value="0.6" />
               <option name="title" value="Provides Mail support to a running Grails application" />
             </GrailsPlugin>
           </value>
@@ -1307,7 +1188,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="mootools" />
-              <option name="release" value="0.1.3" />
+              <option name="release" value="0.1.1" />
               <option name="title" value="Provides integration with the Mootools toolkit http://mootools.net, a light OO javascript framework." />
             </GrailsPlugin>
           </value>
@@ -1325,7 +1206,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="multi-tenant" />
-              <option name="release" value="0.12" />
+              <option name="release" value="0.8" />
               <option name="title" value="Multi-Tenant Plugin" />
             </GrailsPlugin>
           </value>
@@ -1334,7 +1215,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="multi-tenant-acegi" />
-              <option name="release" value="0.4" />
+              <option name="release" value="0.2" />
               <option name="title" value="Multi-Tenant Acegi Integration" />
             </GrailsPlugin>
           </value>
@@ -1343,17 +1224,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="navigation" />
-              <option name="release" value="1.1" />
+              <option name="release" value="1.0.4" />
               <option name="title" value="Site Menu Navigation" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="ntlm-auth">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="ntlm-auth" />
-              <option name="release" value="0.4" />
-              <option name="title" value="NTLM HTTP Authentication" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -1393,15 +1265,6 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="opensso">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="opensso" />
-              <option name="release" value="0.1" />
-              <option name="title" value="Grails OpenSSO Plugin" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="p6spy">
           <value>
             <GrailsPlugin>
@@ -1415,17 +1278,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="paypal" />
-              <option name="release" value="0.3" />
-              <option name="title" value="A Grails plug-in that provides integration with Paypal's Instant Payment Notfication (IPN) system" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="paypal-pro">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="paypal-pro" />
               <option name="release" value="0.2" />
-              <option name="title" value="Pay Pal Pro" />
+              <option name="title" value="A Grails plug-in that provides integration with Paypal's Instant Payment Notfication (IPN) system" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -1451,7 +1305,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="pluto" />
-              <option name="release" value="0.2" />
+              <option name="release" value="0.1" />
               <option name="title" value="Pluto runtime" />
             </GrailsPlugin>
           </value>
@@ -1460,7 +1314,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="portlets" />
-              <option name="release" value="0.4" />
+              <option name="release" value="0.2" />
               <option name="title" value="Portlets Plugin" />
             </GrailsPlugin>
           </value>
@@ -1492,15 +1346,6 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="pretty-time">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="pretty-time" />
-              <option name="release" value="0.3" />
-              <option name="title" value="Pretty-time plugin" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="profiler">
           <value>
             <GrailsPlugin>
@@ -1523,7 +1368,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="quartz" />
-              <option name="release" value="0.4.1" />
+              <option name="release" value="0.4.1-SNAPSHOT" />
               <option name="title" value="This plugin adds Quartz job scheduling features to Grails application." />
             </GrailsPlugin>
           </value>
@@ -1550,7 +1395,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="recaptcha" />
-              <option name="release" value="0.4" />
+              <option name="release" value="0.3.1" />
               <option name="title" value="This plugin adds ReCaptcha support to Grails." />
             </GrailsPlugin>
           </value>
@@ -1568,7 +1413,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="remote-constraints" />
-              <option name="release" value="0.4.3" />
+              <option name="release" value="0.3.1" />
               <option name="title" value="Remote constraints" />
             </GrailsPlugin>
           </value>
@@ -1640,7 +1485,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="screen-wiz" />
-              <option name="release" value="0.3" />
+              <option name="release" value="0.2" />
               <option name="title" value="Database Driven Screen Wizard" />
             </GrailsPlugin>
           </value>
@@ -1658,7 +1503,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="searchable" />
-              <option name="release" value="0.5.5" />
+              <option name="release" value="0.5.4" />
               <option name="title" value="Adds rich search functionality to Grails domain models. This version is recommended for JDK 1.5+" />
             </GrailsPlugin>
           </value>
@@ -1766,7 +1611,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="springws" />
-              <option name="release" value="0.2.2" />
+              <option name="release" value="0.2" />
               <option name="title" value="This plugin adds contract driven web service capabilities to a Grails application." />
             </GrailsPlugin>
           </value>
@@ -1784,7 +1629,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="static-resources" />
-              <option name="release" value="0.5.1" />
+              <option name="release" value="0.5" />
               <option name="title" value=" " />
             </GrailsPlugin>
           </value>
@@ -1816,30 +1661,12 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="sublog">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="sublog" />
-              <option name="release" value="0.1" />
-              <option name="title" value="Sublog: Enhanced Logging" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="sumatra">
           <value>
             <GrailsPlugin>
               <option name="name" value="sumatra" />
               <option name="release" value="0.2" />
               <option name="title" value="Sumatra: Test JavaScript from Groovy" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="super-file-upload">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="super-file-upload" />
-              <option name="release" value="0.4" />
-              <option name="title" value="Super file upload" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -1892,7 +1719,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="testing-labs" />
-              <option name="release" value="0.3.2" />
+              <option name="release" value="0.2.4" />
               <option name="title" value="Testing Labs" />
             </GrailsPlugin>
           </value>
@@ -1910,7 +1737,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="tomcat" />
-              <option name="release" value="0.3" />
+              <option name="release" value="0.1" />
               <option name="title" value="Apache Tomcat plugin for Grails" />
             </GrailsPlugin>
           </value>
@@ -1919,7 +1746,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="tooltip" />
-              <option name="release" value="0.4" />
+              <option name="release" value="0.3" />
               <option name="title" value="Tooltip Plugin" />
             </GrailsPlugin>
           </value>
@@ -1973,7 +1800,7 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="webtest" />
-              <option name="release" value="1.1.5.1" />
+              <option name="release" value="1.1.4.2" />
               <option name="title" value="A plug-in that provides functional testing for Grails using Canoo Web Test" />
             </GrailsPlugin>
           </value>
@@ -2014,30 +1841,12 @@
             </GrailsPlugin>
           </value>
         </entry>
-        <entry key="xmpp">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="xmpp" />
-              <option name="release" value="no releases" />
-              <option name="title" value="No description available" />
-            </GrailsPlugin>
-          </value>
-        </entry>
         <entry key="xtemplates">
           <value>
             <GrailsPlugin>
               <option name="name" value="xtemplates" />
               <option name="release" value="0.1" />
               <option name="title" value="Extensible (eXtreme) Templates" />
-            </GrailsPlugin>
-          </value>
-        </entry>
-        <entry key="xwiki-rendering">
-          <value>
-            <GrailsPlugin>
-              <option name="name" value="xwiki-rendering" />
-              <option name="release" value="0.1" />
-              <option name="title" value="Provides XWiki Rendering in Grails" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -2063,8 +1872,8 @@
           <value>
             <GrailsPlugin>
               <option name="name" value="zk" />
-              <option name="release" value="0.7.4" />
-              <option name="title" value="ZK for Grails" />
+              <option name="release" value="0.7.1" />
+              <option name="title" value="ZK 3.6.0 for Grails" />
             </GrailsPlugin>
           </value>
         </entry>
@@ -2072,28 +1881,24 @@
     </option>
     <option name="fullPluginsInfo">
       <map>
-        <entry key="functional-test">
+        <entry key="hibernate">
           <value>
             <GrailsPlugin>
-              <option name="author" value="Marc Palmer" />
-              <option name="description" value="Simple 'pure grails' functional testing for your web applications" />
-              <option name="email" value="marc@anyware.co.uk" />
-              <option name="name" value="functional-test" />
-              <option name="release" value="1.2.7" />
-              <option name="title" value="Name: functional-test&#9;| Latest release: 1.2.7" />
-              <option name="url" value="http://grails.org/Grails+Functional+Testing" />
+              <option name="author" value="Graeme Rocher" />
+              <option name="description" value="A plugin that provides integration between Grails and Hibernate through GORM" />
+              <option name="name" value="hibernate" />
+              <option name="release" value="1.1.1" />
+              <option name="title" value="Name: hibernate&#9;| Latest release: 1.1.1" />
+              <option name="url" value="http://grails.org/doc/$version" />
               <option name="versions">
                 <set>
-                  <option value="1.0" />
                   <option value="1.1" />
-                  <option value="1.2" />
-                  <option value="1.2.1" />
-                  <option value="1.2.2" />
-                  <option value="1.2.3" />
-                  <option value="1.2.4" />
-                  <option value="1.2.5" />
-                  <option value="1.2.6" />
-                  <option value="1.2.7" />
+                  <option value="1.1-RC1" />
+                  <option value="1.1-RC2" />
+                  <option value="1.1-SNAPSHOT" />
+                  <option value="1.1-beta3" />
+                  <option value="1.1.1" />
+                  <option value="1.1.1-SNAPSHOT" />
                 </set>
               </option>
             </GrailsPlugin>
@@ -2114,21 +1919,24 @@
       <sourceFolder url="file://$MODULE_DIR$/scripts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/groovy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/test/functional" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/test/reports" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Grails 1.2-M1" level="application" />
+    <orderEntry type="library" name="grails-1.2-SNAPSHOT" level="application" />
     <orderEntry type="module-library">
       <library name="Grails User Library">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
+          <root url="file://$USER_HOME$/.grails/1.2-M2/projects/grails-joda-time/plugins/hibernate-1.2-M2/lib" />
+          <root url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/hibernate-1.1/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/hibernate-1.1/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/.grails/1.2-M2/projects/grails-joda-time/plugins/hibernate-1.2-M2/lib" recursive="false" />
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>

@@ -1,16 +1,16 @@
 package com.energizedwork.grails.plugins.jodatime
 
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.*
 
 class JodaDynamicMethods {
 
 	static void registerDynamicMethods() {
+		// consistency with format(String) method Groovy adds to java.util.Date
 		ReadableInstant.metaClass.format = {String pattern ->
-			JodaDynamicMethods.format(delegate, pattern)
+			delegate.toString(pattern)
 		}
 		ReadablePartial.metaClass.format = {String pattern ->
-			JodaDynamicMethods.format(delegate, pattern)
+			delegate.toString(pattern)
 		}
 
 		// compatibility with Groovy operators where JodaTime method name conventions differ
@@ -26,22 +26,13 @@ class JodaDynamicMethods {
 			}
 		}
 
+		// scoped current time overriding
 		DateTimeUtils.metaClass.static.withCurrentMillisFixed = { long fixed, Closure yield ->
 			JodaDynamicMethods.withCurrentMillisFixed(fixed, yield)
 		}
 		DateTimeUtils.metaClass.static.withCurrentMillisOffset = { long offset, Closure yield ->
 			JodaDynamicMethods.withCurrentMillisOffset(offset, yield)
 		}
-	}
-
-	/**
-	 * Formats a {@link ReadableInstant} or {@link ReadablePartial} using the specified pattern.
-	 * @param self a {@link ReadableInstant} or {@link ReadablePartial}
-	 * @param pattern a valid date/time format pattern {@see DateTimeFormat}
-	 * @return the formatted date/time value
-	 */
-	static String format(self, String pattern) {
-		DateTimeFormat.forPattern(pattern).print(self)
 	}
 
 	static withCurrentMillisFixed(long fixed, Closure yield) {
