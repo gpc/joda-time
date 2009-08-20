@@ -56,7 +56,6 @@
     <orderEntry type="module-library">
       <library name="Grails User Library">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/lib" />
           <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/lib" />
           <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/hibernate-1.2-SNAPSHOT/lib" />
           <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/tomcat-1.2-SNAPSHOT/lib" />
@@ -66,7 +65,6 @@
         <jarDirectory url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/lib" recursive="false" />
         <jarDirectory url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/hibernate-1.2-SNAPSHOT/lib" recursive="false" />
         <jarDirectory url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/tomcat-1.2-SNAPSHOT/lib" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="library" name="joda-time" level="project" />

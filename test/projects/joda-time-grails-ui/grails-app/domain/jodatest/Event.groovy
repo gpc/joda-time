@@ -12,4 +12,8 @@ class Event {
 		time type: PersistentLocalDateTime
 	}
 
+	static constraints = {
+		description blank: false
+	}
+
 }

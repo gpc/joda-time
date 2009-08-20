@@ -6,6 +6,7 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code:'event.label', default:'Event')}" />
         <title>Create ${entityName}</title>
+		<gui:resources components="datePicker"/>
     </head>
     <body>
         <div class="nav">
@@ -45,7 +46,7 @@
                                     </label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:eventInstance,field:'time','errors')}">
-                                    <joda:dateTimePicker name="time" value="${eventInstance?.time}" ></joda:dateTimePicker>
+									<gui:datePicker id="time" value="${eventInstance?.time}" formatString="dd/MM/yy HH:mm" includeTime="true" />
                                 </td>
                             </tr> 
                         
