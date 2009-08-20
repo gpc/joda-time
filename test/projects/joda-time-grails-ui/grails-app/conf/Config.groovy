@@ -69,5 +69,5 @@ log4j = {
     warn   'org.mortbay.log'
 }
 
-
+jodatime.format.org.joda.time.LocalDateTime = "dd/MM/yyyy h:mm a"
      

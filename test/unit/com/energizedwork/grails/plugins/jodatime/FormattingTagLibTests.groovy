@@ -79,4 +79,14 @@ class FormattingTagLibTests extends TagLibUnitTestCase {
 		assertEquals('[BST] 02-10-2008@02:50:33', tagLib.output)
 	}
 
+	void testFormatUsesPatternIfConfigured() {
+		mockConfig '''
+			jodatime.format.org.joda.time.DateTime="[z] dd-MM-yyyy@HH:mm:ss"
+		'''
+		JodaTimeUtils.withDateTimeZone(DateTimeZone.forID('Europe/London')) {
+			tagLib.format([:])
+		}
+		assertEquals('[BST] 02-10-2008@02:50:33', tagLib.output)
+	}
+
 }
