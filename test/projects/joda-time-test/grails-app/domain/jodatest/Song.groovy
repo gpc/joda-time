@@ -15,7 +15,7 @@ class Song {
 	}
 
 	static mapping = {
-		duration: type: PersistentPeriod
+		duration type: PersistentPeriod
 	}
 	
 }

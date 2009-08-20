@@ -1909,6 +1909,7 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/grails-joda-time/plugins" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/grails-app/conf" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/conf/hibernate" isTestSource="false" />
@@ -1932,11 +1933,13 @@
           <root url="file://$MODULE_DIR$/lib" />
           <root url="file://$USER_HOME$/.grails/1.2-M2/projects/grails-joda-time/plugins/hibernate-1.2-M2/lib" />
           <root url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/hibernate-1.1/lib" />
+          <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/grails-joda-time/plugins/hibernate-1.2-SNAPSHOT/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
         <jarDirectory url="file://$USER_HOME$/.grails/1.1/projects/grails-joda-time/plugins/hibernate-1.1/lib" recursive="false" />
         <jarDirectory url="file://$USER_HOME$/.grails/1.2-M2/projects/grails-joda-time/plugins/hibernate-1.2-M2/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/grails-joda-time/plugins/hibernate-1.2-SNAPSHOT/lib" recursive="false" />
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
