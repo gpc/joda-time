@@ -8,7 +8,7 @@ class DateTimeZoneTagLib {
 
 	static namespace = "joda"
 
-	static final ZONE_FORMATTER = DateTimeFormat.forPattern("zzzz ZZ")
+	static final ZONE_FORMATTER = DateTimeFormat.forPattern("ZZZ ZZ")
 
 	/**
 	 * A helper tag for creating DateTimeZone selects

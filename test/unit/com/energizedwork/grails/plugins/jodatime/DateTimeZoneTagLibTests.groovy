@@ -41,20 +41,20 @@ class DateTimeZoneTagLibTests extends TagLibUnitTestCase {
 	void testOptionFormatting() {
 		DateTimeUtils.setCurrentMillisFixed new DateTime(2009, 1, 1, 0, 0, 0, 0, DateTimeZone.UTC).millis
 
-		tagLib.zoneSelect(value: DateTimeZone.forID("Canada/Pacific"))
-		assertEquals "Pacific Standard Time -08:00", selectAttrs.optionValue(selectAttrs.value)
+		tagLib.zoneSelect(value: DateTimeZone.forID("America/Vancouver"))
+		assertEquals "America/Vancouver -08:00", selectAttrs.optionValue(selectAttrs.value)
 
 		tagLib.zoneSelect(value: DateTimeZone.forID("Europe/London"))
-		assertEquals "Greenwich Mean Time +00:00", selectAttrs.optionValue(selectAttrs.value)
+		assertEquals "Europe/London +00:00", selectAttrs.optionValue(selectAttrs.value)
 	}
 
 	void testOptionsAreDSTSensetive() {
 		DateTimeUtils.setCurrentMillisFixed new DateTime(2009, 8, 1, 0, 0, 0, 0, DateTimeZone.UTC).millis
 
-		tagLib.zoneSelect(value: DateTimeZone.forID("Canada/Pacific"))
-		assertEquals "Pacific Daylight Time -07:00", selectAttrs.optionValue(selectAttrs.value)
+		tagLib.zoneSelect(value: DateTimeZone.forID("America/Vancouver"))
+		assertEquals "America/Vancouver -07:00", selectAttrs.optionValue(selectAttrs.value)
 
 		tagLib.zoneSelect(value: DateTimeZone.forID("Europe/London"))
-		assertEquals "British Summer Time +01:00", selectAttrs.optionValue(selectAttrs.value)
+		assertEquals "Europe/London +01:00", selectAttrs.optionValue(selectAttrs.value)
 	}
 }

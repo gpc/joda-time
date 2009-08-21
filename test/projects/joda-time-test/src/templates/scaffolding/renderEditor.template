@@ -26,6 +26,8 @@
         out << renderSelectTypeEditor("locale",domainClass,property)
     else if(property.type == Currency.class)
         out << renderSelectTypeEditor("currency",domainClass,property)
+	else if(property.type == org.joda.time.DateTimeZone.class)
+		out << renderSelectTypeEditor("joda","zone", domainClass,property)
     else if(property.type==([] as Byte[]).class) //TODO: Bug in groovy means i have to do this :(
         out << renderByteArrayEditor(domainClass,property)
     else if(property.type==([] as byte[]).class) //TODO: Bug in groovy means i have to do this :(
@@ -253,16 +255,20 @@
 	}
 
     private renderSelectTypeEditor(type,domainClass,property) {
+		renderSelectTypeEditor("g",type,domainClass,property)
+    }
+
+    private renderSelectTypeEditor(namespace,type,domainClass,property) {
         if(!cp) {
-            return "<g:${type}Select name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></g:${type}Select>"
+            return "<${namespace}:${type}Select name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></${namespace}:${type}Select>"
         }
         else {
-            def buf = new StringBuffer("<g:${type}Select ")
+            def buf = new StringBuffer("<${namespace}:${type}Select ")
             if(cp.widget) buf << "widget=\"${cp.widget}\" ";
             cp.attributes.each { k,v ->
                 buf << "${k}=\"${v}\" "
             }
-            buf << "name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></g:${type}Select>"
+            buf << "name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)}></${namespace}:${type}Select>"
             return buf.toString()
         }
     }

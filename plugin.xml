@@ -1,4 +1,4 @@
-<plugin name='joda-time' version='0.5' grailsVersion='1.1 &gt; *'>
+<plugin name='joda-time' version='0.5.1-SNAPSHOT' grailsVersion='1.1 &gt; *'>
   <author>Rob Fletcher</author>
   <authorEmail>rob@energizedwork.com</authorEmail>
   <title>Joda-Time Plugin</title>
@@ -22,6 +22,7 @@ Grails. The plugin provides:
     <resource>UrlMappings</resource>
     <resource>spring.resources</resource>
     <resource>com.energizedwork.grails.plugins.jodatime.DateTimeTagLib</resource>
+    <resource>com.energizedwork.grails.plugins.jodatime.DateTimeZoneTagLib</resource>
     <resource>com.energizedwork.grails.plugins.jodatime.FormattingTagLib</resource>
     <resource>com.energizedwork.grails.plugins.jodatime.PeriodTagLib</resource>
   </resources>
