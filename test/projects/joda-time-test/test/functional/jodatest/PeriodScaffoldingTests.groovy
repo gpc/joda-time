@@ -49,7 +49,7 @@ class PeriodScaffoldingTests extends AbstractFunctionalTestCase {
 	}
 
 	void testShow() {
-		get("/song/show/$song1.id")
+		get("/song/show/$song1.id")	
 		assertStatus SC_OK
 		assertTitle "Show Song"
 
@@ -75,7 +75,7 @@ class PeriodScaffoldingTests extends AbstractFunctionalTestCase {
 
 	void testListViewIsSortable() {
 		Song.build(artist: "Handsome Furs", title: "I'm Confused", duration: new Period(0, 3, 35, 0))
-		Song.build(artist: "Television", title: "Marquee Moon", duration: new Period(0, 10, 38, 0))
+		Song.build(artist: "Motorhead", title: "Ace of Spades", duration: new Period(0, 2, 47, 0))
 
 		get "/song/list"
 		assertStatus SC_OK
@@ -83,15 +83,15 @@ class PeriodScaffoldingTests extends AbstractFunctionalTestCase {
 
 		// sort by period
 		click "Duration"
-		assertEquals("Bulletproof", byXPath("//tbody/tr[1]/td[3]").textContent)
-		assertEquals("I'm Confused", byXPath("//tbody/tr[2]/td[3]").textContent)
-		assertEquals("Marquee Moon", byXPath("//tbody/tr[3]/td[3]").textContent)
+		assertEquals("Ace of Spades", byXPath("//tbody/tr[1]/td[3]").textContent)
+		assertEquals("Bulletproof", byXPath("//tbody/tr[2]/td[3]").textContent)
+		assertEquals("I'm Confused", byXPath("//tbody/tr[3]/td[3]").textContent)
 
 		// sort descending
 		click "Duration"
-		assertEquals("Marquee Moon", byXPath("//tbody/tr[1]/td[3]").textContent)
-		assertEquals("I'm Confused", byXPath("//tbody/tr[2]/td[3]").textContent)
-		assertEquals("Bulletproof", byXPath("//tbody/tr[3]/td[3]").textContent)
+		assertEquals("I'm Confused", byXPath("//tbody/tr[1]/td[3]").textContent)
+		assertEquals("Bulletproof", byXPath("//tbody/tr[2]/td[3]").textContent)
+		assertEquals("Ace of Spades", byXPath("//tbody/tr[3]/td[3]").textContent)
 	}
 
 }
