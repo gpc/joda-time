@@ -5,6 +5,7 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import org.springframework.web.servlet.support.RequestContextUtils
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class FormattingTagLib {
 
@@ -20,7 +21,7 @@ class FormattingTagLib {
 		def zone = attrs.zone
 		def chronology = attrs.chronology
 
-		def pattern = attrs.pattern
+		def pattern = attrs.pattern ?: ConfigurationHolder.config?.flatten()?."jodatime.format.${value.getClass().name}"
 		def style = attrs.style
 		if (!style) {
 			switch (value) {

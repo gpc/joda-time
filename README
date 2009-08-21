@@ -49,7 +49,7 @@ The Joda-Time plugin adds automatic binding support for the following types...
  * [DateTime|http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html]
  * [Duration|http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html]
  * [Period|http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html]
-Properties can be bound to simple text fields or to picker controls (see below). Text fields are bound in a locale-sensitive manner (e.g. to enter a LocalDate in the en_GB locale the format is dd/MM/yy, in the en_US locale the format is MM/dd/yy).
+Properties can be bound to simple text fields or to picker controls (see below). Text fields are bound in a locale-sensitive manner (e.g. to enter a LocalDate in the en_GB locale the format is dd/MM/yy, in the en_US locale the format is MM/dd/yy). Alternatively formats can be defined per type in config using keys such as 'jodatime.format.org.joda.time.DateTime', 'jodatime.format.org.joda.time.LocalDate', etc. Using configured formats is partiularly useful when using rich UI type controls that may require a fixed format.
 
 h2. Tag Libs
 The plugin makes several new tags available:
@@ -77,8 +77,8 @@ value | An instance of RedablePartial or ReadableInstant | Y | new DateTime()
 locale | The Locale to use for formatting | Y | request locale
 zone | The DateTimeZone to use for formatting | Y | DateTimeZone.getDefault()
 chronology | The Chronology to use for formatting | Y | ISOChronology
-pattern | The pattern to use to render the date. This attribute cannot be used in conjunction with 'style'. See DateTimeFormat for more information | Y | none
-style | The style to use to render the date. Composed of two characters S, M, L or - the first representing the date portion and the last the time portion. Using - means that portion is not output. This attribute cannot be used in conjunction with 'pattern'. | Y | "MM" for date/time values, "M-" for date values or "-M" for time values
+pattern | The pattern to use to render the date. This attribute cannot be used in conjunction with 'style'. See DateTimeFormat for more information | Y | Config value 'jodatime.format.org.joda.time.DateTime (or equivalent for other types).
+style | The style to use to render the date. Composed of two characters S, M, L or - the first representing the date portion and the last the time portion. Using - means that portion is not output. This attribute cannot be used in conjunction with 'pattern'. | Y | "MM" for date/time values, "M-" for date values or "-M" for time values.
 {table}
 
 h2. Scaffolding

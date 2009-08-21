@@ -8,6 +8,7 @@ import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.springframework.context.i18n.LocaleContextHolder
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class DateTimeEditor extends PropertyEditorSupport {
 
@@ -29,19 +30,24 @@ class DateTimeEditor extends PropertyEditorSupport {
 	}
 
 	protected DateTimeFormatter getFormatter() {
-		def style
-		switch (type) {
-			case LocalTime:
-				style = '-S'
-				break
-			case LocalDate:
-				style = 'S-'
-				break
-			default:
-				style = 'SS'
+		def pattern = ConfigurationHolder.config?.flatten()?."jodatime.format.$type.name"
+		if (pattern) {
+			return DateTimeFormat.forPattern(pattern)
+		} else {
+			def style
+			switch (type) {
+				case LocalTime:
+					style = '-S'
+					break
+				case LocalDate:
+					style = 'S-'
+					break
+				default:
+					style = 'SS'
+			}
+			Locale locale = LocaleContextHolder.locale
+			return DateTimeFormat.forStyle(style).withLocale(locale)
 		}
-		Locale locale = LocaleContextHolder.locale
-		return DateTimeFormat.forStyle(style).withLocale(locale)
 	}
 
 }
