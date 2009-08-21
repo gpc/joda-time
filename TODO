@@ -1,10 +1,9 @@
 BACKLOG
+- JSON/XML support for DateTimeZone
 - support GrailsUI, RichUI
 - allow minutes on dateTimePicker to be restricted, e.g. only allow selection of every 5 minutes
-- support for Interval
-- selection tag for DateTimeZone
 - selection tag for Chronology
-- support for javascript date pickers (bind date/times in ISO format?)
+- JSON/XML support for Chronology
 
 KNOWN BUGS
-- persistence broken in Grails 1.1.1
+- auto timestamping broken in Grails 1.1.1

@@ -49,6 +49,7 @@ The Joda-Time plugin adds automatic binding support for the following types...
  * [DateTime|http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html]
  * [Duration|http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html]
  * [Period|http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html]
+ * [DateTimeZone|http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html]
 Properties can be bound to simple text fields or to picker controls (see below). Text fields are bound in a locale-sensitive manner (e.g. to enter a LocalDate in the en_GB locale the format is dd/MM/yy, in the en_US locale the format is MM/dd/yy). Alternatively formats can be defined per type in config using keys such as 'jodatime.format.org.joda.time.DateTime', 'jodatime.format.org.joda.time.LocalDate', etc. Using configured formats is partiularly useful when using rich UI type controls that may require a fixed format.
 
 h2. Tag Libs
@@ -68,6 +69,15 @@ fields | Comma separated list of the fields to provide input elements for. Valid
 {table}
 
 Labels for each field can be overridden in messages.properties using the keys org.joda.time.DurationFieldType.hours, org.joda.time.DurationFieldType.minutes, etc.
+
+h3. joda.zoneSelect
+This tag renders a select for [DateTimeZone|http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html] values. It is very similar to g:timeZoneSelect.
+{table}
+*Name* | *Description* | *Optional* | *Default*
+name | The name for the backing form field (as per g:textField, etc.) | N | None
+id | The id for the backing form field. | Y | name
+value | An instance of DateTimeZone. | Y | DateTimeZone.getDefault()
+{table}
 
 h3. joda:format
 This tag formats a [ReadableInstant|http://joda-time.sourceforge.net/api-release/org/joda/time/ReadableInstant.html] or [ReadablePartial|http://joda-time.sourceforge.net/api-release/org/joda/time/ReadablePartial.html] instance for the page. Attributes are:
@@ -89,6 +99,7 @@ The Joda-Time plugin enhances Grails' dynamic scaffolding so it is compatible wi
  * [DateTime|http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html]
  * [Duration|http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html]
  * [Period|http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html]
+ * [DateTimeZone|http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html]
 
 To install scaffolding templates use the command:
 {code}
