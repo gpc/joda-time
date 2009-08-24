@@ -70,7 +70,7 @@ fields | Comma separated list of the fields to provide input elements for. Valid
 
 Labels for each field can be overridden in messages.properties using the keys org.joda.time.DurationFieldType.hours, org.joda.time.DurationFieldType.minutes, etc.
 
-h3. joda.zoneSelect
+h3. joda.dateTimeZoneSelect
 This tag renders a select for [DateTimeZone|http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html] values. It is very similar to g:timeZoneSelect.
 {table}
 *Name* | *Description* | *Optional* | *Default*
