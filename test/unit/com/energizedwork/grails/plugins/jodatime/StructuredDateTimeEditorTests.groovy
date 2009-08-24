@@ -5,6 +5,7 @@ import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
+import org.joda.time.DateTimeZone
 
 class StructuredDateTimeEditorTests extends GroovyTestCase {
 
@@ -76,6 +77,24 @@ class StructuredDateTimeEditorTests extends GroovyTestCase {
 		def expected = new LocalTime(17, 55, 33)
 		def actual = editor.assemble(LocalTime, [hour: '17', minute: '55', second: '33'])
 		assertEquals(expected, actual)
+	}
+
+	void testAssembleDateTimeWithDefaultZone() {
+		JodaTimeUtils.withDateTimeZone(DateTimeZone.forID("Europe/London")) {
+			def editor = new StructuredDateTimeEditor(DateTime)
+			def expected = new DateTime(2009, 8, 24, 13, 6, 0, 0).withZoneRetainFields(DateTimeZone.forID("Europe/London"))
+			def actual = editor.assemble(DateTime, [year: "2009", month: "08", day: "24", hour: "13", minute: "06"])
+			assertEquals(expected, actual)
+		}
+	}
+
+	void testAssembleDateTimeWithSpecifiedZone() {
+		JodaTimeUtils.withDateTimeZone(DateTimeZone.forID("Europe/London")) {
+			def editor = new StructuredDateTimeEditor(DateTime)
+			def expected = new DateTime(2009, 8, 24, 13, 6, 0, 0).withZoneRetainFields(DateTimeZone.forID("America/Vancouver"))
+			def actual = editor.assemble(DateTime, [year: "2009", month: "08", day: "24", hour: "13", minute: "06", zone: "America/Vancouver"])
+			assertEquals(expected, actual)
+		}
 	}
 
 }
