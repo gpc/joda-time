@@ -7,3 +7,5 @@ BACKLOG
 
 KNOWN BUGS
 - auto timestamping broken in Grails 1.1.1
+- PersistentDuration columns are not properly sortable
+- DateTimeZone columns persist as VARBINARY instead of VARCHAR as there is no persistent type

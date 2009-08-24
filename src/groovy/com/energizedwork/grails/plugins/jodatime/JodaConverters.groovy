@@ -7,6 +7,7 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
 import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.DateTimeZone
 
 class JodaConverters {
 
@@ -24,6 +25,9 @@ class JodaConverters {
 			}
 			converter.registerObjectMarshaller(LocalDateTime, 4) {
 				return it?.toString("yyyy-MM-dd'T'HH:mm:ss")
+			}
+			converter.registerObjectMarshaller(DateTimeZone, 5) {
+				return it?.ID
 			}
 		}
 	}

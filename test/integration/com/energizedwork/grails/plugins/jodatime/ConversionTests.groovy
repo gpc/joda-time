@@ -50,6 +50,12 @@ class ConversionTests extends GroovyTestCase {
 		assertEquals "2009-07-13T06:29:00", json.localDateTime
 	}
 
+	void testDateTimeZoneAsJSON() {
+		def o = [dateTimeZone: DateTimeZone.forID("America/Vancouver")]
+		def json = marshalAsJSON(o)
+		assertEquals "America/Vancouver", json.dateTimeZone
+	}
+
 	void testLocalDateAsXML() {
 		def o = [localDate: new LocalDate(2009, 8, 2)]
 		def xml = marshalAsXML(o)
@@ -66,6 +72,12 @@ class ConversionTests extends GroovyTestCase {
 		def o = [localDateTime: new LocalDateTime(2009, 7, 13, 6, 29)]
 		def xml = marshalAsXML(o)
 		assertEquals "2009-07-13T06:29:00", xml.entry.find {it.'@key' == 'localDateTime'}?.text()
+	}
+
+	void testDateTimeZoneAsXML() {
+		def o = [dateTimeZone: DateTimeZone.forID("America/Vancouver")]
+		def xml = marshalAsXML(o)
+		assertEquals "America/Vancouver", xml.entry.find {it.'@key' == 'dateTimeZone'}?.text()
 	}
 
 	private JSONElement marshalAsJSON(object) {
