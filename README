@@ -91,6 +91,12 @@ pattern | The pattern to use to render the date. This attribute cannot be used i
 style | The style to use to render the date. Composed of two characters S, M, L or - the first representing the date portion and the last the time portion. Using - means that portion is not output. This attribute cannot be used in conjunction with 'pattern'. | Y | "MM" for date/time values, "M-" for date values or "-M" for time values.
 {table}
 
+h3. joda:inputPattern
+This tag outputs the expected input pattern for a given type. It can be used for example to output a label to go alongside a text field or to configure a rich input control such as the [Grails UI|http://grails.org/plugin/grails-ui] gui:datePicker tag.
+*Name* | *Description* | *Optional* | *Default*
+type | The type to output the pattern for | Y | DateTime
+locale | The locale for the pattern | Y | Current request locale
+
 h2. Scaffolding
 The Joda-Time plugin enhances Grails' dynamic scaffolding so it is compatible with domain classes with the following types...
  * [LocalTime|http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html]
@@ -130,6 +136,21 @@ A scoped version of [setCurrentMillisFixed|http://joda-time.sourceforge.net/api-
 
 h3. DateTimeUtils.withCurrentMillisOffset(long, Closure)
 A scoped version of [setCurrentMillisOffset|http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeUtils.html#setCurrentMillisOffset(long)].
+
+h2. Integrating With Other Plugins
+
+h3. [Grails UI|http://grails.org/plugin/grails-ui]
+The Grails-UI Plugin's datePicker tag works quite well with Joda-Time types such as DateTime, LocalDate or LocalDateTime. The tag's formatString argument can easily be set with joda:inputPattern (see above). The value attribute needs to be converted to a java.util.Date. Examples of use might be:
+
+A DateTime property with time input:
+{code}
+<gui:datePicker id="myDateTimeProperty" value="${myInstance?.myDateTimeProperty?.toDate()}" includeTime="true" formatString="${joda.inputPattern()}"/>
+{code}
+
+A LocalDate property:
+{code}
+<gui:datePicker id="myLocalDateProperty" value="${myInstance?.myLocalDateProperty?.toDateTime()?.toDate()}" formatString="${joda.inputPattern(type: org.joda.time.LocalDate)}"/>
+{code}
 
 h2. Known Issues
  * In Grails 1.1.1 there is an issue with auto-timestamping using Joda Time properties. On save GroovyRuntimeException is thrown with the message "Could not find matching constructor for: java.lang.Object(java.lang.Long)". The workaround is to declare the fields non-lazy (GORM is mistaking them for one-to-one associations and wrapping a lazy proxy around them - see [GRAILS-4689|http://jira.codehaus.org/browse/GRAILS-4689]), e.g.

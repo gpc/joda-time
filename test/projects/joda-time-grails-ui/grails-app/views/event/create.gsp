@@ -45,7 +45,7 @@
 									</label>
 								</td>
 								<td valign="top" class="value ${hasErrors(bean: eventInstance, field: 'time', 'errors')}">
-									<gui:datePicker id="time" value="${eventInstance?.time?.toDateTime()?.toDate()}" includeTime="true" formatString="${ConfigurationHolder.config.jodatime.format.org.joda.time.LocalDateTime}"/>
+									<gui:datePicker id="time" value="${eventInstance?.time?.toDateTime()?.toDate()}" includeTime="true" formatString="${joda.inputPattern(type: org.joda.time.LocalDateTime)}"/>
 								</td>
 							</tr>
 
