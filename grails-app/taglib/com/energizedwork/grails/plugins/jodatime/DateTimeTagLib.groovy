@@ -231,31 +231,37 @@ class DateTimeTagLib {
 			out.println '</select>'
 		}
 
+		// do zone select
+		if (attrs.useZone == "true") {
+			dateTimeZoneSelect(name: "${name}_zone")
+		}
+
 		log.debug "done"
 	}
 
 	private DateTimeFormatter getParser(List fields) {
 		DateTimeFormatter formatter
-		if (fields == [DateTimeFieldType.year()])
+		if (fields == [DateTimeFieldType.year()]) {
 			formatter = ISODateTimeFormat.year()
-		else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear()])
+		} else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear()]) {
 			formatter = ISODateTimeFormat.yearMonth()
-		else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth()])
-				formatter = ISODateTimeFormat.yearMonthDay()
-			else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth(), DateTimeFieldType.hourOfDay()])
-					formatter = ISODateTimeFormat.dateHour()
-				else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth(), DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour()])
-						formatter = ISODateTimeFormat.dateHourMinute()
-					else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth(), DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour(), DateTimeFieldType.secondOfMinute()])
-							formatter = ISODateTimeFormat.dateHourMinuteSecond()
-						else if (fields == [DateTimeFieldType.hourOfDay()])
-								formatter = ISODateTimeFormat.hour()
-							else if (fields == [DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour()])
-									formatter = ISODateTimeFormat.hourMinute()
-								else if (fields == [DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour(), DateTimeFieldType.secondOfMinute()])
-										formatter = ISODateTimeFormat.hourMinuteSecond()
-									else
-										throw new GrailsTagException("Invalid combination of date/time fields: $fields")
+		} else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth()]) {
+			formatter = ISODateTimeFormat.yearMonthDay()
+		} else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth(), DateTimeFieldType.hourOfDay()]) {
+			formatter = ISODateTimeFormat.dateHour()
+		} else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth(), DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour()]) {
+			formatter = ISODateTimeFormat.dateHourMinute()
+		} else if (fields == [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth(), DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour(), DateTimeFieldType.secondOfMinute()]) {
+			formatter = ISODateTimeFormat.dateHourMinuteSecond()
+		} else if (fields == [DateTimeFieldType.hourOfDay()]) {
+			formatter = ISODateTimeFormat.hour()
+		} else if (fields == [DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour()]) {
+			formatter = ISODateTimeFormat.hourMinute()
+		} else if (fields == [DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour(), DateTimeFieldType.secondOfMinute()]) {
+			formatter = ISODateTimeFormat.hourMinuteSecond()
+		} else {
+			throw new GrailsTagException("Invalid combination of date/time fields: $fields")
+		}
 		return formatter
 	}
 

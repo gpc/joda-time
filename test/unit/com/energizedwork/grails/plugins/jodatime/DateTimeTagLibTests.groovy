@@ -216,4 +216,13 @@ class DateTimeTagLibTests extends TagLibUnitTestCase {
 		assertMatch(/<select name="foo_second"/, tagLib.output)
 	}
 
+	void testDateTimePickerAcceptsUseZoneArg() {
+		def dateTimeZoneSelectArgs
+		tagLib.metaClass.dateTimeZoneSelect = {attrs ->
+			dateTimeZoneSelectArgs = attrs
+		}
+		tagLib.dateTimePicker(name: "foo", useZone: "true")
+		assertEquals "foo_zone", dateTimeZoneSelectArgs.name
+	}
+
 }
