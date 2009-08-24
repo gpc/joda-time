@@ -8,13 +8,13 @@ class DateTimeZoneTagLib {
 
 	static namespace = "joda"
 
-	static final ZONE_FORMATTER = DateTimeFormat.forPattern("ZZZ ZZ")
+	static final ZONE_FORMATTER = DateTimeFormat.forPattern("ZZ")
 
 	/**
 	 * A helper tag for creating DateTimeZone selects
-	 * e.g. <joda:zoneSelect name="myTimeZone" value="${tz}" />
+	 * e.g. <joda:dateTimeZoneSelect name="myTimeZone" value="${tz}" />
 	 */
-	def zoneSelect = {attrs ->
+	def dateTimeZoneSelect = {attrs ->
 		attrs.from = DateTimeZone.getAvailableIDs();
 		attrs.value = attrs.value?.ID ?: DateTimeZone.default.ID
 		def time = DateTimeUtils.currentTimeMillis()
@@ -22,7 +22,8 @@ class DateTimeZoneTagLib {
 		// set the option value as a closure that formats the DateTimeZone for display
 		attrs.optionValue = {
 			DateTimeZone tz = DateTimeZone.forID(it)
-			return ZONE_FORMATTER.withZone(tz).print(time)
+			def offset = ZONE_FORMATTER.withZone(tz).print(time)
+			return "$it $offset"
 		}
 
 		// use generic select

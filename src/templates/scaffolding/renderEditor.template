@@ -27,7 +27,7 @@
     else if(property.type == Currency.class)
         out << renderSelectTypeEditor("currency",domainClass,property)
 	else if(property.type == org.joda.time.DateTimeZone.class)
-		out << renderSelectTypeEditor("joda","zone", domainClass,property)
+		out << renderSelectTypeEditor("joda","dateTimeZone", domainClass,property)
     else if(property.type==([] as Byte[]).class) //TODO: Bug in groovy means i have to do this :(
         out << renderByteArrayEditor(domainClass,property)
     else if(property.type==([] as byte[]).class) //TODO: Bug in groovy means i have to do this :(

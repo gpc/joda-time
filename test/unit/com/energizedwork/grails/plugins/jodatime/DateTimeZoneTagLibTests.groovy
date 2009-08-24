@@ -28,33 +28,42 @@ class DateTimeZoneTagLibTests extends TagLibUnitTestCase {
 	}
 
 	void testCurrentZoneIsSelectedByDefault() {
-		tagLib.zoneSelect([:])
+		tagLib.dateTimeZoneSelect([:])
 		assertEquals DateTimeZone.default.ID, selectAttrs.value
 	}
 
 	void testValueAttributeIsPassedToSelect() {
 		def zone = DateTimeZone.forID("Canada/Pacific")
-		tagLib.zoneSelect(value: zone)
+		tagLib.dateTimeZoneSelect(value: zone)
 		assertEquals zone, DateTimeZone.forID(selectAttrs.value)
 	}
 
 	void testOptionFormatting() {
 		DateTimeUtils.setCurrentMillisFixed new DateTime(2009, 1, 1, 0, 0, 0, 0, DateTimeZone.UTC).millis
 
-		tagLib.zoneSelect(value: DateTimeZone.forID("America/Vancouver"))
+		tagLib.dateTimeZoneSelect(value: DateTimeZone.forID("America/Vancouver"))
 		assertEquals "America/Vancouver -08:00", selectAttrs.optionValue(selectAttrs.value)
 
-		tagLib.zoneSelect(value: DateTimeZone.forID("Europe/London"))
+		tagLib.dateTimeZoneSelect(value: DateTimeZone.forID("Europe/London"))
 		assertEquals "Europe/London +00:00", selectAttrs.optionValue(selectAttrs.value)
 	}
 
 	void testOptionsAreDSTSensetive() {
 		DateTimeUtils.setCurrentMillisFixed new DateTime(2009, 8, 1, 0, 0, 0, 0, DateTimeZone.UTC).millis
 
-		tagLib.zoneSelect(value: DateTimeZone.forID("America/Vancouver"))
+		tagLib.dateTimeZoneSelect(value: DateTimeZone.forID("America/Vancouver"))
 		assertEquals "America/Vancouver -07:00", selectAttrs.optionValue(selectAttrs.value)
 
-		tagLib.zoneSelect(value: DateTimeZone.forID("Europe/London"))
+		tagLib.dateTimeZoneSelect(value: DateTimeZone.forID("Europe/London"))
 		assertEquals "Europe/London +01:00", selectAttrs.optionValue(selectAttrs.value)
 	}
+
+	void testNoDuplicateOptionsAppear() {
+		tagLib.dateTimeZoneSelect([:])
+		def options = selectAttrs.from.collect {
+			selectAttrs.optionValue(it)
+		}
+		assertEquals options.unique(), options
+	}
+
 }

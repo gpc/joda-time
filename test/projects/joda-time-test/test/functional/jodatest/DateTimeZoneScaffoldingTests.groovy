@@ -74,14 +74,14 @@ class DateTimeZoneScaffoldingTests extends AbstractFunctionalTestCase {
 
 		// sort by zone
 		click "Time Zone"
-		assertEquals("Vancouver", byXPath("//tbody/tr[1]/td[2]").textContent)
-		assertEquals("London", byXPath("//tbody/tr[2]/td[2]").textContent)
-		assertEquals("Auckland", byXPath("//tbody/tr[3]/td[2]").textContent)
+		assertEquals("America/Vancouver", byXPath("//tbody/tr[1]/td[3]").textContent)
+		assertEquals("Europe/London", byXPath("//tbody/tr[2]/td[3]").textContent)
+		assertEquals("Pacific/Auckland", byXPath("//tbody/tr[3]/td[3]").textContent)
 
 		// sort descending
 		click "Time Zone"
-		assertEquals("Auckland", byXPath("//tbody/tr[1]/td[2]").textContent)
-		assertEquals("London", byXPath("//tbody/tr[2]/td[2]").textContent)
-		assertEquals("Vancouver", byXPath("//tbody/tr[3]/td[2]").textContent)
+		assertEquals("Pacific/Auckland", byXPath("//tbody/tr[1]/td[3]").textContent)
+		assertEquals("Europe/London", byXPath("//tbody/tr[2]/td[3]").textContent)
+		assertEquals("America/Vancouver", byXPath("//tbody/tr[3]/td[3]").textContent)
 	}
 }
