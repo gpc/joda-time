@@ -1,4 +1,4 @@
-test/reports
 web-app
 *.iws
 *.log
+target/
