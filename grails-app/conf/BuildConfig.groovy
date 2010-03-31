@@ -11,7 +11,5 @@ grails.project.dependency.resolution = {
         mavenCentral()
     }
     dependencies {
-	}
+    }
 }
-
-grails.plugin.location.'joda-time'="../../.."

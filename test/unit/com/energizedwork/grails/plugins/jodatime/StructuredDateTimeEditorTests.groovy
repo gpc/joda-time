@@ -9,6 +9,12 @@ import org.joda.time.DateTimeZone
 
 class StructuredDateTimeEditorTests extends GroovyTestCase {
 
+	void testAssembleHandlesEmptyFieldsAsNull() {
+		def editor = new StructuredDateTimeEditor(LocalDate)
+		editor.assemble(LocalDate, [:])
+		assertNull "Property editor should have set value to null", editor.value
+	}
+
 	void testAssembleRequiresYearForDateTypes() {
 		def editor = new StructuredDateTimeEditor(LocalDate)
 		shouldFail(IllegalArgumentException) {

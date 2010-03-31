@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="true" type="GRAILS_MODULE" version="4">
+<module relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
-    <facet type="Grails" name="Grails">
-      <configuration />
-    </facet>
     <facet type="web" name="GrailsWeb">
       <configuration>
         <webroots>
           <root url="file://$MODULE_DIR$/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/web-app" relative="/" />
+          <root url="file://$USER_HOME_GRAILS$/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/web-app" relative="/" />
+          <root url="file://$USER_HOME_GRAILS$/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/web-app" relative="/" />
           <root url="file://$MODULE_DIR$/web-app" relative="/" />
         </webroots>
         <sourceRoots />
-        <building>
-          <setting name="EXPLODED_URL" value="file://" />
-          <setting name="EXPLODED_ENABLED" value="false" />
-          <setting name="JAR_URL" value="file://" />
-          <setting name="JAR_ENABLED" value="false" />
-          <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
-        </building>
+        <context-artifact name="joda-time-test:GrailsWeb exploded" />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -33,13 +24,6 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins">
-      <sourceFolder url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/build-test-data-0.2.2/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/build-test-data-0.2.2/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/build-test-data-0.2.2/src/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/tomcat-1.2-SNAPSHOT/src/groovy" isTestSource="false" />
-    </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/grails-app/conf/hibernate" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/controllers" isTestSource="false" />
@@ -51,6 +35,7 @@
       <sourceFolder url="file://$MODULE_DIR$/test/functional" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -58,16 +43,16 @@
     <orderEntry type="module-library">
       <library name="Grails User Library">
         <CLASSES>
-          <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/lib" />
-          <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/hibernate-1.2-SNAPSHOT/lib" />
-          <root url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/tomcat-1.2-SNAPSHOT/lib" />
+          <root url="file://$USER_HOME_GRAILS$/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/lib" />
+          <root url="file://$USER_HOME_GRAILS$/1.2-SNAPSHOT/projects/joda-time-test/plugins/hibernate-1.2-SNAPSHOT/lib" />
+          <root url="file://$USER_HOME_GRAILS$/1.2-SNAPSHOT/projects/joda-time-test/plugins/tomcat-1.2-SNAPSHOT/lib" />
           <root url="file://$MODULE_DIR$/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/lib" recursive="false" />
-        <jarDirectory url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/hibernate-1.2-SNAPSHOT/lib" recursive="false" />
-        <jarDirectory url="file://$USER_HOME$/.grails/1.2-SNAPSHOT/projects/joda-time-test/plugins/tomcat-1.2-SNAPSHOT/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME_GRAILS$/1.2-SNAPSHOT/projects/joda-time-test/plugins/functional-test-1.2.7/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME_GRAILS$/1.2-SNAPSHOT/projects/joda-time-test/plugins/hibernate-1.2-SNAPSHOT/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME_GRAILS$/1.2-SNAPSHOT/projects/joda-time-test/plugins/tomcat-1.2-SNAPSHOT/lib" recursive="false" />
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>

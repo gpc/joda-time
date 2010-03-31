@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project relativePaths="false" version="4">
+<project version="4">
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
+  </component>
+  <component name="ArtifactManager">
+    <artifact type="exploded-war" name="grails-joda-time:GrailsWeb exploded">
+      <root id="root">
+        <element id="javaee-facet-resources" facet="grails-joda-time/web/GrailsWeb" />
+        <element id="directory" name="WEB-INF">
+          <element id="directory" name="lib">
+            <element id="library" level="module" name="Grails User Library" module-name="grails-joda-time" />
+          </element>
+        </element>
+      </root>
+    </artifact>
+    <artifact type="exploded-war" name="joda-time-grails-ui:GrailsWeb exploded">
+      <root id="root">
+        <element id="javaee-facet-resources" facet="joda-time-grails-ui/web/GrailsWeb" />
+      </root>
+    </artifact>
+    <artifact type="exploded-war" name="joda-time-test:GrailsWeb exploded">
+      <root id="root">
+        <element id="javaee-facet-resources" facet="joda-time-test/web/GrailsWeb" />
+      </root>
+    </artifact>
   </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
@@ -10,13 +32,8 @@
     <option name="PROJECT_PROFILE" />
     <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
   </component>
-  <component name="CodeStyleSettingsManager">
-    <option name="PER_PROJECT_SETTINGS" />
-    <option name="USE_PER_PROJECT_SETTINGS" value="false" />
-  </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
-    <option name="DEPLOY_AFTER_MAKE" value="0" />
     <resourceExtensions>
       <entry name=".+\.(properties|xml|html|dtd|tld)" />
       <entry name=".+\.(gif|png|jpeg|jpg)" />
@@ -32,6 +49,7 @@
       <entry name="?*.dtd" />
       <entry name="?*.tld" />
     </wildcardResourcePatterns>
+    <annotationProcessing enabled="false" useClasspath="true" />
   </component>
   <component name="CopyrightManager" default="">
     <module2copyright />
@@ -66,18 +84,6 @@
     <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="CD4D5CD119781956233252C4D3F72167" />
-  <component name="InspectionProjectProfileManager">
-    <option name="PROJECT_PROFILE" value="Project Default" />
-    <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
-    <scopes />
-    <profiles>
-      <profile version="1.0" is_locked="false">
-        <option name="myName" value="Project Default" />
-        <option name="myLocal" value="false" />
-      </profile>
-    </profiles>
-    <list size="0" />
-  </component>
   <component name="JavacSettings">
     <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="false" />
@@ -234,7 +240,6 @@
   <component name="ProjectDetails">
     <option name="projectName" value="joda-time" />
   </component>
-  <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectKey">
     <option name="state" value="project:///Users/rob/IdeaProjects/grails-joda-time/grails-joda-time.ipr" />
   </component>
@@ -291,8 +296,5 @@
       <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
     </library>
   </component>
-  <UsedPathMacros>
-    <macro name="USER_HOME" description="" />
-  </UsedPathMacros>
 </project>
 
