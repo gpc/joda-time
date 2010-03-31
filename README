@@ -166,6 +166,9 @@ static mapping = {
  * It is currently not possible to do certain types of criteria query with DateTime properties mapped using PersistentLocalDateTimeTZ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the 'between' criterion.
 
 h2. Release Notes
+h4. 0.5.1
+ * Upgrades joda-time-hibernate to version 1.2
+ * Allows no-selection option to work with StructuredDateTimeEditor
 h4. 0.5
  * Adds JSON and XML rendering support.
  * Adds binding and scaffolding support for Duration and Period.

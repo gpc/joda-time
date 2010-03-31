@@ -246,6 +246,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/grails-joda-time.iml" filepath="$PROJECT_DIR$/grails-joda-time.iml" />
+      <module fileurl="file://$PROJECT_DIR$/grails-joda-time-grailsPlugins.iml" filepath="$PROJECT_DIR$/grails-joda-time-grailsPlugins.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/projects/joda-time-grails-ui/joda-time-grails-ui.iml" filepath="$PROJECT_DIR$/test/projects/joda-time-grails-ui/joda-time-grails-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test.iml" filepath="$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test.iml" />
     </modules>
