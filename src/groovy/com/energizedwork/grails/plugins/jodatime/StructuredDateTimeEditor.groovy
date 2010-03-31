@@ -36,7 +36,7 @@ class StructuredDateTimeEditor extends DateTimeEditor implements StructuredPrope
 	}
 
 	Object assemble(Class type, Map fieldValues) throws IllegalArgumentException {
-		if (fieldValues.isEmpty()) return null
+		if (fieldValues.isEmpty() || fieldValues.every { !it.value }) return null
 
 		requiredFields.each {
 			if (!fieldValues."$it") {
