@@ -21,9 +21,10 @@ class FormattingTagLib {
 		def zone = attrs.zone
 		def chronology = attrs.chronology
 
-		def pattern = attrs.pattern ?: patternForType(value.getClass())
+		def pattern = attrs.pattern
 		def style = attrs.style
-		if (!style) {
+		if (!pattern && !style) {
+			pattern = patternForType(value.getClass())
 			switch (value) {
 				case LocalDate:
 					style = 'M-'
@@ -71,7 +72,7 @@ class FormattingTagLib {
 	}
 
 	private String patternForType(Class type) {
-		ConfigurationHolder.config?.flatten()?."jodatime.format.${type.name}"
+		ConfigurationHolder.config?.flatten()?."jodatime.format.${type.name}" ?: null
 	}
 
 }
