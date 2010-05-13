@@ -198,7 +198,7 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 			jodatime.format.org.joda.time.DateTime="dd/MM/yyyy h:mm a Z"
 		'''
 		def editor = new DateTimeEditor(DateTime)
-		def expected = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("GMT"))
+		def expected = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("Europe/London"))
 		editor.asText = "06/03/2009 5:00 PM +0000"
 		assertThat editor.value, equalTo(expected)
 	}
