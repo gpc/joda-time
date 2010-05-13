@@ -1,32 +1,39 @@
 package com.energizedwork.grails.plugins.jodatime
 
-import grails.test.GrailsUnitTestCase
 import org.joda.time.DateTimeZone
+import org.junit.Test
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.nullValue
+import static org.junit.Assert.assertThat
 
-class DateTimeZoneEditorTests extends GrailsUnitTestCase {
+class DateTimeZoneEditorTests {
 
-	void testGetAsTextHandlesNull() {
+	@Test
+	void getAsTextHandlesNull() {
 		def editor = new DateTimeZoneEditor()
 		editor.value = null
-		assertEquals "", editor.asText
+		assertThat editor.asText, equalTo("")
 	}
-	
-	void testGetAsTextReturnsZoneID() {
+
+	@Test
+	void getAsTextReturnsZoneID() {
 		def editor = new DateTimeZoneEditor()
 		editor.value = DateTimeZone.forID("Europe/London")
-		assertEquals "Europe/London", editor.asText
+		assertThat editor.asText, equalTo("Europe/London")
 	}
 
-	void testSetAsTextAcceptsZoneID() {
+	@Test
+	void setAsTextAcceptsZoneID() {
 		def editor = new DateTimeZoneEditor()
 		editor.asText = "Europe/London"
-		assertEquals DateTimeZone.forID("Europe/London"), editor.value
+		assertThat editor.value, equalTo(DateTimeZone.forID("Europe/London"))
 	}
 
-	void testSetAsTextHandlesNull() {
+	@Test
+	void setAsTextHandlesNull() {
 		def editor = new DateTimeZoneEditor()
 		editor.asText = ""
-		assertNull editor.value
+		assertThat editor.value, nullValue()
 	}
 
 }

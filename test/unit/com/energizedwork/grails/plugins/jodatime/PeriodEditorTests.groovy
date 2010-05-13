@@ -1,56 +1,68 @@
 package com.energizedwork.grails.plugins.jodatime
 
-import org.joda.time.Period
 import org.joda.time.Duration
+import org.joda.time.Period
+import org.junit.Test
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.nullValue
+import static org.junit.Assert.assertThat
 
-class PeriodEditorTests extends GroovyTestCase {
+class PeriodEditorTests {
 
-	void testGetAsTextHandlesNull() {
+	@Test
+	void getAsTextHandlesNull() {
 		def editor = new PeriodEditor(Period)
 		editor.value = null
-		assertEquals "", editor.asText
+		assertThat editor.asText, equalTo("")
 	}
 
-	void testSetAsTextHandlesNull() {
+	@Test
+	void setAsTextHandlesNull() {
 		def editor = new PeriodEditor(Period)
 		editor.asText = null
-		assertEquals null, editor.value
+		assertThat editor.value, nullValue()
 	}
 
-	void testSetAsTextHandlesEmptyString() {
+	@Test
+	void setAsTextHandlesEmptyString() {
 		def editor = new PeriodEditor(Period)
 		editor.asText = ""
-		assertEquals null, editor.value
+		assertThat editor.value, nullValue()
 	}
 
-	void testGetAsTextFormatsValueCorrectly() {
+	@Test
+	void getAsTextFormatsValueCorrectly() {
 		def editor = new PeriodEditor(Period)
 		editor.value = new Period(1, 2, 0, 4, 8, 12, 35, 0)
-		assertEquals "1 year, 2 months, 4 days, 8 hours, 12 minutes and 35 seconds", editor.asText
+		assertThat editor.asText, equalTo("1 year, 2 months, 4 days, 8 hours, 12 minutes and 35 seconds")
 	}
 
-	void testGetAsTextWithValueOverStandardRange() {
+	@Test
+	void getAsTextWithValueOverStandardRange() {
 		def editor = new PeriodEditor(Period)
 		editor.value = new Period(0, 120, 12, 0)
-		assertEquals "120 minutes and 12 seconds", editor.asText
+		assertThat editor.asText, equalTo("120 minutes and 12 seconds")
 	}
 
-	void testSetAsTextParsesValueCorrectly() {
+	@Test
+	void setAsTextParsesValueCorrectly() {
 		def editor = new PeriodEditor(Period)
 		editor.asText = "1 year, 2 months, 4 days, 8 hours, 12 minutes and 35 seconds"
-		assertEquals new Period(1, 2, 0, 4, 8, 12, 35, 0), editor.value
+		assertThat editor.value, equalTo(new Period(1, 2, 0, 4, 8, 12, 35, 0))
 	}
 
-	void testSetAsTextSupportsDuration() {
+	@Test
+	void setAsTextSupportsDuration() {
 		def editor = new PeriodEditor(Duration)
 		editor.asText = "1 hour, 35 minutes and 16 seconds"
-		assertEquals new Period(1, 35, 16, 0).toStandardDuration(), editor.value
+		assertThat editor.value, equalTo(new Period(1, 35, 16, 0).toStandardDuration())
 	}
 
-	void testGetAsTextSupportsDuration() {
+	@Test
+	void getAsTextSupportsDuration() {
 		def editor = new PeriodEditor(Duration)
 		editor.value = new Period(1, 35, 16, 0).toStandardDuration()
-		assertEquals "1 hour, 35 minutes and 16 seconds", editor.asText
+		assertThat editor.asText, equalTo("1 hour, 35 minutes and 16 seconds")
 	}
 
 }
