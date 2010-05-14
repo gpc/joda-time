@@ -1,6 +1,5 @@
 ## Backlog
 
-* joda:format to support Period and Duration
 * Input for DateTime with zone
 * support GrailsUI, RichUI
 * allow minutes on dateTimePicker to be restricted, e.g. only allow selection of every 5 minutes
