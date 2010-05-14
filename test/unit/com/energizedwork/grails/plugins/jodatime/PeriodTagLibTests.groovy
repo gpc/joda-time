@@ -2,113 +2,144 @@ package com.energizedwork.grails.plugins.jodatime
 
 import grails.test.TagLibUnitTestCase
 import org.joda.time.Period
-import static com.energizedwork.grails.commons.test.Assertions.assertMatch
-import static com.energizedwork.grails.commons.test.Assertions.assertNoMatch
+import org.junit.Before
+import org.junit.Test
+import static org.hamcrest.Matchers.containsString
+import static org.hamcrest.Matchers.not
+import static org.junit.Assert.assertThat
+import static com.energizedwork.grails.commons.test.RegexMatcher.*
 
 class PeriodTagLibTests extends TagLibUnitTestCase {
 
+	@Before
 	void setUp() {
 		super.setUp()
+
 		tagLib.metaClass.getOutput = {-> delegate.out.toString() }
 		tagLib.metaClass.message = { attrs -> attrs.default }
 	}
 
-	void testPeriodPickerDefaultsIdFromName() {
+	@Test
+	void periodPickerDefaultsIdFromName() {
 		tagLib.periodPicker(name: "foo")
+
 		["hours", "minutes", "seconds"].each {
-			assertMatch(/<input type="text" name="foo_$it" id="foo_$it"/, tagLib.output)
+			assertThat tagLib.output, containsString(/<input type="text" name="foo_$it" id="foo_$it"/)
 		}
 	}
 
-	void testPeriodPickerUsesHoursMinutesAndSecondsByDefault() {
+	@Test
+	void periodPickerUsesHoursMinutesAndSecondsByDefault() {
 		tagLib.periodPicker(name: "foo")
-		assertNoMatch(/<input type="text" name="foo_years"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_months"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_weeks"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_days"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_hours"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_minutes"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_seconds"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_millis"/, tagLib.output)
+		
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_years"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_months"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_weeks"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_days"/))
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_hours"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_minutes"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_seconds"/)
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_millis"/))
 	}
 
-	void testPeriodPickerUsesFieldsFromConfigIfPresent() {
+	@Test
+	void periodPickerUsesFieldsFromConfigIfPresent() {
 		mockConfig '''
 			jodatime.periodpicker.default.fields="years,months , days"
 		'''
+
 		tagLib.periodPicker(name: "foo")
-		assertMatch(/<input type="text" name="foo_years"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_months"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_weeks"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_days"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_hours"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_minutes"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_seconds"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_millis"/, tagLib.output)
+
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_years"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_months"/)
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_weeks"/))
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_days"/)
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_hours"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_minutes"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_seconds"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_millis"/))
 	}
 
-	void testPeriodPickerAcceptsFieldsAttribute() {
+	@Test
+	void periodPickerAcceptsFieldsAttribute() {
 		tagLib.periodPicker(name: "foo", fields: "years,months,days")
-		assertMatch(/<input type="text" name="foo_years"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_months"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_weeks"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_days"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_hours"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_minutes"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_seconds"/, tagLib.output)
-		assertNoMatch(/<input type="text" name="foo_millis"/, tagLib.output)
+
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_years"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_months"/)
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_weeks"/))
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_days"/)
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_hours"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_minutes"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_seconds"/))
+		assertThat tagLib.output, not(containsString(/<input type="text" name="foo_millis"/))
 	}
 
-	void testPeriodPickerAcceptsValueAttribute() {
+	@Test
+	void periodPickerAcceptsValueAttribute() {
 		def value = new Period().withHours(8).withMinutes(12).withSeconds(35)
+
 		tagLib.periodPicker(name: "foo", value: value)
-		assertMatch(/<input type="text" name="foo_hours" id="foo_hours" value="8"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_minutes" id="foo_minutes" value="12"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_seconds" id="foo_seconds" value="35"/, tagLib.output)
+
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_hours" id="foo_hours" value="8"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_minutes" id="foo_minutes" value="12"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_seconds" id="foo_seconds" value="35"/)
 	}
 
-	void testPeriodPickerAcceptsDurationValue() {
+	@Test
+	void periodPickerAcceptsDurationValue() {
 		def value = new Period().withHours(8).withMinutes(12).withSeconds(35).toStandardDuration()
+
 		tagLib.periodPicker(name: "foo", value: value)
-		assertMatch(/<input type="text" name="foo_hours" id="foo_hours" value="8"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_minutes" id="foo_minutes" value="12"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_seconds" id="foo_seconds" value="35"/, tagLib.output)
+
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_hours" id="foo_hours" value="8"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_minutes" id="foo_minutes" value="12"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_seconds" id="foo_seconds" value="35"/)
 	}
 
-	void testPeriodPickerUsesHourAsHighestFieldWhenValueIsDuration() {
+	@Test
+	void periodPickerUsesHourAsHighestFieldWhenValueIsDuration() {
 		def value = new Period().withDays(1).withHours(1).toStandardDuration()
+
 		tagLib.periodPicker(name: "foo", fields: "days,hours,minutes,seconds", value: value)
-		assertMatch(/<input type="text" name="foo_days" id="foo_days" value="0"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_hours" id="foo_hours" value="25"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_minutes" id="foo_minutes" value="0"/, tagLib.output)
-		assertMatch(/<input type="text" name="foo_seconds" id="foo_seconds" value="0"/, tagLib.output)
+
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_days" id="foo_days" value="0"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_hours" id="foo_hours" value="25"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_minutes" id="foo_minutes" value="0"/)
+		assertThat tagLib.output, containsString(/<input type="text" name="foo_seconds" id="foo_seconds" value="0"/)
 	}
 
-	void testPeriodPickerHandlesNullValueAttribute() {
+	@Test
+	void periodPickerHandlesNullValueAttribute() {
 		tagLib.periodPicker(name: "foo", value: null)
+
 		["hours", "minutes", "seconds"].each {
-			assertMatch(/<input type="text" name="foo_$it" id="foo_$it" value="0"/, tagLib.output)
+			assertThat tagLib.output, containsString(/<input type="text" name="foo_$it" id="foo_$it" value="0"/)
 		}
 	}
 
-	void testPeriodPickerOutputsLabels() {
+	@Test
+	void periodPickerOutputsLabels() {
 		tagLib.periodPicker(name: "foo", value: null)
+
 		["hours", "minutes", "seconds"].each {
-			assertMatch(/<label for="foo_$it"><input type="text" name="foo_$it"[^\/]*\/>&nbsp;$it <\/label>/, tagLib.output)
+			assertThat tagLib.output, isMatch(/<label for="foo_$it"><input type="text" name="foo_$it"[^\/]*\/>&nbsp;$it <\/label>/)
 		}
 	}
 
-	void testPeriodPickerLabelsCanBeChangedWithMessageProperties() {
+	@Test
+	void periodPickerLabelsCanBeChangedWithMessageProperties() {
 		def messages = [
 				"org.joda.time.DurationFieldType.hours": "h",
 				"org.joda.time.DurationFieldType.minutes": "m",
 				"org.joda.time.DurationFieldType.seconds": "s"
 		]
 		tagLib.metaClass.message = { attrs -> messages[attrs.code] }
+
 		tagLib.periodPicker(name: "foo")
-		assertMatch(/<label for="foo_hours"><input type="text" name="foo_hours"[^\/]*\/>&nbsp;h <\/label>/, tagLib.output)
-		assertMatch(/<label for="foo_minutes"><input type="text" name="foo_minutes"[^\/]*\/>&nbsp;m <\/label>/, tagLib.output)
-		assertMatch(/<label for="foo_seconds"><input type="text" name="foo_seconds"[^\/]*\/>&nbsp;s <\/label>/, tagLib.output)
+		
+		assertThat tagLib.output, isMatch(/<label for="foo_hours"><input type="text" name="foo_hours"[^\/]*\/>&nbsp;h <\/label>/)
+		assertThat tagLib.output, isMatch(/<label for="foo_minutes"><input type="text" name="foo_minutes"[^\/]*\/>&nbsp;m <\/label>/)
+		assertThat tagLib.output, isMatch(/<label for="foo_seconds"><input type="text" name="foo_seconds"[^\/]*\/>&nbsp;s <\/label>/)
 	}
 
 }
