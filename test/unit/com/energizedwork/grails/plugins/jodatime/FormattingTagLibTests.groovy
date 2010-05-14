@@ -123,13 +123,31 @@ class FormattingTagLibTests extends TagLibUnitTestCase {
 	@Test
 	void patternDefaultsToDateTime() {
 		tagLib.inputPattern([:])
-		assertEquals DateTimeFormat.patternForStyle("SS", Locale.UK), tagLib.output
+		assertThat tagLib.output, equalTo(DateTimeFormat.patternForStyle("SS", Locale.UK))
 	}
 
 	@Test
 	void patternAcceptsTypeAttribute() {
 		tagLib.inputPattern(type: LocalDate)
-		assertEquals DateTimeFormat.patternForStyle("S-", Locale.UK), tagLib.output
+		assertThat tagLib.output, equalTo(DateTimeFormat.patternForStyle("S-", Locale.UK))
+	}
+
+	@Test
+	void patternAcceptsTypeAsString() {
+		tagLib.inputPattern(type: LocalDate.name)
+		assertThat tagLib.output, equalTo(DateTimeFormat.patternForStyle("S-", Locale.UK))
+	}
+
+	@Test
+	void patternAcceptsLocaleAttribute() {
+		tagLib.inputPattern(locale: Locale.CANADA_FRENCH)
+		assertThat tagLib.output, equalTo(DateTimeFormat.patternForStyle("SS", Locale.CANADA_FRENCH))
+	}
+
+	@Test
+	void patternAcceptsLocaleAsString() {
+		tagLib.inputPattern(locale: "fr_CA")
+		assertThat tagLib.output, equalTo(DateTimeFormat.patternForStyle("SS", Locale.CANADA_FRENCH))
 	}
 
 	@Test
@@ -138,7 +156,7 @@ class FormattingTagLibTests extends TagLibUnitTestCase {
 			jodatime.format.org.joda.time.DateTime="[z] dd-MM-yyyy@HH:mm:ss"
 		'''
 		tagLib.inputPattern([:])
-		assertEquals "[z] dd-MM-yyyy@HH:mm:ss", tagLib.output
+		assertThat tagLib.output, equalTo("[z] dd-MM-yyyy@HH:mm:ss")
 	}
 
 }

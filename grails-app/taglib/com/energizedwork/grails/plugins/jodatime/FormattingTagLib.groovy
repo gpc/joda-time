@@ -51,16 +51,19 @@ class FormattingTagLib {
 	}
 
 	def inputPattern = { attrs ->
-		def type = attrs.type ?: DateTime
+		def type = attrs.type ?: DateTime.name
+		if (type instanceof Class) type = type.name
 		def locale = attrs.locale ?: RequestContextUtils.getLocale(request)
+		if (locale instanceof String) locale = new Locale(* locale.split("_"))
+		
 		def pattern = patternForType(type)
 		if (!pattern) {
 			def style
 			switch (type) {
-				case LocalDate:
+				case LocalDate.name:
 					style = "S-"
 					break
-				case LocalTime:
+				case LocalTime.name:
 					style = "-S"
 					break
 				default:
@@ -72,7 +75,11 @@ class FormattingTagLib {
 	}
 
 	private String patternForType(Class type) {
-		ConfigurationHolder.config?.flatten()?."jodatime.format.${type.name}" ?: null
+		patternForType(type.name)
+	}
+
+	private String patternForType(String type) {
+			ConfigurationHolder.config?.flatten()?."jodatime.format.${type}" ?: null
 	}
 
 }
