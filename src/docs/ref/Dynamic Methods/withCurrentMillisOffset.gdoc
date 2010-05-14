@@ -1,3 +1,5 @@
+h1. withCurrentMillisOffset
+
 h2. Purpose
 
 Offsets the current time in the scope of a Closure.

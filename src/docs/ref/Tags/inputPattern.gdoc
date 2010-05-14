@@ -1,3 +1,5 @@
+h1. joda:inputPattern
+
 h2. Purpose
 
 This tag outputs the expected input pattern for a given type. It can be used for example to output a label to go alongside a text field or to configure a rich input control such as the "Grails UI":http://grails.org/plugin/grails-ui _gui:datePicker_ tag.

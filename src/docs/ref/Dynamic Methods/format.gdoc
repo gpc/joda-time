@@ -1,3 +1,5 @@
+h1. format
+
 h2. Purpose
 
 Converts a @ReadableInstant@ or @ReadablePartial@ to a @String@

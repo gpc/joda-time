@@ -1,3 +1,5 @@
+h1. negative
+
 h2. Purpose
 
 Negates an instance of @Days@, @Hours@, @Minutes@, @Months@, @Seconds@, @Weeks@ or @Years@

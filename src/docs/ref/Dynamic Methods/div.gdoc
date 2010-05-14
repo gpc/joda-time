@@ -1,3 +1,5 @@
+h1. div
+
 h2. Purpose
 
 Divides an instance of @Days@, @Hours@, @Minutes@, @Months@, @Seconds@, @Weeks@ or @Years@ by an integer.

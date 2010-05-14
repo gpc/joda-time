@@ -1,3 +1,5 @@
+h1. joda:timePicker
+
 h2. Purpose
 
 Renders a time picker input for _Joda-Time_ properties in a similar way to the standard @g:datePicker@ tag

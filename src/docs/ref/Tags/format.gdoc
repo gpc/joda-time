@@ -1,3 +1,5 @@
+h1. joda:format
+
 h2. Purpose
 
 This tag formats a "ReadableInstant":http://joda-time.sourceforge.net/api-release/org/joda/time/ReadableInstant.html or "ReadablePartial":http://joda-time.sourceforge.net/api-release/org/joda/time/ReadablePartial.html instance for the page.
@@ -20,9 +22,9 @@ h3. Configuration
 The default formatting pattern can be set in _Config.groovy_ using the key _jodatime.format.org.joda.time.DateTime_ (or equivalent for other classes). For example:
 
 {code}
-	jodatime {
-		format.org.joda.time.DateTime = "yyyy-MM-dd HH:mm:ss"
-		format.org.joda.time.LocalDate = "yyyy-MM-dd"
-		format.org.joda.time.LocalTime = "HH:mm:ss"
-	}
+jodatime {
+	format.org.joda.time.DateTime = "yyyy-MM-dd HH:mm:ss"
+	format.org.joda.time.LocalDate = "yyyy-MM-dd"
+	format.org.joda.time.LocalTime = "HH:mm:ss"
+}
 {code}

@@ -1,3 +1,5 @@
+h1. joda:formatPeriod
+
 h2. Purpose
 
 This tag renders a "Duration":http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html or "Period":http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html value.

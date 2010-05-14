@@ -1,3 +1,5 @@
+h1. joda:periodPicker
+
 h2. Purpose
 
 This tag renders an input control for a "Duration":http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html or "Period":http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html value.

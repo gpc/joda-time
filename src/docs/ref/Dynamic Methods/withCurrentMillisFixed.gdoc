@@ -1,3 +1,5 @@
+h1. withCurrentMillisFixed
+
 h2. Purpose
 
 Fixes the current time in the scope of a Closure.
