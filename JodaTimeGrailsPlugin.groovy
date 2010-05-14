@@ -1,7 +1,7 @@
 import com.energizedwork.grails.plugins.jodatime.*
 
 class JodaTimeGrailsPlugin {
-    def version = "0.5.1"
+    def version = "1.0-SNAPSHOT"
 	def grailsVersion = "1.1 > *"
     def dependsOn = [core: "1.1 > *", converters: "1.1 > *"]
 

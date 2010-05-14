@@ -1,0 +1,10 @@
+h2. JSON and XML Rendering
+
+The plugin registers JSON and XML converters for...
+
+* "LocalTime":http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html
+* "LocalDate":http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html
+* "LocalDateTime":http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html
+* "DateTime":http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html
+* "DateTimeZone":http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html
+

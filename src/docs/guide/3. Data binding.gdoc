@@ -1,0 +1,14 @@
+h2. Data Binding
+
+The Joda-Time plugin adds automatic binding support for the following types...
+
+* "LocalTime":http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html
+* "LocalDate":http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html
+* "LocalDateTime":http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html
+* "DateTime":http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html
+* "Duration":http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html
+* "Period":http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html
+* "DateTimeZone":http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html
+
+Properties can be bound to simple text fields or to picker controls (see below). Text fields are bound in a locale-sensitive manner (e.g. to enter a LocalDate in the _en_GB_ locale the format is _dd/MM/yy_, in the _en_US_ locale the format is _MM/dd/yy_). Alternatively formats can be defined per type in config using keys such as _'jodatime.format.org.joda.time.DateTime'_ and _'jodatime.format.org.joda.time.LocalDate'_ which is partiularly useful when using rich UI type controls that may require a fixed format.
+

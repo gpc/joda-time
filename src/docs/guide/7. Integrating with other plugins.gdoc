@@ -1,0 +1,18 @@
+h2. Integrating With Other Plugins
+
+h3. [Grails UI|http://grails.org/plugin/grails-ui]
+
+The Grails-UI Plugin's datePicker tag works quite well with _Joda-Time_ types such as _DateTime, LocalDate_ or _LocalDateTime_ instances. The tag's _formatString_ argument can easily be set with _joda:inputPattern_ (see above). The value attribute needs to be converted to a _java.util.Date_ instance. Examples of use might be:
+
+A _DateTime_ property with time input:
+
+{code}
+<gui:datePicker id="myDateTimeProperty" value="${myInstance?.myDateTimeProperty?.toDate()}" includeTime="true" formatString="${joda.inputPattern()}"/>
+{code}
+
+A _LocalDate_ property:
+
+{code}
+<gui:datePicker id="myLocalDateProperty" value="${myInstance?.myLocalDateProperty?.toDateTime()?.toDate()}" formatString="${joda.inputPattern(type: org.joda.time.LocalDate)}"/>
+{code}
+

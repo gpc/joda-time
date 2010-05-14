@@ -1,0 +1,44 @@
+h2. Persistence
+
+To persist Joda Time properties you need to use the Hibernate UserType implementations supplied by the "Joda-Time Hibernate Support":http://joda-time.sourceforge.net/contrib/hibernate/index.html library in the mapping block of your class. For example:
+
+{code}
+import org.joda.time.*
+import org.joda.time.contrib.hibernate.*
+
+class Person {
+    String name
+    LocalDate birthdate
+    static mapping = {
+    	birthdate type: PersistentLocalDate
+    }
+}
+{code}
+
+This even works with some of the special functionality in Grails. For example fields @dateCreated@ and @lastUpdated@ in a Grails domain object will be updated automatically by the framework. Such properties do not have to be @java.util.Date@ instances the functionality works fine if they are @org.joda.time.DateTime@ or other types instead.
+
+h3. Multi-column UserTypes
+
+To use multi-column types such as "PersistentDateTimeTZ":http://joda-time.sourceforge.net/contrib/hibernate/apidocs/org/joda/time/contrib/hibernate/PersistentDateTimeTZ.html you need to include explicit mapping of both column names. For example:
+
+{code}
+import org.joda.time.*
+import org.joda.time.contrib.hibernate.*
+
+class User {
+    DateTime registered
+    mapping {
+        registered type: PersistentDateTimeTZ, {
+            column name: "registered_timestamp"
+            column name: "registered_zone"
+        }
+    }
+}
+{code}
+
+You can use any name you like for the columns.
+
+{warning}
+It is currently not possible to do certain types of criteria query with _DateTime_ properties mapped using _PersistentLocalDateTimeTZ_ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the _'between'_ criterion.
+{warning}
+

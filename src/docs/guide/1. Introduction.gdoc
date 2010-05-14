@@ -1,0 +1,84 @@
+The Joda-Time Plugin integrates the "Joda-Time":http://joda-time.sourceforge.net/ date/time library into Grails. The plugin...
+
+* Bundles the libraries necessary to use Joda Time types as persistent fields on domain classes.
+* Provides the ability to bind from form inputs to Joda Time fields on domain or command objects.
+* Supports JSON and XML rendering of Joda Time types.
+* Provides tag-libs for input and output of Joda Time data.
+* Enhances Grails' scaffolding to support domain classes with Joda Time fields.
+* Adds compatibility and consistency methods to Joda Time types so that they integrate better with Groovy.
+
+h2. Known Issues
+
+* In Grails 1.1.1 there is an issue with auto-timestamping using Joda Time properties. On save _GroovyRuntimeException_ is thrown with the message @"Could not find matching constructor for: java.lang.Object(java.lang.Long)"@. The workaround is to declare the fields non-lazy (GORM is mistaking them for one-to-one associations and wrapping a lazy proxy around them - see [GRAILS-4689|http://jira.codehaus.org/browse/GRAILS-4689]), e.g.
+
+{code}
+DateTime dateCreated
+DateTime lastUpdated
+
+static mapping = {
+	dateCreated type: PersistentDateTime, lazy: false
+	lastUpdated type: PersistentDateTime, lazy: false
+}
+{code}
+
+* It is currently not possible to do certain types of criteria query with _DateTime_ properties mapped using _PersistentLocalDateTimeTZ_ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the _'between'_ criterion.
+
+h2. Release Notes
+
+h4. 1.0
+
+* Adds joda:formatPeriod tag
+* Allows joda:inputPattern to accept String attributes for convenience
+* Fixes bug with joda:format that meant selected format was never displayed
+
+h4. 0.5.1
+
+* Upgrades joda-time-hibernate to version 1.2
+* Allows no-selection option to work with StructuredDateTimeEditor
+
+h4. 0.5
+
+* Adds JSON and XML rendering support.
+* Adds binding and scaffolding support for Duration and Period.
+* Fixes compatibility problem with Grails 1.1 and 1.1.1.
+
+h4. 0.4.3
+
+* No longer automatically tries to install scaffolding templates (use grails install-joda-time-templates instead).
+* list.gsp and show.gsp templates are not used when application's Grails version is 1.2+ as they are not needed.
+
+
+h4. 0.4.2
+
+* No longer tries to reinstall templates that are already installed.
+* Adds DateTimeUtils.withCurrentTimestampFixed and withCurrentTImestampOffset
+* Supports all Groovy mathematical operators on Joda Seconds, Minutes, Hours, Days, Months, Years, etc. classes.
+
+h4. 0.4.1
+
+* Fixes template installation on Windows machines where Ant's patch task does not work.
+
+h4. 0.4
+
+* Fixes corrupted template files from previous version.
+* Fixes template compatibility with Grails 1.0.4.
+
+h4. 0.3
+
+* Adds the dynamic format(String) method on ReadableInstant and ReadablePartial.
+* Fixes installation script for Grails 1.0.4.
+* Plugin requires Grails 1.0.4 + as earlier versions don't support registering custom editors.
+
+h4. 0.2
+
+* Fixes bug where registration of structured date/time editor overrides registration of text -> date/time editor.
+
+h4. 0.1
+
+* Initial release
+
+h2. Contact
+
+If you have questions, comments or suggestions please contact me via the [Grails user mailing list|http://www.grails.org/Mailing+lists] or directly at [rob@energizedwork.com|mailto:rob@energizedwork.com].
+Please raise bugs against the [Grails-JodaTime|http://jira.codehaus.org/browse/GRAILSPLUGINS/component/14011] component on [JIRA|http://jira.codehaus.org/browse/GRAILSPLUGINS].
+Plugin source code is hosted on [GitHub|http://github.com/robfletcher/grails-joda-time]
