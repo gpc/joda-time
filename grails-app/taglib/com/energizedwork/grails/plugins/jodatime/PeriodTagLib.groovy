@@ -18,14 +18,7 @@ class PeriodTagLib {
 		def id = attrs.id ?: name
 		def value = attrs.value
 
-		def periodType
-		if (attrs.fields) {
-			periodType = getPeriodTypeForFields(attrs.fields)
-		} else if (ConfigurationHolder.config?.jodatime?.periodpicker?.default?.fields) {
-			periodType = getPeriodTypeForFields(ConfigurationHolder.config.jodatime.periodpicker.default.fields)
-		} else {
-			periodType = DEFAULT_PERIOD_TYPE
-		}
+		def periodType = getPeriodType(attrs.fields, DEFAULT_PERIOD_TYPE)
 
 		if (value instanceof Duration) {
 			value = value.toPeriod(periodType)
@@ -48,14 +41,7 @@ class PeriodTagLib {
 			throwTagError("'value' attribute is required")
 		}
 
-		def periodType
-		if (attrs.fields) {
-			periodType = getPeriodTypeForFields(attrs.fields)
-		} else if (ConfigurationHolder.config?.jodatime?.periodpicker?.default?.fields) {
-			periodType = getPeriodTypeForFields(ConfigurationHolder.config.jodatime.periodpicker.default.fields)
-		} else {
-			periodType = PeriodType.standard()
-		}
+		def periodType = getPeriodType(attrs.fields, PeriodType.standard())
 
 		if (value instanceof Duration) {
 			value = value.toPeriod(periodType)
@@ -66,6 +52,18 @@ class PeriodTagLib {
 		def formatter = PeriodFormat.default
 
 		out << formatter.print(value)
+	}
+
+	private PeriodType getPeriodType(String fields, PeriodType defaultPeriodType) {
+		PeriodType periodType
+		if (fields) {
+			periodType = getPeriodTypeForFields(fields)
+		} else if (ConfigurationHolder.config?.jodatime?.periodpicker?.default?.fields) {
+			periodType = getPeriodTypeForFields(ConfigurationHolder.config.jodatime.periodpicker.default.fields)
+		} else {
+			periodType = defaultPeriodType
+		}
+		return periodType
 	}
 
 	private static final PeriodType DEFAULT_PERIOD_TYPE = getPeriodTypeForFields("hours,minutes,seconds")
