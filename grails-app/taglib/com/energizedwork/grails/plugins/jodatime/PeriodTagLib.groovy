@@ -1,12 +1,13 @@
 package com.energizedwork.grails.plugins.jodatime
 
-import org.joda.time.DurationFieldType
-import static org.joda.time.DurationFieldType.*
-import org.joda.time.PeriodType
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.joda.time.Duration
+import org.joda.time.DurationFieldType
 import org.joda.time.Period
-import org.joda.time.format.*
+import org.joda.time.PeriodType
+import org.joda.time.format.PeriodFormat
+import static org.joda.time.DurationFieldType.months
+import static org.joda.time.DurationFieldType.years
 
 class PeriodTagLib {
 
@@ -23,7 +24,7 @@ class PeriodTagLib {
 		} else if (ConfigurationHolder.config?.jodatime?.periodpicker?.default?.fields) {
 			periodType = getPeriodTypeForFields(ConfigurationHolder.config.jodatime.periodpicker.default.fields)
 		} else {
-			periodType = defaultPeriodType
+			periodType = DEFAULT_PERIOD_TYPE
 		}
 
 		if (value instanceof Duration) {
@@ -59,7 +60,7 @@ class PeriodTagLib {
 		if (value instanceof Duration) {
 			value = value.toPeriod(periodType)
 		} else {
-			value = value.normalizedStandard(periodType)
+			value = safeNormalize(value, periodType)
 		}
 
 		def formatter = PeriodFormat.default
@@ -67,11 +68,27 @@ class PeriodTagLib {
 		out << formatter.print(value)
 	}
 
-	private static PeriodType defaultPeriodType = PeriodType.forFields([hours(), minutes(), seconds()] as DurationFieldType[])
+	private static final PeriodType DEFAULT_PERIOD_TYPE = getPeriodTypeForFields("hours,minutes,seconds")
 
 	private static PeriodType getPeriodTypeForFields(String fields) {
 		def fieldTypes = fields.split(/\s*,\s*/).collect { DurationFieldType."$it"() } as DurationFieldType[]
 		return PeriodType.forFields(fieldTypes)
+	}
+
+	/**
+	 * PeriodFormat.print will throw UnsupportedOperationException if years or months are present in period but
+	 * not supported by the formatter so we trim those fields off to avoid the problem.
+	 */
+	private Period safeNormalize(Period value, PeriodType periodType) {
+		if (!periodType.isSupported(years()) && years() in value.getFieldTypes()) {
+			log.warn "Omitting years from value '$value' as format '$periodType' does not support years"
+			value = value.withYears(0)
+		}
+		if (!periodType.isSupported(months()) && months() in value.getFieldTypes()) {
+			log.warn "Omitting months from value '$value' as format '$periodType' does not support months"
+			value = value.withMonths(0)
+		}
+		return value.normalizedStandard(periodType)
 	}
 
 }

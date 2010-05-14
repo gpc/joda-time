@@ -8,7 +8,6 @@ import org.junit.Test
 import static com.energizedwork.grails.commons.test.RegexMatcher.isMatch
 import static org.hamcrest.Matchers.*
 import static org.junit.Assert.assertThat
-import org.junit.Ignore
 
 class PeriodTagLibTests extends TagLibUnitTestCase {
 
@@ -196,13 +195,13 @@ class PeriodTagLibTests extends TagLibUnitTestCase {
 		assertThat tagLib.output, equalTo("2 months, 2 days and 2 minutes")
 	}
 
-	@Ignore @Test
+	@Test
 	void formatPeriodHandlesErrorIfValueHasYearsOrMonthsAndFieldsDoesNot() {
 		def value = new Period().withYears(1).withMonths(1).withDays(2).withMinutes(2)
 
-		tagLib.formatPeriod(value: value, fields: "weeks,days")
+		tagLib.formatPeriod(value: value, fields: "days,minutes")
 
-		assertThat tagLib.output, equalTo("397 days and 2 minutes")
+		assertThat tagLib.output, equalTo("2 days and 2 minutes")
 	}
 
 	@Test
