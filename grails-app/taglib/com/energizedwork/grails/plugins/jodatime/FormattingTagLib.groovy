@@ -6,6 +6,7 @@ import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import org.springframework.web.servlet.support.RequestContextUtils
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.apache.commons.lang.LocaleUtils
 
 class FormattingTagLib {
 
@@ -54,7 +55,7 @@ class FormattingTagLib {
 		def type = attrs.type ?: DateTime.name
 		if (type instanceof Class) type = type.name
 		def locale = attrs.locale ?: RequestContextUtils.getLocale(request)
-		if (locale instanceof String) locale = new Locale(* locale.split("_"))
+		if (locale instanceof String) locale = LocaleUtils.toLocale(locale)
 		
 		def pattern = patternForType(type)
 		if (!pattern) {
