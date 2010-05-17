@@ -2,6 +2,8 @@ package jodatest
 
 import org.joda.time.*
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.hamcrest.MatcherAssert.*
+import org.hamcrest.Matchers.*
 
 class DomainClassTests extends GroovyTestCase {
 
@@ -19,12 +21,12 @@ class DomainClassTests extends GroovyTestCase {
 
 	void testDateTimePropertyTypeIsResolvedCorrectly() {
 		def property = domainClass.getPropertyByName("dateCreated")
-		assertEquals DateTime, property.type
+		assertThat "property type", property.type, equalTo(DateTime)
 	}
 
 	void testDateTimePropertyTypeIsResolvedCorrectlyViaMetaClass() {
 		def property = AuditedRecord.metaClass.hasProperty(new AuditedRecord(), "dateCreated")
-		assertEquals DateTime, property.type
+		assertThat "property type", property.type, equalTo(DateTime)
 	}
 
 }
