@@ -63,25 +63,4 @@ class DateTimeZoneScaffoldingTests extends AbstractFunctionalTestCase {
 			assertEquals(["Europe/London"], timeZone)
 		}
 	}
-
-	void testListViewIsSortable() {
-		City.build(name: "Vancouver", timeZone: DateTimeZone.forID("America/Vancouver"))
-		City.build(name: "Auckland", timeZone: DateTimeZone.forID("Pacific/Auckland"))
-
-		get "/city/list"
-		assertStatus SC_OK
-		assertTitle "City List"
-
-		// sort by zone
-		click "Time Zone"
-		assertEquals("America/Vancouver", byXPath("//tbody/tr[1]/td[3]").textContent)
-		assertEquals("Europe/London", byXPath("//tbody/tr[2]/td[3]").textContent)
-		assertEquals("Pacific/Auckland", byXPath("//tbody/tr[3]/td[3]").textContent)
-
-		// sort descending
-		click "Time Zone"
-		assertEquals("Pacific/Auckland", byXPath("//tbody/tr[1]/td[3]").textContent)
-		assertEquals("Europe/London", byXPath("//tbody/tr[2]/td[3]").textContent)
-		assertEquals("America/Vancouver", byXPath("//tbody/tr[3]/td[3]").textContent)
-	}
 }
