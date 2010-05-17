@@ -1,8 +1,8 @@
 package jodatest
 
 import org.joda.time.*
-import org.hamcrest.MatcherAssert.*
-import org.hamcrest.Matchers.*
+import static org.hamcrest.MatcherAssert.*
+import static org.hamcrest.Matchers.*
 
 class PersistenceTests extends GroovyTestCase {
 
@@ -26,16 +26,16 @@ class PersistenceTests extends GroovyTestCase {
 			// if we save a new person the zone of the DateTimeTZ field should be correct
 			def record = new ZonedRecord(data: "foo")
 			assert record.save(flush: true)
-			assertEquals tz, record.dateCreated.zone
+			assertThat "time zone of date created", record.dateCreated.zone, equalTo(tz)
 
 			// if we re-load from the db the zone should be correct
 			session.clear()
-			assertEquals tz, ZonedRecord.findByData("foo").dateCreated.zone
+			assertThat "time zone of date created", ZonedRecord.findByData("foo").dateCreated.zone, equalTo(tz)
 
 			// if we re-load from the db when in a different zone, the zone on the record should be correct
 			session.clear()
 			DateTimeZone.default = DateTimeZone.forOffsetHours(-5)
-			assertEquals tz, ZonedRecord.findByData("foo").dateCreated.zone
+			assertThat "time zone of date created", ZonedRecord.findByData("foo").dateCreated.zone, equalTo(tz)
 		}
 	}
 
@@ -52,7 +52,7 @@ class PersistenceTests extends GroovyTestCase {
 			eq("dateCreated", dateCreated)
 		}
 
-		assertEquals dateCreated, record.dateCreated
+		assertThat "date crearted", record.dateCreated, equalTo(dateCreated)
 	}
 
 //	void testQueryingWithBetweenOnMultiColumnField() {

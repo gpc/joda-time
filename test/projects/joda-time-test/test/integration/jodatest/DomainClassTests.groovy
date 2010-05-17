@@ -2,8 +2,8 @@ package jodatest
 
 import org.joda.time.*
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import org.hamcrest.MatcherAssert.*
-import org.hamcrest.Matchers.*
+import static org.hamcrest.MatcherAssert.*
+import static org.hamcrest.Matchers.*
 
 class DomainClassTests extends GroovyTestCase {
 
@@ -16,7 +16,7 @@ class DomainClassTests extends GroovyTestCase {
 
 	void testDateTimePropertyIsNotConsideredAnAssociation() {
 		def property = domainClass.getPropertyByName("dateCreated")
-		assertFalse property.isAssociation()
+		assertFalse "property is association", property.isAssociation()
 	}
 
 	void testDateTimePropertyTypeIsResolvedCorrectly() {

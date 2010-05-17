@@ -1,7 +1,7 @@
 package jodatest
 
-import org.hamcrest.MatcherAssert.*
-import org.hamcrest.Matchers.*
+import static org.hamcrest.MatcherAssert.*
+import static org.hamcrest.Matchers.*
 
 class AutoTimestampingTests extends GroovyTestCase {
 
@@ -9,9 +9,9 @@ class AutoTimestampingTests extends GroovyTestCase {
 		def record = new AuditedRecord(data: "blah")
 		assert record.save(flush: true)
 
-		assertThat "date created", record.dateCreated, not(nullValue())
-		assertThat "last updated", record.lastUpdated, not(nullValue())
-		assertThat "timestamp values", record.dateCreated, equals(record.lastUpdated)
+		assertThat "date created", record.dateCreated, notNullValue()
+		assertThat "last updated", record.lastUpdated, notNullValue()
+		assertThat "timestamp values", record.dateCreated, equalTo(record.lastUpdated)
 	}
 
 	void testLastUpdatedWorks() {
