@@ -1,8 +1,7 @@
 package jodatest
 
-import javax.servlet.http.HttpServletResponse
-import org.joda.time.*
-import org.joda.time.format.*
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import static javax.servlet.http.HttpServletResponse.SC_OK
 
 class LocalDateScaffoldingTests extends AbstractFunctionalTestCase {

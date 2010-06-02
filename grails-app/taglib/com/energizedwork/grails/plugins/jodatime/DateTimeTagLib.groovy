@@ -1,24 +1,11 @@
 package com.energizedwork.grails.plugins.jodatime
 
-import org.joda.time.DateTimeFieldType as DTFT
-import org.springframework.web.servlet.support.RequestContextUtils as RCU
-
 import java.text.DateFormatSymbols
 import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
-import org.joda.time.ReadableInstant
-import org.joda.time.ReadablePartial
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
-import org.joda.time.DateTimeZone
-import org.joda.time.PeriodType
-import org.joda.time.DurationFieldType
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import org.joda.time.DateTimeFieldType
 import org.springframework.web.servlet.support.RequestContextUtils
+import org.joda.time.*
 
 class DateTimeTagLib {
 

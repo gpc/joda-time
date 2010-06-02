@@ -1,8 +1,6 @@
 package jodatest
 
-import javax.servlet.http.HttpServletResponse
-import org.joda.time.*
-import org.joda.time.format.*
+import org.joda.time.DateTimeZone
 import static javax.servlet.http.HttpServletResponse.SC_OK
 
 class DateTimeZoneScaffoldingTests extends AbstractFunctionalTestCase {

@@ -1,7 +1,7 @@
 package jodatest
 
-import org.joda.time.*
-import static javax.servlet.http.HttpServletResponse.*
+import org.joda.time.Period
+import static javax.servlet.http.HttpServletResponse.SC_OK
 
 class PeriodScaffoldingTests extends AbstractFunctionalTestCase {
 

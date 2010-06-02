@@ -1,7 +1,7 @@
 package jodatest
 
-import org.joda.time.*
-import org.joda.time.format.*
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 
 class CommandController {
 

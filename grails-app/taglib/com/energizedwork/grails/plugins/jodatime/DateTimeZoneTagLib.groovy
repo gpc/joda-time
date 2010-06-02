@@ -1,8 +1,8 @@
 package com.energizedwork.grails.plugins.jodatime
 
+import org.joda.time.DateTimeUtils
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.DateTimeUtils
 
 class DateTimeZoneTagLib {
 

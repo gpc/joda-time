@@ -1,9 +1,9 @@
 package jodatest
 
-import org.joda.time.*
 import org.codehaus.groovy.grails.commons.ApplicationHolder
-import static org.hamcrest.MatcherAssert.*
-import static org.hamcrest.Matchers.*
+import org.joda.time.DateTime
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.equalTo
 
 class DomainClassTests extends GroovyTestCase {
 
