@@ -7,10 +7,13 @@ grails.project.dependency.resolution = {
     repositories {        
         grailsPlugins()
         grailsHome()
+		grailsCentral()
         mavenLocal()
         mavenCentral()
     }
     dependencies {
+//        compile "joda-time:joda-time:1.6"
+//        compile "joda-time:joda-time-hibernate:1.2"
 		test("org.hamcrest:hamcrest-all:1.1") {
 			exported = false
 		}

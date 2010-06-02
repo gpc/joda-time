@@ -1,4 +1,5 @@
 *.iws
 *.log
+*.zip
 target/
 plugin.xml
