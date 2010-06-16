@@ -3,81 +3,96 @@ package com.energizedwork.grails.plugins.jodatime
 import grails.converters.JSON
 import grails.converters.XML
 import org.codehaus.groovy.grails.web.json.JSONElement
+import org.junit.Test
+import static org.hamcrest.Matchers.equalTo
 import org.joda.time.*
 import static org.joda.time.DateTimeZone.UTC
+import static org.junit.Assert.assertThat
 
-class ConversionTests extends GroovyTestCase {
+class ConversionTests {
 
-	void testDateTimeAsJSON() {
+	@Test
+	void dateTimeAsJSON() {
 		def o = [dateTime: new DateTime(0).withZone(UTC)]
 		def json = marshalAsJSON(o)
-		assertEquals "1970-01-01T00:00:00Z", json.dateTime
+		assertThat "DateTime as JSON", json.dateTime, equalTo("1970-01-01T00:00:00Z")
 	}
 
-	void testDateTimeAsXML() {
+	@Test
+	void dateTimeAsXML() {
 		def o = [dateTime: new DateTime(0).withZone(UTC)]
 		def xml = marshalAsXML(o)
-		assertEquals "1970-01-01T00:00:00Z", xml.entry.find {it.'@key' == 'dateTime'}?.text()
+		assertThat "DateTime as XML", xml.entry.find {it.'@key' == 'dateTime'}?.text(), equalTo("1970-01-01T00:00:00Z")
 	}
 
-	void testDateTimeAsJSONHandlesZones() {
+	@Test
+	void dateTimeAsJSONHandlesZones() {
 		def o = [dateTime: new DateTime(0).withZone(DateTimeZone.forOffsetHours(-5))]
 		def json = marshalAsJSON(o)
-		assertEquals "1969-12-31T19:00:00-05:00", json.dateTime
+		assertThat "DateTime with zone as JSON", json.dateTime, equalTo("1969-12-31T19:00:00-05:00")
 	}
 
-	void testDateTimeAsXMLHandlesZones() {
+	@Test
+	void dateTimeAsXMLHandlesZones() {
 		def o = [dateTime: new DateTime(0).withZone(DateTimeZone.forOffsetHours(3))]
 		def xml = marshalAsXML(o)
-		assertEquals "1970-01-01T03:00:00+03:00", xml.entry.find {it.'@key' == 'dateTime'}?.text()
+		assertThat "DateTime with zone as XML", xml.entry.find {it.'@key' == 'dateTime'}?.text(), equalTo("1970-01-01T03:00:00+03:00")
 	}
 
-	void testLocalDateAsJSON() {
+	@Test
+	void localDateAsJSON() {
 		def o = [localDate: new LocalDate(2009, 8, 2)]
 		def json = marshalAsJSON(o)
-		assertEquals "2009-08-02", json.localDate
+		assertThat "LocalDate as JSON", json.localDate, equalTo("2009-08-02")
 	}
 
-	void testLocalTimeAsJSON() {
+	@Test
+	void localTimeAsJSON() {
 		def o = [localTime: new LocalTime(6, 29)]
 		def json = marshalAsJSON(o)
-		assertEquals "06:29:00", json.localTime
+		assertThat "LocalTime as JSON", json.localTime, equalTo("06:29:00")
 	}
 
-	void testLocalDateTimeAsJSON() {
+	@Test
+	void localDateTimeAsJSON() {
 		def o = [localDateTime: new LocalDateTime(2009, 7, 13, 6, 29)]
 		def json = marshalAsJSON(o)
-		assertEquals "2009-07-13T06:29:00", json.localDateTime
+		assertThat "LocalDateTime as JSON", json.localDateTime, equalTo("2009-07-13T06:29:00")
 	}
 
-	void testDateTimeZoneAsJSON() {
+	@Test
+	void dateTimeZoneAsJSON() {
 		def o = [dateTimeZone: DateTimeZone.forID("America/Vancouver")]
 		def json = marshalAsJSON(o)
-		assertEquals "America/Vancouver", json.dateTimeZone
+		assertThat "DateTimeZone as JSON", json.dateTimeZone, equalTo("America/Vancouver")
 	}
 
-	void testLocalDateAsXML() {
+	@Test
+	void localDateAsXML() {
 		def o = [localDate: new LocalDate(2009, 8, 2)]
 		def xml = marshalAsXML(o)
-		assertEquals "2009-08-02", xml.entry.find {it.'@key' == 'localDate'}?.text()
+		assertThat "LocalDate as XML", xml.entry.find {it.'@key' == 'localDate'}?.text(), equalTo("2009-08-02")
 	}
 
-	void testLocalTimeAsXML() {
+	@Test
+	void localTimeAsXML() {
 		def o = [localTime: new LocalTime(6, 29)]
 		def xml = marshalAsXML(o)
-		assertEquals "06:29:00", xml.entry.find {it.'@key' == 'localTime'}?.text()
+		assertThat "LocalTime as XML", xml.entry.find {it.'@key' == 'localTime'}?.text(), equalTo("06:29:00")
 	}
 
-	void testLocalDateTimeAsXML() {
+	@Test
+	void localDateTimeAsXML() {
 		def o = [localDateTime: new LocalDateTime(2009, 7, 13, 6, 29)]
 		def xml = marshalAsXML(o)
-		assertEquals "2009-07-13T06:29:00", xml.entry.find {it.'@key' == 'localDateTime'}?.text()
+		assertThat "LocalDateTime as XML", xml.entry.find {it.'@key' == 'localDateTime'}?.text(), equalTo("2009-07-13T06:29:00")
 	}
 
-	void testDateTimeZoneAsXML() {
+	@Test
+	void dateTimeZoneAsXML() {
 		def o = [dateTimeZone: DateTimeZone.forID("America/Vancouver")]
 		def xml = marshalAsXML(o)
-		assertEquals "America/Vancouver", xml.entry.find {it.'@key' == 'dateTimeZone'}?.text()
+		assertThat "DateTimeZone as XML", xml.entry.find {it.'@key' == 'dateTimeZone'}?.text(), equalTo("America/Vancouver")
 	}
 
 	private JSONElement marshalAsJSON(object) {
