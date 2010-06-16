@@ -30,19 +30,19 @@ class JodaConverters {
 		final dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis()
 		[JSON, XML].each {converter ->
 			converter.registerObjectMarshaller(DateTime, 1) {
-				return it?.toString(dateTimeFormatter.withZone(it?.zone))
+				it?.toString(dateTimeFormatter.withZone(it?.zone))
 			}
 			converter.registerObjectMarshaller(LocalDate, 2) {
-				return it?.toString("yyyy-MM-dd")
+				it?.toString("yyyy-MM-dd")
 			}
 			converter.registerObjectMarshaller(LocalTime, 3) {
-				return it?.toString("HH:mm:ss")
+				it?.toString("HH:mm:ss")
 			}
 			converter.registerObjectMarshaller(LocalDateTime, 4) {
-				return it?.toString("yyyy-MM-dd'T'HH:mm:ss")
+				it?.toString("yyyy-MM-dd'T'HH:mm:ss")
 			}
 			converter.registerObjectMarshaller(DateTimeZone, 5) {
-				return it?.ID
+				it?.ID
 			}
 		}
 	}
