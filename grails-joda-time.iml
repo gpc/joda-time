@@ -3,9 +3,20 @@
   <component name="FacetManager">
     <facet type="web" name="GrailsWeb">
       <configuration>
-        <webroots />
+        <webroots>
+          <root url="file://$MODULE_DIR$/web-app" relative="/" />
+          <root url="file://$MODULE_DIR$/web-app" relative="/" />
+        </webroots>
         <sourceRoots />
         <context-artifact name="grails-joda-time:GrailsWeb exploded" />
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="Grails" name="Grails" removed="false">
+          <file>file://$MODULE_DIR$/web-app/WEB-INF/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/web-app/WEB-INF/applicationContext.xml</file>
+        </fileset>
       </configuration>
     </facet>
   </component>
@@ -23,6 +34,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/utils" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/docs" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/test/reports" />
     </content>
@@ -38,7 +51,7 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="grails-1.2.1" level="application" />
+    <orderEntry type="library" name="grails-1.3.1" level="application" />
     <orderEntry type="module" module-name="grails-joda-time-grailsPlugins" />
   </component>
 </module>

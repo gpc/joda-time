@@ -1,8 +1,8 @@
 package jodatest
 
-import org.joda.time.*
-import static org.hamcrest.MatcherAssert.*
-import static org.hamcrest.Matchers.*
+import org.joda.time.DateTimeZone
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.equalTo
 
 class PersistenceTests extends GroovyTestCase {
 

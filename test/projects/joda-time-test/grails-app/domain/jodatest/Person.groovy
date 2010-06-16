@@ -1,7 +1,7 @@
 package jodatest
 
-import org.joda.time.*
-import org.joda.time.contrib.hibernate.*
+import org.joda.time.LocalDate
+import org.joda.time.contrib.hibernate.PersistentLocalDate
 
 class Person {
 

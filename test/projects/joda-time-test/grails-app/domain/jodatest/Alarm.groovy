@@ -1,7 +1,7 @@
 package jodatest
 
-import org.joda.time.*
-import org.joda.time.contrib.hibernate.*
+import org.joda.time.LocalTime
+import org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime
 
 class Alarm {
 	

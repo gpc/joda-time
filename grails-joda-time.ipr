@@ -51,7 +51,14 @@
     </wildcardResourcePatterns>
     <annotationProcessing enabled="false" useClasspath="true" />
   </component>
-  <component name="CopyrightManager" default="">
+  <component name="CopyrightManager" default="Apache Licence">
+    <copyright>
+      <option name="notice" value="Copyright &amp;#36;today.year Rob Fletcher&#10;&#10;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you may not use this file except in compliance with the License.&#10;You may obtain a copy of the License at&#10;&#10;    http://www.apache.org/licenses/LICENSE-2.0&#10;&#10;Unless required by applicable law or agreed to in writing, software&#10;distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#10;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#10;See the License for the specific language governing permissions and&#10;limitations under the License." />
+      <option name="keyword" value="Copyright" />
+      <option name="allowReplaceKeyword" value="" />
+      <option name="myName" value="Apache Licence" />
+      <option name="myLocal" value="true" />
+    </copyright>
     <module2copyright />
   </component>
   <component name="DependenciesAnalyzeManager">
@@ -66,11 +73,8 @@
     </option>
   </component>
   <component name="EclipseCompilerSettings">
-    <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="true" />
     <option name="DEPRECATION" value="false" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
-    <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="EclipseEmbeddedCompilerSettings">
     <option name="DEBUGGING_INFO" value="true" />
@@ -84,13 +88,6 @@
     <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="CD4D5CD119781956233252C4D3F72167" />
-  <component name="JavacSettings">
-    <option name="DEBUGGING_INFO" value="true" />
-    <option name="GENERATE_NO_WARNINGS" value="false" />
-    <option name="DEPRECATION" value="true" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
-    <option name="MAXIMUM_HEAP_SIZE" value="128" />
-  </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
     <option name="OPTION_SCOPE" value="protected" />
@@ -107,14 +104,6 @@
     <option name="HEAP_SIZE" />
     <option name="LOCALE" />
     <option name="OPEN_IN_BROWSER" value="true" />
-  </component>
-  <component name="JikesSettings">
-    <option name="JIKES_PATH" value="" />
-    <option name="DEBUGGING_INFO" value="true" />
-    <option name="DEPRECATION" value="true" />
-    <option name="GENERATE_NO_WARNINGS" value="false" />
-    <option name="IS_EMACS_ERRORS_MODE" value="true" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
   <component name="Palette2">
     <group name="Swing">
@@ -249,6 +238,7 @@
       <module fileurl="file://$PROJECT_DIR$/grails-joda-time-grailsPlugins.iml" filepath="$PROJECT_DIR$/grails-joda-time-grailsPlugins.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/projects/joda-time-grails-ui/joda-time-grails-ui.iml" filepath="$PROJECT_DIR$/test/projects/joda-time-grails-ui/joda-time-grails-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test.iml" filepath="$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test-grailsPlugins.iml" filepath="$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test-grailsPlugins.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
@@ -260,13 +250,6 @@
         <list size="0" />
       </value>
     </option>
-  </component>
-  <component name="RmicSettings">
-    <option name="IS_EANABLED" value="false" />
-    <option name="DEBUGGING_INFO" value="true" />
-    <option name="GENERATE_NO_WARNINGS" value="false" />
-    <option name="GENERATE_IIOP_STUBS" value="false" />
-    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
   <component name="SvnBranchConfigurationManager">
     <option name="myConfigurationMap">
