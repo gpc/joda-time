@@ -12,9 +12,10 @@ grails.project.dependency.resolution = {
         mavenCentral()
     }
     dependencies {
-//        compile "joda-time:joda-time:1.6"
-//        compile "joda-time:joda-time-hibernate:1.2"
+//		compile "joda-time:joda-time:1.6"
+//		compile "joda-time:joda-time-hibernate:1.2"
 		test("org.hamcrest:hamcrest-all:1.1") {
+			excludes "junit", "jmock", "easymock"
 			exported = false
 		}
     }
