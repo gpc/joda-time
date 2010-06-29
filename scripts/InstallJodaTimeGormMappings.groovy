@@ -26,17 +26,19 @@ target(installJodaTimeGormMappings: "Updates Config.groovy with default GORM map
 		} else {
 			event "StatusUpdate", ["Adding default GORM mappings for Joda-Time types to Config.groovy"]
 			configFile.withWriterAppend {
-				it.writeLine "\n// Added by the Joda-Time plugin:"
-				it.writeLine "grails.gorm.default.mapping = {"
-				it.writeLine "\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentDateTime, class: org.joda.time.DateTime"
-				it.writeLine "\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentDuration, class: org.joda.time.Duration"
-				it.writeLine "\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentInstant, class: org.joda.time.Instant"
-				it.writeLine "\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentInterval, class: org.joda.time.Interval"
-				it.writeLine "\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentLocalDate, class: org.joda.time.LocalDate"
-				it.writeLine "\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentLocalTimeAsString, class: org.joda.time.LocalTime"
-				it.writeLine "\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentLocalDateTime, class: org.joda.time.LocalDateTime"
-				it.writeLine "\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentPeriod, class: org.joda.time.Period"
-				it.writeLine "}"
+				it.write """
+// Added by the Joda-Time plugin:
+grails.gorm.default.mapping = {
+\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentDateTime, class: org.joda.time.DateTime
+\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentDuration, class: org.joda.time.Duration
+\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentInstant, class: org.joda.time.Instant
+\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentInterval, class: org.joda.time.Interval
+\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentLocalDate, class: org.joda.time.LocalDate
+\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentLocalTimeAsString, class: org.joda.time.LocalTime
+\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentLocalDateTime, class: org.joda.time.LocalDateTime
+\t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentPeriod, class: org.joda.time.Period
+}
+"""
 			}
 		}
 	}
