@@ -18,7 +18,7 @@ import grails.util.GrailsUtil
 
 includeTargets << grailsScript("_GrailsInit")
 
-target("default": "Installs scaffolding templates to enable dynamic scaffolding with Joda Time properties.") {
+target(installJodaTimeTemplates: "Installs scaffolding templates to enable dynamic scaffolding with Joda Time properties.") {
     def srcdir = new File("$jodaTimePluginDir/src/templates/scaffolding")
     if (!srcdir?.isDirectory()) {
         event("StatusError", ["Unable to install templates as plugin template files are missing"])
@@ -57,3 +57,5 @@ target("default": "Installs scaffolding templates to enable dynamic scaffolding 
         event("StatusFinal", ["Template installation complete"])
     }
 }
+
+setDefaultTarget(installJodaTimeTemplates)

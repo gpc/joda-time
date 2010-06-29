@@ -18,5 +18,9 @@ grails.project.dependency.resolution = {
 			excludes "junit", "jmock", "easymock"
 			exported = false
 		}
+		test("org.gmock:gmock:0.8.0") {
+			excludes "junit"
+			exported = false
+		}
     }
 }
