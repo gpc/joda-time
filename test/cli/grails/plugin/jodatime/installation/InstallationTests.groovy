@@ -35,6 +35,17 @@ class InstallationTests extends AbstractCliTestCase {
 	File packagedPlugin = new File(workDir, "grails-joda-time-1.0.1-SNAPSHOT.zip")
 	String tempProjectName = RandomStringUtils.randomAlphanumeric(8)
 
+	static final DEFAULT_MAPPINGS = [
+			(DateTime): PersistentDateTime,
+			(Duration): PersistentDuration,
+			(Instant): PersistentInstant,
+			(Interval): PersistentInterval,
+			(LocalDate): PersistentLocalDate,
+			(LocalTime): PersistentLocalTimeAsString,
+			(LocalDateTime): PersistentLocalDateTime,
+			(Period): PersistentPeriod,
+	].asImmutable()
+
 	@Before
 	void setUp() {
 		super.setUp()
@@ -58,15 +69,9 @@ class InstallationTests extends AbstractCliTestCase {
 
 		assertThat "GORM mappings in Config.groovy", config.grails.gorm.default.mapping, instanceOf(Closure)
 
-		config.grails.gorm.default.mapping.delegate = mock() {
-			"user-type"(allOf(hasEntry("type", PersistentDateTime), hasEntry("class", DateTime)))
-			"user-type"(allOf(hasEntry("type", PersistentDuration), hasEntry("class", Duration)))
-			"user-type"(allOf(hasEntry("type", PersistentInstant), hasEntry("class", Instant)))
-			"user-type"(allOf(hasEntry("type", PersistentInterval), hasEntry("class", Interval)))
-			"user-type"(allOf(hasEntry("type", PersistentLocalDate), hasEntry("class", LocalDate)))
-			"user-type"(allOf(hasEntry("type", PersistentLocalTimeAsString), hasEntry("class", LocalTime)))
-			"user-type"(allOf(hasEntry("type", PersistentLocalDateTime), hasEntry("class", LocalDateTime)))
-			"user-type"(allOf(hasEntry("type", PersistentPeriod), hasEntry("class", Period)))
+		config.grails.gorm.default.mapping.delegate = mock()
+		DEFAULT_MAPPINGS.each {
+			config.grails.gorm.default.mapping.delegate."user-type"(allOf(hasEntry("type", it.value), hasEntry("class", it.key)))
 		}
 		play {
 			config.grails.gorm.default.mapping()
@@ -77,7 +82,7 @@ class InstallationTests extends AbstractCliTestCase {
 	void doesNotOverrideExistingGormMappings() {
 		def appBaseDir = createTempApp()
 		appendToAppConfig appBaseDir,
-"""
+				"""
 // a pre-existing mapping config block that should not be affected by installing Joda-Time
 grails.gorm.default.mapping = {
 	"user-type" type: org.springframework.orm.hibernate3.support.ClobStringType, "class": String
