@@ -13,24 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.energizedwork.grails.commons.test
 
-import junit.framework.Assert
+package com.energizedwork.grails.plugins.jodatime
 
-class Assertions {
+import org.codehaus.groovy.grails.plugins.web.taglib.FormTagLib
 
-	static void assertMatch(String expectedRegex, actual) {
-		def matcher = actual =~ expectedRegex
-		if (!matcher) {
-			Assert.fail "Expected match of $expectedRegex but found $actual"
+class Html5InputTagLib {
+
+	static final namespace = "joda"
+
+	private final formTagLib = new FormTagLib(out: out)
+
+	def dateField = {attrs ->
+		attrs.type = "date"
+		attrs.tagName = "dateField"
+		if (attrs.value) {
+			attrs.value = attrs.value.toString("yyyy-MM-dd")
 		}
+		formTagLib.fieldImpl(out, attrs)
 	}
 
-	static void assertNoMatch(String expectedRegex, actual) {
-		def matcher = actual =~ expectedRegex
-		if (matcher) {
-			Assert.fail "Expected no match of $expectedRegex but found $actual"
+	def timeField = {attrs ->
+		attrs.type = "time"
+		attrs.tagName = "timeField"
+		if (attrs.value) {
+			attrs.value = attrs.value.toString("HH:mm:ss")
 		}
+		formTagLib.fieldImpl(out, attrs)
 	}
 
 }
