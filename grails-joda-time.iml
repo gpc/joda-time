@@ -35,27 +35,30 @@
       <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/grails-app/utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/cli" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/docs" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/test/reports" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="grails-1.3.1" level="application" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.hamcrest/hamcrest-all/sources/hamcrest-all-1.1-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.hamcrest/hamcrest-all/jars/hamcrest-all-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/jmock/jmock/jars/jmock-1.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymock/jars/easymock-2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="grails-1.3.1" level="application" />
     <orderEntry type="module" module-name="grails-joda-time-grailsPlugins" />
+    <orderEntry type="library" scope="PROVIDED" name="grails-1.3.1" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="joda-time" level="project" />
   </component>
 </module>
 

@@ -59,7 +59,6 @@
     </orderEntry>
     <orderEntry type="library" name="joda-time" level="project" />
     <orderEntry type="module" module-name="grails-joda-time" />
-    <orderEntry type="module" module-name="joda-time-test-grailsPlugins" />
   </component>
 </module>
 

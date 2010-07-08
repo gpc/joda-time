@@ -238,7 +238,6 @@
       <module fileurl="file://$PROJECT_DIR$/grails-joda-time-grailsPlugins.iml" filepath="$PROJECT_DIR$/grails-joda-time-grailsPlugins.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/projects/joda-time-grails-ui/joda-time-grails-ui.iml" filepath="$PROJECT_DIR$/test/projects/joda-time-grails-ui/joda-time-grails-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test.iml" filepath="$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test-grailsPlugins.iml" filepath="$PROJECT_DIR$/test/projects/joda-time-test/joda-time-test-grailsPlugins.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
