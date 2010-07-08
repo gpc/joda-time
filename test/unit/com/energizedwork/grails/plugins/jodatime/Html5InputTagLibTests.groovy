@@ -25,6 +25,9 @@ import org.junit.Before
 import org.junit.Test
 import static org.hamcrest.Matchers.*
 import static org.junit.Assert.assertThat
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDateTime
+import org.junit.Ignore
 
 class Html5InputTagLibTests extends TagLibUnitTestCase {
 
@@ -77,6 +80,76 @@ class Html5InputTagLibTests extends TagLibUnitTestCase {
 		tagLib.timeField(name: "foo", value: new DateTime())
 
 		assertThat tagLib.output, containsString('value="02:50:33"')
+	}
+
+	@Test
+	void datetimeLocalFieldRendersHtml5DatetimeLocalInput() {
+		tagLib.datetimeLocalField(name: "foo")
+
+		assertThat tagLib.output, equalTo('<input type="datetime-local" name="foo" id="foo" value="" />')
+	}
+
+	@Test
+	void datetimeLocalFieldRendersValueInCorrectFormat() {
+		tagLib.datetimeLocalField(name: "foo", value: new DateTime())
+
+		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33"')
+	}
+
+	@Test
+	void monthFieldRendersHtml5MonthInput() {
+		tagLib.monthField(name: "foo")
+
+		assertThat tagLib.output, equalTo('<input type="month" name="foo" id="foo" value="" />')
+	}
+
+	@Test
+	void monthFieldRendersValueInCorrectFormat() {
+		tagLib.monthField(name: "foo", value: new DateTime())
+
+		assertThat tagLib.output, containsString('value="2008-10"')
+	}
+
+	@Test
+	void weekFieldRendersHtml5MonthInput() {
+		tagLib.weekField(name: "foo")
+
+		assertThat tagLib.output, equalTo('<input type="week" name="foo" id="foo" value="" />')
+	}
+
+	@Test
+	void weekFieldRendersValueInCorrectFormat() {
+		tagLib.weekField(name: "foo", value: new DateTime())
+
+		assertThat tagLib.output, containsString('value="2008-W40"')
+	}
+
+	@Test
+	void datetimeFieldRendersHtml5MonthInput() {
+		tagLib.datetimeField(name: "foo")
+
+		assertThat tagLib.output, equalTo('<input type="datetime" name="foo" id="foo" value="" />')
+	}
+
+	@Test
+	void datetimeFieldRendersValueInCorrectFormatForUTC() {
+		tagLib.datetimeField(name: "foo", value: new DateTime().toLocalDateTime().toDateTime(DateTimeZone.UTC))
+
+		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33Z"')
+	}
+
+	@Test
+	void datetimeFieldRendersValueInCorrectFormatForNonUTC() {
+		tagLib.datetimeField(name: "foo", value: new DateTime().toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(-8)))
+
+		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33-08:00"')
+	}
+
+	@Test @Ignore
+	void datetimeFieldHandlesPartialValues() {
+		tagLib.datetimeField(name: "foo", value: new LocalDateTime())
+
+		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33Z"')
 	}
 
 }
