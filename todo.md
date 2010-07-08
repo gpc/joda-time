@@ -1,5 +1,8 @@
 ## Backlog
 
+* HTML5 support
+   * ensure HTML5 input formats are bound correctly
+   * optional scaffolding using HTML5 inputs rather than pickers
 * Input for DateTime with zone
 * support GrailsUI, RichUI
 * allow minutes on dateTimePicker to be restricted, e.g. only allow selection of every 5 minutes
