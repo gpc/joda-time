@@ -234,8 +234,8 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 			jodatime.format.html5 = true
 		'''
 		def editor = new DateTimeEditor(DateTime)
-		editor.value = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("GMT"))
-		assertThat editor.asText, equalTo("2009-03-06T17:00:00+00:00")
+		editor.value = new DateTime(2009, 3, 6, 17, 0, 0, 0).toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(1))
+		assertThat editor.asText, equalTo("2009-03-06T17:00:00+01:00")
 	}
 
 	@Test
@@ -277,7 +277,7 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 			jodatime.format.html5 = true
 		'''
 		def editor = new DateTimeEditor(DateTime)
-		def expected = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("Europe/London"))
+		def expected = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(UTC)
 		editor.asText = "2009-03-06T17:00:00+00:00"
 		assertThat editor.value, equalTo(expected)
 	}

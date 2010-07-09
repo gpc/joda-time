@@ -25,6 +25,7 @@ import org.joda.time.format.DateTimeFormatter
 import org.springframework.context.i18n.LocaleContextHolder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.format.DateTimeFormatterBuilder
 
 class DateTimeEditor extends PropertyEditorSupport {
 
@@ -82,16 +83,15 @@ class DateTimeEditor extends PropertyEditorSupport {
 	}
 
 	private DateTimeFormatter getISOFormatterFor(Class type) {
-		String pattern = null
 		switch (type) {
 			case LocalTime:
 				return ISODateTimeFormat.hourMinuteSecond()
 			case LocalDate:
 				return ISODateTimeFormat.date()
 			case LocalDateTime:
-				return ISODateTimeFormat.dateTimeNoMillis()
+				return new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss").appendOptional(DateTimeFormat.forPattern(".SSS").getParser()).toFormatter()
 			case DateTime:
-				return ISODateTimeFormat.dateTime()
+				return new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss").appendOptional(DateTimeFormat.forPattern(".SSS").getParser()).appendTimeZoneOffset("Z", true, 2, 2).toFormatter().withOffsetParsed()
 		}
 		return null
 	}
