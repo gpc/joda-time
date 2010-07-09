@@ -1,0 +1,16 @@
+h1. joda:datetimeLocalField
+
+h2. Purpose
+
+Renders an HTML5 _datetime-local_ input for _Joda-Time_ properties
+
+h2. Examples
+
+{code}
+<joda:datetimeLocalField name="myProperty" value="${new LocalDateTime()}" />
+<joda:datetimeLocalField name="myProperty" value="${myBean.myProperty}" />
+{code}
+
+h2. Description
+
+The value should be a _ReadableInstant_ or _ReadablePartial_ that supports at least the _year, monthOfYear, dayOfMonth, hourOfDay_ and _minuteOfHour_ fields and will be formatted correctly for the input type.

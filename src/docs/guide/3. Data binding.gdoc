@@ -10,5 +10,32 @@ The Joda-Time plugin adds automatic binding support for the following types...
 * "Period":http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html
 * "DateTimeZone":http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html
 
-Properties can be bound to simple text fields or to picker controls (see below). Text fields are bound in a locale-sensitive manner (e.g. to enter a LocalDate in the _en_GB_ locale the format is _dd/MM/yy_, in the _en_US_ locale the format is _MM/dd/yy_). Alternatively formats can be defined per type in config using keys such as _'jodatime.format.org.joda.time.DateTime'_ and _'jodatime.format.org.joda.time.LocalDate'_ which is partiularly useful when using rich UI type controls that may require a fixed format.
+Properties can be bound to simple text fields or to picker controls (see below).
 
+h3. Binding text inputs
+
+By default text fields are bound in a locale-sensitive manner (e.g. to enter a LocalDate in the _en_GB_ locale the format is _dd/MM/yy_, in the _en_US_ locale the format is _MM/dd/yy_ and so on). Alternatively formats can be defined per type in config using keys such as _'jodatime.format.org.joda.time.DateTime'_ and _'jodatime.format.org.joda.time.LocalDate'_ which is partiularly useful when using rich UI type controls that may require a fixed format.
+
+h3. HTML5 input types
+
+The HTML5 standard supports "several new input types":http://diveintohtml5.org/forms.html#type-date that potentially useful for binding to Joda-Time properties. The input formats for those types are fixed rather than being locale-sensitive as they are designed for picker controls rendered by the browser or JavaScript. If you wish to use HTML5 inputs in your project simply set the config value _'jodatime.format.html5 = true'_ in _Config.groovy_ and the correct binding formats will be used.
+
+{note}
+Any formats configured using _'jodatime.format.<classname>'_ will override the HTML5 format for that type.
+{note}
+
+h4. HTML5 input formats
+
+For reference, the formats for the various input types are as follows:
+
+{table}
+ *Input type* | *Format*
+ month | yyyy-MM
+ week | xxxx-'W'ww
+ date | yyyy-MM-dd
+ time | HH:mm:ss.SSS
+ datetime-local | yyyy-MM-dd'T'HH:mm:ss.SSS
+ datetime | yyyy-MM-dd'T'HH:mm:ss.SSSZZ
+{table}
+
+For all types Seconds and milliseconds can be omitted on input but are always rendered on output. The time zone for _datetime_ inputs can be either the literal _'Z'_ representing the _UTC_ time zone or a value such as _+05:30_ or _-08:00_

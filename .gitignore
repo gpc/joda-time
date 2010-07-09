@@ -1,7 +1,6 @@
 .idea/
 *.log
 *.zip
-docs/
 target/
 plugin.xml
 web-app/WEB-INF/tld/

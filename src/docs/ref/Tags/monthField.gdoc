@@ -1,0 +1,16 @@
+h1. joda:monthField
+
+h2. Purpose
+
+Renders an HTML5 _month_ input for _Joda-Time_ properties
+
+h2. Examples
+
+{code}
+<joda:monthField name="myProperty" value="${new LocalDate()}" />
+<joda:monthField name="myProperty" value="${myBean.myProperty}" />
+{code}
+
+h2. Description
+
+The value should be a _ReadableInstant_ or _ReadablePartial_ that supports the _year_ and _monthOfYear_ fields and will be formatted correctly for the input type.
