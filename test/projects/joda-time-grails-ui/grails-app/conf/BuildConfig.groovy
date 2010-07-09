@@ -1,1 +1,0 @@
-grails.plugin.location.'joda-time'="../../.."

@@ -1,6 +1,0 @@
-test/reports
-*.iws
-*.log
-devDB.*
-web-app/js/yui
-web-app/js/yui-cms
