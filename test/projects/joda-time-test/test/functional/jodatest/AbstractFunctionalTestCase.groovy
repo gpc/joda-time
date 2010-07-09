@@ -9,7 +9,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase {
 		super.setUp()
 
 		def port = System.properties."server.port" ?: 8080
-		baseURL = "http://localhost:${port}/joda-time-test"
+		baseURL = "http://localhost:${port}/"
 	}
 
 	void assertTextByXPath(String expected, String xpath) {

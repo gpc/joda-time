@@ -16,6 +16,7 @@
 package com.energizedwork.grails.plugins.jodatime
 
 import java.beans.PropertyEditorSupport
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
@@ -23,15 +24,10 @@ import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.springframework.context.i18n.LocaleContextHolder
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import org.joda.time.format.ISODateTimeFormat
-import org.joda.time.format.DateTimeFormatterBuilder
 
 class DateTimeEditor extends PropertyEditorSupport {
 
 	static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime].asImmutable()
-
-	private static final HTML5_DATE_TIME_PATERN = ~/^\d{4,}-(W\d{2}|\d{2}(-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+([\+-]\d{2}:\d{2}|Z)?)?)?)?)?)$/
 
 	protected final Class type
 	@Lazy private ConfigObject config = ConfigurationHolder.config?.jodatime?.format
@@ -71,7 +67,7 @@ class DateTimeEditor extends PropertyEditorSupport {
 	}
 
 	private boolean hasConfigPatternFor(Class type) {
-		getConfigPatternFor(type) != null
+		config?.flatten()?."$type.name"
 	}
 
 	private String getConfigPatternFor(Class type) {

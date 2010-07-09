@@ -1,6 +1,13 @@
 package jodatest
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
 class CommandBindingTests extends AbstractFunctionalTestCase {
+
+	void tearDown() {
+		super.tearDown()
+		ConfigurationHolder.config.jodatime.format.html5 = false		
+	}
 
 	void testBindingErrorsOnEmptyLocalDate() {
 		get "/command"
@@ -40,6 +47,7 @@ class CommandBindingTests extends AbstractFunctionalTestCase {
 	}
 
 	void testLocalDateBoundUsingHtml5Format() {
+		ConfigurationHolder.config.jodatime.format.html5 = true
 		get "/command"
 		form("localDate") {
 			localDate = "2010-07-08"
