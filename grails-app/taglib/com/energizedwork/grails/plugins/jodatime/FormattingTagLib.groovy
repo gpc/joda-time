@@ -71,7 +71,7 @@ class FormattingTagLib {
 		if (type instanceof Class) type = type.name
 		def locale = attrs.locale ?: RequestContextUtils.getLocale(request)
 		if (locale instanceof String) locale = LocaleUtils.toLocale(locale)
-		
+
 		def pattern = patternForType(type)
 		if (!pattern) {
 			def style

@@ -23,13 +23,21 @@ class Html5InputTagLib {
 
 	static final namespace = "joda"
 
+	static final HTML5_WEEK_FORMAT = "xxxx-'W'ww"
+	static final HTML5_MONTH_FORMAT = "yyyy-MM"
+	static final HTML5_DATE_FORMAT = HTML5_MONTH_FORMAT + "-dd"
+	static final HTML5_TIME_FORMAT = "HH:mm:ss"
+	static final HTML5_DATETIME_LOCAL_FORMAT = HTML5_DATE_FORMAT + "'T'" + HTML5_TIME_FORMAT
+	static final HTML5_DATETIME_FORMAT = HTML5_DATETIME_LOCAL_FORMAT + "ZZ"
+	static final HTML5_DATETIME_FORMAT_UTC = HTML5_DATETIME_LOCAL_FORMAT + "'Z'"
+
 	private final formTagLib = new FormTagLib(out: out)
 
 	def dateField = {attrs ->
 		attrs.type = "date"
 		attrs.tagName = "dateField"
 		if (attrs.value) {
-			attrs.value = attrs.value.toString("yyyy-MM-dd")
+			attrs.value = attrs.value.toString(HTML5_DATE_FORMAT)
 		}
 		formTagLib.fieldImpl(out, attrs)
 	}
@@ -38,7 +46,7 @@ class Html5InputTagLib {
 		attrs.type = "time"
 		attrs.tagName = "timeField"
 		if (attrs.value) {
-			attrs.value = attrs.value.toString("HH:mm:ss")
+			attrs.value = attrs.value.toString(HTML5_TIME_FORMAT)
 		}
 		formTagLib.fieldImpl(out, attrs)
 	}
@@ -48,9 +56,9 @@ class Html5InputTagLib {
 		attrs.tagName = "datetimeField"
 		if (attrs.value) {
 			if (attrs.value.zone == UTC) {
-				attrs.value = attrs.value.toString("yyyy-MM-dd'T'HH:mm:ss'Z'")
+				attrs.value = attrs.value.toString(HTML5_DATETIME_FORMAT_UTC)
 			} else {
-				attrs.value = attrs.value.toString("yyyy-MM-dd'T'HH:mm:ssZZ")
+				attrs.value = attrs.value.toString(HTML5_DATETIME_FORMAT)
 			}
 		}
 		formTagLib.fieldImpl(out, attrs)
@@ -60,7 +68,7 @@ class Html5InputTagLib {
 		attrs.type = "datetime-local"
 		attrs.tagName = "datetimeLocalField"
 		if (attrs.value) {
-			attrs.value = attrs.value.toString("yyyy-MM-dd'T'HH:mm:ss")
+			attrs.value = attrs.value.toString(HTML5_DATETIME_LOCAL_FORMAT)
 		}
 		formTagLib.fieldImpl(out, attrs)
 	}
@@ -69,7 +77,7 @@ class Html5InputTagLib {
 		attrs.type = "month"
 		attrs.tagName = "monthField"
 		if (attrs.value) {
-			attrs.value = attrs.value.toString("yyyy-MM")
+			attrs.value = attrs.value.toString(HTML5_MONTH_FORMAT)
 		}
 		formTagLib.fieldImpl(out, attrs)
 	}
@@ -78,7 +86,7 @@ class Html5InputTagLib {
 		attrs.type = "week"
 		attrs.tagName = "weekField"
 		if (attrs.value) {
-			attrs.value = attrs.value.toString("xxxx-'W'ww")
+			attrs.value = attrs.value.toString(HTML5_WEEK_FORMAT)
 		}
 		formTagLib.fieldImpl(out, attrs)
 	}

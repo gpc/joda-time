@@ -26,13 +26,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="grails-1.3.3" level="application" />
     <orderEntry type="module-library">
       <library name="Grails User Library">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.ivy2/cache/org.gmock/gmock/jars/gmock-0.8.0.jar!/" />
-          <root url="jar://$USER_HOME$/.ivy2/cache/org.hamcrest/hamcrest-all/jars/hamcrest-all-1.1.jar!/" />
           <root url="file://$MODULE_DIR$/lib" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.hamcrest/hamcrest-all/jars/hamcrest-all-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/jmock/jmock/jars/jmock-1.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.easymock/easymock/jars/easymock-2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -40,6 +40,8 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="grails-joda-time-grailsPlugins" />
+    <orderEntry type="library" scope="PROVIDED" name="grails-1.3.3" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="grails-1.3.1" level="application" />
   </component>
 </module>
 

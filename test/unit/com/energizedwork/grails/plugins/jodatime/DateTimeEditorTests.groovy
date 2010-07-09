@@ -23,6 +23,7 @@ import static java.util.Locale.US
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.nullValue
 import org.joda.time.*
+import static org.joda.time.DateTimeZone.UTC
 import static org.junit.Assert.assertThat
 
 class DateTimeEditorTests extends GrailsUnitTestCase {
@@ -68,6 +69,16 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 	}
 
 	@Test
+	void getAsTextForLocalDateUsingHTML5Pattern() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(LocalDate)
+		editor.value = new LocalDate(1971, 11, 29)
+		assertThat editor.asText, equalTo("1971-11-29")
+	}
+
+	@Test
 	void setAsTextForLocalDateUsingUKLocale() {
 		def editor = new DateTimeEditor(LocalDate)
 		def expected = new LocalDate(1971, 11, 29)
@@ -101,6 +112,17 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 	}
 
 	@Test
+	void setAsTextForLocalDateUsingHTML5Pattern() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(LocalDate)
+		def expected = new LocalDate(1971, 11, 29)
+		editor.asText = "1971-11-29"
+		assertThat editor.value, equalTo(expected)
+	}
+
+	@Test
 	void getAsTextForLocalDateTimeUsingUKLocale() {
 		def editor = new DateTimeEditor(LocalDateTime)
 		editor.value = new LocalDateTime(2009, 3, 6, 17, 0)
@@ -124,6 +146,16 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 		def editor = new DateTimeEditor(LocalDateTime)
 		editor.value = new LocalDateTime(1971, 11, 29, 17, 0)
 		assertThat editor.asText, equalTo("29/11/1971 5:00 PM")
+	}
+
+	@Test
+	void getAsTextForLocalDateTimeUsingHTML5Pattern() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(LocalDateTime)
+		editor.value = new LocalDateTime(1971, 11, 29, 17, 0)
+		assertThat editor.asText, equalTo("1971-11-29T17:00:00")
 	}
 
 	@Test
@@ -160,6 +192,17 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 	}
 
 	@Test
+	void setAsTextForLocalDateTimeUsingHTML5Pattern() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(LocalDateTime)
+		def expected = new LocalDateTime(1971, 11, 29, 17, 0)
+		editor.asText = "1971-11-29T17:00:00"
+		assertThat editor.value, equalTo(expected)
+	}
+
+	@Test
 	void getAsTextForDateTimeUsingUKLocale() {
 		def editor = new DateTimeEditor(DateTime)
 		editor.value = new DateTime(2009, 3, 6, 17, 0, 0, 0)
@@ -183,6 +226,16 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 		def editor = new DateTimeEditor(DateTime)
 		editor.value = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("GMT"))
 		assertThat editor.asText, equalTo("06/03/2009 5:00 PM +0000")
+	}
+
+	@Test
+	void getAsTextForDateTimeUsingHTML5Pattern() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(DateTime)
+		editor.value = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("GMT"))
+		assertThat editor.asText, equalTo("2009-03-06T17:00:00+00:00")
 	}
 
 	@Test
@@ -219,6 +272,39 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 	}
 
 	@Test
+	void setAsTextForDateTimeUsingHTML5Pattern() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(DateTime)
+		def expected = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("Europe/London"))
+		editor.asText = "2009-03-06T17:00:00+00:00"
+		assertThat editor.value, equalTo(expected)
+	}
+
+	@Test
+	void setAsTextForDateTimeUsingHTML5PatternAndUTCZone() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(DateTime)
+		def expected = new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(UTC)
+		editor.asText = "2009-03-06T17:00:00Z"
+		assertThat editor.value, equalTo(expected)
+	}
+
+	@Test
+	void setAsTextForDateTimeUsingHTML5PatternAndMillis() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(DateTime)
+		def expected = new DateTime(2009, 3, 6, 17, 0, 0, 123).withZone(UTC)
+		editor.asText = "2009-03-06T17:00:00.123Z"
+		assertThat editor.value, equalTo(expected)
+	}
+
+	@Test
 	void getAsTextForLocalTimeUsingUKLocale() {
 		def editor = new DateTimeEditor(LocalTime)
 		editor.value = new LocalTime(23, 59)
@@ -242,6 +328,16 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 		def editor = new DateTimeEditor(LocalTime)
 		editor.value = new LocalTime(23, 59)
 		assertThat editor.asText, equalTo("11:59 PM")
+	}
+
+	@Test
+	void getAsTextForLocalTimeUsingHTML5Pattern() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(LocalTime)
+		editor.value = new LocalTime(23, 59)
+		assertThat editor.asText, equalTo("23:59:00")
 	}
 
 	@Test
@@ -274,6 +370,17 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 		def editor = new DateTimeEditor(LocalTime)
 		def expected = new LocalTime(23, 59)
 		editor.asText = "11:59 PM"
+		assertThat editor.value, equalTo(expected)
+	}
+
+	@Test
+	void setAsTextForLocalTimeUsingHTML5Pattern() {
+		mockConfig '''
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(LocalTime)
+		def expected = new LocalTime(23, 59)
+		editor.asText = "23:59:00"
 		assertThat editor.value, equalTo(expected)
 	}
 

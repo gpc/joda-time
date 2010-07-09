@@ -38,4 +38,13 @@ class CommandBindingTests extends AbstractFunctionalTestCase {
 		}
 		assertContentContains "You entered: 4 February 2009"
 	}
+
+	void testLocalDateBoundUsingHtml5Format() {
+		get "/command"
+		form("localDate") {
+			localDate = "2010-07-08"
+			click "Submit"
+		}
+		assertContentContains "You entered: 8 July 2010"
+	}
 }

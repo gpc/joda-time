@@ -18,6 +18,7 @@ package com.energizedwork.grails.plugins.jodatime
 import org.joda.time.DateTimeZone
 import org.springframework.beans.PropertyEditorRegistrar
 import org.springframework.beans.PropertyEditorRegistry
+import org.joda.time.LocalDate
 
 class JodaTimePropertyEditorRegistrar implements PropertyEditorRegistrar {
 

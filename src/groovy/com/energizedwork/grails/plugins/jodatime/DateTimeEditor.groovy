@@ -24,17 +24,20 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.springframework.context.i18n.LocaleContextHolder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.joda.time.format.ISODateTimeFormat
 
 class DateTimeEditor extends PropertyEditorSupport {
 
 	static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime].asImmutable()
 
+	private static final HTML5_DATE_TIME_PATERN = ~/^\d{4,}-(W\d{2}|\d{2}(-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+([\+-]\d{2}:\d{2}|Z)?)?)?)?)?)$/
+
 	protected final Class type
+	@Lazy private ConfigObject config = ConfigurationHolder.config?.jodatime?.format
 
 	DateTimeEditor(Class type) {
 		this.type = type
 	}
-
 
 	String getAsText() {
 		return value ? formatter.print(value) : ""
@@ -45,9 +48,10 @@ class DateTimeEditor extends PropertyEditorSupport {
 	}
 
 	protected DateTimeFormatter getFormatter() {
-		def pattern = ConfigurationHolder.config?.flatten()?."jodatime.format.$type.name"
-		if (pattern) {
-			return DateTimeFormat.forPattern(pattern)
+		if (useISO()) {
+			return getISOFormatterFor(type)
+		} else if (hasConfigPatternFor(type)) {
+			return DateTimeFormat.forPattern(getConfigPatternFor(type))
 		} else {
 			def style
 			switch (type) {
@@ -63,6 +67,33 @@ class DateTimeEditor extends PropertyEditorSupport {
 			Locale locale = LocaleContextHolder.locale
 			return DateTimeFormat.forStyle(style).withLocale(locale)
 		}
+	}
+
+	private boolean hasConfigPatternFor(Class type) {
+		getConfigPatternFor(type) != null
+	}
+
+	private String getConfigPatternFor(Class type) {
+		config?.flatten()?."$type.name"
+	}
+
+	private boolean useISO() {
+		config?.html5
+	}
+
+	private DateTimeFormatter getISOFormatterFor(Class type) {
+		String pattern = null
+		switch (type) {
+			case LocalTime:
+				return ISODateTimeFormat.hourMinuteSecond()
+			case LocalDate:
+				return ISODateTimeFormat.date()
+			case LocalDateTime:
+				return ISODateTimeFormat.dateTimeNoMillis()
+			case DateTime:
+				return ISODateTimeFormat.dateTime()
+		}
+		return null
 	}
 
 }
