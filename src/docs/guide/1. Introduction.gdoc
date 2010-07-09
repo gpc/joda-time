@@ -25,6 +25,10 @@ static mapping = {
 
 h2. Release Notes
 
+h4. 1.1
+
+* Adds HTML5 binding and tag libs
+
 h4. 1.0
 
 * Adds joda:formatPeriod tag
