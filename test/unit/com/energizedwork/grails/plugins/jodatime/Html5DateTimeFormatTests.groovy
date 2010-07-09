@@ -46,8 +46,6 @@ class Html5DateTimeFormatTests {
 	@Test
 	void datetimeLocalPrintsCorrectly() {
 		assertThat "date formatted as HTML5 datetime-local", datetimeLocal().print(dateTime), equalTo("2008-10-02T02:50:43.123")
-		assertThat "date formatted as HTML5 datetime-local", datetimeLocal().print(dateTime.withMillisOfSecond(0)), equalTo("2008-10-02T02:50:43")
-		assertThat "date formatted as HTML5 datetime-local", datetimeLocal().print(dateTime.withSecondOfMinute(0).withMillisOfSecond(0)), equalTo("2008-10-02T02:50")
 	}
 
 	@Test
@@ -62,8 +60,6 @@ class Html5DateTimeFormatTests {
 	@Test
 	void datetimePrintsCorrectly() {
 		assertThat "date formatted as HTML5 datetime", datetime().print(dateTime), equalTo("2008-10-02T02:50:43.123Z")
-		assertThat "date formatted as HTML5 datetime", datetime().print(dateTime.withMillisOfSecond(0)), equalTo("2008-10-02T02:50:43Z")
-		assertThat "date formatted as HTML5 datetime", datetime().print(dateTime.withSecondOfMinute(0).withMillisOfSecond(0)), equalTo("2008-10-02T02:50Z")
 	}
 
 	@Test

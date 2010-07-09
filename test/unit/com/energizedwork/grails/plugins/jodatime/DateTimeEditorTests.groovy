@@ -155,7 +155,7 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 		'''
 		def editor = new DateTimeEditor(LocalDateTime)
 		editor.value = new LocalDateTime(1971, 11, 29, 17, 0)
-		assertThat editor.asText, equalTo("1971-11-29T17:00:00")
+		assertThat editor.asText, equalTo("1971-11-29T17:00:00.000")
 	}
 
 	@Test
@@ -235,7 +235,7 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 		'''
 		def editor = new DateTimeEditor(DateTime)
 		editor.value = new DateTime(2009, 3, 6, 17, 0, 0, 0).toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(1))
-		assertThat editor.asText, equalTo("2009-03-06T17:00:00+01:00")
+		assertThat editor.asText, equalTo("2009-03-06T17:00:00.000+01:00")
 	}
 
 	@Test
@@ -337,7 +337,7 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 		'''
 		def editor = new DateTimeEditor(LocalTime)
 		editor.value = new LocalTime(23, 59)
-		assertThat editor.asText, equalTo("23:59:00")
+		assertThat editor.asText, equalTo("23:59:00.000")
 	}
 
 	@Test

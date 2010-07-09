@@ -79,7 +79,7 @@ class Html5InputTagLibTests extends TagLibUnitTestCase {
 	void timeFieldRendersValueInCorrectFormat() {
 		tagLib.timeField(name: "foo", value: new DateTime())
 
-		assertThat tagLib.output, containsString('value="02:50:33"')
+		assertThat tagLib.output, containsString('value="02:50:33.000"')
 	}
 
 	@Test
@@ -93,7 +93,7 @@ class Html5InputTagLibTests extends TagLibUnitTestCase {
 	void datetimeLocalFieldRendersValueInCorrectFormat() {
 		tagLib.datetimeLocalField(name: "foo", value: new DateTime())
 
-		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33"')
+		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33.000"')
 	}
 
 	@Test
@@ -135,21 +135,21 @@ class Html5InputTagLibTests extends TagLibUnitTestCase {
 	void datetimeFieldRendersValueInCorrectFormatForUTC() {
 		tagLib.datetimeField(name: "foo", value: new DateTime().toLocalDateTime().toDateTime(DateTimeZone.UTC))
 
-		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33Z"')
+		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33.000Z"')
 	}
 
 	@Test
 	void datetimeFieldRendersValueInCorrectFormatForNonUTC() {
 		tagLib.datetimeField(name: "foo", value: new DateTime().toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(-8)))
 
-		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33-08:00"')
+		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33.000-08:00"')
 	}
 
 	@Test @Ignore
 	void datetimeFieldHandlesPartialValues() {
 		tagLib.datetimeField(name: "foo", value: new LocalDateTime())
 
-		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33Z"')
+		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33.000Z"')
 	}
 
 }

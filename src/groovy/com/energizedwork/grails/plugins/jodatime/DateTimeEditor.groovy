@@ -85,13 +85,13 @@ class DateTimeEditor extends PropertyEditorSupport {
 	private DateTimeFormatter getISOFormatterFor(Class type) {
 		switch (type) {
 			case LocalTime:
-				return ISODateTimeFormat.hourMinuteSecond()
+				return Html5DateTimeFormat.time()
 			case LocalDate:
-				return ISODateTimeFormat.date()
+				return Html5DateTimeFormat.date()
 			case LocalDateTime:
-				return new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss").appendOptional(DateTimeFormat.forPattern(".SSS").getParser()).toFormatter()
+				return Html5DateTimeFormat.datetimeLocal()
 			case DateTime:
-				return new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss").appendOptional(DateTimeFormat.forPattern(".SSS").getParser()).appendTimeZoneOffset("Z", true, 2, 2).toFormatter().withOffsetParsed()
+				return Html5DateTimeFormat.datetime()
 		}
 		return null
 	}
