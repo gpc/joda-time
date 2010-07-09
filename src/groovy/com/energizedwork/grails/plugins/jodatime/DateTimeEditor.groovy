@@ -45,10 +45,10 @@ class DateTimeEditor extends PropertyEditorSupport {
 	}
 
 	protected DateTimeFormatter getFormatter() {
-		if (useISO()) {
-			return getISOFormatterFor(type)
-		} else if (hasConfigPatternFor(type)) {
+		if (hasConfigPatternFor(type)) {
 			return DateTimeFormat.forPattern(getConfigPatternFor(type))
+		} else if (useISO()) {
+			return getISOFormatterFor(type)
 		} else {
 			def style
 			switch (type) {

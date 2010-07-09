@@ -384,4 +384,15 @@ class DateTimeEditorTests extends GrailsUnitTestCase {
 		assertThat editor.value, equalTo(expected)
 	}
 
+	@Test
+	void configuredFormatTrumpsHtml5() {
+		mockConfig '''
+			jodatime.format.org.joda.time.LocalDate="dd/MM/yyyy"
+			jodatime.format.html5 = true
+		'''
+		def editor = new DateTimeEditor(LocalDate)
+		editor.value = new LocalDate(1971, 11, 29)
+		assertThat editor.asText, equalTo("29/11/1971")
+	}
+
 }

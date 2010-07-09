@@ -7,6 +7,7 @@ class CommandBindingTests extends AbstractFunctionalTestCase {
 	void tearDown() {
 		super.tearDown()
 		ConfigurationHolder.config.jodatime.format.html5 = false		
+		ConfigurationHolder.config.jodatime.format."org.joda.time.LocalDate" = null
 	}
 
 	void testBindingErrorsOnEmptyLocalDate() {
@@ -51,6 +52,16 @@ class CommandBindingTests extends AbstractFunctionalTestCase {
 		get "/command"
 		form("localDate") {
 			localDate = "2010-07-08"
+			click "Submit"
+		}
+		assertContentContains "You entered: 8 July 2010"
+	}
+
+	void testLocalDateBoundUsingConfiguredFormat() {
+		ConfigurationHolder.config.jodatime.format."org.joda.time.LocalDate" = "d/M/yyyy"
+		get "/command"
+		form("localDate") {
+			localDate = "8/7/2010"
 			click "Submit"
 		}
 		assertContentContains "You entered: 8 July 2010"
