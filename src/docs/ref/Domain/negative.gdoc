@@ -1,0 +1,20 @@
+
+h1. negative
+
+h2. Purpose
+
+
+
+h2. Examples
+
+{code:java}
+foo.negative()
+{code}
+
+h2. Description
+
+
+
+Arguments:
+
+[]

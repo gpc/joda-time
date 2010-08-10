@@ -67,10 +67,10 @@ class StructuredDateTimeEditor extends DateTimeEditor implements StructuredPrope
 				switch (it) {
 					case "zone":
 						// null is OK here as DateTimeZone.forID(null) returns default zone
-						dt.zoneRetainFields = DateTimeZone.forID(fieldValues."$it")
+						dt.zoneRetainFields = DateTimeZone.forID(fieldValues[it])
 						break
 					default:
-						dt."${JODA_PROP_NAMES[it]}" = (fieldValues."$it"?.toInteger() ?: DEFAULT_VALUES[it])
+						dt."${JODA_PROP_NAMES[it]}" = (fieldValues[it]?.toInteger() ?: DEFAULT_VALUES[it])
 				}
 			}
 			return dt.toDateTime()."to$type.simpleName"()

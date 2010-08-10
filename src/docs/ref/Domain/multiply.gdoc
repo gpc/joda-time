@@ -1,0 +1,21 @@
+
+h1. multiply
+
+h2. Purpose
+
+
+
+h2. Examples
+
+{code:java}
+foo.multiply(int)
+{code}
+
+h2. Description
+
+
+
+Arguments:
+
+[* @int@
+]

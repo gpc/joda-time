@@ -15,42 +15,55 @@
  */
 package com.energizedwork.grails.plugins.jodatime
 
-import org.junit.AfterClass
-import org.junit.BeforeClass
-import org.junit.Test
+import spock.lang.*
+import grails.plugin.spock.*
 import static com.energizedwork.grails.plugins.jodatime.JodaDynamicMethods.registerDynamicMethods
-import static org.hamcrest.CoreMatchers.equalTo
 import org.joda.time.*
 import static org.joda.time.DateTimeUtils.setCurrentMillisFixed
 import static org.joda.time.DateTimeUtils.setCurrentMillisSystem
-import static org.junit.Assert.assertThat
 
-class JodaDynamicMethodsTests extends GroovyTestCase {
+class JodaDynamicMethodsSpec extends Specification {
 
-	@BeforeClass static void setUp() {
+	def setupSpec() {
 		registerDynamicMethods()
 		setCurrentMillisFixed new DateTime(2008, 10, 2, 2, 50, 0, 0).millis
 	}
 
-	@AfterClass static void tearDown() {
+	def cleanupSpec() {
 		setCurrentMillisSystem()
 	}
 
-	@Test
-	void formatWorksForDateTime() {
-		assertThat new DateTime().format('dd/MM/yyyy HH:mm:ss'), equalTo('02/10/2008 02:50:00')
+	@Unroll("format works on #type")
+	def "format works on various types"() {
+		expect:
+		type.newInstance().format(format) == expected
+		where:
+		type      | format                | expected
+		DateTime  | "dd/MM/yyyy HH:mm:ss" | "02/10/2008 02:50:00"
+		LocalDate | "dd/MM/yyyy"          | "02/10/2008"
+		LocalTime | "HH:mm:ss"            | "02:50:00"
+	}
+	
+	def "multiplication operator"() {
+		expect: value * 2 == expected
+		where:
+		type << [Days, Hours, Minutes, Months, Seconds, Weeks, Years]
+		value = type.newInstance(3)
+		expected = type.newInstance(6)
 	}
 
-	@Test
-	void formatWorksForLocalDate() {
-		assertThat new LocalDate().format('dd/MM/yyyy'), equalTo('02/10/2008')
+	def "division operator"() {
+		expect: "division producing an integeger works"
+		value / 3 == expected
+		and: "division is always treated as integer division"
+		value / 2 == expected
+		where:
+		type << [Days, Hours, Minutes, Months, Seconds, Weeks, Years]
+		value = type.newInstance(3)
+		expected = type.newInstance(1)
 	}
 
-	@Test
-	void formatWorksForLocalTime() {
-		assertThat new LocalTime().format('HH:mm:ss'), equalTo('02:50:00')
-	}
-
+/*
 	@Test
 	void groovyOperatorsOnSingleFieldPeriods() {
 		[Days, Hours, Minutes, Months, Seconds, Weeks, Years].each { clazz ->
@@ -67,5 +80,5 @@ class JodaDynamicMethodsTests extends GroovyTestCase {
 			assertThat instance + -instance, equalTo(clazz.newInstance(0))
 		}
 	}
-
+*/
 }
