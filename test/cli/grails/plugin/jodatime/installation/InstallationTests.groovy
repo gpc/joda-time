@@ -32,7 +32,7 @@ import org.springframework.orm.hibernate3.support.ClobStringType
 class InstallationTests extends AbstractCliTestCase {
 
 	File tempDir = new File(System.properties."java.io.tmpdir", getClass().name)
-	File packagedPlugin = new File(workDir, "grails-joda-time-1.0.1-SNAPSHOT.zip")
+	File packagedPlugin = new File(workDir, "grails-joda-time-1.2-SNAPSHOT.zip")
 	String tempProjectName = RandomStringUtils.randomAlphanumeric(8)
 
 	static final DEFAULT_MAPPINGS = [
