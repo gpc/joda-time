@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>test/functional/jodatest/CommandBindingTests.groovy</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -14,7 +12,9 @@
 			<key>regexFileFilter</key>
 			<string>!\.(log|iml)$</string>
 			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|target|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<string>!.*/(\.[^/]*|target|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string></string>
 		</dict>
@@ -22,26 +22,7 @@
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>336</integer>
 	<key>metaData</key>
-	<dict>
-		<key>test/functional/jodatest/CommandBindingTests.groovy</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>12</integer>
-		</dict>
-	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>test/functional/jodatest/CommandBindingTests.groovy</string>
-	</array>
+	<dict/>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>

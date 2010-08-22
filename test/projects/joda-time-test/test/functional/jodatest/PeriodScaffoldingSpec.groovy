@@ -1,12 +1,15 @@
 package jodatest
 
+import spock.lang.*
+import grails.plugin.geb.*
 import org.joda.time.Period
 import static javax.servlet.http.HttpServletResponse.SC_OK
 
-class PeriodScaffoldingTests extends AbstractFunctionalTestCase {
+class PeriodScaffoldingSpec extends GebSpec {
 
 	def song1
 
+/*
 	void setUp() {
 		super.setUp()
 
@@ -93,5 +96,5 @@ class PeriodScaffoldingTests extends AbstractFunctionalTestCase {
 		assertEquals("Bulletproof", byXPath("//tbody/tr[2]/td[3]").textContent)
 		assertEquals("Ace of Spades", byXPath("//tbody/tr[3]/td[3]").textContent)
 	}
-
+*/
 }

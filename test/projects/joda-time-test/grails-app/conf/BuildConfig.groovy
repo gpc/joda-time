@@ -12,6 +12,9 @@ grails.project.dependency.resolution = {
     }
     dependencies {
 		test "org.hamcrest:hamcrest-all:1.1"
+		test("org.seleniumhq.selenium:selenium-htmlunit-driver:2.0a5") {
+			excludes "xml-apis"
+		}
 	}
 }
 

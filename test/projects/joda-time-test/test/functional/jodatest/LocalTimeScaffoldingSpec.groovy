@@ -1,13 +1,16 @@
 package jodatest
 
+import spock.lang.*
+import grails.plugin.geb.*
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import static javax.servlet.http.HttpServletResponse.SC_OK
 
-class LocalTimeScaffoldingTests extends AbstractFunctionalTestCase {
+class LocalTimeScaffoldingSpec extends GebSpec {
 
 	def alarm1
 
+/*
 	void setUp() {
 		super.setUp()
 
@@ -94,5 +97,5 @@ class LocalTimeScaffoldingTests extends AbstractFunctionalTestCase {
 		assertEquals("Morning", byXPath("//tbody/tr[2]/td[2]").textContent)
 		assertEquals("Gym", byXPath("//tbody/tr[3]/td[2]").textContent)
 	}
-
+*/
 }
