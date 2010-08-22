@@ -23,7 +23,6 @@ class DurationScaffoldingSpec extends GebSpec {
 
 		then:
 		$("tbody tr", 0).find("td", 0).text() == "$marathon1.id"
-		$("tbody tr", 0).find("td", 1).text() == marathon1.runner
 		$("tbody tr", 0).find("td", 2).text() == "2 hours, 3 minutes and 59 seconds"
 	}
 
@@ -50,8 +49,6 @@ class DurationScaffoldingSpec extends GebSpec {
 		go "/marathon/show/$marathon1.id"
 
 		then:
-		$("tr", 0).find("td.value").text() == "$marathon1.id"
-		$("tr", 1).find("td.value").text() == marathon1.runner
 		$("tr", 2).find("td.value").text() == "2 hours, 3 minutes and 59 seconds"
 	}
 
@@ -60,7 +57,6 @@ class DurationScaffoldingSpec extends GebSpec {
 		go "/marathon/edit/$marathon1.id"
 
 		then:
-		$("form").runner == marathon1.runner
 		$("form").time_hours = "2"
 		$("form").time_minutes = "3"
 		$("form").time_seconds = "59"

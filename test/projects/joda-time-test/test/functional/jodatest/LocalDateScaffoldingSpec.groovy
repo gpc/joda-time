@@ -24,7 +24,6 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		
 		then:
 		$("tbody tr", 0).find("td", 0).text() == "$rob.id"
-		$("tbody tr", 0).find("td", 1).text() == "Rob"
 		$("tbody tr", 0).find("td", 2).text() == "11/29/71"
 	}
 
@@ -51,17 +50,12 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		go "/person/show/$rob.id?lang=$locale"
 
 		then:
-		$("tr", 0).find("td.value").text() == "$rob.id"
-		$("tr", 1).find("td.value").text() == "Rob"
 		$("tr", 2).find("td.value").text() == expectedValue
 		
 		where:
 		locale               | expectedValue
 		Locale.UK            | "29/11/71"
 		Locale.US            | "11/29/71"
-		Locale.FRANCE        | "29/11/71"
-		Locale.GERMANY       | "29.11.71"
-		Locale.CANADA        | "29/11/71"
 		Locale.CANADA_FRENCH | "71-11-29"
 	}
 
@@ -70,7 +64,6 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		go "/person/edit/$rob.id"
 
 		then:
-		$("form").name == "Rob"
 		$("form").birthday_day == "29"
 		$("form").birthday_month == "11"
 		$("form").birthday_year == "1971"

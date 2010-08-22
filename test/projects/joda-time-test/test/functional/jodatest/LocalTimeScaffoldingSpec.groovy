@@ -10,92 +10,81 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 
 	def alarm1
 
-/*
-	void setUp() {
-		super.setUp()
-
+	def setup() {
 		alarm1 = Alarm.build(description: "Morning", time: new LocalTime(7, 0))
 	}
 
-	void tearDown() {
-		super.tearDown()
+	def cleanup() {
 		Alarm.list()*.delete(flush: true)
 	}
 
-	void testEmptyListView() {
-		get "/alarm"
-		assertStatus SC_OK
-		assertTitle "Alarm List"
+	def "list"() {
+		when:
+		go "/alarm"
+
+		then:
+		$("tbody tr", 0).find("td", 0).text() == "$alarm1.id"
+		$("tbody tr", 0).find("td", 2).text() == "7:00 AM"
 	}
 
-	void testCreate() {
-		get "/alarm/create"
-		assertStatus SC_OK
-		assertTitle "Create Alarm"
+	def "create"() {
+		when:
+		go "/alarm/create"
+		$("form").description = "Gym"
+		$("form").time_hour = "06"
+		$("form").time_minute = "15"
+		$("input.save").click()
+		
+		then:
+		$(".message").text() ==~ /Alarm \d+ created/
 
-		form() {
-			description = "Gym"
-			time_hour = "06"
-			time_minute = "15"
-			click "Create"
-		}
-
-		assertContentContains "Alarm ${alarm1.id + 1} created"
-
+		and:
 		def alarm2 = Alarm.findByDescription("Gym")
-		assertEquals(new LocalTime(6, 15), alarm2.time)
+		alarm2.time == new LocalTime(6, 15)
 	}
 
-	void testShow() {
-		[Locale.UK, Locale.US, Locale.FRANCE, Locale.GERMANY, Locale.CANADA, Locale.CANADA_FRENCH].each {locale ->
-			get("/alarm/show/$alarm1.id?lang=$locale")
-			assertStatus SC_OK
-			assertTitle "Show Alarm"
+	@Unroll("show formats LocalTime for #locale locale")
+	def "show"() {
+		when:
+		go "/alarm/show/$alarm1.id?lang=$locale"
 
-			assertTextByXPath("$alarm1.id", "//tr[1]/td[@class='value']")
-			assertTextByXPath("Morning", "//tr[2]/td[@class='value']")
-
-			String time = byXPath("//tr[3]/td[@class='value']")?.textContent
-			try {
-				def formatter = DateTimeFormat.forStyle("-S").withLocale(locale)
-				assertEquals(alarm1.time, formatter.parseDateTime(time).toLocalTime())
-			} catch (IllegalArgumentException e) {
-				fail "Could not parse '$time' as time with format ${DateTimeFormat.patternForStyle("-S", locale)} and locale $locale"
-			}
-		}
+		then:
+		$("tr", 2).find("td.value").text() == expectedValue
+		
+		where:
+		locale    | expectedValue
+		Locale.UK | "07:00"
+		Locale.US | "7:00 AM"
 	}
 
-	void testEdit() {
-		get "/alarm/edit/$alarm1.id"
-		assertStatus SC_OK
-		assertTitle "Edit Alarm"
+	def "edit"() {
+		when:
+		go "/alarm/edit/$alarm1.id"
 
-		form() {
-			assertEquals("Morning", description)
-			assertEquals(["07"], time_hour)
-			assertEquals(["00"], time_minute)
-		}
+		then:
+		$("form").description == "Morning"
+		$("form").time_hour == "07"
+		$("form").time_minute == "00"
 	}
 
-	void testListViewIsSortable() {
+	@Unroll("list view is sorted after clicking the column header #x times")
+	def "list view is sortable"() {
+		given:
 		Alarm.build(description: "Gym", time: new LocalTime(6, 15))
 		Alarm.build(description: "Lie In", time: new LocalTime(10, 30))
 
-		get "/alarm/list"
-		assertStatus SC_OK
-		assertTitle "Alarm List"
-
-		// sort by local date
-		click "Time"
-		assertEquals("Gym", byXPath("//tbody/tr[1]/td[2]").textContent)
-		assertEquals("Morning", byXPath("//tbody/tr[2]/td[2]").textContent)
-		assertEquals("Lie In", byXPath("//tbody/tr[3]/td[2]").textContent)
-
-		// sort descending
-		click "Time"
-		assertEquals("Lie In", byXPath("//tbody/tr[1]/td[2]").textContent)
-		assertEquals("Morning", byXPath("//tbody/tr[2]/td[2]").textContent)
-		assertEquals("Gym", byXPath("//tbody/tr[3]/td[2]").textContent)
+		when:
+		go "/alarm/list"
+		x.times {
+			$("th a", text: "Time").click()
+		}
+		
+		then:
+		$("tbody tr")*.find("td", 1)*.text() == expected
+		
+		where:
+		x | expected
+		1 | ["Gym", "Morning", "Lie In"]
+		2 | ["Lie In", "Morning", "Gym"]
 	}
-*/
 }

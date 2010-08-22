@@ -9,92 +9,77 @@ class PeriodScaffoldingSpec extends GebSpec {
 
 	def song1
 
-/*
-	void setUp() {
-		super.setUp()
-
+	def setup() {
 		song1 = Song.build(artist: "La Roux", title: "Bulletproof", duration: new Period(0, 3, 25, 0))
 	}
 
-	void tearDown() {
-		super.tearDown()
+	def cleanup() {
 		Song.list()*.delete(flush: true)
 	}
 
-	void testListView() {
-		get "/song"
-		assertStatus SC_OK
-		assertTitle "Song List"
-		assertEquals("$song1.id", byXPath("//tbody/tr[1]/td[1]").textContent)
-		assertEquals("La Roux", byXPath("//tbody/tr[1]/td[2]").textContent)
-		assertEquals("Bulletproof", byXPath("//tbody/tr[1]/td[3]").textContent)
-		assertEquals("3 minutes and 25 seconds", byXPath("//tbody/tr[1]/td[4]").textContent)
+	def "list"() {
+		when:
+		go "/song"
+
+		then:
+		$("tbody tr", 0).find("td", 0).text() == "$song1.id"
+		$("tbody tr", 0).find("td", 3).text() == "3 minutes and 25 seconds"
 	}
 
-	void testCreate() {
-		get "/song/create"
-		assertStatus SC_OK
-		assertTitle "Create Song"
+	def "create"() {
+		when:
+		go "/song/create"
+		$("form").artist = "Handsome Furs"
+		$("form").title = "I'm Confused"
+		$("form").duration_hours = "00"
+		$("form").duration_minutes = "3"
+		$("form").duration_seconds = "35"
+		$("input.save").click()
 
-		form() {
-			artist = "Handsome Furs"
-			title = "I'm Confused"
-			duration_hours = "00"
-			duration_minutes = "3"
-			duration_seconds = "35"
-			click "Create"
-		}
+		then:
+		$(".message").text() ==~ /Song \d+ created/
 
-		assertContentContains "Song ${song1.id + 1} created"
-
+		and:
 		def song2 = Song.findByArtistAndTitle("Handsome Furs", "I'm Confused")
-		assertEquals(new Period(0, 3, 35, 0), song2.duration)
+		song2.duration == new Period(0, 3, 35, 0)
 	}
 
-	void testShow() {
-		get("/song/show/$song1.id")	
-		assertStatus SC_OK
-		assertTitle "Show Song"
+	def "show"() {
+		when:
+		go "/song/show/$song1.id"
 
-		assertTextByXPath("$song1.id", "//tr[1]/td[@class='value']")
-		assertTextByXPath("La Roux", "//tr[2]/td[@class='value']")
-		assertTextByXPath("Bulletproof", "//tr[3]/td[@class='value']")
-		assertTextByXPath("3 minutes and 25 seconds", "//tr[4]/td[@class='value']")
+		then:
+		$("tr", 3).find("td.value").text() == "3 minutes and 25 seconds"
 	}
 
-	void testEdit() {
-		get "/song/edit/$song1.id"
-		assertStatus SC_OK
-		assertTitle "Edit Song"
+	def "edit"() {
+		when:
+		go "/song/edit/$song1.id"
 
-		form() {
-			assertEquals "La Roux", artist
-			assertEquals "Bulletproof", title
-			assertEquals "0", duration_hours
-			assertEquals "3", duration_minutes
-			assertEquals "25", duration_seconds
-		}
+		then:
+		$("form").duration_hours == "0"
+		$("form").duration_minutes == "3"
+		$("form").duration_seconds == "25"
 	}
 
-	void testListViewIsSortable() {
+	@Unroll("list view is sorted after clicking the column header #x times")
+	def "list view is sortable"() {
+		given:
 		Song.build(artist: "Handsome Furs", title: "I'm Confused", duration: new Period(0, 3, 35, 0))
 		Song.build(artist: "Motorhead", title: "Ace of Spades", duration: new Period(0, 2, 47, 0))
 
-		get "/song/list"
-		assertStatus SC_OK
-		assertTitle "Song List"
+		when:
+		go "/song/list"
+		x.times {
+			$("th a", text: "Duration").click()
+		}
 
-		// sort by period
-		click "Duration"
-		assertEquals("Ace of Spades", byXPath("//tbody/tr[1]/td[3]").textContent)
-		assertEquals("Bulletproof", byXPath("//tbody/tr[2]/td[3]").textContent)
-		assertEquals("I'm Confused", byXPath("//tbody/tr[3]/td[3]").textContent)
-
-		// sort descending
-		click "Duration"
-		assertEquals("I'm Confused", byXPath("//tbody/tr[1]/td[3]").textContent)
-		assertEquals("Bulletproof", byXPath("//tbody/tr[2]/td[3]").textContent)
-		assertEquals("Ace of Spades", byXPath("//tbody/tr[3]/td[3]").textContent)
+		then:
+		$("tbody tr")*.find("td", 2)*.text() == expected
+		
+		where:
+		x | expected
+		1 | ["Ace of Spades", "Bulletproof", "I'm Confused"]
+		2 | ["I'm Confused", "Bulletproof", "Ace of Spades"]
 	}
-*/
 }
