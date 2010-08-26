@@ -55,6 +55,12 @@ class FormattingTagLibTests extends TagLibUnitTestCase {
 	}
 
 	@Test
+	void formatDoesNotDefaultsValueIfPassedNull() {
+		tagLib.format(value: null)
+		assertThat tagLib.output, equalTo("")
+	}
+
+	@Test
 	void formatUsesValueIfSpecified() {
 		tagLib.format(value: new DateTime(1971, 11, 29, 16, 22, 0, 0))
 		assertThat tagLib.output, equalTo("29-Nov-1971 16:22:00")

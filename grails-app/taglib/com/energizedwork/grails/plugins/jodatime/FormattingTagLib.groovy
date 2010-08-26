@@ -32,38 +32,41 @@ class FormattingTagLib {
 			throwTagError('Cannot specify both pattern and style attributes')
 		}
 
-		def value = attrs.value ?: new DateTime()
-		def locale = attrs.locale ?: RequestContextUtils.getLocale(request)
-		def zone = attrs.zone
-		def chronology = attrs.chronology
+		if (!attrs.containsKey("value")) attrs.value = new DateTime()
+		def value = attrs.value
+		if (value) {
+			def locale = attrs.locale ?: RequestContextUtils.getLocale(request)
+			def zone = attrs.zone
+			def chronology = attrs.chronology
 
-		def pattern = attrs.pattern
-		def style = attrs.style
-		if (!pattern && !style) {
-			pattern = patternForType(value.getClass())
-			switch (value) {
-				case LocalDate:
-					style = 'M-'
-					break
-				case LocalTime:
-					style = '-M'
-					break
-				default:
-					style = 'MM'
+			def pattern = attrs.pattern
+			def style = attrs.style
+			if (!pattern && !style) {
+				pattern = patternForType(value.getClass())
+				switch (value) {
+					case LocalDate:
+						style = 'M-'
+						break
+					case LocalTime:
+						style = '-M'
+						break
+					default:
+						style = 'MM'
+				}
 			}
+
+			def formatter
+			if (pattern) {
+				formatter = DateTimeFormat.forPattern(pattern).withLocale(locale)
+			} else {
+				formatter = DateTimeFormat.forStyle(style).withLocale(locale)
+			}
+
+			if (zone) formatter = formatter.withZone(zone)
+			if (chronology) formatter = formatter.withChronology(chronology)
+
+			out << formatter.print(value)
 		}
-
-		def formatter
-		if (pattern) {
-			formatter = DateTimeFormat.forPattern(pattern).withLocale(locale)
-		} else {
-			formatter = DateTimeFormat.forStyle(style).withLocale(locale)
-		}
-
-		if (zone) formatter = formatter.withZone(zone)
-		if (chronology) formatter = formatter.withChronology(chronology)
-
-		out << formatter.print(value)
 	}
 
 	def inputPattern = { attrs ->
