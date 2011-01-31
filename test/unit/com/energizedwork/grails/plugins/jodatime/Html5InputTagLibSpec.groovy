@@ -29,7 +29,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.LocalDateTime
 import org.junit.Ignore
 
-class Html5InputTagLibTests extends TagLibUnitTestCase {
+class Html5InputTagLibSpec extends TagLibUnitTestCase {
 
 	@Before
 	void setUp() {
@@ -39,7 +39,7 @@ class Html5InputTagLibTests extends TagLibUnitTestCase {
 
 		def mockGrailsApplication = [config: new ConfigObject()]
 		tagLib.metaClass.getGrailsApplication = {-> mockGrailsApplication }
-		tagLib.metaClass.getOutput = {-> delegate.out.toString() }
+//		tagLib.metaClass.getOutput = {-> delegate.out.toString() }
 
 		mockRequest.addPreferredLocale Locale.UK
 

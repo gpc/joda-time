@@ -57,9 +57,9 @@ class DurationScaffoldingSpec extends GebSpec {
 		go "/marathon/edit/$marathon1.id"
 
 		then:
-		$("form").time_hours = "2"
-		$("form").time_minutes = "3"
-		$("form").time_seconds = "59"
+		$("form").time_hours == "2"
+		$("form").time_minutes == "3"
+		$("form").time_seconds == "59"
 	}
 
 	@Unroll("list view is sorted after clicking on the column header #x times")
