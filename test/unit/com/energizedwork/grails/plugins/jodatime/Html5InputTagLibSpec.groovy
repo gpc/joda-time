@@ -16,30 +16,20 @@
 
 package com.energizedwork.grails.plugins.jodatime
 
-import grails.test.TagLibUnitTestCase
+import grails.plugin.spock.TagLibSpec
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
-import org.joda.time.DateTime
-import org.joda.time.DateTimeUtils
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import static org.hamcrest.Matchers.*
-import static org.junit.Assert.assertThat
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDateTime
-import org.junit.Ignore
+import org.codehaus.groovy.grails.plugins.web.taglib.FormTagLib
+import static org.hamcrest.Matchers.containsString
+import org.joda.time.*
+import spock.lang.*
 
-class Html5InputTagLibSpec extends TagLibUnitTestCase {
+class Html5InputTagLibSpec extends TagLibSpec {
 
-	@Before
-	void setUp() {
-		super.setUp()
-
+	def setup() {
 		String.metaClass.encodeAsHTML = {-> HTMLCodec.encode(delegate) }
 
-		def mockGrailsApplication = [config: new ConfigObject()]
-		tagLib.metaClass.getGrailsApplication = {-> mockGrailsApplication }
-//		tagLib.metaClass.getOutput = {-> delegate.out.toString() }
+		def formTagLib = new FormTagLib(out: tagLib.out)
+		tagLib.metaClass.getG = { -> formTagLib }
 
 		mockRequest.addPreferredLocale Locale.UK
 
@@ -47,109 +37,62 @@ class Html5InputTagLibSpec extends TagLibUnitTestCase {
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
 	}
 
-	@After
-	void tearDown() {
-		super.tearDown()
-
+	def cleanup() {
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
-	@Test
-	void dateFieldRendersHtml5DateInput() {
-		tagLib.dateField(name: "foo")
+	@Unroll("#tag tag renders an HTML5 input")
+	def "tags render HTML5 inputs"() {
+		expect:
+		"$tag"(name: "foo") == expectedOutput
 
-		assertThat tagLib.output, equalTo('<input type="date" name="foo" id="foo" value="" />')
+		where:
+		tag                  | expectedOutput
+		"dateField"          | '<input type="date" name="foo" id="foo" value="" />'
+		"timeField"          | '<input type="time" name="foo" id="foo" value="" />'
+		"datetimeLocalField" | '<input type="datetime-local" name="foo" id="foo" value="" />'
+		"monthField"         | '<input type="month" name="foo" id="foo" value="" />'
+		"weekField"          | '<input type="week" name="foo" id="foo" value="" />'
+		"datetimeField"      | '<input type="datetime" name="foo" id="foo" value="" />'
 	}
 
-	@Test
-	void dateFieldRendersValueInCorrectFormat() {
-		tagLib.dateField(name: "foo", value: new DateTime())
+	@Unroll("#tag tag renders its value in the correct format")
+	def "tags render their values in the correct format"() {
+		expect:
+		"$tag"(name: "foo", value: new DateTime()) containsString("value=\"$expectedOutput\"")
 
-		assertThat tagLib.output, containsString('value="2008-10-02"')
+		where:
+		tag                  | value          | expectedOutput
+		"dateField"          | new DateTime() | "2008-10-02"
+		"timeField"          | new DateTime() | "02:50:33.000"
+		"datetimeLocalField" | new DateTime() | "2008-10-02T02:50:33.000"
+		"monthField"         | new DateTime() | "2008-10"
+		"weekField"          | new DateTime() | "2008-W40"
 	}
 
-	@Test
-	void timeFieldRendersHtml5TimeInput() {
-		tagLib.timeField(name: "foo")
+	def "datetimeField renders its value in the correct format for UTC"() {
+		given:
+		def value = new DateTime().toLocalDateTime().toDateTime(DateTimeZone.UTC)
 
-		assertThat tagLib.output, equalTo('<input type="time" name="foo" id="foo" value="" />')
+		expect:
+		datetimeField(name: "foo", value: value) containsString('value="2008-10-02T02:50:33.000Z"')
 	}
 
-	@Test
-	void timeFieldRendersValueInCorrectFormat() {
-		tagLib.timeField(name: "foo", value: new DateTime())
+	def "datetimeField renders its value in the correct format for non-UTC"() {
+		given:
+		def value = new DateTime().toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(-8))
 
-		assertThat tagLib.output, containsString('value="02:50:33.000"')
+		expect:
+		datetimeField(name: "foo", value: value) containsString('value="2008-10-02T02:50:33.000-08:00"')
 	}
 
-	@Test
-	void datetimeLocalFieldRendersHtml5DatetimeLocalInput() {
-		tagLib.datetimeLocalField(name: "foo")
+	@Ignore
+	def "datetimeField handles partial values"() {
+		given:
+		def value = new LocalDateTime()
 
-		assertThat tagLib.output, equalTo('<input type="datetime-local" name="foo" id="foo" value="" />')
-	}
-
-	@Test
-	void datetimeLocalFieldRendersValueInCorrectFormat() {
-		tagLib.datetimeLocalField(name: "foo", value: new DateTime())
-
-		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33.000"')
-	}
-
-	@Test
-	void monthFieldRendersHtml5MonthInput() {
-		tagLib.monthField(name: "foo")
-
-		assertThat tagLib.output, equalTo('<input type="month" name="foo" id="foo" value="" />')
-	}
-
-	@Test
-	void monthFieldRendersValueInCorrectFormat() {
-		tagLib.monthField(name: "foo", value: new DateTime())
-
-		assertThat tagLib.output, containsString('value="2008-10"')
-	}
-
-	@Test
-	void weekFieldRendersHtml5MonthInput() {
-		tagLib.weekField(name: "foo")
-
-		assertThat tagLib.output, equalTo('<input type="week" name="foo" id="foo" value="" />')
-	}
-
-	@Test
-	void weekFieldRendersValueInCorrectFormat() {
-		tagLib.weekField(name: "foo", value: new DateTime())
-
-		assertThat tagLib.output, containsString('value="2008-W40"')
-	}
-
-	@Test
-	void datetimeFieldRendersHtml5MonthInput() {
-		tagLib.datetimeField(name: "foo")
-
-		assertThat tagLib.output, equalTo('<input type="datetime" name="foo" id="foo" value="" />')
-	}
-
-	@Test
-	void datetimeFieldRendersValueInCorrectFormatForUTC() {
-		tagLib.datetimeField(name: "foo", value: new DateTime().toLocalDateTime().toDateTime(DateTimeZone.UTC))
-
-		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33.000Z"')
-	}
-
-	@Test
-	void datetimeFieldRendersValueInCorrectFormatForNonUTC() {
-		tagLib.datetimeField(name: "foo", value: new DateTime().toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(-8)))
-
-		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33.000-08:00"')
-	}
-
-	@Test @Ignore
-	void datetimeFieldHandlesPartialValues() {
-		tagLib.datetimeField(name: "foo", value: new LocalDateTime())
-
-		assertThat tagLib.output, containsString('value="2008-10-02T02:50:33.000Z"')
+		expect:
+		datetimeField(name: "foo", value: value) containsString('value="2008-10-02T02:50:33.000Z"')
 	}
 
 }
