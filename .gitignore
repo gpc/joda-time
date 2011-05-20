@@ -4,4 +4,7 @@
 target/
 plugin.xml
 web-app/WEB-INF/tld/
-out
+out/
+*.iml
+*.iws
+*.tmproj
