@@ -12,7 +12,7 @@ grails.project.dependency.resolution = {
         mavenCentral()
     }
     dependencies {
-		compile "joda-time:joda-time:1.6.1"
+		compile "joda-time:joda-time:1.6.2"
 		compile("joda-time:joda-time-hibernate:1.2") {
 			excludes "hibernate", "joda-time"
 		}
