@@ -27,7 +27,7 @@ h2. Release Notes
 
 h4. 1.2
 
-* Upgrades joda-time library to 1.6.1
+* Upgrades joda-time library to 1.6.2
 * Upgrades joda-time-hibernate to 1.2
 
 h4. 1.1

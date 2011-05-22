@@ -18,9 +18,7 @@ package grails.plugin.jodatime.installation
 
 import grails.test.AbstractCliTestCase
 import org.apache.commons.lang.RandomStringUtils
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.*
 import static org.hamcrest.Matchers.*
 import static org.junit.Assert.assertThat
 import org.gmock.*
