@@ -16,9 +16,9 @@
 import com.energizedwork.grails.plugins.jodatime.*
 
 class JodaTimeGrailsPlugin {
-    def version = "1.2"
-	def grailsVersion = "1.1 > *"
-    def dependsOn = [core: "1.1 > *", converters: "1.1 > *"]
+    def version = "1.3.BUILD-SNAPSHOT"
+	def grailsVersion = "1.3 > *"
+    def dependsOn = [core: "1.3 > *", converters: "1.3 > *"]
 
     def author = "Rob Fletcher"
     def authorEmail = "rob@energizedwork.com"

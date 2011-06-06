@@ -4,7 +4,7 @@ grails.project.test.reports.dir	= "target/test-reports"
 grails.project.dependency.resolution = {
     inherits "global"
     log "warn"
-    repositories {        
+    repositories {     
         grailsPlugins()
         grailsHome()
 		grailsCentral()
@@ -26,4 +26,9 @@ grails.project.dependency.resolution = {
 			exported = false
 		}
     }
+	plugins {
+		build ":release:1.0.0.M2"
+		runtime ":hibernate:${grailsVersion}"
+		test ":spock:0.5-groovy-1.7"
+	}
 }
