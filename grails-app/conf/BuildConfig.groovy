@@ -26,7 +26,7 @@ grails.project.dependency.resolution = {
 		build(":release:1.0.0.M2") {
 			export = false
 		}
-		test(":spock:0.5-groovy-1.7") {
+		test(":spock:0.6-groovy-1.8-SNAPSHOT") {
 			export = false
 		}
 	}
