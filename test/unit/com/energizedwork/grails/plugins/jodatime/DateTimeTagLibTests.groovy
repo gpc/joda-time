@@ -20,225 +20,214 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.joda.time.LocalDateTime
-import static com.energizedwork.grails.commons.test.RegexMatcher.isMatch
-import static org.hamcrest.Matchers.not
-import static org.junit.Assert.assertThat
+import org.junit.*
+import grails.test.mixin.*
 
-class DateTimeTagLibTests extends TagLibUnitTestCase {
+@TestFor(DateTimeTagLib)
+class DateTimeTagLibTests {
 
-	void setUp() {
-		super.setUp()
-
+	@Before void setUp() {
 		String.metaClass.encodeAsHTML = {-> HTMLCodec.encode(delegate) }
-
-		def mockGrailsApplication = [config: new ConfigObject()]
-		tagLib.metaClass.getGrailsApplication = {-> mockGrailsApplication }
-		tagLib.metaClass.getOutput = {-> delegate.out.toString() }
-
-		mockRequest.addPreferredLocale Locale.UK
 
 		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0)
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
 	}
 
-	protected void tearDown() {
-		super.tearDown()
-
+	@After void tearDown() {
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
-	void testDatePickerOutputsOnlyDateFields() {
-		tagLib.datePicker(name: 'foo')
+	@Test void datePickerOutputsOnlyDateFields() {
+		def output = applyTemplate('<joda:datePicker name="foo"/>')
 
-		assertThat tagLib.output, isMatch(/<select name="foo_day"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_month"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_year"/)
-		assertThat tagLib.output, not(isMatch(/<select name="foo_hour"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_minute"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_second"/))
+		assert output =~ /<select name="foo_day"/
+		assert output =~ /<select name="foo_month"/
+		assert output =~ /<select name="foo_year"/
+		assert !output.contains(/<select name="foo_hour"/)
+		assert !output.contains(/<select name="foo_minute"/)
+		assert !output.contains(/<select name="foo_second"/)
 	}
 
-	void testTimePickerOutputsOnlyTimeFields() {
-		tagLib.timePicker(name: 'foo', precision: 'second')
+	@Test void timePickerOutputsOnlyTimeFields() {
+		def output = applyTemplate('<joda:timePicker name="foo" precision="second"/>')
 
-		assertThat tagLib.output, not(isMatch(/<select name="foo_day"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_month"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_year"/))
-		assertThat tagLib.output, isMatch(/<select name="foo_hour"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_minute"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_second"/)
+		assert !output.contains(/<select name="foo_day"/)
+		assert !output.contains(/<select name="foo_month"/)
+		assert !output.contains(/<select name="foo_year"/)
+		assert output =~ /<select name="foo_hour"/
+		assert output =~ /<select name="foo_minute"/
+		assert output =~ /<select name="foo_second"/
 	}
 
-	void testPickerTagsUseCurrentDateTimeAsDefault() {
-		tagLib.dateTimePicker(name: 'foo', precision: 'second')
+	@Test void pickerTagsUseCurrentDateTimeAsDefault() {
+		def output = applyTemplate('<joda:dateTimePicker name="foo" precision="second"/>')
 
-		assertThat tagLib.output, isMatch(/<option value="2" selected="selected">2<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="10" selected="selected">October<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="2008" selected="selected">2008<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="2" selected="selected">2<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="50" selected="selected">50<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="33" selected="selected">33<\/option>/)
+		assert output =~ /<option value="2" selected="selected">2<\/option>/
+		assert output =~ /<option value="10" selected="selected">October<\/option>/
+		assert output =~ /<option value="2008" selected="selected">2008<\/option>/
+		assert output =~ /<option value="2" selected="selected">2<\/option>/
+		assert output =~ /<option value="50" selected="selected">50<\/option>/
+		assert output =~ /<option value="33" selected="selected">33<\/option>/
 	}
 
-	void testPickerTagsAcceptStringDefault() {
-		tagLib.dateTimePicker(name: 'foo', 'default': '1971-11-29T16:22')
+	@Test void pickerTagsAcceptStringDefault() {
+		def output = applyTemplate('<joda:dateTimePicker name="foo" default="1971-11-29T16:22"/>')
 
-		assertThat tagLib.output, isMatch(/<option value="29" selected="selected">29<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="11" selected="selected">November<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1971" selected="selected">1971<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="16" selected="selected">16<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="22" selected="selected">22<\/option>/)
+		assert output =~ /<option value="29" selected="selected">29<\/option>/
+		assert output =~ /<option value="11" selected="selected">November<\/option>/
+		assert output =~ /<option value="1971" selected="selected">1971<\/option>/
+		assert output =~ /<option value="16" selected="selected">16<\/option>/
+		assert output =~ /<option value="22" selected="selected">22<\/option>/
 	}
 
-	void testStringDefaultFormatIsAppropriateForPrecision() {
-		tagLib.datePicker(name: 'foo', 'default': '1971-11-29')
+	@Test void stringDefaultFormatIsAppropriateForPrecision() {
+		def output = applyTemplate('<joda:datePicker name="foo" default="1971-11-29"/>')
 
-		assertThat tagLib.output, isMatch(/<option value="29" selected="selected">29<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="11" selected="selected">November<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1971" selected="selected">1971<\/option>/)
+		assert output =~ /<option value="29" selected="selected">29<\/option>/
+		assert output =~ /<option value="11" selected="selected">November<\/option>/
+		assert output =~ /<option value="1971" selected="selected">1971<\/option>/
 	}
 
-	void testTimePickerAcceptsStringDefault() {
-		tagLib.timePicker(name: 'foo', precision: 'second', 'default': '23:59:59')
+	@Test void timePickerAcceptsStringDefault() {
+		def output = applyTemplate('<joda:timePicker name="foo" precision="second" default="23:59:59"/>')
 
-		assertThat tagLib.output, isMatch(/<option value="23" selected="selected">23<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="59" selected="selected">59<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="59" selected="selected">59<\/option>/)
+		assert output =~ /<option value="23" selected="selected">23<\/option>/
+		assert output =~ /<option value="59" selected="selected">59<\/option>/
+		assert output =~ /<option value="59" selected="selected">59<\/option>/
 	}
 
-	void testPickerTagsAcceptReadableInstantDefault() {
+	@Test void pickerTagsAcceptReadableInstantDefault() {
 		def defaultValue = new DateTime(1971, 11, 29, 16, 22, 0, 0)
-		tagLib.dateTimePicker(name: 'foo', 'default': defaultValue)
+		def output = applyTemplate('<joda:dateTimePicker name="foo" default="${defaultValue}"/>', [defaultValue: defaultValue])
 
-		assertThat tagLib.output, isMatch(/<option value="29" selected="selected">29<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="11" selected="selected">November<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1971" selected="selected">1971<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="16" selected="selected">16<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="22" selected="selected">22<\/option>/)
+		assert output =~ /<option value="29" selected="selected">29<\/option>/
+		assert output =~ /<option value="11" selected="selected">November<\/option>/
+		assert output =~ /<option value="1971" selected="selected">1971<\/option>/
+		assert output =~ /<option value="16" selected="selected">16<\/option>/
+		assert output =~ /<option value="22" selected="selected">22<\/option>/
 	}
 
-	void testPickerTagsAcceptReadablePartialDefault() {
+	@Test void pickerTagsAcceptReadablePartialDefault() {
 		def defaultValue = new LocalDateTime(1971, 11, 29, 16, 22, 0, 0)
-		tagLib.dateTimePicker(name: 'foo', 'default': defaultValue)
+		def output = applyTemplate('<joda:dateTimePicker name="foo" default="${defaultValue}"/>', [defaultValue: defaultValue])
 
-		assertThat tagLib.output, isMatch(/<option value="29" selected="selected">29<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="11" selected="selected">November<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1971" selected="selected">1971<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="16" selected="selected">16<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="22" selected="selected">22<\/option>/)
+		assert output =~ /<option value="29" selected="selected">29<\/option>/
+		assert output =~ /<option value="11" selected="selected">November<\/option>/
+		assert output =~ /<option value="1971" selected="selected">1971<\/option>/
+		assert output =~ /<option value="16" selected="selected">16<\/option>/
+		assert output =~ /<option value="22" selected="selected">22<\/option>/
 	}
 
-	void testPickerTagsAcceptReadableInstantValue() {
+	@Test void pickerTagsAcceptReadableInstantValue() {
 		def defaultValue = new DateTime(1971, 11, 29, 16, 22, 0, 0)
 		def value = new DateTime(1977, 2, 8, 9, 30, 0, 0)
-		tagLib.dateTimePicker(name: 'foo', 'default': defaultValue, value: value)
+		def output = applyTemplate('<joda:dateTimePicker name="foo" default="${defaultValue}" value="${value}"/>', [value: value, defaultValue: defaultValue])
 
-		assertThat tagLib.output, isMatch(/<option value="8" selected="selected">8<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="2" selected="selected">February<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1977" selected="selected">1977<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="09" selected="selected">09<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="30" selected="selected">30<\/option>/)
+		assert output =~ /<option value="8" selected="selected">8<\/option>/
+		assert output =~ /<option value="2" selected="selected">February<\/option>/
+		assert output =~ /<option value="1977" selected="selected">1977<\/option>/
+		assert output =~ /<option value="09" selected="selected">09<\/option>/
+		assert output =~ /<option value="30" selected="selected">30<\/option>/
 	}
 
-	void testPickerTagsAcceptReadablePartialValue() {
+	@Test void pickerTagsAcceptReadablePartialValue() {
 		def defaultValue = new LocalDateTime(1971, 11, 29, 16, 22, 0, 0)
 		def value = new LocalDateTime(1942, 8, 15, 4, 16, 0, 0)
-		tagLib.dateTimePicker(name: 'foo', 'default': defaultValue, value: value)
+		def output = applyTemplate('<joda:dateTimePicker name="foo" default="${defaultValue}" value="${value}"/>', [value: value, defaultValue: defaultValue])
 
-		assertThat tagLib.output, isMatch(/<option value="15" selected="selected">15<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="8" selected="selected">August<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1942" selected="selected">1942<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="04" selected="selected">04<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="16" selected="selected">16<\/option>/)
+		assert output =~ /<option value="15" selected="selected">15<\/option>/
+		assert output =~ /<option value="8" selected="selected">August<\/option>/
+		assert output =~ /<option value="1942" selected="selected">1942<\/option>/
+		assert output =~ /<option value="04" selected="selected">04<\/option>/
+		assert output =~ /<option value="16" selected="selected">16<\/option>/
 	}
 
-	void testPickerTagsAcceptNoSelectionArg() {
-		tagLib.dateTimePicker(name: 'foo', noSelection: ['': 'Choose sumfink innit'])
+	@Test void pickerTagsAcceptNoSelectionArg() {
+		def output = applyTemplate('''<joda:dateTimePicker name="foo" noSelection="['': 'Choose sumfink innit']"/>''')
 
-		assertThat tagLib.output, isMatch(/<select name="foo_day" id="foo_day">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1">1<\/option>/)
-		assertThat tagLib.output, isMatch(/<select name="foo_month" id="foo_month">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1">January<\/option>/)
-		assertThat tagLib.output, isMatch(/<select name="foo_year" id="foo_year">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1908">1908<\/option>/)
-		assertThat tagLib.output, isMatch(/<select name="foo_hour" id="foo_hour">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="00">00<\/option>/)
-		assertThat tagLib.output, isMatch(/<select name="foo_minute" id="foo_minute">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="00">00<\/option>/)
+		assert output =~ /<select name="foo_day" id="foo_day">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1">1<\/option>/
+		assert output =~ /<select name="foo_month" id="foo_month">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1">January<\/option>/
+		assert output =~ /<select name="foo_year" id="foo_year">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1908">1908<\/option>/
+		assert output =~ /<select name="foo_hour" id="foo_hour">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="00">00<\/option>/
+		assert output =~ /<select name="foo_minute" id="foo_minute">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="00">00<\/option>/
 	}
 
-	void testPickerTagsAcceptYearsArg() {
-		tagLib.dateTimePicker(name: 'foo', years: 1979..1983, 'default': '1979-12-04T00:00')
+	@Test void pickerTagsAcceptYearsArg() {
+		def output = applyTemplate('<joda:dateTimePicker name="foo" years="${1979..1983}" default="1979-12-04T00:00"/>')
 
-		assertThat tagLib.output, not(isMatch(/<option value="1978">1978<\/option>/))
-		assertThat tagLib.output, isMatch(/<option value="1979" selected="selected">1979<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1980">1980<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1981">1981<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1982">1982<\/option>/)
-		assertThat tagLib.output, isMatch(/<option value="1983">1983<\/option>/)
-		assertThat tagLib.output, not(isMatch(/<option value="1984">1984<\/option>/))
+		assert !output.contains(/<option value="1978">1978<\/option>/)
+		assert output =~ /<option value="1979" selected="selected">1979<\/option>/
+		assert output =~ /<option value="1980">1980<\/option>/
+		assert output =~ /<option value="1981">1981<\/option>/
+		assert output =~ /<option value="1982">1982<\/option>/
+		assert output =~ /<option value="1983">1983<\/option>/
+		assert !output.contains(/<option value="1984">1984<\/option>/)
 	}
 
-	void testDateTimePickerUsesMinuteAsDefaultPrecision() {
-		tagLib.dateTimePicker(name: 'foo')
+	@Test void dateTimePickerUsesMinuteAsDefaultPrecision() {
+		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
 
-		assertThat tagLib.output, isMatch(/<select name="foo_day"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_month"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_year"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_hour"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_minute"/)
-		assertThat tagLib.output, not(isMatch(/<select name="foo_second"/))
+		assert output =~ /<select name="foo_day"/
+		assert output =~ /<select name="foo_month"/
+		assert output =~ /<select name="foo_year"/
+		assert output =~ /<select name="foo_hour"/
+		assert output =~ /<select name="foo_minute"/
+		assert !output.contains(/<select name="foo_second"/)
 	}
 
-	void testPickerTagsAcceptPrecisionArg() {
-		tagLib.dateTimePicker(name: 'foo', precision: 'year')
+	@Test void pickerTagsAcceptPrecisionArg() {
+		def output = applyTemplate('<joda:dateTimePicker name="foo" precision="year"/>')
 
-		assertThat tagLib.output, isMatch(/<select name="foo_year"/)
-		assertThat tagLib.output, not(isMatch(/<select name="foo_month"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_day"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_hour"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_minute"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_second"/))
+		assert output =~ /<select name="foo_year"/
+		assert !output.contains(/<select name="foo_month"/)
+		assert !output.contains(/<select name="foo_day"/)
+		assert !output.contains(/<select name="foo_hour"/)
+		assert !output.contains(/<select name="foo_minute"/)
+		assert !output.contains(/<select name="foo_second"/)
 
-		tagLib.dateTimePicker(name: 'foo', precision: 'month')
+		output = applyTemplate('<joda:dateTimePicker name="foo" precision="month"/>')
 
-		assertThat tagLib.output, isMatch(/<select name="foo_year"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_month"/)
-		assertThat tagLib.output, not(isMatch(/<select name="foo_day"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_hour"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_minute"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_second"/))
+		assert output =~ /<select name="foo_year"/
+		assert output =~ /<select name="foo_month"/
+		assert !output.contains(/<select name="foo_day"/)
+		assert !output.contains(/<select name="foo_hour"/)
+		assert !output.contains(/<select name="foo_minute"/)
+		assert !output.contains(/<select name="foo_second"/)
 
-		tagLib.dateTimePicker(name: 'foo', precision: 'day')
+		output = applyTemplate('<joda:dateTimePicker name="foo" precision="day"/>')
 
-		assertThat tagLib.output, isMatch(/<select name="foo_year"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_month"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_day"/)
-		assertThat tagLib.output, not(isMatch(/<select name="foo_hour"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_minute"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_second"/))
+		assert output =~ /<select name="foo_year"/
+		assert output =~ /<select name="foo_month"/
+		assert output =~ /<select name="foo_day"/
+		assert !output.contains(/<select name="foo_hour"/)
+		assert !output.contains(/<select name="foo_minute"/)
+		assert !output.contains(/<select name="foo_second"/)
 
-		tagLib.dateTimePicker(name: 'foo', precision: 'hour')
+		output = applyTemplate('<joda:dateTimePicker name="foo" precision="hour"/>')
 
-		assertThat tagLib.output, isMatch(/<select name="foo_year"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_month"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_day"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_hour"/)
-		assertThat tagLib.output, not(isMatch(/<select name="foo_minute"/))
-		assertThat tagLib.output, not(isMatch(/<select name="foo_second"/))
+		assert output =~ /<select name="foo_year"/
+		assert output =~ /<select name="foo_month"/
+		assert output =~ /<select name="foo_day"/
+		assert output =~ /<select name="foo_hour"/
+		assert !output.contains(/<select name="foo_minute"/)
+		assert !output.contains(/<select name="foo_second"/)
 
-		tagLib.dateTimePicker(name: 'foo', precision: 'second')
+		output = applyTemplate('<joda:dateTimePicker name="foo" precision="second"/>')
 
-		assertThat tagLib.output, isMatch(/<select name="foo_year"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_month"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_day"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_hour"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_minute"/)
-		assertThat tagLib.output, isMatch(/<select name="foo_second"/)
+		assert output =~ /<select name="foo_year"/
+		assert output =~ /<select name="foo_month"/
+		assert output =~ /<select name="foo_day"/
+		assert output =~ /<select name="foo_hour"/
+		assert output =~ /<select name="foo_minute"/
+		assert output =~ /<select name="foo_second"/
 	}
 
-	void testDateTimePickerAcceptsUseZoneArg() {
-		def dateTimeZoneSelectArgs
-		tagLib.metaClass.dateTimeZoneSelect = {attrs ->
-			dateTimeZoneSelectArgs = attrs
-		}
-		tagLib.dateTimePicker(name: "foo", useZone: "true")
-		assertEquals "foo_zone", dateTimeZoneSelectArgs.name
+	@Test void dateTimePickerAcceptsUseZoneArg() {
+		mockTagLib DateTimeZoneTagLib
+
+		def output = applyTemplate('<joda:dateTimePicker name="foo" useZone="true"/>')
+
+		assert output =~ /<select name="foo_zone"/
 	}
 
 }

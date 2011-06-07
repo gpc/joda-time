@@ -235,7 +235,7 @@ class DateTimeTagLib {
 
 		// do zone select
 		if (attrs.useZone == "true") {
-			dateTimeZoneSelect(name: "${name}_zone")
+			out << dateTimeZoneSelect(name: "${name}_zone")
 		}
 
 		log.debug "done"
