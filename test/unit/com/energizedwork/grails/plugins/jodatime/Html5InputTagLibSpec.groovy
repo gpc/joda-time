@@ -41,7 +41,7 @@ class Html5InputTagLibSpec extends TagLibSpec {
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
-	@Unroll("#tag tag renders an HTML5 input")
+	@Unroll({"$tag tag renders an HTML5 input"})
 	def "tags render HTML5 inputs"() {
 		expect:
 		"$tag"(name: "foo") == expectedOutput
@@ -56,7 +56,7 @@ class Html5InputTagLibSpec extends TagLibSpec {
 		"datetimeField"      | '<input type="datetime" name="foo" id="foo" value="" />'
 	}
 
-	@Unroll("#tag tag renders its value in the correct format")
+	@Unroll({"$tag tag renders its value in the correct format"})
 	def "tags render their values in the correct format"() {
 		expect:
 		"$tag"(name: "foo", value: new DateTime()) containsString("value=\"$expectedOutput\"")

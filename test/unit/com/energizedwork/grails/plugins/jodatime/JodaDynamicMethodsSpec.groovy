@@ -33,7 +33,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		setCurrentMillisSystem()
 	}
 
-	@Unroll("format works on #type")
+	@Unroll({"format works on $type"})
 	def "format works on various types"() {
 		expect:
 		type.newInstance().format(format) == expected

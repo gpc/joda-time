@@ -37,7 +37,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		then: editor.value == null
 	}
 	
-	@Unroll("getAsText formats #type instances correctly for #locale locale")
+	@Unroll({"getAsText formats $type instances correctly for $locale locale"})
 	def "getAsText formats correctly for locale"() {
 		given: def editor = new DateTimeEditor(type)
 		and: LocaleContextHolder.locale = locale
@@ -55,7 +55,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		LocalTime     | new LocalTime(23, 59)                 | US     | "11:59 PM"
 	}
 
-	@Unroll("getAsText formats #type instances correctly according to a configured pattern")
+	@Unroll({"getAsText formats $type instances correctly according to a configured pattern"})
 	def "getAsText can use configured pattern"() {
 		given: mockConfig config
 		and: def editor = new DateTimeEditor(type)
@@ -69,7 +69,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		LocalTime     | 'jodatime.format.org.joda.time.LocalTime="h:mm a"'                | new LocalTime(23, 59)                                                     | "11:59 PM"
 	}
 
-	@Unroll("getAsText formats #type instances correctly for HTML5")
+	@Unroll({"getAsText formats $type instances correctly for HTML5"})
 	def "getAsText can use HTML5 format"() {
 		given: mockConfig 'jodatime.format.html5 = true'
 		and: def editor = new DateTimeEditor(LocalDate)
@@ -83,7 +83,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		LocalTime     | new LocalTime(23, 59)                                                                              | "23:59:00.000"
 	}
 
-	@Unroll("setAsText parses #type instances from #locale locale format text")
+	@Unroll({"setAsText parses $type instances from $locale locale format text"})
 	def "setAsText accepts values in locale format"() {
 		given: def editor = new DateTimeEditor(type)
 		and: LocaleContextHolder.locale = locale
@@ -101,7 +101,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		LocalTime     | "11:59 PM"       | US     | new LocalTime(23, 59)                 
 	}
 	
-	@Unroll("setAsText parses #type instances correctly according to a configured pattern")
+	@Unroll({"setAsText parses $type instances correctly according to a configured pattern"})
 	def "setAsText can use configured pattern"() {
 		given: mockConfig config
 		and: def editor = new DateTimeEditor(type)
@@ -115,7 +115,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		LocalTime     | 'jodatime.format.org.joda.time.LocalTime="h:mm a"'                | "11:59 PM"                 | new LocalTime(23, 59)                                                     
 	}
 
-    @Unroll("setAsText parses #type instances correctly using HTML5 format")
+    @Unroll({"setAsText parses $type instances correctly using HTML5 format"})
 	def "setAsText can use HTML5 pattern"() {
 		given: mockConfig 'jodatime.format.html5 = true'
 		and: def editor = new DateTimeEditor(type)

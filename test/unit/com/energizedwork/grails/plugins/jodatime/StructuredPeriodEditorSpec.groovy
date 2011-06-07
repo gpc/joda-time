@@ -30,7 +30,7 @@ class StructuredPeriodEditorSpec extends Specification {
 		map
 	}
 
-	@Unroll("a #type value can be assembled from the fields #fields")
+	@Unroll({"a $type value can be assembled from the fields $fields"})
 	def "periods can be assembled from fields"() {
 		given: def editor = new StructuredPeriodEditor(type)
 		expect: editor.assemble(type, fields) == expected
