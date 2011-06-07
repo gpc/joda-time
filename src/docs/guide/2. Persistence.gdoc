@@ -1,6 +1,28 @@
-h2. Persistence
+h2. Persistence with Hibernate
 
-To persist Joda Time properties you can use the Hibernate UserType implementations supplied by the "Joda-Time Hibernate Support":http://joda-time.sourceforge.net/contrib/hibernate/index.html library in the mapping block of your class. For example:
+In order to persist Joda Time properties with Hibernate you first need to add one of the following dependencies to your application's `BuildConfig.groovy` file:
+
+h4. For Grails 1.3 and below
+
+{code}
+compile "joda-time:joda-time-hibernate:1.2"
+{code}
+
+h4. For Grails 1.4 and above
+
+{code}
+compile "joda-time:joda-time-hibernate:1.3"
+{code}
+
+h4. To use the alternate "User Type Library":http://usertype.sourceforge.net/usertype.jodatime/index.html
+
+{code}
+compile "org.jadira.usertype:usertype.jodatime:1.2"
+{code}
+
+h3. Adding persistent types to your domain classes
+
+To persist Joda Time properties you can use the Hibernate UserType implementations in the mapping block of your class. For example:
 
 {code}
 import org.joda.time.*
@@ -16,6 +38,22 @@ class Person {
 {code}
 
 This even works with some of the special functionality in Grails. For example fields @dateCreated@ and @lastUpdated@ in a Grails domain object will be updated automatically by the framework. Such properties do not have to be @java.util.Date@ instances the functionality works fine if they are @org.joda.time.DateTime@ or other types instead.
+
+h3. Adding default type mappings
+
+To avoid having to add type mappings to every single domain class in your application you can create a default mappings block in @Config.groovy@ that maps Joda Time types to their Hibernate user type implementation. For example:
+
+{code}
+grails.gorm.default.mapping = {
+	"user-type" type: org.joda.time.contrib.hibernate.PersistentDateTime, class: org.joda.time.DateTime
+	"user-type" type: org.joda.time.contrib.hibernate.PersistentLocalDate, class: org.joda.time.LocalDate
+	// ... define as many other user type mappings as you need
+}
+{code}
+
+The Joda Time plugin can even do this for you so long as you do not already have a @grails.gorm.default.mapping@ section in your @Config.groovy@ file. Just run @grails install-joda-time-gorm-mappings@ and the plugin will add the standard mappings for all supported user types to your @Config.groovy@ file.
+
+If you are using the Joda Time User Type library rather than Joda Time Hibernate then the package names for the user type classes is @org.jadira.usertype.dateandtime.jsr310@
 
 h3. Multi-column UserTypes
 
@@ -42,10 +80,4 @@ You can use any name you like for the columns.
 It is currently not possible to do certain types of criteria query with _DateTime_ properties mapped using _PersistentLocalDateTimeTZ_ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the _'between'_ criterion.
 {warning}
 
-h3. Alternate Persistence Support
-
-There is an alternate library that provides Joda-Time persistence support as part of the "User Type Library":http://usertype.sourceforge.net/usertype.jodatime/index.html that you can use instead of the standard support if you prefer. In order to do so you just need to add the following declaration to your project's @BuildConfig.groovy@ file:
-
-{code}
-compile "org.jadira.usertype:usertype.jodatime:1.2"
-{code}
+h2. Persistence with other GORM implementations

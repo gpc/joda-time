@@ -1,6 +1,5 @@
 The Joda-Time Plugin integrates the "Joda-Time":http://joda-time.sourceforge.net/ date/time library into Grails. The plugin...
 
-* Bundles the libraries necessary to use Joda Time types as persistent fields on domain classes.
 * Provides the ability to bind from form inputs to Joda Time fields on domain or command objects.
 * Supports JSON and XML rendering of Joda Time types.
 * Provides tag-libs for input and output of Joda Time data.
@@ -9,21 +8,13 @@ The Joda-Time Plugin integrates the "Joda-Time":http://joda-time.sourceforge.net
 
 h2. Known Issues
 
-* In Grails 1.1.1 there is an issue with auto-timestamping using Joda Time properties. On save _GroovyRuntimeException_ is thrown with the message @"Could not find matching constructor for: java.lang.Object(java.lang.Long)"@. The workaround is to declare the fields non-lazy (GORM is mistaking them for one-to-one associations and wrapping a lazy proxy around them - see [GRAILS-4689|http://jira.codehaus.org/browse/GRAILS-4689]), e.g.
-
-{code}
-DateTime dateCreated
-DateTime lastUpdated
-
-static mapping = {
-	dateCreated type: PersistentDateTime, lazy: false
-	lastUpdated type: PersistentDateTime, lazy: false
-}
-{code}
-
 * It is currently not possible to do certain types of criteria query with _DateTime_ properties mapped using _PersistentLocalDateTimeTZ_ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the _'between'_ criterion.
 
 h2. Release Notes
+
+h4. 1.3
+
+* Removes `joda-time-hibernate` as a default dependency so that plugin can be used with alternate GORM implementations
 
 h4. 1.2
 

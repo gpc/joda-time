@@ -13,10 +13,6 @@ grails.project.dependency.resolution = {
     }
     dependencies {
 		compile "joda-time:joda-time:1.6.2"
-		compile("joda-time:joda-time-hibernate:1.2") {
-			excludes "hibernate", "joda-time"
-		}
-//		compile "org.jadira.usertype:usertype.jodatime:1.2"
 		test("org.hamcrest:hamcrest-all:1.1") {
 			excludes "junit", "jmock", "easymock"
 			exported = false
@@ -27,8 +23,11 @@ grails.project.dependency.resolution = {
 		}
     }
 	plugins {
-		build ":release:1.0.0.M2"
-		runtime ":hibernate:${grailsVersion}"
-		test ":spock:0.5-groovy-1.7"
+		build(":release:1.0.0.M2") {
+			export = false
+		}
+		test(":spock:0.5-groovy-1.7") {
+			export = false
+		}
 	}
 }
