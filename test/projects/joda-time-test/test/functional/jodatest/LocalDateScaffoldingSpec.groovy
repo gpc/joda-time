@@ -44,7 +44,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		alex.birthday == new LocalDate(2008, 10, 2)
 	}
 
-	@Unroll("show formats LocalDate for #locale locale")
+	@Unroll({"show formats LocalDate for $locale locale"})
 	def "show"() {
 		when:
 		go "/person/show/$rob.id?lang=$locale"
@@ -69,7 +69,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		$("form").birthday_year == "1971"
 	}
 
-	@Unroll("list view is sorted after clicking the column header #x times")
+	@Unroll({"list view is sorted after clicking the column header $x times"})
 	def "list view is sortable"() {
 		given:
 		Person.build(name: "Ilse", birthday: new LocalDate(1972, 7, 6))

@@ -62,7 +62,7 @@ class DurationScaffoldingSpec extends GebSpec {
 		$("form").time_seconds == "59"
 	}
 
-	@Unroll("list view is sorted after clicking on the column header #x times")
+	@Unroll({"list view is sorted after clicking on the column header $x times"})
 	def "list view is sortable"() {
 		given:
 		Marathon.build(runner: "Glenn Saqui", time: new Period(2, 36, 51, 0).toStandardDuration())

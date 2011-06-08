@@ -43,7 +43,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		alarm2.time == new LocalTime(6, 15)
 	}
 
-	@Unroll("show formats LocalTime for #locale locale")
+	@Unroll({"show formats LocalTime for $locale locale"})
 	def "show"() {
 		when:
 		go "/alarm/show/$alarm1.id?lang=$locale"
@@ -67,7 +67,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		$("form").time_minute == "00"
 	}
 
-	@Unroll("list view is sorted after clicking the column header #x times")
+	@Unroll({"list view is sorted after clicking the column header $x times"})
 	def "list view is sortable"() {
 		given:
 		Alarm.build(description: "Gym", time: new LocalTime(6, 15))

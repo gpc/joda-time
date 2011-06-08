@@ -62,7 +62,7 @@ class PeriodScaffoldingSpec extends GebSpec {
 		$("form").duration_seconds == "25"
 	}
 
-	@Unroll("list view is sorted after clicking the column header #x times")
+	@Unroll({"list view is sorted after clicking the column header $x times"})
 	def "list view is sortable"() {
 		given:
 		Song.build(artist: "Handsome Furs", title: "I'm Confused", duration: new Period(0, 3, 35, 0))

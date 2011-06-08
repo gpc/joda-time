@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class CommandBindingSpec extends GebSpec {
 
-	@Unroll("binding errors are reported for a LocalDate field with the value '#value'")
+	@Unroll({"binding errors are reported for a LocalDate field with the value '$value'"})
 	def "binding errors are reported for LocalDate fields"() {
 		when:
 		go "/command"
@@ -22,7 +22,7 @@ class CommandBindingSpec extends GebSpec {
 		"INVALID" | "Property localDate must be a valid LocalDate"
 	}
 	
-	@Unroll("a LocalDate property is bound using the #locale locale")
+	@Unroll({"a LocalDate property is bound using the $locale locale"})
 	def "a LocalDate property is bound using the request locale"() {
 		when:
 		go "/command?lang=$locale"
