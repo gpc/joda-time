@@ -22,16 +22,15 @@ import org.codehaus.groovy.grails.plugins.web.taglib.FormTagLib
 import static org.hamcrest.Matchers.containsString
 import org.joda.time.*
 import spock.lang.*
+import grails.test.mixin.*
 
-class Html5InputTagLibSpec extends TagLibSpec {
+@TestFor(Html5InputTagLib)
+class Html5InputTagLibSpec extends Specification {
 
 	def setup() {
 		String.metaClass.encodeAsHTML = {-> HTMLCodec.encode(delegate) }
 
-		def formTagLib = new FormTagLib(out: tagLib.out)
-		tagLib.metaClass.getG = { -> formTagLib }
-
-		mockRequest.addPreferredLocale Locale.UK
+		tagLib.request.addPreferredLocale Locale.UK
 
 		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0)
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
@@ -44,7 +43,7 @@ class Html5InputTagLibSpec extends TagLibSpec {
 	@Unroll({"$tag tag renders an HTML5 input"})
 	def "tags render HTML5 inputs"() {
 		expect:
-		"$tag"(name: "foo") == expectedOutput
+		applyTemplate("<joda:$tag name=\"foo\"/>") == expectedOutput
 
 		where:
 		tag                  | expectedOutput
@@ -59,15 +58,15 @@ class Html5InputTagLibSpec extends TagLibSpec {
 	@Unroll({"$tag tag renders its value in the correct format"})
 	def "tags render their values in the correct format"() {
 		expect:
-		"$tag"(name: "foo", value: new DateTime()) containsString("value=\"$expectedOutput\"")
+		applyTemplate("<joda:$tag name=\"foo\" value=\"\${value}\"/>", [value: new DateTime()]).contains("value=\"$expectedOutput\"")
 
 		where:
-		tag                  | value          | expectedOutput
-		"dateField"          | new DateTime() | "2008-10-02"
-		"timeField"          | new DateTime() | "02:50:33.000"
-		"datetimeLocalField" | new DateTime() | "2008-10-02T02:50:33.000"
-		"monthField"         | new DateTime() | "2008-10"
-		"weekField"          | new DateTime() | "2008-W40"
+		tag                  | expectedOutput
+		"dateField"          | "2008-10-02"
+		"timeField"          | "02:50:33.000"
+		"datetimeLocalField" | "2008-10-02T02:50:33.000"
+		"monthField"         | "2008-10"
+		"weekField"          | "2008-W40"
 	}
 
 	def "datetimeField renders its value in the correct format for UTC"() {
@@ -75,7 +74,7 @@ class Html5InputTagLibSpec extends TagLibSpec {
 		def value = new DateTime().toLocalDateTime().toDateTime(DateTimeZone.UTC)
 
 		expect:
-		datetimeField(name: "foo", value: value) containsString('value="2008-10-02T02:50:33.000Z"')
+		applyTemplate('<joda:datetimeField name="foo" value="${value}"/>', [value: value]).contains('value="2008-10-02T02:50:33.000Z"')
 	}
 
 	def "datetimeField renders its value in the correct format for non-UTC"() {
@@ -83,7 +82,7 @@ class Html5InputTagLibSpec extends TagLibSpec {
 		def value = new DateTime().toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(-8))
 
 		expect:
-		datetimeField(name: "foo", value: value) containsString('value="2008-10-02T02:50:33.000-08:00"')
+		applyTemplate('<joda:datetimeField name="foo" value="${value}"/>', [value: value]).contains('value="2008-10-02T02:50:33.000-08:00"')
 	}
 
 	@Ignore
@@ -92,7 +91,7 @@ class Html5InputTagLibSpec extends TagLibSpec {
 		def value = new LocalDateTime()
 
 		expect:
-		datetimeField(name: "foo", value: value) containsString('value="2008-10-02T02:50:33.000Z"')
+		applyTemplate('<joda:datetimeField name="foo" value="${value}"/>', [value: value]).contains('value="2008-10-02T02:50:33.000Z"')
 	}
 
 }

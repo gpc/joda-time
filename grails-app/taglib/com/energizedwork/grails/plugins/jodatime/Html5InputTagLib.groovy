@@ -28,7 +28,7 @@ class Html5InputTagLib {
 		if (attrs.value) {
 			attrs.value = date().print(attrs.value)
 		}
-		g.field(attrs)
+		out << g.field(attrs)
 	}
 
 	def timeField = {attrs ->
@@ -37,7 +37,7 @@ class Html5InputTagLib {
 		if (attrs.value) {
 			attrs.value = time().print(attrs.value)
 		}
-		g.field(attrs)
+		out << g.field(attrs)
 	}
 
 	def datetimeField = {attrs ->
@@ -46,7 +46,7 @@ class Html5InputTagLib {
 		if (attrs.value) {
 			attrs.value = datetime().print(attrs.value)
 		}
-		g.field(attrs)
+		out << g.field(attrs)
 	}
 
 	def datetimeLocalField = {attrs ->
@@ -55,7 +55,7 @@ class Html5InputTagLib {
 		if (attrs.value) {
 			attrs.value = datetimeLocal().print(attrs.value)
 		}
-		g.field(attrs)
+		out << g.field(attrs)
 	}
 
 	def monthField = {attrs ->
@@ -64,7 +64,7 @@ class Html5InputTagLib {
 		if (attrs.value) {
 			attrs.value = month().print(attrs.value)
 		}
-		g.field(attrs)
+		out << g.field(attrs)
 	}
 
 	def weekField = {attrs ->
@@ -73,7 +73,7 @@ class Html5InputTagLib {
 		if (attrs.value) {
 			attrs.value = week().print(attrs.value)
 		}
-		g.field(attrs)
+		out << g.field(attrs)
 	}
 
 }
