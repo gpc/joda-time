@@ -23,8 +23,8 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		go "/alarm"
 
 		then:
-		$("tbody tr", 0).find("td", 0).text() == "$alarm1.id"
-		$("tbody tr", 0).find("td", 2).text() == "7:00 AM"
+		$("tbody tr", 0).find("td", 0).text() == alarm1.description
+		$("tbody tr", 0).find("td", 1).text() == "7:00 AM"
 	}
 
 	def "create"() {
@@ -49,7 +49,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		go "/alarm/show/$alarm1.id?lang=$locale"
 
 		then:
-		$("tr", 2).find("td.value").text() == expectedValue
+		$("li.fieldcontain", 1).find(".property-value").text() == expectedValue
 		
 		where:
 		locale    | expectedValue
@@ -80,7 +80,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		}
 		
 		then:
-		$("tbody tr")*.find("td", 1)*.text() == expected
+		$("tbody tr")*.find("td", 0)*.text() == expected
 		
 		where:
 		x | expected

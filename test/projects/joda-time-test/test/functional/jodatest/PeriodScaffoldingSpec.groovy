@@ -22,8 +22,8 @@ class PeriodScaffoldingSpec extends GebSpec {
 		go "/song"
 
 		then:
-		$("tbody tr", 0).find("td", 0).text() == "$song1.id"
-		$("tbody tr", 0).find("td", 3).text() == "3 minutes and 25 seconds"
+		$("tbody tr", 0).find("td", 0).text() == song1.artist
+		$("tbody tr", 0).find("td", 2).text() == "3 minutes and 25 seconds"
 	}
 
 	def "create"() {
@@ -49,7 +49,7 @@ class PeriodScaffoldingSpec extends GebSpec {
 		go "/song/show/$song1.id"
 
 		then:
-		$("tr", 3).find("td.value").text() == "3 minutes and 25 seconds"
+		$("li.fieldcontain", 2).find(".property-value").text() == "3 minutes and 25 seconds"
 	}
 
 	def "edit"() {
@@ -75,7 +75,7 @@ class PeriodScaffoldingSpec extends GebSpec {
 		}
 
 		then:
-		$("tbody tr")*.find("td", 2)*.text() == expected
+		$("tbody tr")*.find("td", 1)*.text() == expected
 		
 		where:
 		x | expected

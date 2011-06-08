@@ -22,8 +22,8 @@ class DurationScaffoldingSpec extends GebSpec {
 		go "/marathon"
 
 		then:
-		$("tbody tr", 0).find("td", 0).text() == "$marathon1.id"
-		$("tbody tr", 0).find("td", 2).text() == "2 hours, 3 minutes and 59 seconds"
+		$("tbody tr", 0).find("td", 0).text() == marathon1.runner
+		$("tbody tr", 0).find("td", 1).text() == "2 hours, 3 minutes and 59 seconds"
 	}
 
 	def "create"() {
@@ -49,7 +49,7 @@ class DurationScaffoldingSpec extends GebSpec {
 		go "/marathon/show/$marathon1.id"
 
 		then:
-		$("tr", 2).find("td.value").text() == "2 hours, 3 minutes and 59 seconds"
+		$("li.fieldcontain", 1).find(".property-value").text() == "2 hours, 3 minutes and 59 seconds"
 	}
 
 	def "edit"() {
@@ -75,7 +75,7 @@ class DurationScaffoldingSpec extends GebSpec {
 		}
 
 		then:
-		$("tbody tr")*.find("td", 1)*.text() == expected
+		$("tbody tr")*.find("td", 0)*.text() == expected
 		
 		where:
 		x | expected

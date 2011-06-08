@@ -22,9 +22,8 @@ class DateTimeZoneScaffoldingSpec extends GebSpec {
 		go "/city"
 
 		then:
-		$("tbody tr", 0).find("td", 0).text() == "$london.id"
-		$("tbody tr", 0).find("td", 1).text() == london.name
-		$("tbody tr", 0).find("td", 2).text() == "$london.timeZone"
+		$("tbody tr", 0).find("td", 0).text() == london.name
+		$("tbody tr", 0).find("td", 1).text() == "$london.timeZone"
 	}
 
 	def "create"() {
@@ -47,9 +46,8 @@ class DateTimeZoneScaffoldingSpec extends GebSpec {
 		go "/city/show/$london.id"
 
 		then:
-		$("tr", 0).find("td.value").text() == "$london.id"
-		$("tr", 1).find("td.value").text() == "London"
-		$("tr", 2).find("td.value").text() == "Europe/London"
+		$("li.fieldcontain", 0).find(".property-value").text() == london.name
+		$("li.fieldcontain", 1).find(".property-value").text() == "Europe/London"
 	}
 
 	def "edit"() {

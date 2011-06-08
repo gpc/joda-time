@@ -23,8 +23,8 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		go "/person"
 		
 		then:
-		$("tbody tr", 0).find("td", 0).text() == "$rob.id"
-		$("tbody tr", 0).find("td", 2).text() == "11/29/71"
+		$("tbody tr", 0).find("td", 0).text() == rob.name
+		$("tbody tr", 0).find("td", 1).text() == "11/29/71"
 	}
 
 	def "create"() {
@@ -50,7 +50,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		go "/person/show/$rob.id?lang=$locale"
 
 		then:
-		$("tr", 2).find("td.value").text() == expectedValue
+		$("li.fieldcontain", 1).find(".property-value").text() == expectedValue
 		
 		where:
 		locale               | expectedValue
@@ -82,7 +82,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		}
 		
 		then:
-		$("tbody tr")*.find("td", 1)*.text() == expected
+		$("tbody tr")*.find("td", 0)*.text() == expected
 		
 		where:
 		x | expected
