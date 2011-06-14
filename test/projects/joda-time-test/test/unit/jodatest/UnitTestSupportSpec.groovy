@@ -38,10 +38,22 @@ class UnitTestSupportSpec extends Specification {
 	def "metadata for #type properties is correct"() {
 		given:
 		GrailsDomainClass dc = grailsApplication.getDomainClass(Person.name)
+        def prop = dc.getPersistentProperty("birthday")
 
 		expect:
-		dc.getPersistentProperty("birthday") != null
+        dc.constrainedProperties.containsKey("birthday")
 		!dc.associationMap.containsKey("birthday")
+
+        and:
+		prop != null
+        !prop.association
+        !prop.embedded
+        !prop.hasOne
+        !prop.manyToMany
+        !prop.manyToOne
+        !prop.oneToMany
+        !prop.oneToOne
+        prop.type == LocalDate
 	}
 	
 }
