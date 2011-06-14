@@ -4,11 +4,13 @@ import grails.test.mixin.*
 import spock.lang.*
 import org.joda.time.*
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
-import org.codehaus.groovy.grails.commons.GrailsApplication
+import grails.test.mixin.domain.DomainClassUnitTestMixin
+import org.springframework.datastore.mapping.model.MappingFactory
+import java.beans.PropertyDescriptor
 
 @Mock(Person)
 class UnitTestSupportSpec extends Specification {
-	
+
 	def setup() {
 		new Person(name: "Alex", birthday: new LocalDate(2008, 10, 2)).save(failOnError: true)
 		new Person(name: "Nicholas", birthday: new LocalDate(2010, 11, 14)).save(failOnError: true)
@@ -55,5 +57,16 @@ class UnitTestSupportSpec extends Specification {
         !prop.oneToOne
         prop.type == LocalDate
 	}
+
+    def "persistent entity looks right"() {
+        given:
+        println DomainClassUnitTestMixin.simpleDatastore.mappingContext.mappingSyntaxStrategy.propertyFactory
+        def entity = DomainClassUnitTestMixin.simpleDatastore.mappingContext.getPersistentEntity(Person.name)
+        def prop = entity.getPropertyByName("birthday")
+
+        expect:
+        prop != null
+        prop.type == LocalDate
+    }
 	
 }
