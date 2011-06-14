@@ -3,6 +3,8 @@ package jodatest
 import grails.test.mixin.*
 import spock.lang.*
 import org.joda.time.*
+import org.codehaus.groovy.grails.commons.GrailsDomainClass
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 @Mock(Person)
 class UnitTestSupportSpec extends Specification {
@@ -10,6 +12,11 @@ class UnitTestSupportSpec extends Specification {
 	def setup() {
 		new Person(name: "Alex", birthday: new LocalDate(2008, 10, 2)).save(failOnError: true)
 		new Person(name: "Nicholas", birthday: new LocalDate(2010, 11, 14)).save(failOnError: true)
+	}
+	
+	def "sanity check"() {
+		expect:
+		Person.findByName("Alex").birthday == new LocalDate(2008, 10, 2)
 	}
 	
 	@Unroll
@@ -26,6 +33,15 @@ class UnitTestSupportSpec extends Specification {
 		
 		then:
 		results.name == ["Nicholas"]
+	}
+
+	def "metadata for #type properties is correct"() {
+		given:
+		GrailsDomainClass dc = grailsApplication.getDomainClass(Person.name)
+
+		expect:
+		dc.getPersistentProperty("birthday") != null
+		!dc.associationMap.containsKey("birthday")
 	}
 	
 }
