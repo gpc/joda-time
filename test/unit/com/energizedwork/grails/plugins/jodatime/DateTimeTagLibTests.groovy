@@ -19,6 +19,7 @@ import grails.test.TagLibUnitTestCase
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
+import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.junit.*
 import grails.test.mixin.*
@@ -152,7 +153,31 @@ class DateTimeTagLibTests {
 		assert output =~ /<select name="foo_minute" id="foo_minute">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="00">00<\/option>/
 	}
 
-	@Test void pickerTagsAcceptYearsArg() {
+    @Test void pickerTagsUsesOneHundredYearsAsDefault() {
+        def year = new LocalDate().year
+        def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+
+        assert !output.contains(/<option value="${year - 101}">${year - 101}<\/option>/)
+        assert output =~ /<option value="${year - 100}">${year - 100}<\/option>/
+        assert output =~ /<option value="${year + 100}">${year + 100}<\/option>/
+        assert !output.contains(/<option value="${year + 101}">${year + 101}<\/option>/)
+    }
+
+    @Test void dateTimePickerUsesConfigForYears() {
+        tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = 1
+        tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = 2
+        def year = new LocalDate().year
+        def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+
+        assert !output.contains(/<option value="${year - 2}">${year - 2}<\/option>/)
+        assert output =~ /<option value="${year - 1}">${year - 1}<\/option>/
+        assert output =~ /<option value="${year}" selected="selected">${year}<\/option>/
+        assert output =~ /<option value="${year + 1}">${year + 1}<\/option>/
+        assert output =~ /<option value="${year + 2}">${year + 2}<\/option>/
+        assert !output.contains(/<option value="${year + 3}">${year + 3}<\/option>/)
+    }
+
+    @Test void pickerTagsAcceptYearsArg() {
 		def output = applyTemplate('<joda:dateTimePicker name="foo" years="${1979..1983}" default="1979-12-04T00:00"/>')
 
 		assert !output.contains(/<option value="1978">1978<\/option>/)
@@ -175,7 +200,19 @@ class DateTimeTagLibTests {
 		assert !output.contains(/<select name="foo_second"/)
 	}
 
-	@Test void pickerTagsAcceptPrecisionArg() {
+    @Test void dateTimePickerUsesConfigForPrecision() {
+        tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = "second"
+        def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+
+        assert output =~ /<select name="foo_day"/
+        assert output =~ /<select name="foo_month"/
+        assert output =~ /<select name="foo_year"/
+        assert output =~ /<select name="foo_hour"/
+        assert output =~ /<select name="foo_minute"/
+        assert output =~ /<select name="foo_second"/
+    }
+
+    @Test void pickerTagsAcceptPrecisionArg() {
 		def output = applyTemplate('<joda:dateTimePicker name="foo" precision="year"/>')
 
 		assert output =~ /<select name="foo_year"/
