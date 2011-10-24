@@ -23,11 +23,11 @@ import org.joda.time.LocalDate
 class JodaTimePropertyEditorRegistrar implements PropertyEditorRegistrar {
 
 	void registerCustomEditors(PropertyEditorRegistry registry) {
-		DateTimeEditor.SUPPORTED_TYPES.each { type ->
+		for (type in DateTimeEditor.SUPPORTED_TYPES) {
 			registry.registerCustomEditor type, new StructuredDateTimeEditor(type)
 		}
 
-		PeriodEditor.SUPPORTED_TYPES.each { type ->
+		for (type in PeriodEditor.SUPPORTED_TYPES) {
 			registry.registerCustomEditor type, new StructuredPeriodEditor(type)
 		}
 
