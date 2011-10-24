@@ -15,14 +15,10 @@
  */
 package com.energizedwork.grails.plugins.jodatime
 
-import org.joda.time.DateTime
-import org.joda.time.DateTimeUtils
-import org.joda.time.LocalDateTime
-
-import spock.lang.*
-
 import grails.test.mixin.TestFor
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+import org.joda.time.*
+import spock.lang.*
 
 @TestFor(DateTimeTagLib)
 class DateTimeTagLibSpec extends Specification {
@@ -157,6 +153,44 @@ class DateTimeTagLibSpec extends Specification {
 		output =~ /<select name="foo_minute" id="foo_minute">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="00">00<\/option>/
 	}
 
+	def "picker tags use one hundred years as default"() {
+		given:
+		def year = new LocalDate().year
+
+		when:
+		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+
+		then:
+		!output.contains(/<option value="${year - 101}">${year - 101}<\/option>/)
+		output =~ /<option value="${year - 100}">${year - 100}<\/option>/
+		output =~ /<option value="${year + 100}">${year + 100}<\/option>/
+		!output.contains(/<option value="${year + 101}">${year + 101}<\/option>/)
+	}
+
+	def "dateTimePicker uses config for years"() {
+		given:
+		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = 1
+		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = 2
+
+		and:
+		def year = new LocalDate().year
+
+		when:
+		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+
+		then:
+		!output.contains(/<option value="${year - 2}">${year - 2}<\/option>/)
+		output =~ /<option value="${year - 1}">${year - 1}<\/option>/
+		output =~ /<option value="${year}" selected="selected">${year}<\/option>/
+		output =~ /<option value="${year + 1}">${year + 1}<\/option>/
+		output =~ /<option value="${year + 2}">${year + 2}<\/option>/
+		!output.contains(/<option value="${year + 3}">${year + 3}<\/option>/)
+
+		cleanup:
+		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = null
+		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = null
+	}
+
 	def "picker tags accept years arg"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" years="${1979..1983}" default="1979-12-04T00:00"/>')
@@ -182,6 +216,25 @@ class DateTimeTagLibSpec extends Specification {
 		output =~ /<select name="foo_hour"/
 		output =~ /<select name="foo_minute"/
 		!output.contains(/<select name="foo_second"/)
+	}
+
+	def "dateTimePicker uses config for precision"() {
+		given:
+		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = "second"
+
+		when:
+		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+
+		then:
+		output =~ /<select name="foo_day"/
+		output =~ /<select name="foo_month"/
+		output =~ /<select name="foo_year"/
+		output =~ /<select name="foo_hour"/
+		output =~ /<select name="foo_minute"/
+		output =~ /<select name="foo_second"/
+
+		cleanup:
+		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = null
 	}
 
 	@Unroll({"picker tags accept '$precision' precision arg"})

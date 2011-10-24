@@ -94,7 +94,7 @@ class DateTimeTagLib {
 			def tempyear = null
 			if (value && value?.isSupported(DateTimeFieldType.year())) tempyear = value.year
 			else tempyear = new LocalDate().year
-			years = (tempyear - 100)..(tempyear + 100)
+            years = (tempyear - (grailsApplication.config.grails.tags.datePicker.default.yearsBelow ?: 100))..(tempyear + (grailsApplication.config.grails.tags.datePicker.default.yearsAbove ?: 100))
 		}
 
 		log.debug "starting rendering"

@@ -22,33 +22,35 @@ import org.junit.*
 import static org.hamcrest.Matchers.*
 import static org.junit.Assert.assertThat
 import org.gmock.*
-import org.joda.time.contrib.hibernate.*
 import org.joda.time.*
-import org.springframework.orm.hibernate3.support.ClobStringType
 
 @WithGMock
 class InstallationTests extends AbstractCliTestCase {
 
+	private getPluginVersion() {
+		getClass().classLoader.loadClass("JodaTimeGrailsPlugin").newInstance().version
+	}
+
 	File tempDir = new File(System.properties."java.io.tmpdir", getClass().name)
-	File packagedPlugin = new File(workDir, "grails-joda-time-1.2-SNAPSHOT.zip")
+	File packagedPlugin = new File(workDir, "grails-joda-time-${pluginVersion}.zip")
 	String tempProjectName = RandomStringUtils.randomAlphanumeric(8)
 
 	static final DEFAULT_MAPPINGS = [
-			(DateTime): PersistentDateTime,
-			(Duration): PersistentDuration,
-			(Instant): PersistentInstant,
-			(Interval): PersistentInterval,
-			(LocalDate): PersistentLocalDate,
-			(LocalTime): PersistentLocalTimeAsString,
-			(LocalDateTime): PersistentLocalDateTime,
-			(Period): PersistentPeriod,
+			"org.joda.time.DateTime": "org.joda.time.contrib.hibernate.PersistentDateTime",
+			"org.joda.time.Duration": "org.joda.time.contrib.hibernate.PersistentDuration",
+			"org.joda.time.Instant": "org.joda.time.contrib.hibernate.PersistentInstant",
+			"org.joda.time.Interval": "org.joda.time.contrib.hibernate.PersistentInterval",
+			"org.joda.time.LocalDate": "org.joda.time.contrib.hibernate.PersistentLocalDate",
+			"org.joda.time.LocalTime": "org.joda.time.contrib.hibernate.PersistentLocalTimeAsString",
+			"org.joda.time.LocalDateTime": "org.joda.time.contrib.hibernate.PersistentLocalDateTime",
+			"org.joda.time.Period": "org.joda.time.contrib.hibernate.PersistentPeriod",
 	].asImmutable()
-
+	
 	@Before
 	void setUp() {
 		super.setUp()
-
-		runGrailsCommand("package-plugin")
+		
+		runGrailsCommand "maven-install"
 
 		tempDir.mkdirs()
 	}
@@ -62,14 +64,17 @@ class InstallationTests extends AbstractCliTestCase {
 	@Test
 	void updatesConfigWithGormMappings() {
 		def appBaseDir = createTempApp()
-		installJodaTimePlugin(appBaseDir)
+		generateBuildConfig appBaseDir, "joda-time:joda-time-hibernate:1.3"
+		runGrailsCommand "install-joda-time-gorm-mappings"
 		def config = parseAppConfig(appBaseDir)
 
 		assertThat "GORM mappings in Config.groovy", config.grails.gorm.default.mapping, instanceOf(Closure)
 
 		config.grails.gorm.default.mapping.delegate = mock()
 		DEFAULT_MAPPINGS.each {
-			config.grails.gorm.default.mapping.delegate."user-type"(allOf(hasEntry("type", it.value), hasEntry("class", it.key)))
+			def userType = Class.forName(it.value)
+			def persistenceClass = Class.forName(it.key)
+			config.grails.gorm.default.mapping.delegate."user-type"(allOf(hasEntry("type", userType), hasEntry("class", persistenceClass)))
 		}
 		play {
 			config.grails.gorm.default.mapping()
@@ -79,6 +84,7 @@ class InstallationTests extends AbstractCliTestCase {
 	@Test
 	void doesNotOverrideExistingGormMappings() {
 		def appBaseDir = createTempApp()
+		generateBuildConfig appBaseDir, "joda-time:joda-time-hibernate:1.3"
 		appendToAppConfig appBaseDir,
 				"""
 // a pre-existing mapping config block that should not be affected by installing Joda-Time
@@ -87,11 +93,11 @@ grails.gorm.default.mapping = {
 }
 """
 
-		installJodaTimePlugin appBaseDir
+		runGrailsCommand "install-joda-time-gorm-mappings"
 		def config = parseAppConfig(appBaseDir)
 
 		config.grails.gorm.default.mapping.delegate = mock() {
-			"user-type"(allOf(hasEntry("type", ClobStringType), hasEntry("class", String)))
+			"user-type"(allOf(hasEntry("type", Class.forName("org.springframework.orm.hibernate3.support.ClobStringType")), hasEntry("class", String)))
 		}
 		play {
 			config.grails.gorm.default.mapping()
@@ -111,10 +117,10 @@ grails.gorm.default.mapping = {
 
 	private void installJodaTimePlugin(File appBaseDir) {
 		workDir = appBaseDir
-		runGrailsCommand "install-plugin", packagedPlugin.absolutePath
+		generateBuildConfig appBaseDir, "joda-time:joda-time-hibernate:1.2"
 	}
 
-	private def appendToAppConfig(File appBaseDir, String text) {
+	private void appendToAppConfig(File appBaseDir, String text) {
 		def configFile = new File(appBaseDir, "grails-app/conf/Config.groovy")
 		configFile.withWriterAppend {
 			it.write text
@@ -125,6 +131,31 @@ grails.gorm.default.mapping = {
 		execute(args as List)
 		waitForProcess()
 		verifyHeader()
+	}
+
+	private void generateBuildConfig(File appBaseDir, String persistenceLib) {
+		new File(appBaseDir, "grails-app/conf/BuildConfig.groovy").text = """\
+grails.project.class.dir = "target/classes"
+grails.project.test.class.dir = "target/test-classes"
+grails.project.test.reports.dir = "target/test-reports"
+grails.project.dependency.resolution = {
+    inherits "global"
+    log "warn"
+    repositories {
+        grailsPlugins()
+        grailsHome()
+        grailsCentral()
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+		runtime "${persistenceLib}"
+    }
+	plugins {
+		compile ":joda-time:${pluginVersion}"
+	}
+}
+"""
 	}
 
 }
