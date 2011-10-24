@@ -18,54 +18,65 @@ package com.energizedwork.grails.plugins.jodatime
 import org.joda.time.DateTimeZone
 import org.joda.time.DateTimeUtils
 import org.joda.time.DateTime
-import org.junit.*
 import grails.test.mixin.*
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+import spock.lang.*
 
 @TestFor(DateTimeZoneTagLib)
-class DateTimeZoneTagLibTests {
+class DateTimeZoneTagLibSpec extends Specification {
 
 	def defaultZone
 
-	@Before void setUp() {
-		String.metaClass.encodeAsHTML = {-> HTMLCodec.encode(delegate) }
+	def setup() {
+		mockCodec HTMLCodec
 
 		defaultZone = DateTimeZone.default
 	}
 
-	@After void tearDown() {
+	def cleanup() {
 		DateTimeZone.default = defaultZone
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
-	@Test void currentZoneIsSelectedByDefault() {
-		assert applyTemplate('<joda:dateTimeZoneSelect name="foo"/>') =~ /<option value="${DateTimeZone.default.ID}" selected="selected" >/
+	def "current zone is selected by default"() {
+		expect:
+		applyTemplate('<joda:dateTimeZoneSelect name="foo"/>') =~ /<option value="${DateTimeZone.default.ID}" selected="selected" >/
 	}
 
-	@Test void valueAttributeIsPassedToSelect() {
+	def "value attribute is passed to select"() {
+		given:
 		def zone = DateTimeZone.forID("Canada/Pacific")
-		assert applyTemplate('<joda:dateTimeZoneSelect name="foo" value="${zone}"/>', [zone: zone]) =~ /<option value="${zone.ID}" selected="selected" >/
+
+		expect:
+		applyTemplate('<joda:dateTimeZoneSelect name="foo" value="${zone}"/>', [zone: zone]) =~ /<option value="${zone.ID}" selected="selected" >/
 	}
 
-	@Test void optionFormatting() {
+	def "option formatting"() {
+		given:
 		DateTimeUtils.setCurrentMillisFixed new DateTime(2009, 1, 1, 0, 0, 0, 0, DateTimeZone.UTC).millis
 
+		when:
 		def output = applyTemplate('<joda:dateTimeZoneSelect name="foo"/>')
-		
-		assert output.contains(">America/Vancouver -08:00<")
-		assert output.contains(">Europe/London +00:00<")
+
+		then:
+		output.contains(">America/Vancouver -08:00<")
+		output.contains(">Europe/London +00:00<")
 	}
 
-	@Test void optionsAreDSTSensetive() {
+	def "options are DST sensitive"() {
+		given:
 		DateTimeUtils.setCurrentMillisFixed new DateTime(2009, 8, 1, 0, 0, 0, 0, DateTimeZone.UTC).millis
 
+		when:
 		def output = applyTemplate('<joda:dateTimeZoneSelect name="foo"/>')
-		
-		assert output.contains(">America/Vancouver -07:00<")
-		assert output.contains(">Europe/London +01:00<")
+
+		then:
+		output.contains(">America/Vancouver -07:00<")
+		output.contains(">Europe/London +01:00<")
 	}
 
-	@Ignore @Test void noDuplicateOptionsAppear() {
+	@Ignore
+	def "no duplicate options appear"() {
 		tagLib.dateTimeZoneSelect([:])
 		def options = selectAttrs.from.collect {
 			selectAttrs.optionValue(it)
