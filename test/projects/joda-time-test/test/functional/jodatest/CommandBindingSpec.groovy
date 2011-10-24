@@ -1,8 +1,8 @@
 package jodatest
 
-import spock.lang.*
-import grails.plugin.geb.*
+import geb.spock.GebSpec
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import spock.lang.Unroll
 
 class CommandBindingSpec extends GebSpec {
 

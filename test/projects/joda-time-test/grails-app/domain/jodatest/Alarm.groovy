@@ -1,7 +1,7 @@
 package jodatest
 
+import org.jadira.usertype.dateandtime.joda.PersistentLocalTimeAsTimestamp
 import org.joda.time.LocalTime
-import org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime
 
 class Alarm {
 	
@@ -13,7 +13,7 @@ class Alarm {
 	}
 
 	static mapping = {
-		time type: PersistentLocalTimeAsTime
+		time type: PersistentLocalTimeAsTimestamp
 	}
 	
 }

@@ -1,12 +1,10 @@
 package jodatest
 
-import grails.test.mixin.*
-import spock.lang.*
-import org.joda.time.*
-import org.codehaus.groovy.grails.commons.GrailsDomainClass
+import grails.test.mixin.Mock
 import grails.test.mixin.domain.DomainClassUnitTestMixin
-import org.springframework.datastore.mapping.model.MappingFactory
-import java.beans.PropertyDescriptor
+import org.codehaus.groovy.grails.commons.GrailsDomainClass
+import org.joda.time.LocalDate
+import spock.lang.*
 
 @Mock(Person)
 class UnitTestSupportSpec extends Specification {

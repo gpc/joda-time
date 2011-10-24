@@ -1,20 +1,23 @@
 package jodatest
 
-import spock.lang.*
-import grails.plugin.geb.*
+import geb.spock.GebSpec
 import org.joda.time.Period
-import static javax.servlet.http.HttpServletResponse.SC_OK
+import spock.lang.Unroll
 
 class PeriodScaffoldingSpec extends GebSpec {
 
 	def song1
 
 	def setup() {
-		song1 = Song.build(artist: "La Roux", title: "Bulletproof", duration: new Period(0, 3, 25, 0))
+		Song.withNewSession {
+			song1 = Song.build(artist: "La Roux", title: "Bulletproof", duration: new Period(0, 3, 25, 0))
+		}
 	}
 
 	def cleanup() {
-		Song.list()*.delete(flush: true)
+		Song.withNewSession {
+			Song.list()*.delete(flush: true)
+		}
 	}
 
 	def "list"() {
@@ -76,7 +79,7 @@ class PeriodScaffoldingSpec extends GebSpec {
 
 		then:
 		$("tbody tr")*.find("td", 1)*.text() == expected
-		
+
 		where:
 		x | expected
 		1 | ["Ace of Spades", "Bulletproof", "I'm Confused"]

@@ -1,27 +1,29 @@
 package jodatest
 
-import spock.lang.*
-import grails.plugin.geb.*
+import geb.spock.GebSpec
 import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
-import static javax.servlet.http.HttpServletResponse.SC_OK
+import spock.lang.Unroll
 
 class LocalDateScaffoldingSpec extends GebSpec {
 
 	def rob
 
 	def setup() {
-		rob = Person.build(name: "Rob", birthday: new LocalDate(1971, 11, 29))
+		Person.withNewSession {
+			rob = Person.build(name: "Rob", birthday: new LocalDate(1971, 11, 29))
+		}
 	}
 
 	def cleanup() {
-		Person.list()*.delete(flush: true)
+		Person.withNewSession {
+			Person.list()*.delete(flush: true)
+		}
 	}
 
 	def "list"() {
 		when:
 		go "/person"
-		
+
 		then:
 		$("tbody tr", 0).find("td", 0).text() == rob.name
 		$("tbody tr", 0).find("td", 1).text() == "11/29/71"
@@ -51,7 +53,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 
 		then:
 		$("li.fieldcontain", 1).find(".property-value").text() == expectedValue
-		
+
 		where:
 		locale               | expectedValue
 		Locale.UK            | "29/11/71"
@@ -80,10 +82,10 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		x.times {
 			$("th a", text: "Birthday").click()
 		}
-		
+
 		then:
 		$("tbody tr")*.find("td", 0)*.text() == expected
-		
+
 		where:
 		x | expected
 		1 | ["Rob", "Ilse", "Alex"]

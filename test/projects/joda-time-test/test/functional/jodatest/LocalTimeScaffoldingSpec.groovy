@@ -1,21 +1,23 @@
 package jodatest
 
-import spock.lang.*
-import grails.plugin.geb.*
+import geb.spock.GebSpec
 import org.joda.time.LocalTime
-import org.joda.time.format.DateTimeFormat
-import static javax.servlet.http.HttpServletResponse.SC_OK
+import spock.lang.Unroll
 
 class LocalTimeScaffoldingSpec extends GebSpec {
 
 	def alarm1
 
 	def setup() {
-		alarm1 = Alarm.build(description: "Morning", time: new LocalTime(7, 0))
+		Alarm.withNewSession {
+			alarm1 = Alarm.build(description: "Morning", time: new LocalTime(7, 0))
+		}
 	}
 
 	def cleanup() {
-		Alarm.list()*.delete(flush: true)
+		Alarm.withNewSession {
+			Alarm.list()*.delete(flush: true)
+		}
 	}
 
 	def "list"() {
@@ -34,7 +36,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		$("form").time_hour = "06"
 		$("form").time_minute = "15"
 		$("input.save").click()
-		
+
 		then:
 		$(".message").text() ==~ /Alarm \d+ created/
 
@@ -50,7 +52,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 
 		then:
 		$("li.fieldcontain", 1).find(".property-value").text() == expectedValue
-		
+
 		where:
 		locale    | expectedValue
 		Locale.UK | "07:00"
@@ -78,10 +80,10 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		x.times {
 			$("th a", text: "Time").click()
 		}
-		
+
 		then:
 		$("tbody tr")*.find("td", 0)*.text() == expected
-		
+
 		where:
 		x | expected
 		1 | ["Gym", "Morning", "Lie In"]

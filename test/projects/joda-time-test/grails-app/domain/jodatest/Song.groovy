@@ -1,7 +1,7 @@
 package jodatest
 
+import org.jadira.usertype.dateandtime.joda.PersistentPeriodAsString
 import org.joda.time.Period
-import org.joda.time.contrib.hibernate.PersistentPeriod
 
 class Song {
 
@@ -15,7 +15,7 @@ class Song {
 	}
 
 	static mapping = {
-		duration type: PersistentPeriod
+		duration type: PersistentPeriodAsString
 	}
 	
 }

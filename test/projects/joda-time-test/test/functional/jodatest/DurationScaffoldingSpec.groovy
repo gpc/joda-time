@@ -1,20 +1,23 @@
 package jodatest
 
-import spock.lang.*
-import grails.plugin.geb.*
+import geb.spock.GebSpec
 import org.joda.time.Period
-import static javax.servlet.http.HttpServletResponse.SC_OK
+import spock.lang.Unroll
 
 class DurationScaffoldingSpec extends GebSpec {
 
 	def marathon1
 
 	def setup() {
-		marathon1 = Marathon.build(runner: "Haile Gebrselassie", time: new Period(2, 3, 59, 0).toStandardDuration())
+		Marathon.withNewSession {
+			marathon1 = Marathon.build(runner: "Haile Gebrselassie", time: new Period(2, 3, 59, 0).toStandardDuration())
+		}
 	}
 
 	def cleanup() {
-		Marathon.list()*.delete(flush: true)
+		Marathon.withNewSession {
+			Marathon.list()*.delete(flush: true)
+		}
 	}
 
 	def "list"() {
@@ -76,7 +79,7 @@ class DurationScaffoldingSpec extends GebSpec {
 
 		then:
 		$("tbody tr")*.find("td", 0)*.text() == expected
-		
+
 		where:
 		x | expected
 		0 | ["Haile Gebrselassie", "Glenn Saqui", "Samuel Wanjiru"]

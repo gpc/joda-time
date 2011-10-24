@@ -1,7 +1,7 @@
 package jodatest
 
+import org.jadira.usertype.dateandtime.joda.PersistentDurationAsString
 import org.joda.time.Duration
-import org.joda.time.contrib.hibernate.PersistentDuration
 
 class Marathon {
 
@@ -13,6 +13,6 @@ class Marathon {
 	}
 
 	static mapping = {
-		time type: PersistentDuration
+		time type: PersistentDurationAsString
 	}
 }
