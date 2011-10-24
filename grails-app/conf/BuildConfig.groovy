@@ -12,7 +12,7 @@ grails.project.dependency.resolution = {
         mavenCentral()
     }
     dependencies {
-		compile "joda-time:joda-time:1.6.2"
+		compile "joda-time:joda-time:2.0"
 		test("org.hamcrest:hamcrest-all:1.1") {
 			excludes "junit", "jmock", "easymock"
 			exported = false
@@ -23,10 +23,13 @@ grails.project.dependency.resolution = {
 		}
     }
 	plugins {
-		build(":release:1.0.0.M2") {
+		build(":release:1.0.0.RC3") {
 			export = false
 		}
-		test(":spock:0.6-groovy-1.8-SNAPSHOT") {
+		build(":svn:1.0.0.M1") {
+			export = false
+		}
+		test(":spock:0.6-SNAPSHOT") {
 			export = false
 		}
 	}
