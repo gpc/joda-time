@@ -15,14 +15,10 @@
  */
 package com.energizedwork.grails.plugins.jodatime
 
-import grails.test.TagLibUnitTestCase
+import grails.test.mixin.TestFor
 import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
 import org.joda.time.Period
 import org.junit.*
-import static com.energizedwork.grails.commons.test.RegexMatcher.isMatch
-import static org.hamcrest.Matchers.*
-import static org.junit.Assert.assertThat
-import grails.test.mixin.*
 
 @TestFor(PeriodTagLib)
 class PeriodTagLibTests {
