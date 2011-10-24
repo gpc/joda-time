@@ -35,6 +35,7 @@ class JodaDynamicMethodsSpec extends Specification {
 	def "format works on various types"() {
 		expect:
 		type.newInstance().format(format) == expected
+
 		where:
 		type      | format                | expected
 		DateTime  | "dd/MM/yyyy HH:mm:ss" | "02/10/2008 02:50:00"
@@ -42,19 +43,34 @@ class JodaDynamicMethodsSpec extends Specification {
 		LocalTime | "HH:mm:ss"            | "02:50:00"
 	}
 
+	@Unroll({"negation operator works on $type.simpleName"})
+	def "negation operator"() {
+		expect: -value == expected
+
+		where:
+		type << [Days, Hours, Minutes, Months, Seconds, Weeks, Years]
+		value = type.newInstance(3)
+		expected = type.newInstance(-3)
+	}
+
+	@Unroll({"multiplication operator works on $type.simpleName"})
 	def "multiplication operator"() {
 		expect: value * 2 == expected
+
 		where:
 		type << [Days, Hours, Minutes, Months, Seconds, Weeks, Years]
 		value = type.newInstance(3)
 		expected = type.newInstance(6)
 	}
 
+	@Unroll({"division operator works on $type.simpleName"})
 	def "division operator"() {
 		expect: "division producing an integeger works"
 		value / 3 == expected
+
 		and: "division is always treated as integer division"
 		value / 2 == expected
+
 		where:
 		type << [Days, Hours, Minutes, Months, Seconds, Weeks, Years]
 		value = type.newInstance(3)
@@ -62,24 +78,18 @@ class JodaDynamicMethodsSpec extends Specification {
 	}
 
 	@Unroll({"standard groovy operators work on $type.simpleName"})
-	def "groovy operators on single field periods"() {
-		given:
-		def instance = type.newInstance(3)
-
+	def "standard groovy operators"() {
 		expect:
-		-instance == type.newInstance(-3)
-		instance * 2 == type.newInstance(6)
-		instance / 3 == type.newInstance(1)
-		instance / 2 == type.newInstance(1) // this is integer division
 		// the following should just work
-		instance + instance == type.newInstance(6)
-		instance + 2 == type.newInstance(5)
-		instance - type.newInstance(2) == type.newInstance(1)
-		instance - 1 == type.newInstance(2)
-		instance + -instance == type.newInstance(0)
+		value + value == type.newInstance(6)
+		value + 2 == type.newInstance(5)
+		value - type.newInstance(2) == type.newInstance(1)
+		value - 1 == type.newInstance(2)
+		value + -value == type.newInstance(0)
 
 		where:
 		type << [Days, Hours, Minutes, Months, Seconds, Weeks, Years]
+		value = type.newInstance(3)
 	}
 
 }
