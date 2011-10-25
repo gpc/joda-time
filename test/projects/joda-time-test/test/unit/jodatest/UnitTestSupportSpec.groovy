@@ -79,6 +79,40 @@ class UnitTestSupportSpec extends Specification {
 		"desc"    | ["Nicholas", "Alex"]
 	}
 
+	@Unroll({"can use `$projection` projection on a LocalDate property in a criteria query"})
+	def "can use projections on a LocalDate property in a criteria query"() {
+		when:
+		def results = Person.withCriteria {
+			projections {
+				"$projection" "birthday"
+			}
+		}
+
+		then:
+		results[0] == expected
+
+		where:
+		projection | expected
+		"max"      | new LocalDate(2010, 11, 14)
+		"min"      | new LocalDate(2008, 10, 2)
+	}
+
+	@Unroll({"cannot use `$projection` projection on a LocalDate property in a criteria query"})
+	def "invalid projections on a LocalDate property in a criteria query"() {
+		when:
+		Person.withCriteria {
+			projections {
+				"$projection" "birthday"
+			}
+		}
+
+		then:
+		thrown MissingMethodException
+
+		where:
+		projection << ["avg", "sum"]
+	}
+
 	def "metadata for #type properties is correct"() {
 		given:
 		GrailsDomainClass dc = grailsApplication.getDomainClass(Person.name)
