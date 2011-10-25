@@ -13,9 +13,11 @@ import spock.lang.*
 @Mock(Person)
 class UnitTestSupportSpec extends Specification {
 
-	def setup() {
+	def setupSpec() {
 		MappingFactory.registerCustomType(new SimpleMapLocalDateMarshaller())
+	}
 
+	def setup() {
 		new Person(name: "Alex", birthday: new LocalDate(2008, 10, 2)).save(failOnError: true)
 		new Person(name: "Nicholas", birthday: new LocalDate(2010, 11, 14)).save(failOnError: true)
 	}
@@ -31,14 +33,50 @@ class UnitTestSupportSpec extends Specification {
 		Person.findByBirthday(new LocalDate(2008, 10, 2)).name == "Alex"
 	}
 
-	def "can use criteria queries on #type properties"() {
+	@Unroll({"can use the `$operator` operator on a LocalDate property in a criteria query"})
+	def "can use criteria queries on LocalDate properties"() {
 		when:
 		def results = Person.withCriteria {
-			gt "birthday", new LocalDate(2008, 1, 1)
+			"$operator" "birthday", value
 		}
 
 		then:
-		results.name == ["Alex", "Nicholas"]
+		results.name == expected
+
+		where:
+		operator | value                       | expected
+		"gt"     | new LocalDate(2008, 10, 2)  | ["Nicholas"]
+		"ge"     | new LocalDate(2008, 10, 2)  | ["Alex", "Nicholas"]
+		"eq"     | new LocalDate(2008, 10, 2)  | ["Alex"]
+		"lt"     | new LocalDate(2010, 11, 14) | ["Alex"]
+		"le"     | new LocalDate(2010, 11, 14) | ["Alex", "Nicholas"]
+		"ne"     | new LocalDate(2010, 11, 14) | ["Alex"]
+	}
+
+	def "can use the `between` operator on a LocalDate property in a criteria query"() {
+		when:
+		def results = Person.withCriteria {
+			between "birthday", new LocalDate(2008, 1, 1), new LocalDate(2010, 1, 1)
+		}
+
+		then:
+		results.name == ["Alex"]
+	}
+
+	@Unroll({"can order ${direction}ending by a LocalDate property in a criteria query"})
+	def "can order by a LocalDate property in a criteria query"() {
+		when:
+		def results = Person.withCriteria {
+			order "birthday", direction
+		}
+
+		then:
+		results.name == expected
+
+		where:
+		direction | expected
+		"asc"     | ["Alex", "Nicholas"]
+		"desc"    | ["Nicholas", "Alex"]
 	}
 
 	def "metadata for #type properties is correct"() {
@@ -93,12 +131,16 @@ class SimpleMapLocalDateMarshaller extends AbstractMappingAwareCustomTypeMarshal
 
 	@Override
 	protected void queryInternal(PersistentProperty property, String key, Query.PropertyCriterion criterion, SimpleMapResultList nativeQuery) {
-		switch (criterion) {
+		def op = criterion.getClass()
+		switch (op) {
 			case Query.Equals:
-				nativeQuery.results << nativeQuery.query.handlers[Query.Equals].call(criterion, property, null)
-				break
+			case Query.NotEquals:
 			case Query.GreaterThan:
-				nativeQuery.results << nativeQuery.query.handlers[Query.GreaterThan].call(criterion, property, null)
+			case Query.GreaterThanEquals:
+			case Query.LessThan:
+			case Query.LessThanEquals:
+			case Query.Between:
+				nativeQuery.results << nativeQuery.query.handlers[op].call(criterion, property)
 				break
 			default:
 				throw new RuntimeException("unsupported query type $criterion for property $property")
