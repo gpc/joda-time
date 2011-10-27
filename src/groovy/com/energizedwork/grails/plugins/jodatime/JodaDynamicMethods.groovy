@@ -28,6 +28,20 @@ class JodaDynamicMethods {
 			delegate.toString(pattern)
 		}
 
+		// next and previous
+		ReadableInstant.metaClass.next = {->
+			delegate.plusDays(1)
+		}
+		ReadablePartial.metaClass.next = {->
+			delegate.plusDays(1)
+		}
+		ReadableInstant.metaClass.previous = {->
+			delegate.minusDays(1)
+		}
+		ReadablePartial.metaClass.previous = {->
+			delegate.minusDays(1)
+		}
+
 		// compatibility with Groovy operators where JodaTime method name conventions differ
 		[Days, Hours, Minutes, Months, Seconds, Weeks, Years].each { clazz ->
 			clazz.metaClass.negative = {
