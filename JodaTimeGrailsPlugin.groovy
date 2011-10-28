@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 import com.energizedwork.grails.plugins.jodatime.*
+import grails.plugin.jodatime.binding.JodaTimePropertyEditorRegistrar
+import grails.plugin.jodatime.converters.JodaConverters
+import grails.plugin.jodatime.JodaDynamicMethods
 
 class JodaTimeGrailsPlugin {
     def version = "1.3.BUILD-SNAPSHOT"

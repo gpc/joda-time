@@ -1,6 +1,6 @@
 package jodatest
 
-import com.energizedwork.grails.plugins.jodatime.simpledatastore.JodaTimeUnitTestSupport
+import grails.plugin.jodatime.simpledatastore.JodaTimeUnitTestSupport
 import grails.test.mixin.Mock
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
 import org.joda.time.LocalDate
