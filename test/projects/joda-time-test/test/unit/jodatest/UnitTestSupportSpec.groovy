@@ -1,7 +1,6 @@
 package jodatest
 
 import grails.test.mixin.Mock
-import grails.test.mixin.domain.DomainClassUnitTestMixin
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
 import org.grails.datastore.mapping.engine.types.AbstractMappingAwareCustomTypeMarshaller
 import org.grails.datastore.mapping.query.Query
@@ -22,13 +21,13 @@ class UnitTestSupportSpec extends Specification {
 		new Person(name: "Nicholas", birthday: new LocalDate(2010, 11, 14)).save(failOnError: true)
 	}
 
-	def "sanity check"() {
+	def "can read a LocalDate property of a domain instance retrieved from the simple datastore"() {
 		expect:
 		Person.findByName("Alex").birthday == new LocalDate(2008, 10, 2)
 	}
 
 	@Unroll
-	def "can use dynamic finders on #type properties"() {
+	def "can use dynamic finders on LocalDate properties"() {
 		expect:
 		Person.findByBirthday(new LocalDate(2008, 10, 2)).name == "Alex"
 	}
@@ -113,7 +112,7 @@ class UnitTestSupportSpec extends Specification {
 		projection << ["avg", "sum"]
 	}
 
-	def "metadata for #type properties is correct"() {
+	def "metadata for LocalDate properties is correct"() {
 		given:
 		GrailsDomainClass dc = grailsApplication.getDomainClass(Person.name)
 		def prop = dc.getPersistentProperty("birthday")
@@ -131,17 +130,6 @@ class UnitTestSupportSpec extends Specification {
 		!prop.manyToOne
 		!prop.oneToMany
 		!prop.oneToOne
-		prop.type == LocalDate
-	}
-
-	def "persistent entity looks right"() {
-		given:
-		def mappingContext = DomainClassUnitTestMixin.simpleDatastore.mappingContext
-		def entity = mappingContext.getPersistentEntity(Person.name)
-		def prop = entity.getPropertyByName("birthday")
-
-		expect:
-		prop != null
 		prop.type == LocalDate
 	}
 
