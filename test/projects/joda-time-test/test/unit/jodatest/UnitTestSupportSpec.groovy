@@ -3,10 +3,10 @@ package jodatest
 import grails.plugin.jodatime.simpledatastore.JodaTimeUnitTestSupport
 import grails.test.mixin.Mock
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
-import org.joda.time.LocalDate
+import org.joda.time.*
 import spock.lang.*
 
-@Mock(Person)
+@Mock([Person, Marathon, City])
 class UnitTestSupportSpec extends Specification {
 
 	def setupSpec() {
@@ -34,6 +34,48 @@ class UnitTestSupportSpec extends Specification {
 		"findByBirthdayNotEquals"      | new LocalDate(2008, 10, 2) | "Nicholas"
 		"findByBirthdayGreaterThan"    | new LocalDate(2008, 10, 2) | "Nicholas"
 		"findAllByBirthdayGreaterThan" | new LocalDate(2008, 10, 1) | ["Alex", "Nicholas"]
+	}
+
+	@Unroll({"can us the dynamic query `$queryMethod` on a Duration property"})
+	def "can use dynamic finders on Duration properties"() {
+		given:
+		new Marathon(runner: "Haile Gebrselassie", time: new Period(2, 3, 59, 0).toStandardDuration()).save(failOnError: true)
+		new Marathon(runner: "Samuel Wanjiru", time: new Period(2, 5, 10, 0).toStandardDuration()).save(failOnError: true)
+
+		expect:
+		Marathon."$queryMethod"(argument).runner == expected
+
+		where:
+		queryMethod             | argument                                     | expected
+		"findByTime"            | new Period(2, 3, 59, 0).toStandardDuration() | "Haile Gebrselassie"
+		"findAllByTimeLessThan" | new Period(2, 5, 10, 0).toStandardDuration() | ["Haile Gebrselassie"]
+	}
+
+	@Unroll({"can us the dynamic query `$queryMethod` on a DateTimeZone property"})
+	def "can use dynamic finders on DateTimeZone properties"() {
+		given:
+		new City(name: "London", timeZone: DateTimeZone.forID("Europe/London")).save(failOnError: true)
+		new City(name: "Vancouver", timeZone: DateTimeZone.forID("America/Vancouver")).save(failOnError: true)
+
+		expect:
+		City."$queryMethod"(argument).name == expected
+
+		where:
+		queryMethod                  | argument                            | expected
+		"findByTimeZone"             | DateTimeZone.forID("Europe/London") | "London"
+		"findAllByTimeZoneNotEquals" | DateTimeZone.forID("Europe/London") | ["Vancouver"]
+	}
+
+	def "cannot use some operators on non-Comparable types"() {
+		given:
+		new City(name: "London", timeZone: DateTimeZone.forID("Europe/London")).save(failOnError: true)
+		new City(name: "Vancouver", timeZone: DateTimeZone.forID("America/Vancouver")).save(failOnError: true)
+
+		when:
+		City.findByTimeZoneLessThan(DateTimeZone.forOffsetHours(0))
+
+		then:
+		thrown RuntimeException
 	}
 
 	@Unroll({"can use the `$operator` operator on a LocalDate property in a criteria query"})

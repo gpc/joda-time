@@ -25,22 +25,18 @@ class SimpleMapJodaTimeMarshaller<T> extends AbstractMappingAwareCustomTypeMarsh
 		nativeSource[key]
 	}
 
+	private static final SUPPORTED_OPERATIONS = [Query.Equals, Query.NotEquals]
+	private static final SUPPORTED_OPERATIONS_FOR_COMPARABLE = SUPPORTED_OPERATIONS + [Query.GreaterThan, Query.GreaterThanEquals, Query.LessThan, Query.LessThanEquals, Query.Between]
+
 	@Override
 	protected void queryInternal(PersistentProperty property, String key, Query.PropertyCriterion criterion, SimpleMapResultList nativeQuery) {
+		def supportedOperations = Comparable.isAssignableFrom(targetType) ? SUPPORTED_OPERATIONS_FOR_COMPARABLE : SUPPORTED_OPERATIONS
 		def op = criterion.getClass()
-		switch (op) {
-			case Query.Equals:
-			case Query.NotEquals:
-			case Query.GreaterThan:
-			case Query.GreaterThanEquals:
-			case Query.LessThan:
-			case Query.LessThanEquals:
-			case Query.Between:
-				Closure handler = nativeQuery.query.handlers[op]
-				nativeQuery.results << handler.call(criterion, property)
-				break
-			default:
-				throw new RuntimeException("unsupported query type $criterion for property $property")
+		if (op in supportedOperations) {
+			Closure handler = nativeQuery.query.handlers[op]
+			nativeQuery.results << handler.call(criterion, property)
+		} else {
+			throw new RuntimeException("unsupported query type $criterion for property $property")
 		}
 	}
 

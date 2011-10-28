@@ -5,11 +5,11 @@ import org.joda.time.*
 
 class JodaTimeUnitTestSupport {
 
-	static final Iterable<Class> SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, MonthDay, TimeOfDay, YearMonth, YearMonthDay, Partial, DateTime, DateMidnight, Instant]
+	static final Iterable<Class> SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, MonthDay, TimeOfDay, YearMonth, YearMonthDay, Partial, DateTime, DateMidnight, Instant, Duration, DateTimeZone, Interval, Period]
 
 	static registerJodaTimePropertyTypes() {
 		for (type in SUPPORTED_TYPES) {
-			MappingFactory.registerCustomType(new SimpleMapJodaTimeMarshaller(LocalDate))
+			MappingFactory.registerCustomType(new SimpleMapJodaTimeMarshaller(type))
 		}
 	}
 
