@@ -1,0 +1,19 @@
+h1. next
+
+h2. Purpose
+
+Increments a @ReadableInstant@ or @ReadablePartial@ instance allowing use in Groovy ranges.
+
+h2. Examples
+
+{code}
+def today = new LocalDate()
+assert today.next() == today.plusDays(1)
+{code}
+
+h2. Description
+
+The increment is generally 1 day for compatibility with the @next@ method Groovy adds to @java.util.Date@ however since not all @ReadablePartial@ implementations support days the following exceptions exist:
+
+* @org.joda.time.LocalTime@ and @org.joda.time.TimeOfDay@ increment by hours.
+* @org.joda.time.YearMonth@ increments by months.

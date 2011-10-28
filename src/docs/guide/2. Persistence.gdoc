@@ -1,6 +1,18 @@
 h2. Persistence with Hibernate
 
-In order to persist Joda Time properties with Hibernate you first need to add one of the following dependencies to your application's `BuildConfig.groovy` file:
+In order to persist Joda Time properties with Hibernate you first need to add one of the following dependencies to your application's @BuildConfig.groovy@ file:
+
+h3. To use the newer "Usertype Library":http://usertype.sourceforge.net/usertype.jodatime/index.html
+
+{code}
+compile "org.jadira.usertype:usertype.jodatime:1.9"
+{code}
+
+{note}
+There is a version 2.0 of the Usertype library but it requires Hibernate 4 so is not currently compatible with Grails.
+{note}
+
+h3. To use the older "Joda-Time Hibernate Library":http://joda-time.sourceforge.net/contrib/hibernate/index.html
 
 h4. For Grails 1.3 and below
 
@@ -10,18 +22,12 @@ compile("joda-time:joda-time-hibernate:1.2") {
 }
 {code}
 
-h4. For Grails 1.4 and above
+h4. For Grails 2 and above
 
 {code}
 compile("joda-time:joda-time-hibernate:1.3") {
 	excludes "joda-time", "hibernate"
 }
-{code}
-
-h4. To use the newer "User Type Library":http://usertype.sourceforge.net/usertype.jodatime/index.html
-
-{code}
-compile "org.jadira.usertype:usertype.jodatime:1.2"
 {code}
 
 h3. Adding persistent types to your domain classes
@@ -30,7 +36,7 @@ To persist Joda Time properties you can use the Hibernate UserType implementatio
 
 {code}
 import org.joda.time.*
-import org.joda.time.contrib.hibernate.*
+import org.jadira.usertype.dateandtime.joda.*
 
 class Person {
     String name
@@ -49,28 +55,28 @@ To avoid having to add type mappings to every single domain class in your applic
 
 {code}
 grails.gorm.default.mapping = {
-	"user-type" type: org.joda.time.contrib.hibernate.PersistentDateTime, class: org.joda.time.DateTime
-	"user-type" type: org.joda.time.contrib.hibernate.PersistentLocalDate, class: org.joda.time.LocalDate
+	"user-type" type: org.jadira.usertype.dateandtime.joda.PersistentDateTime, class: org.joda.time.DateTime
+	"user-type" type: org.jadira.usertype.dateandtime.joda.PersistentLocalDate, class: org.joda.time.LocalDate
 	// ... define as many other user type mappings as you need
 }
 {code}
 
 The Joda Time plugin can even do this for you so long as you do not already have a @grails.gorm.default.mapping@ section in your @Config.groovy@ file. Just run @grails install-joda-time-gorm-mappings@ and the plugin will add the standard mappings for all supported user types to your @Config.groovy@ file.
 
-If you are using the Joda Time User Type library rather than Joda Time Hibernate then the package names for the user type classes is @org.jadira.usertype.dateandtime.jsr310@
+If you are using the older Joda Time Hibernate library then the package names for the user type classes is @org.joda.time.contrib.hibernate@
 
 h3. Multi-column UserTypes
 
-To use multi-column types such as "PersistentDateTimeTZ":http://joda-time.sourceforge.net/contrib/hibernate/apidocs/org/joda/time/contrib/hibernate/PersistentDateTimeTZ.html you need to include explicit mapping of both column names. For example:
+To use multi-column types such as "PersistentDateTimeWithZone":http://usertype.sourceforge.net/apidocs/org/jadira/usertype/dateandtime/joda/PersistentDateTimeWithZone.html you need to include explicit mapping of both column names. For example:
 
 {code}
 import org.joda.time.*
-import org.joda.time.contrib.hibernate.*
+import org.jadira.usertype.dateandtime.joda.*
 
 class User {
     DateTime registered
     mapping {
-        registered type: PersistentDateTimeTZ, {
+        registered type: PersistentDateTimeWithZone, {
             column name: "registered_timestamp"
             column name: "registered_zone"
         }
@@ -81,7 +87,7 @@ class User {
 You can use any name you like for the columns.
 
 {warning}
-It is currently not possible to do certain types of criteria query with _DateTime_ properties mapped using _PersistentLocalDateTimeTZ_ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the _'between'_ criterion.
+It is currently not possible to do certain types of criteria query with _DateTime_ properties mapped using _PersistentDateTimeWithZone_ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the _'between'_ criterion.
 {warning}
 
 h2. Persistence with other GORM implementations

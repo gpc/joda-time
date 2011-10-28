@@ -8,13 +8,16 @@ The Joda-Time Plugin integrates the "Joda-Time":http://joda-time.sourceforge.net
 
 h2. Known Issues
 
-* It is currently not possible to do certain types of criteria query with _DateTime_ properties mapped using _PersistentLocalDateTimeTZ_ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the _'between'_ criterion.
+* It is currently not possible to do certain types of criteria query with _DateTime_ properties mapped using _PersistentLocalDateTimeWithZone_ (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the _'between'_ criterion.
 
 h2. Release Notes
 
 h4. 1.3
 
-* Removes `joda-time-hibernate` as a default dependency so that plugin can be used with alternate GORM implementations
+* Upgrades joda-time library to 2.0.
+* Removes `joda-time-hibernate` as a default dependency so that plugin can be used with alternate GORM implementations.
+* Adds `next()` and `previous()` methods to `ReadableInstant` and `ReadablePartial`.
+* Adds Grails 2 unit testing support.
 
 h4. 1.2
 
@@ -79,6 +82,6 @@ h4. 0.1
 
 h2. Contact
 
-If you have questions, comments or suggestions please contact me via the [Grails user mailing list|http://www.grails.org/Mailing+lists] or directly at [rob@energizedwork.com|mailto:rob@energizedwork.com].
-Please raise bugs against the [Grails-JodaTime|http://jira.codehaus.org/browse/GRAILSPLUGINS/component/14011] component on [JIRA|http://jira.codehaus.org/browse/GRAILSPLUGINS].
-Plugin source code is hosted on [GitHub|http://github.com/robfletcher/grails-joda-time]
+If you have questions, comments or suggestions please contact me via the [Grails user mailing list|http://www.grails.org/Mailing+lists].
+Please raise bugs against the [JodaTime Plugin|http://jira.grails.org/browse/GPJODATIME] project on the Grails JIRA.
+Plugin source code is hosted on [GitHub|http://github.com/gpc/grails-joda-time]
