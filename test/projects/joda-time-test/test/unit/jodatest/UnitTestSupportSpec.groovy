@@ -1,20 +1,16 @@
 package jodatest
 
+import com.energizedwork.grails.plugins.jodatime.simpledatastore.JodaTimeUnitTestSupport
 import grails.test.mixin.Mock
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
-import org.grails.datastore.mapping.engine.types.AbstractMappingAwareCustomTypeMarshaller
-import org.grails.datastore.mapping.query.Query
-import org.grails.datastore.mapping.simple.query.SimpleMapResultList
 import org.joda.time.LocalDate
-import org.grails.datastore.mapping.model.*
 import spock.lang.*
-import org.joda.time.ReadablePartial
 
 @Mock(Person)
 class UnitTestSupportSpec extends Specification {
 
 	def setupSpec() {
-		MappingFactory.registerCustomType(new SimpleMapReadablePartialMarshaller())
+		JodaTimeUnitTestSupport.registerJodaTimePropertyTypes()
 	}
 
 	def setup() {
@@ -156,43 +152,6 @@ class UnitTestSupportSpec extends Specification {
 		!prop.oneToMany
 		!prop.oneToOne
 		prop.type == LocalDate
-	}
-
-}
-
-class SimpleMapReadablePartialMarshaller extends AbstractMappingAwareCustomTypeMarshaller<ReadablePartial, Map, SimpleMapResultList> {
-
-	SimpleMapReadablePartialMarshaller() {
-		super(ReadablePartial)
-	}
-
-	@Override
-	protected Object writeInternal(PersistentProperty property, String key, ReadablePartial value, Map nativeTarget) {
-		nativeTarget[key] = value
-	}
-
-	@Override
-	protected LocalDate readInternal(PersistentProperty property, String key, Map nativeSource) {
-		nativeSource[key]
-	}
-
-	@Override
-	protected void queryInternal(PersistentProperty property, String key, Query.PropertyCriterion criterion, SimpleMapResultList nativeQuery) {
-		def op = criterion.getClass()
-		switch (op) {
-			case Query.Equals:
-			case Query.NotEquals:
-			case Query.GreaterThan:
-			case Query.GreaterThanEquals:
-			case Query.LessThan:
-			case Query.LessThanEquals:
-			case Query.Between:
-				Closure handler = nativeQuery.query.handlers[op]
-				nativeQuery.results << handler.call(criterion, property)
-				break
-			default:
-				throw new RuntimeException("unsupported query type $criterion for property $property")
-		}
 	}
 
 }
