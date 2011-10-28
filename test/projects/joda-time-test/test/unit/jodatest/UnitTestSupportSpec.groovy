@@ -8,12 +8,13 @@ import org.grails.datastore.mapping.simple.query.SimpleMapResultList
 import org.joda.time.LocalDate
 import org.grails.datastore.mapping.model.*
 import spock.lang.*
+import org.joda.time.ReadablePartial
 
 @Mock(Person)
 class UnitTestSupportSpec extends Specification {
 
 	def setupSpec() {
-		MappingFactory.registerCustomType(new SimpleMapLocalDateMarshaller())
+		MappingFactory.registerCustomType(new SimpleMapReadablePartialMarshaller())
 	}
 
 	def setup() {
@@ -26,10 +27,17 @@ class UnitTestSupportSpec extends Specification {
 		Person.findByName("Alex").birthday == new LocalDate(2008, 10, 2)
 	}
 
-	@Unroll
+	@Unroll({"can us the dynamic query `$queryMethod` on a LocalDate property"})
 	def "can use dynamic finders on LocalDate properties"() {
 		expect:
-		Person.findByBirthday(new LocalDate(2008, 10, 2)).name == "Alex"
+		Person."$queryMethod"(argument).name == expected
+
+		where:
+		queryMethod                    | argument                   | expected
+		"findByBirthday"               | new LocalDate(2008, 10, 2) | "Alex"
+		"findByBirthdayNotEquals"      | new LocalDate(2008, 10, 2) | "Nicholas"
+		"findByBirthdayGreaterThan"    | new LocalDate(2008, 10, 2) | "Nicholas"
+		"findAllByBirthdayGreaterThan" | new LocalDate(2008, 10, 1) | ["Alex", "Nicholas"]
 	}
 
 	@Unroll({"can use the `$operator` operator on a LocalDate property in a criteria query"})
@@ -52,14 +60,31 @@ class UnitTestSupportSpec extends Specification {
 		"ne"     | new LocalDate(2010, 11, 14) | ["Alex"]
 	}
 
+	@Unroll
 	def "can use the `between` operator on a LocalDate property in a criteria query"() {
 		when:
 		def results = Person.withCriteria {
-			between "birthday", new LocalDate(2008, 1, 1), new LocalDate(2010, 1, 1)
+			between "birthday", lowerBound, upperBound
 		}
 
 		then:
-		results.name == ["Alex"]
+		results.name == expected
+
+		where:
+		lowerBound                | upperBound                | expected
+		new LocalDate(2008, 1, 1) | new LocalDate(2010, 1, 1) | ["Alex"]
+		new LocalDate(2010, 1, 1) | new LocalDate(2011, 1, 1) | ["Nicholas"]
+		new LocalDate(2008, 1, 1) | new LocalDate(2011, 1, 1) | ["Alex", "Nicholas"]
+	}
+
+	def "empty results are handled correctly"() {
+		when:
+		def results = Person.withCriteria {
+			isNull "birthday"
+		}
+
+		then:
+		results == []
 	}
 
 	@Unroll({"can order ${direction}ending by a LocalDate property in a criteria query"})
@@ -135,14 +160,14 @@ class UnitTestSupportSpec extends Specification {
 
 }
 
-class SimpleMapLocalDateMarshaller extends AbstractMappingAwareCustomTypeMarshaller<LocalDate, Map, SimpleMapResultList> {
+class SimpleMapReadablePartialMarshaller extends AbstractMappingAwareCustomTypeMarshaller<ReadablePartial, Map, SimpleMapResultList> {
 
-	SimpleMapLocalDateMarshaller() {
-		super(LocalDate)
+	SimpleMapReadablePartialMarshaller() {
+		super(ReadablePartial)
 	}
 
 	@Override
-	protected Object writeInternal(PersistentProperty property, String key, LocalDate value, Map nativeTarget) {
+	protected Object writeInternal(PersistentProperty property, String key, ReadablePartial value, Map nativeTarget) {
 		nativeTarget[key] = value
 	}
 
@@ -162,7 +187,8 @@ class SimpleMapLocalDateMarshaller extends AbstractMappingAwareCustomTypeMarshal
 			case Query.LessThan:
 			case Query.LessThanEquals:
 			case Query.Between:
-				nativeQuery.results << nativeQuery.query.handlers[op].call(criterion, property)
+				Closure handler = nativeQuery.query.handlers[op]
+				nativeQuery.results << handler.call(criterion, property)
 				break
 			default:
 				throw new RuntimeException("unsupported query type $criterion for property $property")
