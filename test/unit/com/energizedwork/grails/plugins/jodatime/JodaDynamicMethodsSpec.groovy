@@ -92,4 +92,23 @@ class JodaDynamicMethodsSpec extends Specification {
 		value = type.newInstance(3)
 	}
 
+	@Issue("http://jira.grails.org/browse/GPJODATIME-14")
+	@Unroll({"can use `next` and `previous` on ${value.getClass().simpleName}"})
+	def "can use `next` and `previous` on Joda-Time types"() {
+		expect:
+		value.next() == value + increment
+		value.previous() == value - increment
+
+		where:
+		value                                   | increment
+		new DateTime(2011, 10, 27, 13, 11)      | Days.ONE
+		new LocalDateTime(2011, 10, 27, 13, 11) | Days.ONE
+		new LocalDate(2011, 10, 27)             | Days.ONE
+		new LocalTime(13, 11)                   | Hours.ONE
+		new MonthDay(10, 27)                    | Days.ONE
+		new YearMonth(2011, 10)                 | Months.ONE
+		new YearMonthDay(2011, 10, 27)          | Days.ONE
+		new TimeOfDay(13, 11, 28)               | Hours.ONE
+	}
+
 }

@@ -16,6 +16,7 @@
 package com.energizedwork.grails.plugins.jodatime
 
 import org.joda.time.*
+import static org.joda.time.DateTimeFieldType.*
 
 class JodaDynamicMethods {
 
@@ -26,6 +27,20 @@ class JodaDynamicMethods {
 		}
 		ReadablePartial.metaClass.format = {String pattern ->
 			delegate.toString(pattern)
+		}
+
+		// next and previous
+		ReadableInstant.metaClass.next = {->
+			JodaDynamicMethods.next(delegate)
+		}
+		ReadablePartial.metaClass.next = {->
+			JodaDynamicMethods.next(delegate)
+		}
+		ReadableInstant.metaClass.previous = {->
+			JodaDynamicMethods.previous(delegate)
+		}
+		ReadablePartial.metaClass.previous = {->
+			JodaDynamicMethods.previous(delegate)
 		}
 
 		// compatibility with Groovy operators where JodaTime method name conventions differ
@@ -47,6 +62,46 @@ class JodaDynamicMethods {
 		}
 		DateTimeUtils.metaClass.static.withCurrentMillisOffset = { long offset, Closure yield ->
 			JodaDynamicMethods.withCurrentMillisOffset(offset, yield)
+		}
+	}
+
+	static ReadablePartial next(ReadablePartial delegate) {
+		if (delegate.isSupported(dayOfMonth())) {
+			delegate.plusDays(1)
+		} else if (delegate.isSupported(hourOfDay())) {
+			delegate.plusHours(1)
+		} else if (delegate.isSupported(monthOfYear())) {
+			delegate.plusMonths(1)
+		}
+	}
+
+	static ReadableInstant next(ReadableInstant delegate) {
+		if (delegate.isSupported(dayOfMonth())) {
+			delegate.plusDays(1)
+		} else if (delegate.isSupported(hourOfDay())) {
+			delegate.plusHours(1)
+		} else if (delegate.isSupported(monthOfYear())) {
+			delegate.plusMonths(1)
+		}
+	}
+
+	static ReadablePartial previous(ReadablePartial delegate) {
+		if (delegate.isSupported(dayOfMonth())) {
+			delegate.minusDays(1)
+		} else if (delegate.isSupported(hourOfDay())) {
+			delegate.minusHours(1)
+		} else if (delegate.isSupported(monthOfYear())) {
+			delegate.minusMonths(1)
+		}
+	}
+
+	static ReadableInstant previous(ReadableInstant delegate) {
+		if (delegate.isSupported(dayOfMonth())) {
+			delegate.minusDays(1)
+		} else if (delegate.isSupported(hourOfDay())) {
+			delegate.minusHours(1)
+		} else if (delegate.isSupported(monthOfYear())) {
+			delegate.minusMonths(1)
 		}
 	}
 
