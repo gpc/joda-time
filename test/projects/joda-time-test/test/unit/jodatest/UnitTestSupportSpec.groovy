@@ -1,6 +1,5 @@
 package jodatest
 
-import grails.plugin.jodatime.simpledatastore.JodaTimeUnitTestSupport
 import grails.test.mixin.Mock
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
 import org.joda.time.*
@@ -8,10 +7,6 @@ import spock.lang.*
 
 @Mock([Person, Marathon, City])
 class UnitTestSupportSpec extends Specification {
-
-	def setupSpec() {
-		JodaTimeUnitTestSupport.registerJodaTimePropertyTypes()
-	}
 
 	def setup() {
 		new Person(name: "Alex", birthday: new LocalDate(2008, 10, 2)).save(failOnError: true)

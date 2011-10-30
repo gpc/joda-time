@@ -1,9 +1,10 @@
 package grails.plugin.jodatime.simpledatastore
 
 import org.grails.datastore.mapping.engine.types.AbstractMappingAwareCustomTypeMarshaller
-import org.grails.datastore.mapping.model.PersistentProperty
 import org.grails.datastore.mapping.query.Query
 import org.grails.datastore.mapping.simple.query.SimpleMapResultList
+import org.grails.datastore.mapping.model.*
+import org.joda.time.*
 
 /**
  * A marshaller for Joda-Time types usable in the Simple Map datastore.
@@ -40,4 +41,11 @@ class SimpleMapJodaTimeMarshaller<T> extends AbstractMappingAwareCustomTypeMarsh
 		}
 	}
 
+	static final Iterable<Class> SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, MonthDay, TimeOfDay, YearMonth, YearMonthDay, Partial, DateTime, DateMidnight, Instant, Duration, DateTimeZone, Interval, Period]
+
+	static initialize() {
+		for (type in SUPPORTED_TYPES) {
+			MappingFactory.registerCustomType(new SimpleMapJodaTimeMarshaller(type))
+		}
+	}
 }
