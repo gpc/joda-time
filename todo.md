@@ -1,12 +1,11 @@
 ## Bugs
 
 * PersistentDuration columns are not properly sortable
-* DateTimeZone columns persist as VARBINARY instead of VARCHAR as there is no persistent type
 
 ## Backlog
 
 ### Next release
-* update scaffolding to match Grails 1.4
+* update hibernate mappings for usertype
 * optional scaffolding using HTML5 inputs rather than pickers
 
 ### Whenever
