@@ -1,6 +1,7 @@
 The Joda-Time Plugin integrates the "Joda-Time":http://joda-time.sourceforge.net/ date/time library into Grails. The plugin...
 
 * Provides the ability to bind from form inputs to Joda Time fields on domain or command objects.
+* Adds unit testing support for domain classes that use Joda Time properties.
 * Supports JSON and XML rendering of Joda Time types.
 * Provides tag-libs for input and output of Joda Time data.
 * Enhances Grails' scaffolding to support domain classes with Joda Time fields.
