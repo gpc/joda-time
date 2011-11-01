@@ -22,11 +22,57 @@ target(installJodaTimeGormMappings: "Updates Config.groovy with default GORM map
 	if (configFile.exists()) {
 		def appConfig = configSlurper.parse(configFile.toURI().toURL())
 		if (appConfig.grails.gorm.default.mapping) {
-			event "StatusUpdate", ["Config.groovy already contains 'grails.gorm.default.mapping'"]
-		} else {
+			event "StatusError", ["Config.groovy already contains 'grails.gorm.default.mapping'"]
+		} else if (isNewPersistenceSupportInstalled()) {
 			event "StatusUpdate", ["Adding default GORM mappings for Joda-Time types to Config.groovy"]
-			configFile.withWriterAppend {
-				it.write """
+			appendNewPersistenceMappings(configFile)
+			event "StatusFinal", ["Added default GORM mappings for Joda-Time types to Config.groovy"]
+		} else if (isOldPersistenceSupportInstalled()) {
+			event "StatusUpdate", ["Adding default GORM mappings for Joda-Time types to Config.groovy"]
+			appendOldPersistenceMappings(configFile)
+			event "StatusFinal", ["Added default GORM mappings for Joda-Time types to Config.groovy"]
+		} else {
+			event "StatusError", ["No Joda-Time Hibernate persistence API is installed"]
+		}
+	} else {
+		event "StatusError", ["Config.groovy not found"]
+	}
+}
+
+boolean isNewPersistenceSupportInstalled() {
+	isClassAvailable("org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+}
+
+private void appendNewPersistenceMappings(File configFile) {
+	configFile.withWriterAppend {
+		it.write """
+// Added by the Joda-Time plugin:
+grails.gorm.default.mapping = {
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentDateMidnight, class: org.joda.time.DateMidnight
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentDateTime, class: org.joda.time.DateTime
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentDateTimeZoneAsString, class: org.joda.time.DateTimeZone
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentDurationAsString, class: org.joda.time.Duration
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentInstantAsMillisLong, class: org.joda.time.Instant
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentInterval, class: org.joda.time.Interval
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentLocalDate, class: org.joda.time.LocalDate
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime, class: org.joda.time.LocalDateTime
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentLocalTime, class: org.joda.time.LocalTime
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentPeriodAsString, class: org.joda.time.Period
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentTimeOfDay, class: org.joda.time.TimeOfDay
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentYearMonthDay, class: org.joda.time.YearMonthDay
+\t\"user-type\" type: org.jadira.usertype.dateandtime.joda.PersistentYears, class: org.joda.time.Years
+}
+"""
+	}
+}
+
+boolean isOldPersistenceSupportInstalled() {
+	isClassAvailable("org.joda.time.contrib.hibernate.PersistentDateTime")
+}
+
+private void appendOldPersistenceMappings(File configFile) {
+	configFile.withWriterAppend {
+		it.write """
 // Added by the Joda-Time plugin:
 grails.gorm.default.mapping = {
 \t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentDateTime, class: org.joda.time.DateTime
@@ -39,8 +85,15 @@ grails.gorm.default.mapping = {
 \t\"user-type\" type: org.joda.time.contrib.hibernate.PersistentPeriod, class: org.joda.time.Period
 }
 """
-			}
-		}
+	}
+}
+
+private boolean isClassAvailable(String name) {
+	try {
+		Class.forName(name)
+		true
+	} catch (ClassNotFoundException e) {
+		false
 	}
 }
 
