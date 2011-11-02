@@ -18,7 +18,7 @@ package grails.plugin.jodatime.installation
 
 import grails.test.AbstractCliTestCase
 import org.apache.commons.lang.RandomStringUtils
-import org.joda.time.DateTime
+import org.joda.time.*
 import org.junit.*
 
 class InstallationTests extends AbstractCliTestCase {
@@ -57,6 +57,7 @@ class InstallationTests extends AbstractCliTestCase {
 		tempDir.deleteDir()
 	}
 
+	@Grab("joda-time:joda-time-hibernate:1.3")
 	@Test
 	void updatesConfigWithGormMappingsForOldPersistenceSupport() {
 		generateBuildConfig 'runtime("joda-time:joda-time-hibernate:1.3") { excludes "joda-time", "hibernate" }'
@@ -66,9 +67,12 @@ class InstallationTests extends AbstractCliTestCase {
 		def config = parseAppConfig()
 		def mappings = getGormMappings(config)
 
-		assert mappings[DateTime] == "org.joda.time.contrib.hibernate.PersistentDateTime"
+		assert mappings[DateTime] == org.joda.time.contrib.hibernate.PersistentDateTime
+		assert mappings[LocalDate] == org.joda.time.contrib.hibernate.PersistentLocalDate
 	}
 
+	@Grab("org.jadira.usertype:usertype.jodatime:1.9")
+	@Grab("org.hibernate:hibernate-core:3.6.7.Final")
 	@Test
 	void updatesConfigWithGormMappingsForNewPersistenceSupport() {
 		generateBuildConfig 'runtime "org.jadira.usertype:usertype.jodatime:1.9"'
@@ -78,7 +82,8 @@ class InstallationTests extends AbstractCliTestCase {
 		def config = parseAppConfig()
 		def mappings = getGormMappings(config)
 
-		assert mappings[DateTime] == "org.jadira.usertype.dateandtime.joda.PersistentDateTime"
+		assert mappings[DateTime] == org.jadira.usertype.dateandtime.joda.PersistentDateTime
+		assert mappings[LocalDate] == org.jadira.usertype.dateandtime.joda.PersistentLocalDate
 	}
 
 	@Test
@@ -98,7 +103,7 @@ grails.gorm.default.mapping = {
 		def config = parseAppConfig()
 		def mappings = getGormMappings(config)
 
-		assert mappings.keySet() == [String] as Set
+		assert !mappings.containsKey(DateTime)
 	}
 
 	@Test
@@ -119,8 +124,7 @@ grails.gorm.default.mapping = {
 		def mappings = [:]
 		mappingClosure.delegate = new Expando()
 		mappingClosure.delegate."user-type" = { Map mapping ->
-			println mapping.type.dump()
-			mappings[mapping.class] = mapping.type.name
+			mappings[mapping.class] = mapping.type
 		}
 		// execute the config closure
 		mappingClosure()
