@@ -5,7 +5,6 @@
 ## Backlog
 
 ### Next release
-* update hibernate mappings for usertype
 * optional scaffolding using HTML5 inputs rather than pickers
 
 ### Whenever

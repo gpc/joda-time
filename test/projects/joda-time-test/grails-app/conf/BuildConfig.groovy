@@ -7,6 +7,7 @@ grails.project.dependency.resolution = {
 	repositories {
 		grailsPlugins()
 		grailsHome()
+		grailsCentral()
 		mavenLocal()
 		mavenCentral()
 		mavenRepo "http://m2repo.spockframework.org/ext/"
