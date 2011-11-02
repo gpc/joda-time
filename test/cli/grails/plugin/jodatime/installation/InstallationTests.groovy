@@ -24,21 +24,13 @@ import org.junit.*
 class InstallationTests extends AbstractCliTestCase {
 
 	File tempDir = new File(System.properties."java.io.tmpdir", getClass().simpleName)
-	File packagedPlugin = new File(workDir, "grails-joda-time-${pluginVersion}.zip")
 	String tempProjectName = RandomStringUtils.randomAlphanumeric(8)
 
-	static final DEFAULT_MAPPINGS = [
-			"org.joda.time.DateTime": "org.joda.time.contrib.hibernate.PersistentDateTime",
-			"org.joda.time.Duration": "org.joda.time.contrib.hibernate.PersistentDuration",
-			"org.joda.time.Instant": "org.joda.time.contrib.hibernate.PersistentInstant",
-			"org.joda.time.Interval": "org.joda.time.contrib.hibernate.PersistentInterval",
-			"org.joda.time.LocalDate": "org.joda.time.contrib.hibernate.PersistentLocalDate",
-			"org.joda.time.LocalTime": "org.joda.time.contrib.hibernate.PersistentLocalTimeAsString",
-			"org.joda.time.LocalDateTime": "org.joda.time.contrib.hibernate.PersistentLocalDateTime",
-			"org.joda.time.Period": "org.joda.time.contrib.hibernate.PersistentPeriod",
-	].asImmutable()
-
-	private static boolean mavenInstalled = false // only want to install plugin once as its slow but can't do statically from @BeforeClass
+	/*
+	 * only want to install plugin once as its slow but can't do statically from @BeforeClass as runGrailsCommand is an
+	 * instance method (wish this was Spock where setupSpec would do the job perfectly).
+	 */
+	private static boolean mavenInstalled = false
 
 	@Before
 	void setUp() {
