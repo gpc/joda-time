@@ -224,7 +224,7 @@
 			return "<joda:${fieldType}Field name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"/>"
 		} else {
 			if (!cp.editable) {
-				return "<time datetime=\"\${${domainInstance}?.${property.name}?.toString()}\"><joda:format value=\"\${${domainInstance}?.${property.name}}\"/></time>"
+				return "<joda:time value=\"\${${domainInstance}?.${property.name}}\"/>"
 			} else {
 				def buf = new StringBuilder()
 				buf << '<joda:' << fieldType << 'Field'
