@@ -17,6 +17,8 @@
 package grails.plugin.jodatime.taglib
 
 import static grails.plugin.jodatime.Html5DateTimeFormat.*
+import static org.codehaus.groovy.grails.web.pages.GroovyPage.EMPTY_BODY_CLOSURE
+import org.joda.time.*
 
 class Html5InputTagLib {
 
@@ -74,6 +76,45 @@ class Html5InputTagLib {
 			attrs.value = week().print(attrs.value)
 		}
 		out << g.field(attrs)
+	}
+
+	def time = {attrs, body ->
+		def value = attrs.remove("value")
+		def var = attrs.remove("var")
+		if (!value) throwTagError("the joda:time tag requires a value attribute")
+		def datetimeString
+		switch (value) {
+			case LocalDate:
+			case YearMonthDay:
+				datetimeString = date().print(value)
+				break
+			case LocalTime:
+				datetimeString = timeShort().print(value)
+				break
+			case LocalDateTime:
+				datetimeString = datetimeLocalShort().print(value)
+				break
+			case ReadableInstant:
+				datetimeString = datetimeShort().print(value)
+				break
+			default:
+				throwTagError("the joda:time tag requires a ReadableInstant or ReadablePartial value")
+		}
+		out << '<time datetime="' << datetimeString << '"'
+		for (attr in attrs) {
+			out << ' ' << attr.key << '="' << attr.value << '"'
+		}
+		out << '>'
+		if (body != EMPTY_BODY_CLOSURE) {
+			if (var) {
+				out << body((var): value)
+			} else {
+				out << body(value)
+			}
+		} else {
+			out << joda.format(value: value)
+		}
+		out << '</time>'
 	}
 
 }

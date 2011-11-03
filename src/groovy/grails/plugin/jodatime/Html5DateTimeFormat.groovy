@@ -32,6 +32,12 @@ class Html5DateTimeFormat {
 				.toFormatter()
 	}
 
+	static DateTimeFormatter timeShort() {
+		new DateTimeFormatterBuilder()
+				.appendPattern("HH:mm")
+				.toFormatter()
+	}
+
 	static DateTimeFormatter datetimeLocal() {
 		new DateTimeFormatterBuilder()
 				.append(date())
@@ -40,9 +46,25 @@ class Html5DateTimeFormat {
 				.toFormatter()
 	}
 
+	static DateTimeFormatter datetimeLocalShort() {
+		new DateTimeFormatterBuilder()
+				.append(date())
+				.appendLiteral("T")
+				.append(timeShort())
+				.toFormatter()
+	}
+
 	static DateTimeFormatter datetime() {
 		new DateTimeFormatterBuilder()
 				.append(datetimeLocal())
+				.appendTimeZoneOffset("Z", true, 2, 2)
+				.toFormatter()
+				.withOffsetParsed()
+	}
+
+	static DateTimeFormatter datetimeShort() {
+		new DateTimeFormatterBuilder()
+				.append(datetimeLocalShort())
 				.appendTimeZoneOffset("Z", true, 2, 2)
 				.toFormatter()
 				.withOffsetParsed()
