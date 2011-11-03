@@ -103,7 +103,17 @@ class Html5InputTagLibSpec extends Specification {
 		thrown GrailsTagException
 
 		where:
-		value << [null, "a string", new Date(), new YearMonth()]
+		value << ["a string", new Date(), new YearMonth()]
+	}
+
+	def "joda:time does nothing if passed a null value"() {
+		expect:
+		applyTemplate('<joda:time value="${value}">body</joda:time>', [value: null]) == ""
+	}
+
+	def "joda:time defaults the value to current time if no attribute is passed at all"() {
+		expect:
+		applyTemplate('<joda:time>body</joda:time>') ==~ /<time datetime="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(Z|[-\+]\d{2}:\d{2})">body<\/time>/
 	}
 
 	@Unroll({"joda:time outputs a time element with a datetime attribute '$datetimeAttribute' for the value $value"})
@@ -130,9 +140,15 @@ class Html5InputTagLibSpec extends Specification {
 		applyTemplate('<joda:time value="${value}" var="theDate">${theDate.toString("MMMM d yyyy")}</joda:time>', [value: new LocalDate(2008, 10, 2)]) == '<time datetime="2008-10-02">October 2 2008</time>'
 	}
 
+	@Unroll({"joda:time outputs default text for a ${value.getClass().simpleName} value if the body is omitted"})
 	def "joda:time outputs default text if the body is omitted"() {
 		expect:
-		applyTemplate('<joda:time value="${value}"/>', [value: new LocalDate(2008, 10, 2)]) == '<time datetime="2008-10-02">02-Oct-2008</time>'
+		applyTemplate('<joda:time value="${value}"/>', [value: value]) == expectedOutput
+
+		where:
+		value                                                 | expectedOutput
+		new LocalDate(2008, 10, 2)                            | '<time datetime="2008-10-02">02-Oct-2008</time>'
+		new LocalDateTime(2008, 10, 2, 1, 50).toDateTime(UTC) | '<time datetime="2008-10-02T01:50Z">02-Oct-2008 01:50:00</time>'
 	}
 
 	def "joda:time can accept other attributes"() {

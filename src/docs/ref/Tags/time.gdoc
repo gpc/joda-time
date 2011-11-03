@@ -10,6 +10,9 @@ h2. Examples
 <joda:time value="${new LocalDate()}"/>
 <!-- output: <time datetime="2011-11-03">03-Nov-2011</time> -->
 
+<joda:time value="${new DateTime()}"/>
+<!-- output: <time datetime="2011-11-03T17:25+00:00">03-Nov-2011 17:25:00</time> -->
+
 <joda:time value="${new LocalDate()}" pubdate=""/>
 <!-- output: <time datetime="2011-11-03" pubdate="">03-Nov-2011</time> -->
 
@@ -23,6 +26,7 @@ h2. Examples
 h2. Description
 
 If the tag has a body then the @value@ attribute is passed to it (see example above). If the body is omitted then the value is formatted as per the @joda:format@ tag.
+If the @value@ attribute is omitted then the current @DateTime@ is used. If the @value@ attribute is @null@ then the tag outputs nothing.
 
 h3. Attributes
 

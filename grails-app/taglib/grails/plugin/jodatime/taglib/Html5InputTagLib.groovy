@@ -79,42 +79,43 @@ class Html5InputTagLib {
 	}
 
 	def time = {attrs, body ->
-		def value = attrs.remove("value")
-		def var = attrs.remove("var")
-		if (!value) throwTagError("the joda:time tag requires a value attribute")
-		def datetimeString
-		switch (value) {
-			case LocalDate:
-			case YearMonthDay:
-				datetimeString = date().print(value)
-				break
-			case LocalTime:
-				datetimeString = timeShort().print(value)
-				break
-			case LocalDateTime:
-				datetimeString = datetimeLocalShort().print(value)
-				break
-			case ReadableInstant:
-				datetimeString = datetimeShort().print(value)
-				break
-			default:
-				throwTagError("the joda:time tag requires a ReadableInstant or ReadablePartial value")
-		}
-		out << '<time datetime="' << datetimeString << '"'
-		for (attr in attrs) {
-			out << ' ' << attr.key << '="' << attr.value << '"'
-		}
-		out << '>'
-		if (body != EMPTY_BODY_CLOSURE) {
-			if (var) {
-				out << body((var): value)
-			} else {
-				out << body(value)
+		def value = attrs.containsKey("value") ? attrs.remove("value") : new DateTime()
+		if (value) {
+			def var = attrs.remove("var")
+			def datetimeString
+			switch (value) {
+				case LocalDate:
+				case YearMonthDay:
+					datetimeString = date().print(value)
+					break
+				case LocalTime:
+					datetimeString = timeShort().print(value)
+					break
+				case LocalDateTime:
+					datetimeString = datetimeLocalShort().print(value)
+					break
+				case ReadableInstant:
+					datetimeString = datetimeShort().print(value)
+					break
+				default:
+					throwTagError("the joda:time tag requires a ReadableInstant or ReadablePartial value")
 			}
-		} else {
-			out << joda.format(value: value)
+			out << '<time datetime="' << datetimeString << '"'
+			for (attr in attrs) {
+				out << ' ' << attr.key << '="' << attr.value << '"'
+			}
+			out << '>'
+			if (body != EMPTY_BODY_CLOSURE) {
+				if (var) {
+					out << body((var): value)
+				} else {
+					out << body(value)
+				}
+			} else {
+				out << joda.format(value: value)
+			}
+			out << '</time>'
 		}
-		out << '</time>'
 	}
 
 }
