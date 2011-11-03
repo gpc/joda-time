@@ -20,6 +20,8 @@ import grails.test.AbstractCliTestCase
 import org.apache.commons.lang.RandomStringUtils
 import org.joda.time.*
 import org.junit.*
+import org.apache.commons.io.FileUtils
+import static org.apache.commons.io.FileUtils.checksumCRC32
 
 class InstallationTests extends AbstractCliTestCase {
 
@@ -51,7 +53,7 @@ class InstallationTests extends AbstractCliTestCase {
 
 	@Grab("joda-time:joda-time-hibernate:1.3")
 	@Test
-	void updatesConfigWithGormMappingsForOldPersistenceSupport() {
+	void installJodaTimeGormMappingsUpdatesConfigWithGormMappingsForOldPersistenceSupport() {
 		generateBuildConfig 'runtime("joda-time:joda-time-hibernate:1.3") { excludes "joda-time", "hibernate" }'
 		runGrailsCommand "package"
 		runGrailsCommand "install-joda-time-gorm-mappings"
@@ -66,7 +68,7 @@ class InstallationTests extends AbstractCliTestCase {
 	@Grab("org.jadira.usertype:usertype.jodatime:1.9")
 	@Grab("org.hibernate:hibernate-core:3.6.7.Final")
 	@Test
-	void updatesConfigWithGormMappingsForNewPersistenceSupport() {
+	void installJodaTimeGormMappingsUpdatesConfigWithGormMappingsForNewPersistenceSupport() {
 		generateBuildConfig 'runtime "org.jadira.usertype:usertype.jodatime:1.9"'
 		runGrailsCommand "package"
 		runGrailsCommand "install-joda-time-gorm-mappings"
@@ -79,7 +81,7 @@ class InstallationTests extends AbstractCliTestCase {
 	}
 
 	@Test
-	void doesNotOverrideExistingGormMappings() {
+	void installJodaTimeGormMappingsDoesNotOverrideExistingGormMappings() {
 		generateBuildConfig 'runtime "org.jadira.usertype:usertype.jodatime:1.9"'
 		runGrailsCommand "package"
 
@@ -99,7 +101,7 @@ grails.gorm.default.mapping = {
 	}
 
 	@Test
-	void doesNothingWhenNoPersistenceSupportInstalled() {
+	void installJodaTimeGormMappingsDoesNothingWhenNoPersistenceSupportIsInstalled() {
 		generateBuildConfig()
 		runGrailsCommand "package"
 		runGrailsCommand "install-joda-time-gorm-mappings"
@@ -107,6 +109,37 @@ grails.gorm.default.mapping = {
 		def config = parseAppConfig()
 
 		assert !config.grails.gorm.default.mapping
+	}
+
+	@Test
+	void installJodaTimeTemplatesCopiesTemplatesIntoProject() {
+		generateBuildConfig()
+		runGrailsCommand "package"
+		runGrailsCommand "install-joda-time-templates"
+
+		def srcFile = new File("src/templates/scaffolding/renderEditor.template")
+		def destFile = new File(workDir, "src/templates/scaffolding/renderEditor.template")
+
+		assert destFile.isFile()
+		assert checksumCRC32(srcFile) == checksumCRC32(destFile)
+	}
+
+	@Test
+	void installJodaTimeTemplatesOverwritesExistingTemplates() {
+		generateBuildConfig()
+		runGrailsCommand "package"
+		runGrailsCommand "install-templates"
+
+		def srcFile = new File("src/templates/scaffolding/renderEditor.template")
+		def destFile = new File(workDir, "src/templates/scaffolding/renderEditor.template")
+
+		assert destFile.isFile()
+		assert checksumCRC32(srcFile) != checksumCRC32(destFile)
+
+		runGrailsCommand "install-joda-time-templates"
+
+		assert destFile.isFile()
+		assert checksumCRC32(srcFile) == checksumCRC32(destFile)
 	}
 
 	private Map<Class, String> getGormMappings(ConfigObject config) {

@@ -13,42 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.apache.commons.io.FileUtils
-import grails.util.GrailsUtil
 
 includeTargets << grailsScript("_GrailsInit")
 
 target(installJodaTimeTemplates: "Installs scaffolding templates to enable dynamic scaffolding with Joda Time properties.") {
-    def srcdir = new File("$jodaTimePluginDir/src/templates/scaffolding")
-    if (!srcdir?.isDirectory()) {
-        event "StatusError", ["Unable to install templates as plugin template files are missing"]
-    } else {
-        event "StatusUpdate", ["Copying templates from $jodaTimePluginDir"]
 
-        def destdir = new File("$basedir/src/templates/scaffolding/")
+	def srcdir = new File("$jodaTimePluginDir/src/templates/scaffolding")
+	def destdir = new File("$basedir/src/templates/scaffolding/")
+
+	if (srcdir?.isDirectory()) {
+		event "StatusUpdate", ["Copying templates from $jodaTimePluginDir"]
 
 		def copyTemplates = ["renderEditor.template"]
-		def deleteTemplates = ["list.gsp", "show.gsp"]
 
-        copyTemplates.each {name ->
+		for (name in copyTemplates) {
 			def srcfile = new File(srcdir, name)
-            def destfile = new File(destdir, name)
-			ant.copy(file: srcfile.absolutePath, tofile: destfile.absolutePath, overwrite: true, failonerror: false)
-        }
-
-		deleteTemplates.each {name ->
-			use(FileUtils) {
-				def srcfile = new File(srcdir, name)
-				def destfile = new File(destdir, name)
-				if (destfile.file && srcfile.checksumCRC32() == destfile.checksumCRC32()) {
-					event "StatusUpdate", ["Removing old template file $name (no longer needed in Grails 1.2+)"]
-					ant.delete(file: destfile.absolutePath, quiet: true)
-				}
-			}
+			def destfile = new File(destdir, name)
+			ant.copy file: srcfile.absolutePath, tofile: destfile.absolutePath, overwrite: true, failonerror: false
 		}
 
-        event "StatusFinal", ["Template installation complete"]
-    }
+		event "StatusFinal", ["Template installation complete"]
+	} else {
+		event "StatusError", ["Unable to install templates as plugin template files are missing"]
+	}
 }
 
 setDefaultTarget(installJodaTimeTemplates)
