@@ -1,22 +1,22 @@
 <%  if (property.type == Boolean || property.type == boolean)
         out << renderBooleanEditor(domainClass, property)
-    else if (Number.isAssignableFrom(property.type) || (property.type.isPrimitive() && property.type != boolean))
+    else if (property.type && Number.isAssignableFrom(property.type) || (property.type?.isPrimitive() && property.type != boolean))
         out << renderNumberEditor(domainClass, property)
     else if (property.type == String)
         out << renderStringEditor(domainClass, property)
     else if (property.type == Date || property.type == java.sql.Date || property.type == java.sql.Time || property.type == Calendar)
         out << renderDateEditor(domainClass, property)
-	else if(org.joda.time.ReadableInstant.isAssignableFrom(property.type) || property.type == org.joda.time.LocalDateTime)
+	else if (org.joda.time.ReadableInstant.isAssignableFrom(property.type) || property.type == org.joda.time.LocalDateTime)
 		out << renderJodaDateTimeEditor(domainClass,property)
-	else if(property.type == org.joda.time.LocalDate)
+	else if (property.type == org.joda.time.LocalDate)
 		out << renderJodaDateEditor(domainClass,property)
-	else if(property.type == org.joda.time.LocalTime)
+	else if (property.type == org.joda.time.LocalTime)
 		out << renderJodaTimeEditor(domainClass,property)
-	else if(property.type == org.joda.time.Period || property.type == org.joda.time.Duration)
+	else if (property.type == org.joda.time.Period || property.type == org.joda.time.Duration)
 		out << renderJodaPeriodEditor(domainClass,property)
     else if (property.type == URL)
         out << renderStringEditor(domainClass, property)
-    else if (property.isEnum())
+    else if (property.type && property.isEnum())
         out << renderEnumEditor(domainClass, property)
     else if (property.type == TimeZone)
         out << renderSelectTypeEditor("timeZone", domainClass, property)
@@ -205,7 +205,11 @@
                 cp.attributes.each { k, v ->
                     sb << "${k}=\"${v}\" "
                 }
-                sb << "precision=\"${precision}\" value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)} />"
+                if (!cp.attributes.precision){
+                    sb << "precision=\"${precision}\" "
+                }
+                sb << " value=\"\${${domainInstance}?.${property.name}}\" ${renderNoSelection(property)} />"
+
                 return sb.toString()
             }
         }
@@ -232,8 +236,7 @@
 	private renderJodaDateEditor(domainClass,property) {
 		if (!cp) {
 			return "<joda:datePicker name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\"></joda:datePicker>"
-		}
-		else {
+		} else {
 			if (!cp.editable) {
 				return "\${${domainInstance}?.${property.name}?.toString()}"
 			} else {
@@ -283,7 +286,7 @@
 			}
 		}
 	}
-	
+
     private renderSelectTypeEditor(type, domainClass,property) {
         if (!cp) {
             return "<g:${type}Select name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" />"
@@ -314,8 +317,13 @@
 	private boolean isRequired() {
 		!isOptional()
 	}
-	
+
 	private boolean isOptional() {
-		cp.nullable || (cp.propertyType == String && cp.blank) || cp.propertyType in [boolean, Boolean]
+	    if(!cp) {
+	        return false
+	    }
+	    else {
+	        cp.nullable || (cp.propertyType == String && cp.blank) || cp.propertyType in [boolean, Boolean]
+	    }
 	}
 %>
