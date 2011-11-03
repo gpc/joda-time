@@ -24,13 +24,11 @@ target(installJodaTimeGormMappings: "Updates Config.groovy with default GORM map
 		if (appConfig.grails.gorm.default.mapping) {
 			event "StatusError", ["Config.groovy already contains 'grails.gorm.default.mapping'"]
 		} else if (isNewPersistenceSupportInstalled()) {
-			event "StatusUpdate", ["Adding default GORM mappings for Joda-Time types to Config.groovy"]
 			appendNewPersistenceMappings(configFile)
-			event "StatusFinal", ["Added default GORM mappings for Joda-Time types to Config.groovy"]
+			event "StatusFinal", ["Added usertype.jodatime GORM mappings to Config.groovy"]
 		} else if (isOldPersistenceSupportInstalled()) {
-			event "StatusUpdate", ["Adding default GORM mappings for Joda-Time types to Config.groovy"]
 			appendOldPersistenceMappings(configFile)
-			event "StatusFinal", ["Added default GORM mappings for Joda-Time types to Config.groovy"]
+			event "StatusFinal", ["Added joda-time-hibernate GORM mappings to Config.groovy"]
 		} else {
 			event "StatusError", ["No Joda-Time Hibernate persistence API is installed"]
 		}
@@ -44,6 +42,7 @@ boolean isNewPersistenceSupportInstalled() {
 }
 
 private void appendNewPersistenceMappings(File configFile) {
+	event "StatusUpdate", ["Adding usertype.jodatime GORM mappings to Config.groovy"]
 	configFile.withWriterAppend {
 		it.write """
 // Added by the Joda-Time plugin:
@@ -71,6 +70,7 @@ boolean isOldPersistenceSupportInstalled() {
 }
 
 private void appendOldPersistenceMappings(File configFile) {
+	event "StatusUpdate", ["Adding joda-time-hibernate GORM mappings to Config.groovy"]
 	configFile.withWriterAppend {
 		it.write """
 // Added by the Joda-Time plugin:

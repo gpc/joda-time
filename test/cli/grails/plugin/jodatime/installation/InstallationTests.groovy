@@ -177,7 +177,7 @@ grails.gorm.default.mapping = {
 	}
 
 	private void runGrailsCommand(String... args) {
-		println "`grails ${args.join(' ')}`..."
+		println "$workDir.absolutePath > `grails ${args.join(' ')}`..."
 		execute(args as List)
 		waitForProcess()
 		verifyHeader()
@@ -198,10 +198,10 @@ grails.project.dependency.resolution = {
     checksums true
     repositories {
         inherits true
+		mavenLocal() // vital that mavenLocal comes first so we get the build's version of the joda-time plugin
         grailsPlugins()
         grailsHome()
         grailsCentral()
-		mavenLocal()
         mavenCentral()
     }
     dependencies {
