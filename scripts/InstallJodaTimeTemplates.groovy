@@ -24,10 +24,12 @@ target(installJodaTimeTemplates: "Installs scaffolding templates to enable dynam
 	if (srcdir?.isDirectory()) {
 		event "StatusUpdate", ["Copying templates from $jodaTimePluginDir"]
 
+		boolean html5 = argsMap["html5"]
+
 		def copyTemplates = ["renderEditor.template"]
 
 		for (name in copyTemplates) {
-			def srcfile = new File(srcdir, name)
+			def srcfile = new File(srcdir, html5 ? "${name}.html5" : name)
 			def destfile = new File(destdir, name)
 			ant.copy file: srcfile.absolutePath, tofile: destfile.absolutePath, overwrite: true, failonerror: false
 		}

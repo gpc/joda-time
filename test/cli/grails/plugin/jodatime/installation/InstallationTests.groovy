@@ -18,10 +18,9 @@ package grails.plugin.jodatime.installation
 
 import grails.test.AbstractCliTestCase
 import org.apache.commons.lang.RandomStringUtils
+import static org.apache.commons.io.FileUtils.checksumCRC32
 import org.joda.time.*
 import org.junit.*
-import org.apache.commons.io.FileUtils
-import static org.apache.commons.io.FileUtils.checksumCRC32
 
 class InstallationTests extends AbstractCliTestCase {
 
@@ -118,6 +117,19 @@ grails.gorm.default.mapping = {
 		runGrailsCommand "install-joda-time-templates"
 
 		def srcFile = new File("src/templates/scaffolding/renderEditor.template")
+		def destFile = new File(workDir, "src/templates/scaffolding/renderEditor.template")
+
+		assert destFile.isFile()
+		assert checksumCRC32(srcFile) == checksumCRC32(destFile)
+	}
+
+	@Test
+	void installJodaTimeTemplatesCanOptionallyInstallHtml5Version() {
+		generateBuildConfig()
+		runGrailsCommand "package"
+		runGrailsCommand "install-joda-time-templates", "-html5"
+
+		def srcFile = new File("src/templates/scaffolding/renderEditor.template.html5")
 		def destFile = new File(workDir, "src/templates/scaffolding/renderEditor.template")
 
 		assert destFile.isFile()
