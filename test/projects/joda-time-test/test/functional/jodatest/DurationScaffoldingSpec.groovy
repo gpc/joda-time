@@ -1,6 +1,5 @@
 package jodatest
 
-import geb.spock.GebSpec
 import org.joda.time.Period
 import spock.lang.Unroll
 

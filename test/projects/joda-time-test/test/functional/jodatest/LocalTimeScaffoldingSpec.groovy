@@ -1,6 +1,5 @@
 package jodatest
 
-import geb.spock.GebSpec
 import org.joda.time.LocalTime
 import spock.lang.Unroll
 
@@ -33,8 +32,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		when:
 		go "/alarm/create"
 		$("form").description = "Gym"
-		$("form").time_hour = "06"
-		$("form").time_minute = "15"
+		$("form").time = "06:15"
 		$("input.save").click()
 
 		then:
@@ -65,8 +63,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 
 		then:
 		$("form").description == "Morning"
-		$("form").time_hour == "07"
-		$("form").time_minute == "00"
+		$("form").time == "07:00"
 	}
 
 	@Unroll({"list view is sorted after clicking the column header $x times"})

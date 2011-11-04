@@ -1,6 +1,5 @@
 package jodatest
 
-import geb.spock.GebSpec
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import spock.lang.Unroll
 
