@@ -13,10 +13,6 @@ grails.project.dependency.resolution = {
 	}
 	dependencies {
 		compile "joda-time:joda-time:2.0"
-		test("org.hamcrest:hamcrest-all:1.1") {
-			excludes "junit", "jmock", "easymock"
-			exported = false
-		}
 	}
 	plugins {
 		build(":release:1.0.0.RC3") {
