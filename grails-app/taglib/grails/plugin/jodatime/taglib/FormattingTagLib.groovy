@@ -16,16 +16,15 @@
 package grails.plugin.jodatime.taglib
 
 import org.apache.commons.lang.LocaleUtils
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import org.springframework.web.servlet.support.RequestContextUtils
+import org.joda.time.*
 
 class FormattingTagLib {
 
 	static namespace = "joda"
+
+	def grailsApplication
 
 	def format = {attrs ->
 		if (attrs.pattern && attrs.style) {
@@ -98,7 +97,7 @@ class FormattingTagLib {
 	}
 
 	private String patternForType(String type) {
-			ConfigurationHolder.config?.flatten()?."jodatime.format.${type}" ?: null
+		grailsApplication.config.flatten()."jodatime.format.${type}" ?: null
 	}
 
 }
