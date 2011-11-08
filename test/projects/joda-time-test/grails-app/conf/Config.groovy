@@ -82,3 +82,5 @@ log4j = {
 }
 
 grails.app.context = "/"
+
+jodatime.format.html5 = true

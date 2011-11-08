@@ -1,6 +1,5 @@
 package jodatest
 
-import geb.spock.GebSpec
 import org.joda.time.LocalDate
 import spock.lang.Unroll
 
@@ -33,9 +32,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		when:
 		go "/person/create"
 		$("form").name = "Alex"
-		$("form").birthday_day = "2"
-		$("form").birthday_month = "10"
-		$("form").birthday_year = "2008"
+		$("form").birthday = "2008-10-02"
 		$("input.save").click()
 
 		then:
@@ -66,9 +63,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		go "/person/edit/$rob.id"
 
 		then:
-		$("form").birthday_day == "29"
-		$("form").birthday_month == "11"
-		$("form").birthday_year == "1971"
+		$("form").birthday == "1971-11-29"
 	}
 
 	@Unroll({"list view is sorted after clicking the column header $x times"})

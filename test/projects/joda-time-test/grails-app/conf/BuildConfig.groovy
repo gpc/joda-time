@@ -10,8 +10,10 @@ grails.project.dependency.resolution = {
 		grailsCentral()
 		mavenLocal()
 		mavenCentral()
+		mavenRepo "http://m2repo.spockframework.org/ext/"
 	}
 	dependencies {
+		test "org.hamcrest:hamcrest-all:1.2"
 		test("org.seleniumhq.selenium:selenium-htmlunit-driver:2.9.0") {
 			excludes "xml-apis"
 		}

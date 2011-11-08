@@ -11,6 +11,8 @@ class AuditedRecord {
 
 	static constraints = {
 		data: blank: false
+		dateCreated editable: false
+		lastUpdated editable: false
 	}
 
 	static mapping = {
