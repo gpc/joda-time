@@ -10,9 +10,13 @@ grails.project.dependency.resolution = {
 		grailsCentral()
 		mavenLocal()
 		mavenCentral()
+		mavenRepo "http://m2repo.spockframework.org/ext/"
 	}
 	dependencies {
 		compile "joda-time:joda-time:2.0"
+		test("org.hamcrest:hamcrest-all:1.1") {
+			exported = false
+		}
 	}
 	plugins {
 		build(":release:1.0.0.RC3") {
