@@ -34,6 +34,14 @@ target(installJodaTimeTemplates: "Installs scaffolding templates to enable dynam
 			ant.copy file: srcfile.absolutePath, tofile: destfile.absolutePath, overwrite: true, failonerror: false
 		}
 
+		if (html5) {
+			println """\
+*******************************************************************************
+* To support HTML5 inputs for Joda-time properties ensure that
+* `jodatime.format.html5 = true` is set in your Config.groovy
+*******************************************************************************
+"""
+		}
 		event "StatusFinal", ["Template installation complete"]
 	} else {
 		event "StatusError", ["Unable to install templates as plugin template files are missing"]
