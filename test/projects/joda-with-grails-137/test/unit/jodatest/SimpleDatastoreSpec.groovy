@@ -12,7 +12,7 @@ class SimpleDatastoreSpec extends Specification {
 		expect:
         Person.count() == 4
 		Person.findByBirthday(new LocalDate(2008, 10, 2)).name == "Alex"
-		Person.findByBirthdayGreaterThan(new LocalDate(2000, 12, 31)).name == ["Alex", "Nicholas"]
+		Person.findAllByBirthdayGreaterThan(new LocalDate(2000, 12, 31)).name == ["Alex", "Nicholas"]
 		Person.findByBirthdayIsNull().name == "Mystery"
 	}
 
@@ -26,7 +26,7 @@ class SimpleDatastoreSpec extends Specification {
         people << new Person(name: "Alex", birthday: new LocalDate(2008, 10, 2))
         people << new Person(name: "Nicholas", birthday: new LocalDate(2010, 11, 14))
         people << new Person(name: "Mystery", birthday: null)
-		mockDomain Person
+		mockDomain Person, people
 	}
 
 	def cleanup() {
