@@ -2,6 +2,7 @@ package jodatest
 
 import org.joda.time.LocalDate
 import spock.lang.Unroll
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class LocalDateScaffoldingSpec extends GebSpec {
 
@@ -25,7 +26,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 
 		then:
 		$("tbody tr", 0).find("td", 0).text() == rob.name
-		$("tbody tr", 0).find("td", 1).text() == "11/29/71"
+		$("tbody tr", 0).find("td", 1).text() == "1971-11-29"
 	}
 
 	def "create"() {
@@ -33,7 +34,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		go "/person/create"
 		$("form").name = "Alex"
 		$("form").birthday = "2008-10-02"
-		$("input.save").click()
+		$("form").create().click()
 
 		then:
 		$(".message").text() ==~ /Person \d+ created/
@@ -45,11 +46,17 @@ class LocalDateScaffoldingSpec extends GebSpec {
 
 	@Unroll({"show formats LocalDate for $locale locale"})
 	def "show"() {
+        given:
+        ConfigurationHolder.config.jodatime.format.html5 = false
+
 		when:
 		go "/person/show/$rob.id?lang=$locale"
 
 		then:
 		$("li.fieldcontain", 1).find(".property-value").text() == expectedValue
+
+        cleanup:
+        ConfigurationHolder.config.jodatime.format.html5 = true
 
 		where:
 		locale               | expectedValue

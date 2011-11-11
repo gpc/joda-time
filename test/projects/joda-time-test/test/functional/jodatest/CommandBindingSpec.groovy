@@ -23,14 +23,20 @@ class CommandBindingSpec extends GebSpec {
 	
 	@Unroll({"a LocalDate property is bound using the $locale locale"})
 	def "a LocalDate property is bound using the request locale"() {
+        given:
+        ConfigurationHolder.config.jodatime.format.html5 = false
+
 		when:
 		go "/command?lang=$locale"
-		$("form").localDate = "02/04/09"
+		$("form").localDate = value
 		$("form").submit().click()
 
 		then:
 		$(".message").text() == expectedMessage
-		
+
+        cleanup:
+        ConfigurationHolder.config.jodatime.format.html5 = true
+
 		where:
 		locale    | value      | expectedMessage
 		Locale.UK | "02/04/09" | "You entered: 2 April 2009"
@@ -38,9 +44,6 @@ class CommandBindingSpec extends GebSpec {
 	}
 	
 	def "a LocalDate property can be bound using HTML5 date format"() {
-		given:
-		ConfigurationHolder.config.jodatime.format.html5 = true
-
 		when:
 		go "/command"
 		$("form").localDate = "2010-07-08"
@@ -48,9 +51,6 @@ class CommandBindingSpec extends GebSpec {
 
 		then:
 		$(".message").text() == "You entered: 8 July 2010"
-		
-		cleanup:
-		ConfigurationHolder.config.jodatime.format.html5 = false
 	}
 	
 	def "a LocalDate property can be bound using a configured format"() {

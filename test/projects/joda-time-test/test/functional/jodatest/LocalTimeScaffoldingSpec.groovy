@@ -2,6 +2,7 @@ package jodatest
 
 import org.joda.time.LocalTime
 import spock.lang.Unroll
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class LocalTimeScaffoldingSpec extends GebSpec {
 
@@ -25,7 +26,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 
 		then:
 		$("tbody tr", 0).find("td", 0).text() == alarm1.description
-		$("tbody tr", 0).find("td", 1).text() == "7:00 AM"
+		$("tbody tr", 0).find("td", 1).text() == "07:00:00.000"
 	}
 
 	def "create"() {
@@ -45,11 +46,17 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 
 	@Unroll({"show formats LocalTime for $locale locale"})
 	def "show"() {
+        given:
+        ConfigurationHolder.config.jodatime.format.html5 = false
+
 		when:
 		go "/alarm/show/$alarm1.id?lang=$locale"
 
 		then:
 		$("li.fieldcontain", 1).find(".property-value").text() == expectedValue
+
+        cleanup:
+        ConfigurationHolder.config.jodatime.format.html5 = true
 
 		where:
 		locale    | expectedValue
@@ -63,7 +70,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 
 		then:
 		$("form").description == "Morning"
-		$("form").time == "07:00"
+		$("form").time == "07:00:00.000"
 	}
 
 	@Unroll({"list view is sorted after clicking the column header $x times"})
