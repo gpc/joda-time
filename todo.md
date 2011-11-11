@@ -1,6 +1,5 @@
 ## Bugs
 
-* formatting of values is not working in list / show views
 * PersistentDuration columns are not properly sortable
 
 ## Backlog
@@ -15,4 +14,3 @@
 * allow minutes on dateTimePicker to be restricted, e.g. only allow selection of every 5 minutes
 * selection tag for Chronology
 * JSON/XML support for Chronology
-
