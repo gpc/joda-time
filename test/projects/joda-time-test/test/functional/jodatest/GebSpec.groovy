@@ -18,6 +18,7 @@ import spock.lang.*
 import geb.*
 import org.openqa.selenium.WebDriver
 
+// TODO: this is only necessary as there's a problem with Geb right now
 class GebSpec extends Specification {
 
 	String gebConfEnv = null
