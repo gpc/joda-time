@@ -29,11 +29,15 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		$("tbody tr", 0).find("td", 1).text() == "1971-11-29"
 	}
 
+	@Unroll({"create accepts '$value' as a LocalDate for locale $locale when HTML5 format is ${html5Format ? 'on' : 'off'}"})
 	def "create"() {
+		given:
+		ConfigurationHolder.config.jodatime.format.html5 = html5Format
+
 		when:
-		go "/person/create"
+		go "/person/create?lang=$locale"
 		$("form").name = "Alex"
-		$("form").birthday = "2008-10-02"
+		$("form").birthday = value
 		$("form").create().click()
 
 		then:
@@ -42,12 +46,24 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		and:
 		def alex = Person.findByName("Alex")
 		alex.birthday == new LocalDate(2008, 10, 2)
+
+		cleanup:
+		ConfigurationHolder.config.jodatime.format.html5 = true
+
+		where:
+		html5Format | locale               | value
+		false       | Locale.UK            | "2/10/08"
+		false       | Locale.US            | "10/2/08"
+		false       | Locale.CANADA_FRENCH | "08-10-02"
+		true        | Locale.US            | "2008-10-02"
+		true        | Locale.UK            | "2008-10-02"
+		true        | Locale.CANADA_FRENCH | "2008-10-02"
 	}
 
 	@Unroll({"show formats LocalDate for $locale locale"})
 	def "show"() {
-        given:
-        ConfigurationHolder.config.jodatime.format.html5 = false
+		given:
+		ConfigurationHolder.config.jodatime.format.html5 = false
 
 		when:
 		go "/person/show/$rob.id?lang=$locale"
@@ -55,8 +71,8 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		then:
 		$("li.fieldcontain", 1).find(".property-value").text() == expectedValue
 
-        cleanup:
-        ConfigurationHolder.config.jodatime.format.html5 = true
+		cleanup:
+		ConfigurationHolder.config.jodatime.format.html5 = true
 
 		where:
 		locale               | expectedValue
