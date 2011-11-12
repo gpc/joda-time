@@ -2,36 +2,36 @@ package grails.plugin.jodatime.util
 
 import org.joda.time.*
 
-class JodaRange extends ObjectRange {
+class DateTimeRange extends ObjectRange {
 
 	private final DurationFieldType increment
 
-	JodaRange(DurationFieldType increment, ReadablePartial from, ReadablePartial to) {
+	DateTimeRange(DurationFieldType increment, ReadablePartial from, ReadablePartial to) {
 		super(from, to)
 		this.increment = increment
 	}
 
-	JodaRange(DurationFieldType increment, ReadablePartial from, ReadablePartial to, boolean reverse) {
+	DateTimeRange(DurationFieldType increment, ReadablePartial from, ReadablePartial to, boolean reverse) {
 		super(from, to, reverse)
 		this.increment = increment
 	}
 
-	JodaRange(DurationFieldType increment, ReadableInstant from, ReadableInstant to) {
+	DateTimeRange(DurationFieldType increment, ReadableInstant from, ReadableInstant to) {
 		super(from, to)
 		this.increment = increment
 	}
 
-	JodaRange(DurationFieldType increment, ReadableInstant from, ReadableInstant to, boolean reverse) {
+	DateTimeRange(DurationFieldType increment, ReadableInstant from, ReadableInstant to, boolean reverse) {
 		super(from, to, reverse)
 		this.increment = increment
 	}
 
-	JodaRange(DurationFieldType increment, Interval interval) {
+	DateTimeRange(DurationFieldType increment, Interval interval) {
 		super(interval.start, interval.end)
 		this.increment = increment
 	}
 
-	JodaRange(DurationFieldType increment, Interval interval, boolean reverse) {
+	DateTimeRange(DurationFieldType increment, Interval interval, boolean reverse) {
 		super(interval.start, interval.end, reverse)
 		this.increment = increment
 	}
