@@ -5,6 +5,18 @@ import org.joda.time.*
 class DateTimeRange extends ObjectRange {
 
 	private final DurationFieldType increment
+	
+	static <T extends ReadablePartial> Range<T> asRange(DurationFieldType increment, T from, T to) {
+		new DateTimeRange(increment, from, to)
+	}
+
+	static <T extends ReadableInstant> Range<T> asRange(DurationFieldType increment, T from, T to) {
+		new DateTimeRange(increment, from, to)
+	}
+
+	static Range<Interval> asRange(DurationFieldType increment, Interval interval) {
+		new DateTimeRange(increment, interval)
+	}
 
 	DateTimeRange(DurationFieldType increment, ReadablePartial from, ReadablePartial to) {
 		super(from, to)

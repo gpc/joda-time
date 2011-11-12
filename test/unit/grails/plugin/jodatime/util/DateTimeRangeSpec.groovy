@@ -30,7 +30,7 @@ class DateTimeRangeSpec extends Specification {
 		def end = new LocalDateTime(2011, 11, 1, 0, 0)
 
 		when:
-		def range = new DateTimeRange(increment, start, end)
+		def range = DateTimeRange.asRange(increment, start, end)
 
 		then:
 		range.size() == expectedSize
@@ -46,7 +46,7 @@ class DateTimeRangeSpec extends Specification {
 		given:
 		def from = new LocalDate(2011, 11, 11)
 		def to = new LocalDate(2011, 11, 14)
-		def range = new DateTimeRange(hours(), from, to)
+		def range = DateTimeRange.asRange(hours(), from, to)
 
 		when:
 		range.step(1)
@@ -61,7 +61,7 @@ class DateTimeRangeSpec extends Specification {
 		def to = new DateTime(2011, 11, 11, 23, 0)
 
 		expect:
-		new DateTimeRange(hours(), from, to).size() == 24
+		DateTimeRange.asRange(hours(), from, to).size() == 24
 	}
 
 	def "can use an Interval"() {
@@ -70,8 +70,11 @@ class DateTimeRangeSpec extends Specification {
 		def to = new DateTime(2011, 11, 11, 23, 0)
 		def interval = new Interval(from, to)
 
-		expect:
-		new DateTimeRange(hours(), interval).size() == 24
+		when:
+		def range = DateTimeRange.asRange(hours(), interval)
+
+		then:
+		range.size() == 24
 	}
 
 	def "can use step method to increment in larger chunks"() {
@@ -80,7 +83,7 @@ class DateTimeRangeSpec extends Specification {
 		def end = new LocalDateTime(2011, 11, 1, 0, 0)
 
 		when:
-		def range = new DateTimeRange(hours(), start, end).step(2)
+		def range = DateTimeRange.asRange(hours(), start, end).step(2)
 
 		then:
 		range.size() == 13
