@@ -101,6 +101,23 @@ class DateTimeRangeSpec extends Specification {
 		range.size() == 31
 	}
 
+	def "can use step method to iterate with different fields"() {
+		given:
+		def start = new LocalDateTime(2011, 10, 31, 0, 0)
+		def end = new LocalDateTime(2011, 11, 30, 0, 0)
+
+		when:
+		def collectedElements = []
+		DateTimeRange.asRange(hours(), start, end).step(days()) {
+			collectedElements << it
+		}
+
+		then:
+		collectedElements.size() == 31
+		collectedElements.first() == start
+		collectedElements.last() == end
+	}
+
 	def "can use step method to increment with different fields and chunk sizes"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
@@ -111,6 +128,23 @@ class DateTimeRangeSpec extends Specification {
 
 		then:
 		range.size() == 16
+	}
+
+	def "can use step method to iterate with different fields and chunk sizes"() {
+		given:
+		def start = new LocalDateTime(2011, 10, 31, 0, 0)
+		def end = new LocalDateTime(2011, 11, 30, 0, 0)
+
+		when:
+		def collectedElements = []
+		DateTimeRange.asRange(hours(), start, end).step(days(), 2) {
+			collectedElements << it
+		}
+
+		then:
+		collectedElements.size() == 16
+		collectedElements.first() == start
+		collectedElements.last() == end
 	}
 
 }
