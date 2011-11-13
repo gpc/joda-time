@@ -88,5 +88,29 @@ class DateTimeRangeSpec extends Specification {
 		then:
 		range.size() == 13
 	}
+	
+	def "can use step method to increment with different fields"() {
+		given:
+		def start = new LocalDateTime(2011, 10, 31, 0, 0)
+		def end = new LocalDateTime(2011, 11, 30, 0, 0)
+
+		when:
+		def range = DateTimeRange.asRange(hours(), start, end).step(days())
+
+		then:
+		range.size() == 31
+	}
+
+	def "can use step method to increment with different fields and chunk sizes"() {
+		given:
+		def start = new LocalDateTime(2011, 10, 31, 0, 0)
+		def end = new LocalDateTime(2011, 11, 30, 0, 0)
+
+		when:
+		def range = DateTimeRange.asRange(hours(), start, end).step(days(), 2)
+
+		then:
+		range.size() == 16
+	}
 
 }

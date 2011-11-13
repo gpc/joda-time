@@ -48,6 +48,14 @@ class DateTimeRange extends ObjectRange {
 		this.increment = increment
 	}
 
+	List step(DurationFieldType increment) {
+		new DateTimeRange(increment, from, to)
+	}
+
+	List step(DurationFieldType increment, int step) {
+		new DateTimeRange(increment, from, to).step(step)
+	}
+
 	@Override
 	protected Object increment(Object value) {
 		value.withFieldAdded(increment, 1)
