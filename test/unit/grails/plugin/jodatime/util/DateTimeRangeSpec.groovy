@@ -124,7 +124,7 @@ class DateTimeRangeSpec extends Specification {
 		def end = new LocalDateTime(2011, 11, 30, 0, 0)
 
 		when:
-		def range = DateTimeRange.asRange(hours(), start, end).step(days(), 2)
+		def range = DateTimeRange.asRange(hours(), start, end).step(2, days())
 
 		then:
 		range.size() == 16
@@ -137,7 +137,7 @@ class DateTimeRangeSpec extends Specification {
 
 		when:
 		def collectedElements = []
-		DateTimeRange.asRange(hours(), start, end).step(days(), 2) {
+		DateTimeRange.asRange(hours(), start, end).step(2, days()) {
 			collectedElements << it
 		}
 

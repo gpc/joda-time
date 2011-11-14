@@ -59,11 +59,11 @@ class DateTimeRange extends ObjectRange {
 		new DateTimeRange(increment, from, to).each(closure)
 	}
 
-	List step(DurationFieldType increment, int step) {
+	List step(int step, DurationFieldType increment) {
 		new DateTimeRange(increment, from, to).step(step)
 	}
 
-	void step(DurationFieldType increment, int step, Closure closure) {
+	void step(int step, DurationFieldType increment, Closure closure) {
 		new DateTimeRange(increment, from, to).step(step).each(closure)
 	}
 
