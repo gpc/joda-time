@@ -147,4 +147,58 @@ class DateTimeRangeSpec extends Specification {
 		collectedElements.last() == end
 	}
 
+	def "can use step with DurationFieldType argument to convert a regular range"() {
+		given:
+		def start = new LocalDateTime(2011, 10, 31, 0, 0)
+		def end = new LocalDateTime(2011, 11, 30, 0, 0)
+		def range = start..end
+
+		expect:
+		range.step(days()).size() == 31
+		range.step(2, days()).size() == 16
+	}
+
+	def "can use step with DurationFieldType argument to iterate over a regular range"() {
+		given:
+		def start = new LocalDateTime(2011, 10, 31, 0, 0)
+		def end = new LocalDateTime(2011, 11, 30, 0, 0)
+		def range = start..end
+
+		when:
+		def collectedElements = []
+		range.step(days()) {
+			collectedElements << it
+		}
+
+		then:
+		collectedElements.size() == 31
+	}
+
+	def "can use step with DurationFieldType and int arguments to iterate over a regular range"() {
+		given:
+		def start = new LocalDateTime(2011, 10, 31, 0, 0)
+		def end = new LocalDateTime(2011, 11, 30, 0, 0)
+		def range = start..end
+
+		when:
+		def collectedElements = []
+		range.step(2, days()) {
+			collectedElements << it
+		}
+
+		then:
+		collectedElements.size() == 16
+	}
+
+	def "step cannot be used with a DurationFieldType argument on non-joda ranges"() {
+		given:
+		def range = 0..5
+
+		when:
+		range.step(days())
+
+		then:
+		thrown MissingMethodException
+	}
+
 }

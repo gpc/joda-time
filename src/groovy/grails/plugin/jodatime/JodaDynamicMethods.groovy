@@ -17,6 +17,7 @@ package grails.plugin.jodatime
 
 import org.joda.time.*
 import static org.joda.time.DateTimeFieldType.*
+import grails.plugin.jodatime.util.DateTimeRange
 
 class JodaDynamicMethods {
 
@@ -62,6 +63,20 @@ class JodaDynamicMethods {
 		}
 		DateTimeUtils.metaClass.static.withCurrentMillisOffset = { long offset, Closure yield ->
 			JodaDynamicMethods.withCurrentMillisOffset(offset, yield)
+		}
+
+		// range extensions
+		Range.metaClass.step = { DurationFieldType increment ->
+			JodaDynamicMethods.step(delegate, 1, increment)
+		}
+		Range.metaClass.step = { int step, DurationFieldType increment ->
+			JodaDynamicMethods.step(delegate, step, increment)
+		}
+		Range.metaClass.step = { DurationFieldType increment, Closure closure ->
+			JodaDynamicMethods.step(delegate, 1, increment, closure)
+		}
+		Range.metaClass.step = { int step, DurationFieldType increment, Closure closure ->
+			JodaDynamicMethods.step(delegate, step, increment, closure)
 		}
 	}
 
@@ -120,6 +135,22 @@ class JodaDynamicMethods {
 			return yield()
 		} finally {
 			DateTimeUtils.setCurrentMillisSystem()
+		}
+	}
+
+	static List step(Range self, int step, DurationFieldType increment) {
+		if (self.from instanceof ReadablePartial || self.from instanceof ReadableInstant) {
+			new DateTimeRange(increment, self.from, self.to).step(step)
+		} else {
+			throw new MissingMethodException("step", self.getClass(), [increment] as Object[])
+		}
+	}
+
+	static void step(Range self, int step, DurationFieldType increment, Closure closure) {
+		if (self.from instanceof ReadablePartial || self.from instanceof ReadableInstant) {
+			new DateTimeRange(increment, self.from, self.to).step(step).each(closure)
+		} else {
+			throw new MissingMethodException("step", self.getClass(), [increment] as Object[])
 		}
 	}
 
