@@ -1,0 +1,7 @@
+DefaultPackage
+grails.plugin.jodatime
+grails.plugin.jodatime.binding
+grails.plugin.jodatime.converters
+grails.plugin.jodatime.simpledatastore
+grails.plugin.jodatime.taglib
+grails.plugin.jodatime.util

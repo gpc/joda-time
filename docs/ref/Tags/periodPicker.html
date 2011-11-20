@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Joda-Time Plugin 1.3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/1.%20Introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/2.%20Persistence.html"><strong>2</strong><span>Persistence</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/3.%20Data%20binding.html"><strong>3</strong><span>Data binding</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/4.%20Tags.html"><strong>4</strong><span>Tags</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/5.%20Scaffolding.html"><strong>5</strong><span>Scaffolding</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/6.%20JSON%20and%20XML.html"><strong>6</strong><span>JSON and XML</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/7.%20Integrating%20with%20other%20plugins.html"><strong>7</strong><span>Integrating with other plugins</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>\
+The Joda-Time Plugin integrates the &lt;a href=&quot;http://joda-time.sourceforge.net/&quot;&gt;Joda Time&lt;/a&gt; date/time library into
+Grails. The plugin provides:
+&lt;ul&gt;
+&lt;li&gt;Support for Joda Time types as persistent fields on domain classes including in Grails 2 unit tests.&lt;/li&gt;
+&lt;li&gt;The ability to bind from form inputs to Joda Time fields on domain or command objects.&lt;/li&gt;
+&lt;li&gt;JSON and XML rendering of Joda Time types.&lt;/li&gt;
+&lt;li&gt;Tag-libs for input and output of Joda Time values.&lt;/li&gt;
+&lt;li&gt;Enhancements to Grails scaffolding to support domain classes with Joda Time fields.&lt;/li&gt;
+&lt;li&gt;Compatibility and consistency methods added to Joda Time types.&lt;/li&gt;
+&lt;/ul&gt;
+</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="reference corner-all">
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                <h1>joda:periodPicker</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>This tag renders an input control for a <a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html" target="blank">Duration</a> or <a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html" target="blank">Period</a> value.<p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre>&#60;joda:periodPicker name=<span class="java&#45;quote">"myField"</span> value=<span class="java&#45;quote">"$&#123;myValue&#125;"</span> /&#62;
+&#60;joda:periodPicker name=<span class="java&#45;quote">"myField"</span> value=<span class="java&#45;quote">"$&#123;myValue&#125;"</span> fields=<span class="java&#45;quote">"days,hours,minutes"</span> /&#62;</pre></div><p class="paragraph"/><h2>Description</h2><p class="paragraph"/><h3>Attributes</h3>
+<ul class="star">
+<li><code>name</code> - The name for the backing form field (as per <code>g:textField</code> and other standard tags)</li>
+<li><code>id</code> (optional) - The  <em class="italic">id</em>  for the backing form field. Defaults to the same as  <em class="italic">name</em> </li>
+<li><code>value</code> (optional) - The currently selected value which can be a <code>Period</code> or <code>Duration</code> instance. Defaults to <code>new Period()</code></li>
+<li><code>fields</code> (optional) - A comma separated list of the fields to provide input elements for. Valid values are  <em class="italic">"years", "months", "weeks", "days", "hours", "minutes", "seconds"</em>  and  <em class="italic">"millis"</em>  with the default being  <em class="italic">"hours,minutes,seconds"</em> </li>
+</ul><p class="paragraph"/><h3>Configuration</h3><p class="paragraph"/>Default fields can be set in <code>Config.groovy</code> using the key  <em class="italic">jodatime.periodpicker.default.fields</em> <p class="paragraph"/><h3>Internationalization</h3><p class="paragraph"/>Labels for each field can be overridden in <code>messages.properties</code> using the keys  <em class="italic">org.joda.time.DurationFieldType.hours, org.joda.time.DurationFieldType.minutes</em>  and so on.<p class="paragraph"/>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block">
+                        <h1 class="menu-title" onclick="toggleRef(nextElement(this))">Dynamic Methods</h1>
+                        <div class="menu-sub">
+                            
+                            
+                            <div class="menu-item"><a href="../../ref/Dynamic%20Methods/div.html">div</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Dynamic%20Methods/format.html">format</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Dynamic%20Methods/multiply.html">multiply</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Dynamic%20Methods/negative.html">negative</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Dynamic%20Methods/next.html">next</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Dynamic%20Methods/previous.html">previous</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Dynamic%20Methods/withCurrentMillisFixed.html">withCurrentMillisFixed</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Dynamic%20Methods/withCurrentMillisOffset.html">withCurrentMillisOffset</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="menu-block">
+                        <h1 class="menu-title" onclick="toggleRef(nextElement(this))">Tags</h1>
+                        <div class="menu-sub selected">
+                            
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/dateField.html">dateField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/datePicker.html">datePicker</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/dateTimePicker.html">dateTimePicker</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/dateTimeZoneSelect.html">dateTimeZoneSelect</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/datetimeField.html">datetimeField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/datetimeLocalField.html">datetimeLocalField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/format.html">format</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/formatPeriod.html">formatPeriod</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/inputPattern.html">inputPattern</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/monthField.html">monthField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/periodPicker.html">periodPicker</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/time.html">time</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/timeField.html">timeField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/timePicker.html">timePicker</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/weekField.html">weekField</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+
+<script type="text/javascript" src="../../js/docs.js"></script>
+
+</body>
+</html>
