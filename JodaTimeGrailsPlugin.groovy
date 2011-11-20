@@ -25,23 +25,13 @@ class JodaTimeGrailsPlugin {
 	def dependsOn = [core: "1.3 > *", converters: "1.3 > *"]
 
 	def title = "Joda-Time Plugin"
-	def description = '''\\
-The Joda-Time Plugin integrates the <a href="http://joda-time.sourceforge.net/">Joda Time</a> date/time library into
-Grails. The plugin provides:
-<ul>
-<li>Support for Joda Time types as persistent fields on domain classes including in Grails 2 unit tests.</li>
-<li>The ability to bind from form inputs to Joda Time fields on domain or command objects.</li>
-<li>JSON and XML rendering of Joda Time types.</li>
-<li>Tag-libs for input and output of Joda Time values.</li>
-<li>Enhancements to Grails scaffolding to support domain classes with Joda Time fields.</li>
-<li>Compatibility and consistency methods added to Joda Time types.</li>
-</ul>
-'''
-
+	def description = "Joda Time integration for Grails"
+	def author = "Rob Fletcher"
+	def authorEmail = "rob@energizedwork.com"
 
 	def license = "APACHE"
 	def developers = [[name: "Rob Fletcher", email: "rob@energizedwork.com"]]
-	def documentation = "http://grails.org/JodaTime+Plugin"
+	def documentation = "http://gpc.github.com/grails-joda-time/"
 	def issueManagement = [system: "JIRA", url: "http://jira.grails.org/browse/GPJODATIME"]
 	def scm = [url: "https://github.com/gpc/grails-joda-time/"]
 
