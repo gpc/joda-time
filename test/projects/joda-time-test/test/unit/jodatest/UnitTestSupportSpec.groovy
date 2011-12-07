@@ -29,6 +29,7 @@ class UnitTestSupportSpec extends Specification {
 		"findByBirthdayNotEquals"      | new LocalDate(2008, 10, 2) | "Nicholas"
 		"findByBirthdayGreaterThan"    | new LocalDate(2008, 10, 2) | "Nicholas"
 		"findAllByBirthdayGreaterThan" | new LocalDate(2008, 10, 1) | ["Alex", "Nicholas"]
+		"findAllByBirthdayGreaterThanEquals" | new LocalDate(2008, 10, 2) | ["Alex", "Nicholas"]
 	}
 
 	@Unroll({"can us the dynamic query `$queryMethod` on a Duration property"})
