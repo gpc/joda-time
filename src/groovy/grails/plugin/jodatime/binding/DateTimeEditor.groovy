@@ -24,7 +24,7 @@ import org.joda.time.format.*
 
 class DateTimeEditor extends PropertyEditorSupport {
 
-	static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime].asImmutable()
+	static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime, Instant].asImmutable()
 
 	protected final Class type
 	@Lazy private ConfigObject config = ConfigurationHolder.config?.jodatime?.format
