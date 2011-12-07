@@ -9,6 +9,7 @@ The Joda-Time plugin enhances Grails' dynamic scaffolding so it is compatible wi
 * "Duration":http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html
 * "Period":http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html
 * "DateTimeZone":http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html
+* "Instant":http://joda-time.sourceforge.net/api-release/org/joda/time/Instant.html
 
 To install scaffolding templates use the command:
 

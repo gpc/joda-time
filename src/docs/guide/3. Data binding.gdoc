@@ -9,6 +9,7 @@ The Joda-Time plugin adds automatic binding support for the following types...
 * "Duration":http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html
 * "Period":http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html
 * "DateTimeZone":http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html
+* "Instant":http://joda-time.sourceforge.net/api-release/org/joda/time/Instant.html
 
 Properties can be bound to simple text fields or to picker controls (see below).
 
