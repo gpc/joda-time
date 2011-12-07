@@ -105,6 +105,24 @@ class DateTimeEditorSpec extends UnitSpec {
 		Instant       | new Instant(92554380000)                                                                           | "1972-12-07T05:33:00.000Z"
 	}
 
+	def "Instant values are always formatted as UTC"() {
+		given:
+		mockConfig 'jodatime.format.html5 = true'
+
+		and:
+		def defaultTimeZone = DateTimeZone.default
+		DateTimeZone.default = DateTimeZone.forID("EST")
+
+		and:
+		def editor = new DateTimeEditor(Instant)
+
+		when: editor.value = new Instant(92554380000)
+		then: editor.asText == "1972-12-07T05:33:00.000Z"
+
+		cleanup:
+		DateTimeZone.default = defaultTimeZone
+	}
+
 	@Unroll({"setAsText parses $type instances from $locale locale format text"})
 	def "setAsText accepts values in locale format"() {
 		given:

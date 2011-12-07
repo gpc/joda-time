@@ -84,9 +84,8 @@ class DateTimeEditor extends PropertyEditorSupport {
 			case LocalDateTime:
 				return Html5DateTimeFormat.datetimeLocal()
 			case DateTime:
-				return Html5DateTimeFormat.datetime()
 			case Instant:
-				return Html5DateTimeFormat.datetime().withZoneUTC()
+				return Html5DateTimeFormat.datetime()
 		}
 		return null
 	}
