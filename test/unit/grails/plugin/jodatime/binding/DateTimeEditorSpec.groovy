@@ -91,10 +91,10 @@ class DateTimeEditorSpec extends UnitSpec {
 		mockConfig 'jodatime.format.html5 = true'
 
 		and:
-		def editor = new DateTimeEditor(LocalDate)
+		def editor = new DateTimeEditor(type)
 
-		when: editor.value = new LocalDate(1971, 11, 29)
-		then: editor.asText == "1971-11-29"
+		when: editor.value = value
+		then: editor.asText == expected
 
 		where:
 		type          | value                                                                                              | expected
