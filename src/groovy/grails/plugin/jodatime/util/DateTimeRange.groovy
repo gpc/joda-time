@@ -17,7 +17,7 @@ class DateTimeRange extends ObjectRange {
 		new DateTimeRange(increment, from, to)
 	}
 
-	static Range<Interval> asRange(DurationFieldType increment, Interval interval) {
+	static Range<DateTime> asRange(DurationFieldType increment, Interval interval) {
 		new DateTimeRange(increment, interval)
 	}
 

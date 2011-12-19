@@ -5,12 +5,21 @@ import org.codehaus.groovy.grails.commons.GrailsDomainClass
 import org.joda.time.*
 import spock.lang.*
 
-@Mock([Person, Marathon, City])
+@Mock([Person, Marathon, City, AuditedRecord])
 class UnitTestSupportSpec extends Specification {
 
 	def setup() {
 		new Person(name: "Alex", birthday: new LocalDate(2008, 10, 2)).save(failOnError: true)
 		new Person(name: "Nicholas", birthday: new LocalDate(2010, 11, 14)).save(failOnError: true)
+	}
+	
+	@Issue("http://jira.grails.org/browse/GPJODATIME-19")
+	def "can re-save instances"() {
+		given:
+		def record = new AuditedRecord(data: "foo").save(failOnError: true)
+		
+		expect:
+		record.save(failOnError: true)
 	}
 
 	def "can read a LocalDate property of a domain instance retrieved from the simple datastore"() {
@@ -29,6 +38,7 @@ class UnitTestSupportSpec extends Specification {
 		"findByBirthdayNotEquals"      | new LocalDate(2008, 10, 2) | "Nicholas"
 		"findByBirthdayGreaterThan"    | new LocalDate(2008, 10, 2) | "Nicholas"
 		"findAllByBirthdayGreaterThan" | new LocalDate(2008, 10, 1) | ["Alex", "Nicholas"]
+		"findAllByBirthdayGreaterThanEquals" | new LocalDate(2008, 10, 2) | ["Alex", "Nicholas"]
 	}
 
 	@Unroll({"can us the dynamic query `$queryMethod` on a Duration property"})

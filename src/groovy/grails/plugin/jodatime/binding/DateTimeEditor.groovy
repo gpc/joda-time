@@ -15,20 +15,16 @@
  */
 package grails.plugin.jodatime.binding
 
+import grails.plugin.jodatime.Html5DateTimeFormat
 import java.beans.PropertyEditorSupport
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.LocalTime
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
 import org.springframework.context.i18n.LocaleContextHolder
-import grails.plugin.jodatime.Html5DateTimeFormat
+import org.joda.time.*
+import org.joda.time.format.*
 
 class DateTimeEditor extends PropertyEditorSupport {
 
-	static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime].asImmutable()
+	static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime, Instant].asImmutable()
 
 	protected final Class type
 	@Lazy private ConfigObject config = ConfigurationHolder.config?.jodatime?.format
@@ -88,6 +84,7 @@ class DateTimeEditor extends PropertyEditorSupport {
 			case LocalDateTime:
 				return Html5DateTimeFormat.datetimeLocal()
 			case DateTime:
+			case Instant:
 				return Html5DateTimeFormat.datetime()
 		}
 		return null
