@@ -27,8 +27,9 @@ grails.project.dependency.resolution = {
 		compile "org.jadira.usertype:usertype.jodatime:1.9"
 	}
 	plugins {
-		build ":tomcat:${grailsVersion}"
-		runtime ":hibernate:${grailsVersion}"
+		build ":tomcat:$grailsVersion"
+		runtime ":fields:1.0"
+		runtime ":hibernate:$grailsVersion"
 		test ":build-test-data:1.1.2"
 		test ":fixtures:1.0.7"
 		test ":geb:$gebVersion"
