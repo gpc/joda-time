@@ -1,0 +1,24 @@
+h1. step
+
+h2. Purpose
+
+Overrides the standard @step@ method on a @Range@ to produce a date/time range using a different field for the increment.
+
+h2. Examples
+
+{code}
+def start = new LocalDate()
+def end = new LocalDate().plusYears(1)
+def range = start..end
+assert range.step(DurationFieldType.months()).size() == 13
+assert range.step(2, DurationFieldType.months()).size() == 7
+{code}
+
+h2. Description
+
+Four variations exist:
+
+* @List step(DurationFieldType)@
+* @List step(int, DurationFieldType)@
+* @void step(DurationFieldType, Closure)@
+* @void step(int, DurationFieldType, Closure)@
