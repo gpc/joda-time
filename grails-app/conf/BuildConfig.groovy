@@ -35,10 +35,10 @@ grails.project.dependency.resolution = {
         }
     }
     plugins {
-        build(":release:1.0.0.RC3") {
+        build(":release:1.0.1") {
             export = false
         }
-        build(":svn:1.0.0.M1") {
+        build(":svn:1.0.2") {
             export = false
         }
         test(":spock:0.6-SNAPSHOT") {
