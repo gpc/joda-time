@@ -311,7 +311,7 @@
         if (isOptional()) {
             if (property.manyToOne || property.oneToOne) {
                 return " noSelection=\"['null': '']\""
-            } else if (property.type == Date || property.type == java.sql.Date || property.type == java.sql.Time || property.type == Calendar) {
+            } else if (property.type in [Date, java.sql.Date, java.sql.Time, Calendar, org.joda.time.LocalTime, org.joda.time.LocalDate, org.joda.time.LocalDateTime] || org.joda.time.ReadableInstant.isAssignableFrom(property.type)) {
                 return "default=\"none\" noSelection=\"['': '']\""
             } else {
                 return " noSelection=\"['': '']\""

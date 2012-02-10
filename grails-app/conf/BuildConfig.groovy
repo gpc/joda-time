@@ -17,8 +17,11 @@ grails.project.dependency.resolution = {
     dependencies {
         compile "joda-time:joda-time:2.0"
         test("org.hamcrest:hamcrest-all:1.1") {
-            exported = false
+            export = false
         }
+		test('org.jodd:jodd-wot:3.3.1') {
+			export = false
+		}
         if (grailsVersion.find(/^\d+/).toInteger() < 2) {
             println "Grails version: $grailsVersion"
             def datastoreVersion = "1.0.0.RC1"

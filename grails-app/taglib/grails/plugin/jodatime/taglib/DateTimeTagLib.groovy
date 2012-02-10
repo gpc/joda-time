@@ -106,7 +106,7 @@ class DateTimeTagLib {
 			out.println "<select name=\"${name}_day\" id=\"${id}_day\">"
 
 			if (noSelection) {
-				renderNoSelectionOption(noSelection.key, noSelection.value, '')
+				renderNoSelectionOption(noSelection.key, noSelection.value, value?.dayOfMonth)
 				out.println()
 			}
 
@@ -126,7 +126,7 @@ class DateTimeTagLib {
 			out.println "<select name=\"${name}_month\" id=\"${id}_month\">"
 
 			if (noSelection) {
-				renderNoSelectionOption(noSelection.key, noSelection.value, '')
+				renderNoSelectionOption(noSelection.key, noSelection.value, value?.monthOfYear)
 				out.println()
 			}
 
@@ -149,7 +149,7 @@ class DateTimeTagLib {
 			out.println "<select name=\"${name}_year\" id=\"${id}_year\">"
 
 			if (noSelection) {
-				renderNoSelectionOption(noSelection.key, noSelection.value, '')
+				renderNoSelectionOption(noSelection.key, noSelection.value, value?.year)
 				out.println()
 			}
 
@@ -169,7 +169,7 @@ class DateTimeTagLib {
 			out.println "<select name=\"${name}_hour\" id=\"${id}_hour\">"
 
 			if (noSelection) {
-				renderNoSelectionOption(noSelection.key, noSelection.value, '')
+				renderNoSelectionOption(noSelection.key, noSelection.value, value?.hourOfDay)
 				out.println()
 			}
 
@@ -194,7 +194,7 @@ class DateTimeTagLib {
 			out.println "<select name=\"${name}_minute\" id=\"${id}_minute\">"
 
 			if (noSelection) {
-				renderNoSelectionOption(noSelection.key, noSelection.value, '')
+				renderNoSelectionOption(noSelection.key, noSelection.value, value?.minuteOfHour)
 				out.println()
 			}
 
@@ -219,7 +219,7 @@ class DateTimeTagLib {
 			out.println "<select name=\"${name}_second\" id=\"${id}_second\">"
 
 			if (noSelection) {
-				renderNoSelectionOption(noSelection.key, noSelection.value, '')
+				renderNoSelectionOption(noSelection.key, noSelection.value, value?.secondOfMinute)
 				out.println()
 			}
 
@@ -269,8 +269,9 @@ class DateTimeTagLib {
 
 	def renderNoSelectionOption = {noSelectionKey, noSelectionValue, value ->
 		// If a label for the '--Please choose--' first item is supplied, write it out
+		value = (value == null ? '' : value)
 		out << '<option value="' << (noSelectionKey == null ? "" : noSelectionKey) << '"'
-		if (noSelectionKey.equals(value)) {
+		if (noSelectionKey == value) {
 			out << ' selected="selected"'
 		}
 		out << '>' << noSelectionValue.encodeAsHTML() << '</option>'

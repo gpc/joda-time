@@ -19,15 +19,15 @@ import grails.test.mixin.TestFor
 import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 import org.joda.time.*
 import spock.lang.*
-import grails.plugin.jodatime.taglib.DateTimeZoneTagLib
-import grails.plugin.jodatime.taglib.DateTimeTagLib
+
+import jodd.lagarto.dom.jerry.Jerry
+import static jodd.lagarto.dom.jerry.Jerry.jerry
 
 @TestFor(DateTimeTagLib)
 class DateTimeTagLibSpec extends Specification {
 
 	def setup() {
 		mockCodec HTMLCodec
-//		String.metaClass.encodeAsHTML = {-> HTMLCodec.encode(delegate) }
 
 		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0)
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
@@ -37,88 +37,107 @@ class DateTimeTagLibSpec extends Specification {
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
+	static Jerry $(String html) {
+		jerry(html)
+	}
+
 	def "datePicker outputs only date fields"() {
 		when:
 		def output = applyTemplate('<joda:datePicker name="foo"/>')
+		def dom = $(output)
 
 		then:
-		output =~ /<select name="foo_day"/
-		output =~ /<select name="foo_month"/
-		output =~ /<select name="foo_year"/
-		!output.contains(/<select name="foo_hour"/)
-		!output.contains(/<select name="foo_minute"/)
-		!output.contains(/<select name="foo_second"/)
+		dom.find('select[name=foo_day]').length() == 1
+		dom.find('select[name=foo_month]').length() == 1
+		dom.find('select[name=foo_year]').length() == 1
+
+		and:
+		dom.find('select[name=foo_hour]').length() == 0
+		dom.find('select[name=foo_minute]').length() == 0
+		dom.find('select[name=foo_second]').length() == 0
 	}
 
 	def "timePicker outputs only time fields"() {
 		when:
 		def output = applyTemplate('<joda:timePicker name="foo" precision="second"/>')
+		def dom = $(output)
 
 		then:
-		!output.contains(/<select name="foo_day"/)
-		!output.contains(/<select name="foo_month"/)
-		!output.contains(/<select name="foo_year"/)
-		output =~ /<select name="foo_hour"/
-		output =~ /<select name="foo_minute"/
-		output =~ /<select name="foo_second"/
+		dom.find('select[name=foo_hour]').length() == 1
+		dom.find('select[name=foo_minute]').length() == 1
+		dom.find('select[name=foo_second]').length() == 1
+
+		and:
+		dom.find('select[name=foo_day]').length() == 0
+		dom.find('select[name=foo_month]').length() == 0
+		dom.find('select[name=foo_year]').length() == 0
 	}
 
 	def "picker tags use current date & time as default"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" precision="second"/>')
+		def dom = $(output)
 
 		then:
-		output =~ /<option value="2" selected="selected">2<\/option>/
-		output =~ /<option value="10" selected="selected">October<\/option>/
-		output =~ /<option value="2008" selected="selected">2008<\/option>/
-		output =~ /<option value="2" selected="selected">2<\/option>/
-		output =~ /<option value="50" selected="selected">50<\/option>/
-		output =~ /<option value="33" selected="selected">33<\/option>/
+		dom.find('select[name=foo_day] option[selected]').attr('value') == '2'
+		dom.find('select[name=foo_month] option[selected]').attr('value') == '10'
+		dom.find('select[name=foo_month] option[selected]').text() == 'October'
+		dom.find('select[name=foo_year] option[selected]').attr('value') == '2008'
+		dom.find('select[name=foo_hour] option[selected]').attr('value') == '02'
+		dom.find('select[name=foo_minute] option[selected]').attr('value') == '50'
+		dom.find('select[name=foo_second] option[selected]').attr('value') == '33'
 	}
 
 	def "picker tags accept string default"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" default="1971-11-29T16:22"/>')
+		def dom = $(output)
 
 		then:
-		output =~ /<option value="29" selected="selected">29<\/option>/
-		output =~ /<option value="11" selected="selected">November<\/option>/
-		output =~ /<option value="1971" selected="selected">1971<\/option>/
-		output =~ /<option value="16" selected="selected">16<\/option>/
-		output =~ /<option value="22" selected="selected">22<\/option>/
+		dom.find('select[name=foo_day] option[selected]').attr('value') == '29'
+		dom.find('select[name=foo_month] option[selected]').attr('value') == '11'
+		dom.find('select[name=foo_month] option[selected]').text() == 'November'
+		dom.find('select[name=foo_year] option[selected]').attr('value') == '1971'
+		dom.find('select[name=foo_hour] option[selected]').attr('value') == '16'
+		dom.find('select[name=foo_minute] option[selected]').attr('value') == '22'
 	}
 
 	def "string default format is appropriate for precision"() {
 		when:
 		def output = applyTemplate('<joda:datePicker name="foo" default="1971-11-29"/>')
+		def dom = $(output)
 
 		then:
-		output =~ /<option value="29" selected="selected">29<\/option>/
-		output =~ /<option value="11" selected="selected">November<\/option>/
-		output =~ /<option value="1971" selected="selected">1971<\/option>/
+		dom.find('select[name=foo_day] option[selected]').attr('value') == '29'
+		dom.find('select[name=foo_month] option[selected]').attr('value') == '11'
+		dom.find('select[name=foo_month] option[selected]').text() == 'November'
+		dom.find('select[name=foo_year] option[selected]').attr('value') == '1971'
 	}
 
 	def "timePicker accepts string default"() {
 		when:
 		def output = applyTemplate('<joda:timePicker name="foo" precision="second" default="23:59:59"/>')
+		def dom = $(output)
 
 		then:
-		output =~ /<option value="23" selected="selected">23<\/option>/
-		output =~ /<option value="59" selected="selected">59<\/option>/
-		output =~ /<option value="59" selected="selected">59<\/option>/
+		dom.find('select[name=foo_hour] option[selected]').attr('value') == '23'
+		dom.find('select[name=foo_minute] option[selected]').attr('value') == '59'
+		dom.find('select[name=foo_second] option[selected]').attr('value') == '59'
 	}
 
 	@Unroll({"picker tags accept ${defaultValue.getClass().simpleName} default"})
 	def "picker tags accept ReadableInstant or ReadablePartial default"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" default="${defaultValue}"/>', [defaultValue: defaultValue])
+		def dom = $(output)
 
 		then:
-		output =~ /<option value="29" selected="selected">29<\/option>/
-		output =~ /<option value="11" selected="selected">November<\/option>/
-		output =~ /<option value="1971" selected="selected">1971<\/option>/
-		output =~ /<option value="16" selected="selected">16<\/option>/
-		output =~ /<option value="22" selected="selected">22<\/option>/
+		dom.find('select[name=foo_day] option[selected]').attr('value') == '29'
+		dom.find('select[name=foo_month] option[selected]').attr('value') == '11'
+		dom.find('select[name=foo_month] option[selected]').text() == 'November'
+		dom.find('select[name=foo_year] option[selected]').attr('value') == '1971'
+		dom.find('select[name=foo_hour] option[selected]').attr('value') == '16'
+		dom.find('select[name=foo_minute] option[selected]').attr('value') == '22'
 
 		where:
 		defaultValue << [new DateTime(1971, 11, 29, 16, 22, 0, 0), new LocalDateTime(1971, 11, 29, 16, 22, 0, 0)]
@@ -131,28 +150,53 @@ class DateTimeTagLibSpec extends Specification {
 
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" default="${defaultValue}" value="${value}"/>', [value: value, defaultValue: defaultValue])
+		def dom = $(output)
 
 		then:
-		output =~ /<option value="8" selected="selected">8<\/option>/
-		output =~ /<option value="2" selected="selected">February<\/option>/
-		output =~ /<option value="1977" selected="selected">1977<\/option>/
-		output =~ /<option value="09" selected="selected">09<\/option>/
-		output =~ /<option value="30" selected="selected">30<\/option>/
+		dom.find('select[name=foo_day] option[selected]').attr('value') == '8'
+		dom.find('select[name=foo_month] option[selected]').attr('value') == '2'
+		dom.find('select[name=foo_month] option[selected]').text() == 'February'
+		dom.find('select[name=foo_year] option[selected]').attr('value') == '1977'
+		dom.find('select[name=foo_hour] option[selected]').attr('value') == '09'
+		dom.find('select[name=foo_minute] option[selected]').attr('value') == '30'
 
 		where:
 		value << [new DateTime(1977, 2, 8, 9, 30, 0, 0), new LocalDateTime(1977, 2, 8, 9, 30, 0, 0)]
 	}
 
-	def "picker tags accept noSelection arg"() {
+	@Issue('http://jira.grails.org/browse/GPJODATIME-23')
+	def "picker tags accept null value"() {
 		when:
-		def output = applyTemplate('''<joda:dateTimePicker name="foo" noSelection="['': 'Choose sumfink innit']"/>''')
+		def output = applyTemplate('''<joda:dateTimePicker name="foo" value="${value}" default="none" noSelection="['':'']"/>''', [value: null])
+		def dom = $(output)
 
 		then:
-		output =~ /<select name="foo_day" id="foo_day">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1">1<\/option>/
-		output =~ /<select name="foo_month" id="foo_month">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1">January<\/option>/
-		output =~ /<select name="foo_year" id="foo_year">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="1908">1908<\/option>/
-		output =~ /<select name="foo_hour" id="foo_hour">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="00">00<\/option>/
-		output =~ /<select name="foo_minute" id="foo_minute">\s*<option value="" selected="selected">Choose sumfink innit<\/option>\s*<option value="00">00<\/option>/
+		for (node in ['day', 'month', 'year', 'hour', 'minute']) {
+			def select = dom.find("select[name=foo_$node]")
+			assert select.find('option[selected]').size() == 1
+
+			def firstOption = select.find('option').first()
+			assert firstOption.attr('value') == ''
+			assert firstOption.text() == ''
+			assert firstOption.attr('selected') == 'selected'
+		}
+	}
+
+	def "picker tags accept noSelection arg"() {
+		when:
+		def output = applyTemplate('''<joda:dateTimePicker name="foo" default="none" noSelection="['': 'Choose sumfink innit']"/>''')
+		def dom = $(output)
+
+		then:
+		for (node in ['day', 'month', 'year', 'hour', 'minute']) {
+			def select = dom.find("select[name=foo_$node]")
+			assert select.find('option[selected]').size() == 1
+			
+			def firstOption = select.find('option').first()
+			assert firstOption.attr('value') == ''
+			assert firstOption.text() == 'Choose sumfink innit'
+			assert firstOption.attr('selected') == 'selected'
+		}
 	}
 
 	def "picker tags use one hundred years as default"() {
@@ -161,12 +205,14 @@ class DateTimeTagLibSpec extends Specification {
 
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+		def dom = $(output)
 
 		then:
-		!output.contains(/<option value="${year - 101}">${year - 101}<\/option>/)
-		output =~ /<option value="${year - 100}">${year - 100}<\/option>/
-		output =~ /<option value="${year + 100}">${year + 100}<\/option>/
-		!output.contains(/<option value="${year + 101}">${year + 101}<\/option>/)
+		def yearSelect = dom.find('select[name=foo_year]')
+		yearSelect.find("option[value='${year - 101}']").length() == 0
+		yearSelect.find("option[value='${year - 100}']").length() == 1
+		yearSelect.find("option[value='${year + 100}']").length() == 1
+		yearSelect.find("option[value='${year + 101}']").length() == 0
 	}
 
 	def "dateTimePicker uses config for years"() {
@@ -179,14 +225,15 @@ class DateTimeTagLibSpec extends Specification {
 
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+		def dom = $(output)
 
 		then:
-		!output.contains(/<option value="${year - 2}">${year - 2}<\/option>/)
-		output =~ /<option value="${year - 1}">${year - 1}<\/option>/
-		output =~ /<option value="${year}" selected="selected">${year}<\/option>/
-		output =~ /<option value="${year + 1}">${year + 1}<\/option>/
-		output =~ /<option value="${year + 2}">${year + 2}<\/option>/
-		!output.contains(/<option value="${year + 3}">${year + 3}<\/option>/)
+		def yearSelect = dom.find('select[name=foo_year]')
+		yearSelect.find("option[value='${year - 2}']").length() == 0
+		((year - 1)..(year + 2)).every {
+			yearSelect.find("option[value='$it']").length() == 1
+		}
+		yearSelect.find("option[value='${year + 3}']").length() == 0
 
 		cleanup:
 		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = null
@@ -196,28 +243,32 @@ class DateTimeTagLibSpec extends Specification {
 	def "picker tags accept years arg"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" years="${1979..1983}" default="1979-12-04T00:00"/>')
+		def dom = $(output)
 
 		then:
-		!output.contains(/<option value="1978">1978<\/option>/)
-		output =~ /<option value="1979" selected="selected">1979<\/option>/
-		output =~ /<option value="1980">1980<\/option>/
-		output =~ /<option value="1981">1981<\/option>/
-		output =~ /<option value="1982">1982<\/option>/
-		output =~ /<option value="1983">1983<\/option>/
-		!output.contains(/<option value="1984">1984<\/option>/)
+		def yearSelect = dom.find('select[name=foo_year]')
+		yearSelect.find("option[value='1978']").length() == 0
+		(1979..1983).every {
+			yearSelect.find("option[value='$it']").length() == 1
+		}
+		yearSelect.find("option[value='1984']").length() == 0
+
+		and:
+		yearSelect.find('option[selected]').attr('value') == '1979'
 	}
 
 	def "dateTimePicker uses minute as default precision"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+		def dom = $(output)
 
 		then:
-		output =~ /<select name="foo_day"/
-		output =~ /<select name="foo_month"/
-		output =~ /<select name="foo_year"/
-		output =~ /<select name="foo_hour"/
-		output =~ /<select name="foo_minute"/
-		!output.contains(/<select name="foo_second"/)
+		['day', 'month', 'year', 'hour', 'minute'].every {
+			dom.find("select[name=foo_$it]").length() == 1
+		}
+
+		and:
+		dom.find('select[name=foo_second]').length() == 0
 	}
 
 	def "dateTimePicker uses config for precision"() {
@@ -226,14 +277,12 @@ class DateTimeTagLibSpec extends Specification {
 
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
+		def dom = $(output)
 
 		then:
-		output =~ /<select name="foo_day"/
-		output =~ /<select name="foo_month"/
-		output =~ /<select name="foo_year"/
-		output =~ /<select name="foo_hour"/
-		output =~ /<select name="foo_minute"/
-		output =~ /<select name="foo_second"/
+		['day', 'month', 'year', 'hour', 'minute', 'second'].every {
+			dom.find("select[name=foo_$it]").length() == 1
+		}
 
 		cleanup:
 		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = null
@@ -243,14 +292,15 @@ class DateTimeTagLibSpec extends Specification {
 	def "picker tags accept precision arg"() {
 		when:
 		def output = applyTemplate("<joda:dateTimePicker name=\"foo\" precision=\"$precision\"/>")
+		def dom = $(output)
 
 		then:
-		output.contains(/<select name="foo_year"/) || !year
-		output.contains(/<select name="foo_month"/) || !month
-		output.contains(/<select name="foo_day"/) || !day
-		output.contains(/<select name="foo_hour"/) || !hour
-		output.contains(/<select name="foo_minute"/) || !minute
-		output.contains(/<select name="foo_second"/) || !second
+		dom.find('select[name=foo_year]').length() == (year ? 1 : 0)
+		dom.find('select[name=foo_month]').length() == (month ? 1 : 0)
+		dom.find('select[name=foo_day]').length() == (day ? 1 : 0)
+		dom.find('select[name=foo_hour]').length() == (hour ? 1 : 0)
+		dom.find('select[name=foo_minute]').length() == (minute ? 1 : 0)
+		dom.find('select[name=foo_second]').length() == (second ? 1 : 0)
 
 		where:
 		precision | year | month | day   | hour  | minute | second
@@ -268,9 +318,10 @@ class DateTimeTagLibSpec extends Specification {
 
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" useZone="true"/>')
+		def dom = $(output)
 
 		then:
-		output =~ /<select name="foo_zone"/
+		dom.find('select[name=foo_zone]').length() == 1
 	}
 
 }
