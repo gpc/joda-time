@@ -16,7 +16,7 @@ h2. Release Notes
 
 h4. 1.4
 
-* Adds templates for [Fields plugin](http://freeside.co/grails-fields) compatibility.
+* [GPJODATIME-24](http://jira.grails.org/browse/GPJODATIME-24) Adds templates for [Fields plugin](http://freeside.co/grails-fields) compatibility.
 * [GPJODATIME-23](http://jira.grails.org/browse/GPJODATIME-23) Fixes rendering of date/time pickers with null values.
 
 h4. 1.3.1
