@@ -23,7 +23,6 @@ grails.project.dependency.resolution = {
 			export = false
 		}
         if (grailsVersion.find(/^\d+/).toInteger() < 2) {
-            println "Grails version: $grailsVersion"
             def datastoreVersion = "1.0.0.RC1"
             compile("org.grails:grails-datastore-gorm-plugin-support:$datastoreVersion",
                     "org.grails:grails-datastore-gorm:$datastoreVersion",
