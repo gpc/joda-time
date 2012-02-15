@@ -1,1 +1,1 @@
-<joda:datePicker name="${property}" value="${value}"/>
+<g:datePicker name="${property}" value="${value}" precision="day"/>

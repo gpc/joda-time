@@ -6,10 +6,11 @@ class Job {
 
 	String title
 	LocalDate startDate
-	LocalDate endDate
+	Date endDate
 
 	static constraints = {
 		title blank: false
+		startDate()
 		endDate nullable: true
 	}
 }
