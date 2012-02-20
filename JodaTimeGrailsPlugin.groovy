@@ -20,25 +20,24 @@ import grails.plugin.jodatime.converters.JodaConverters
 
 class JodaTimeGrailsPlugin {
 
-	def version = "1.4"
-	def grailsVersion = "1.3 > *"
-	def dependsOn = [core: "1.3 > *", converters: "1.3 > *"]
+	def version = '1.4-SNAPSHOT'
+	def grailsVersion = '1.3 > *'
+	def dependsOn = [converters: '1.3 > *']
 
-	def title = "Joda-Time Plugin"
-	def description = "Joda Time integration for Grails"
-	def author = "Rob Fletcher"
-	def authorEmail = "rob@energizedwork.com"
+	def title = 'Joda-Time Plugin'
+	def description = 'Joda Time integration for Grails'
+	def author = 'Rob Fletcher'
+	def authorEmail = 'rob@freeside.co'
 
-	def license = "APACHE"
-	def developers = [[name: "Rob Fletcher", email: "rob@energizedwork.com"]]
-	def documentation = "http://gpc.github.com/grails-joda-time/"
-	def issueManagement = [system: "JIRA", url: "http://jira.grails.org/browse/GPJODATIME"]
-	def scm = [url: "https://github.com/gpc/grails-joda-time/"]
+	def license = 'APACHE'
+	def developers = [[name: 'Rob Fletcher', email: 'rob@freeside.co']]
+	def documentation = 'http://gpc.github.com/grails-joda-time/'
+	def issueManagement = [system: 'JIRA', url: 'http://jira.grails.org/browse/GPJODATIME']
+	def scm = [url: 'https://github.com/gpc/grails-joda-time/']
 
 	def pluginExcludes = [
 			'grails-app/controllers/**',
 			'grails-app/domain/**',
-			'grails-app/views/**',
 			'grails-app/i18n/**',
 			'web-app/**'
 	]
