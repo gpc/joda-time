@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>7 Integrating with other plugins 1.3</title>
+    <title>7 Integrating with other plugins 1.4</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -81,7 +81,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Rob Fletcher</p>
 
-                    <p><strong>Version:</strong> 1.3</p>
+                    <p><strong>Version:</strong> 1.4</p>
 
                     
                 </div>
@@ -91,7 +91,7 @@ function addJsClass() {
                 
 
 <h1 id="7. Integrating with other plugins">7 Integrating with other plugins</h1>
-<h2>Integrating With Other Plugins</h2><p class="paragraph"/><h3><a href="http://grails.org/plugin/grails-ui" target="blank">Grails UI</a></h3><p class="paragraph"/>The Grails-UI Plugin's datePicker tag works quite well with  <em class="italic">Joda-Time</em>  types such as  <em class="italic">DateTime, LocalDate</em>  or  <em class="italic">LocalDateTime</em>  instances. The tag's  <em class="italic">formatString</em>  argument can easily be set with  <em class="italic">joda:inputPattern</em>  (see above). The value attribute needs to be converted to a  <em class="italic">java.util.Date</em>  instance. Examples of use might be:<p class="paragraph"/>A  <em class="italic">DateTime</em>  property with time input:<p class="paragraph"/><div class="code"><pre>&#60;gui:datePicker id=<span class="java&#45;quote">"myDateTimeProperty"</span> value=<span class="java&#45;quote">"$&#123;myInstance?.myDateTimeProperty?.toDate()&#125;"</span> includeTime=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> formatString=<span class="java&#45;quote">"$&#123;joda.inputPattern()&#125;"</span>/&#62;</pre></div><p class="paragraph"/>A  <em class="italic">LocalDate</em>  property:<p class="paragraph"/><div class="code"><pre>&#60;gui:datePicker id=<span class="java&#45;quote">"myLocalDateProperty"</span> value=<span class="java&#45;quote">"$&#123;myInstance?.myLocalDateProperty?.toDateTime()?.toDate()&#125;"</span> formatString=<span class="java&#45;quote">"$&#123;joda.inputPattern(type: org.joda.time.LocalDate)&#125;"</span>/&#62;</pre></div><p class="paragraph"/>
+<h2>Integrating With Other Plugins</h2><p class="paragraph"/><h3><a href="http://freeside.co/grails-fields" target="blank">Fields</a></h3><p class="paragraph"/>The Joda-Time plugin supplies templates so that inputs for Joda-Time properties will render correctly. You can override these templates in your own application if you want to render the inputs differently. See the Fields plugin documentation for details on how to do so.<p class="paragraph"/><h3><a href="http://grails.org/plugin/grails-ui" target="blank">Grails UI</a></h3><p class="paragraph"/>The Grails-UI Plugin's datePicker tag works quite well with  <em class="italic">Joda-Time</em>  types such as  <em class="italic">DateTime, LocalDate</em>  or  <em class="italic">LocalDateTime</em>  instances. The tag's  <em class="italic">formatString</em>  argument can easily be set with  <em class="italic">joda:inputPattern</em>  (see above). The value attribute needs to be converted to a  <em class="italic">java.util.Date</em>  instance. Examples of use might be:<p class="paragraph"/>A  <em class="italic">DateTime</em>  property with time input:<p class="paragraph"/><div class="code"><pre>&#60;gui:datePicker id=<span class="java&#45;quote">"myDateTimeProperty"</span> value=<span class="java&#45;quote">"$&#123;myInstance?.myDateTimeProperty?.toDate()&#125;"</span> includeTime=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> formatString=<span class="java&#45;quote">"$&#123;joda.inputPattern()&#125;"</span>/&#62;</pre></div><p class="paragraph"/>A  <em class="italic">LocalDate</em>  property:<p class="paragraph"/><div class="code"><pre>&#60;gui:datePicker id=<span class="java&#45;quote">"myLocalDateProperty"</span> value=<span class="java&#45;quote">"$&#123;myInstance?.myLocalDateProperty?.toDateTime()?.toDate()&#125;"</span> formatString=<span class="java&#45;quote">"$&#123;joda.inputPattern(type: org.joda.time.LocalDate)&#125;"</span>/&#62;</pre></div><p class="paragraph"/>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
@@ -128,6 +128,9 @@ function addJsClass() {
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Dynamic%20Methods/previous.html">previous</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Dynamic%20Methods/step.html">step</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Dynamic%20Methods/withCurrentMillisFixed.html">withCurrentMillisFixed</a>

@@ -70,14 +70,17 @@ function addJsClass(el) {
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
-                <h1>joda:periodPicker</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>This tag renders an input control for a <a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html" target="blank">Duration</a> or <a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html" target="blank">Period</a> value.<p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre>&#60;joda:periodPicker name=<span class="java&#45;quote">"myField"</span> value=<span class="java&#45;quote">"$&#123;myValue&#125;"</span> /&#62;
-&#60;joda:periodPicker name=<span class="java&#45;quote">"myField"</span> value=<span class="java&#45;quote">"$&#123;myValue&#125;"</span> fields=<span class="java&#45;quote">"days,hours,minutes"</span> /&#62;</pre></div><p class="paragraph"/><h2>Description</h2><p class="paragraph"/><h3>Attributes</h3>
+                <h1>step</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Overrides the standard <code>step</code> method on a <code>Range</code> to produce a date/time range using a different field for the increment.<p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre>def start = <span class="java&#45;keyword">new</span> LocalDate()
+def end = <span class="java&#45;keyword">new</span> LocalDate().plusYears(1)
+def range = start..end
+assert range.step(DurationFieldType.months()).size() == 13
+assert range.step(2, DurationFieldType.months()).size() == 7</pre></div><p class="paragraph"/><h2>Description</h2><p class="paragraph"/>Four variations exist:
 <ul class="star">
-<li><code>name</code> - The name for the backing form field (as per <code>g:textField</code> and other standard tags)</li>
-<li><code>id</code> (optional) - The  <em class="italic">id</em>  for the backing form field. Defaults to the same as  <em class="italic">name</em> </li>
-<li><code>value</code> (optional) - The currently selected value which can be a <code>Period</code> or <code>Duration</code> instance. Defaults to <code>new Period()</code></li>
-<li><code>fields</code> (optional) - A comma separated list of the fields to provide input elements for. Valid values are  <em class="italic">"years", "months", "weeks", "days", "hours", "minutes", "seconds"</em>  and  <em class="italic">"millis"</em>  with the default being  <em class="italic">"hours,minutes,seconds"</em> </li>
-</ul><p class="paragraph"/><h3>Configuration</h3><p class="paragraph"/>Default fields can be set in <code>Config.groovy</code> using the key  <em class="italic">jodatime.periodpicker.default.fields</em> <p class="paragraph"/><h3>Internationalization</h3><p class="paragraph"/>Labels for each field can be overridden in <code>messages.properties</code> using the keys  <em class="italic">org.joda.time.DurationFieldType.hours, org.joda.time.DurationFieldType.minutes</em>  and so on.<p class="paragraph"/>
+<li><code>List step(DurationFieldType)</code></li>
+<li><code>List step(int, DurationFieldType)</code></li>
+<li><code>void step(DurationFieldType, Closure)</code></li>
+<li><code>void step(int, DurationFieldType, Closure)</code></li>
+</ul><p class="paragraph"/>
             </div>
         </td>
         <td id="col2">
@@ -90,7 +93,7 @@ function addJsClass(el) {
                     
                     <div class="menu-block">
                         <h1 class="menu-title" onclick="toggleRef(nextElement(this))">Dynamic Methods</h1>
-                        <div class="menu-sub">
+                        <div class="menu-sub selected">
                             
                             
                             <div class="menu-item"><a href="../../ref/Dynamic%20Methods/div.html">div</a>
@@ -125,7 +128,7 @@ function addJsClass(el) {
                     
                     <div class="menu-block">
                         <h1 class="menu-title" onclick="toggleRef(nextElement(this))">Tags</h1>
-                        <div class="menu-sub selected">
+                        <div class="menu-sub">
                             
                             
                             <div class="menu-item"><a href="../../ref/Tags/dateField.html">dateField</a>
