@@ -198,6 +198,7 @@ grails.gorm.default.mapping = {
 	private void generateBuildConfig(String persistenceLib = "") {
 		new File(workDir, "grails-app/conf/BuildConfig.groovy").text = """\
 grails.servlet.version = "2.5"
+grails.project.work.dir = "target"
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
