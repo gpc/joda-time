@@ -1,1 +1,8 @@
-/target
+/target/
+/.idea/
+*.zip
+*.sha1
+*.iml
+/out/
+plugin.xml
+*.log

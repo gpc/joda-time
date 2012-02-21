@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>6 JSON and XML 1.4</title>
+    <title>5 Scaffolding 1.4</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -24,25 +24,25 @@ function addJsClass() {
 
                 <div id="nav-summary-childs" style="display:none;">
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/1.%20Introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/2.%20Persistence.html"><strong>2</strong><span>Persistence</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/persistence.html"><strong>2</strong><span>Persistence</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/3.%20Data%20binding.html"><strong>3</strong><span>Data binding</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/dataBinding.html"><strong>3</strong><span>Data binding</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/4.%20Tags.html"><strong>4</strong><span>Tags</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/tags.html"><strong>4</strong><span>Tags</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/5.%20Scaffolding.html"><strong>5</strong><span>Scaffolding</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/scaffolding.html"><strong>5</strong><span>Scaffolding</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/6.%20JSON%20and%20XML.html"><strong>6</strong><span>JSON and XML</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/JSONAndXML.html"><strong>6</strong><span>JSON and XML</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/7.%20Integrating%20with%20other%20plugins.html"><strong>7</strong><span>Integrating with other plugins</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/integratingWithOtherPlugins.html"><strong>7</strong><span>Integrating with other plugins</span></a>
                     </div>
                     
                 </div>
@@ -68,18 +68,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/5.%20Scaffolding.html">&lt;&lt; <strong>5</strong><span>Scaffolding</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/tags.html">&lt;&lt; <strong>4</strong><span>Tags</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/7.%20Integrating%20with%20other%20plugins.html"><strong>7</strong><span>Integrating with other plugins</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/JSONAndXML.html"><strong>6</strong><span>JSON and XML</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>6 JSON and XML - Reference Documentation</h1>
+                    <h1>5 Scaffolding - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Rob Fletcher</p>
 
@@ -92,22 +92,25 @@ function addJsClass() {
 
                 
 
-<h1 id="6. JSON and XML">6 JSON and XML</h1>
-<h2>JSON and XML Rendering</h2><p class="paragraph"/>The plugin registers JSON and XML converters for&#8230;
+<h1 id="scaffolding">5 Scaffolding</h1>
+<h2>Scaffolding</h2><p class="paragraph"/>The Joda-Time plugin enhances Grails' dynamic scaffolding so it is compatible with domain classes with the following types&#8230;
 <ul class="star">
 <li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html" target="blank">LocalTime</a></li>
 <li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html" target="blank">LocalDate</a></li>
 <li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html" target="blank">LocalDateTime</a></li>
 <li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html" target="blank">DateTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html" target="blank">Duration</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html" target="blank">Period</a></li>
 <li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html" target="blank">DateTimeZone</a></li>
-</ul><p class="paragraph"/>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Instant.html" target="blank">Instant</a></li>
+</ul><p class="paragraph"/>To install scaffolding templates use the command:<p class="paragraph"/><div class="code"><pre>grails install&#45;joda&#45;time&#45;templates</pre></div><p class="paragraph"/>Create and edit views use the  <em class="italic">joda:dateTimePicker, joda:datePicker, joda:timePicker</em>  or  <em class="italic">joda:periodPicker</em>  (see above) as appropriate. Columns on list views are sortable.<p class="paragraph"/>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/5.%20Scaffolding.html">&lt;&lt; <strong>5</strong><span>Scaffolding</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/tags.html">&lt;&lt; <strong>4</strong><span>Tags</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/7.%20Integrating%20with%20other%20plugins.html"><strong>7</strong><span>Integrating with other plugins</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/JSONAndXML.html"><strong>6</strong><span>JSON and XML</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
