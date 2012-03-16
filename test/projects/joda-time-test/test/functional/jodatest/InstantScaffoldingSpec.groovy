@@ -3,6 +3,7 @@ package jodatest
 import org.joda.time.Instant
 import spock.lang.Unroll
 
+@Unroll
 class InstantScaffoldingSpec extends GebSpec {
 
 	Event event1
@@ -60,8 +61,7 @@ class InstantScaffoldingSpec extends GebSpec {
 		$("form").occurred == "1972-12-07T05:33:00.000Z"
 	}
 
-	@Unroll({"list view is sorted after clicking the column header $x times"})
-	def "list view is sortable"() {
+	def "list view is sorted after clicking the column header #x times"() {
 		given:
 		Event.build(description: "Landing", occurred: new Instant(92913900000))
 		Event.build(description: "Spacewalk", occurred: new Instant(93436020000))

@@ -4,6 +4,7 @@ import org.joda.time.LocalDate
 import spock.lang.Unroll
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
+@Unroll
 class LocalDateScaffoldingSpec extends GebSpec {
 
 	def rob
@@ -29,8 +30,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		$("tbody tr", 0).find("td", 1).text() == "1971-11-29"
 	}
 
-	@Unroll({"create accepts '$value' as a LocalDate for locale $locale when HTML5 format is ${html5Format ? 'on' : 'off'}"})
-	def "create"() {
+	def "create accepts '#value' as a LocalDate for locale #locale when HTML5 format is #html5Format"() {
 		given:
 		ConfigurationHolder.config.jodatime.format.html5 = html5Format
 
@@ -60,8 +60,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		true        | Locale.CANADA_FRENCH | "2008-10-02"
 	}
 
-	@Unroll({"show formats LocalDate for $locale locale"})
-	def "show"() {
+	def "show formats LocalDate for #locale locale"() {
 		given:
 		ConfigurationHolder.config.jodatime.format.html5 = false
 
@@ -89,8 +88,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		$("form").birthday == "1971-11-29"
 	}
 
-	@Unroll({"list view is sorted after clicking the column header $x times"})
-	def "list view is sortable"() {
+	def "list view is sorted after clicking the column header #x times"() {
 		given:
 		Person.build(name: "Ilse", birthday: new LocalDate(1972, 7, 6))
 		Person.build(name: "Alex", birthday: new LocalDate(2008, 10, 2))

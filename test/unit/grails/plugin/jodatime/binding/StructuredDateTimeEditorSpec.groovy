@@ -19,6 +19,7 @@ import grails.plugin.jodatime.binding.StructuredDateTimeEditor
 import org.joda.time.*
 import spock.lang.*
 
+@Unroll
 class StructuredDateTimeEditorSpec extends Specification {
 	
 	@Shared zone
@@ -32,8 +33,7 @@ class StructuredDateTimeEditorSpec extends Specification {
 		DateTimeZone.default = zone
 	}
 
-	@Unroll({"assemble creates $expected from $fields"})
-	def "assemble creates a new object based on the supplied fields"() {
+	def "assemble creates #expected from the fields #fields"() {
 		given: def editor = new StructuredDateTimeEditor(type)
 		expect: editor.assemble(type, fields) == expected
 		where:

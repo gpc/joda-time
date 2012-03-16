@@ -12,28 +12,27 @@ grails.project.dependency.resolution = {
 		mavenLocal()
 		mavenCentral()
 		mavenRepo "http://m2repo.spockframework.org/ext/"
+		mavenRepo "https://nexus.codehaus.org/content/repositories/snapshots"
 	}
 
-	def gebVersion = '0.6.2'
-	def seleniumVersion = '2.17.0'
+	def gebVersion = '0.7.0-SNAPSHOT'
+	def seleniumVersion = '2.20.0'
 
 	dependencies {
 		test "org.hamcrest:hamcrest-all:1.2"
-		test("org.seleniumhq.selenium:selenium-htmlunit-driver:$seleniumVersion") {
-			excludes "xml-apis"
-		}
+		test("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
 		test "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
 		test "org.codehaus.geb:geb-spock:$gebVersion"
 		compile "org.jadira.usertype:usertype.jodatime:1.9"
 	}
 	plugins {
 		build ":tomcat:$grailsVersion"
-		runtime ":fields:1.0.4"
+		runtime ":fields:1.2"
 		runtime ":hibernate:$grailsVersion"
 		test ":build-test-data:1.1.2"
 		test ":fixtures:1.0.7"
 		test ":geb:$gebVersion"
-		test ":spock:0.6-SNAPSHOT"
+		test ":spock:0.6"
 	}
 }
 

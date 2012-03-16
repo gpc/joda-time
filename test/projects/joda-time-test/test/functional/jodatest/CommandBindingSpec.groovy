@@ -3,10 +3,10 @@ package jodatest
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import spock.lang.Unroll
 
+@Unroll
 class CommandBindingSpec extends GebSpec {
 
-	@Unroll({"binding errors are reported for a LocalDate field with the value '$value'"})
-	def "binding errors are reported for LocalDate fields"() {
+	def "binding errors are reported for a LocalDate field with the value '#value'"() {
 		when:
 		go "/command"
 		$("form").localDate = value
@@ -21,8 +21,7 @@ class CommandBindingSpec extends GebSpec {
 		"INVALID" | "Property localDate must be a valid LocalDate"
 	}
 	
-	@Unroll({"a LocalDate property is bound using the $locale locale"})
-	def "a LocalDate property is bound using the request locale"() {
+	def "a LocalDate property is bound using the #locale locale"() {
         given:
         ConfigurationHolder.config.jodatime.format.html5 = false
 

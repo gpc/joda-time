@@ -19,6 +19,7 @@ import org.joda.time.*
 import spock.lang.*
 import grails.plugin.jodatime.binding.StructuredPeriodEditor
 
+@Unroll
 class StructuredPeriodEditorSpec extends Specification {
 
 	@Shared Collection<DurationFieldType> allFields = (0..<PeriodType.standard().size()).collect { i -> PeriodType.standard().getFieldType(i) }
@@ -31,8 +32,7 @@ class StructuredPeriodEditorSpec extends Specification {
 		map
 	}
 
-	@Unroll({"a $type value can be assembled from the fields $fields"})
-	def "periods can be assembled from fields"() {
+	def "a #type.simpleName value can be assembled from the fields #fields"() {
 		given: def editor = new StructuredPeriodEditor(type)
 		expect: editor.assemble(type, fields) == expected
 		where:

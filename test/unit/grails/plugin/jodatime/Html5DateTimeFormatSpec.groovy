@@ -7,12 +7,12 @@ import static org.joda.time.DateTimeZone.UTC
 import static org.hamcrest.Matchers.*
 import grails.plugin.jodatime.Html5DateTimeFormat
 
+@Unroll
 class Html5DateTimeFormatSpec extends Specification {
 
 	@Shared DateTime dateTime = new DateTime(2008, 10, 2, 2, 50, 43, 123, UTC)
 
-	@Unroll({"HTML5 '$format' format is printed correctly"})
-	def "HTML5 input formats are printed correctly"() {
+	def "HTML5 '#format' format is printed correctly"() {
 		expect: Html5DateTimeFormat."$format"().print(dateTime) == expected
 		where:
 		format          | expected
@@ -24,8 +24,7 @@ class Html5DateTimeFormatSpec extends Specification {
 		"time"          | "02:50:43.123"
 	}
 	
-	@Unroll({"HTML5 '$format' format parses '$value' correctly"})
-	def "HTML5 input formats are parsed correctly"() {
+	def "HTML5 '#format' format parses '#value' correctly"() {
 		when: def dt = Html5DateTimeFormat."$format"().parseDateTime(value)
 		then: matcher.matches(dt) // TODO: proper hamcrest support coming to spock soon - currently this doesn't generate good output if it fails
 		where:

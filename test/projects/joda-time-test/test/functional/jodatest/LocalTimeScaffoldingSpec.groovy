@@ -4,6 +4,7 @@ import org.joda.time.LocalTime
 import spock.lang.Unroll
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
+@Unroll
 class LocalTimeScaffoldingSpec extends GebSpec {
 
 	def alarm1
@@ -44,8 +45,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		alarm2.time == new LocalTime(6, 15)
 	}
 
-	@Unroll({"show formats LocalTime for $locale locale"})
-	def "show"() {
+	def "show formats LocalTime for #locale locale"() {
         given:
         ConfigurationHolder.config.jodatime.format.html5 = false
 
@@ -73,8 +73,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		$("form").time == "07:00:00.000"
 	}
 
-	@Unroll({"list view is sorted after clicking the column header $x times"})
-	def "list view is sortable"() {
+	def "list view is sorted after clicking the column header #x times"() {
 		given:
 		Alarm.build(description: "Gym", time: new LocalTime(6, 15))
 		Alarm.build(description: "Lie In", time: new LocalTime(10, 30))

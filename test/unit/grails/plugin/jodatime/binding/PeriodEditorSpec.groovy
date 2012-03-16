@@ -21,10 +21,10 @@ import spock.lang.*
 
 import grails.plugin.jodatime.binding.PeriodEditor
 
+@Unroll
 class PeriodEditorSpec extends Specification {
 
-	@Unroll({"getAsText formats $value correctly"})
-	def "getAsText formats values correctly"() {
+	def "getAsText formats #value correctly"() {
 		given: def editor = new PeriodEditor(type)
 		when: editor.value = value
 		then: editor.asText == expected
@@ -36,8 +36,7 @@ class PeriodEditorSpec extends Specification {
 		Duration | new Period(1, 35, 16, 0).toStandardDuration() | "1 hour, 35 minutes and 16 seconds"
 	}
 
-	@Unroll({"setAsText handles $text correctly"})
-	def "setAsText handles values correctly"() {
+	def "setAsText handles #text correctly"() {
 		given: def editor = new PeriodEditor(type)
 		when: editor.asText = text
 		then: editor.value == expected

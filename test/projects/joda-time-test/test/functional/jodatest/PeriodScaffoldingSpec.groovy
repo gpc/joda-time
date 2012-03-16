@@ -3,6 +3,7 @@ package jodatest
 import org.joda.time.Period
 import spock.lang.Unroll
 
+@Unroll
 class PeriodScaffoldingSpec extends GebSpec {
 
 	def song1
@@ -64,8 +65,7 @@ class PeriodScaffoldingSpec extends GebSpec {
 		$("form").duration_seconds == "25"
 	}
 
-	@Unroll({"list view is sorted after clicking the column header $x times"})
-	def "list view is sortable"() {
+	def "list view is sorted after clicking the column header #x times"() {
 		given:
 		Song.build(artist: "Handsome Furs", title: "I'm Confused", duration: new Period(0, 3, 35, 0))
 		Song.build(artist: "Motorhead", title: "Ace of Spades", duration: new Period(0, 2, 47, 0))

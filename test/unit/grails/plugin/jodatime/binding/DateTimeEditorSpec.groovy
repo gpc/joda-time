@@ -22,6 +22,7 @@ import static java.util.Locale.*
 import org.joda.time.*
 import static org.joda.time.DateTimeZone.UTC
 
+@Unroll
 class DateTimeEditorSpec extends UnitSpec {
 
 	def "getAsText converts null to empty string"() {
@@ -40,8 +41,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		then: editor.value == null
 	}
 
-	@Unroll({"getAsText formats $type instances correctly for $locale locale"})
-	def "getAsText formats correctly for locale"() {
+	def "getAsText formats #type.simpleName instances correctly for #locale locale"() {
 		given:
 		def editor = new DateTimeEditor(type)
 
@@ -65,8 +65,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		Instant       | new Instant(92554380000)              | US     | "12/7/72 5:33 AM"
 	}
 
-	@Unroll({"getAsText formats $type instances correctly according to a configured pattern"})
-	def "getAsText can use configured pattern"() {
+	def "getAsText formats #type.simpleName instances correctly according to a configured pattern"() {
 		given:
 		mockConfig config
 
@@ -85,8 +84,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		Instant       | 'jodatime.format.org.joda.time.Instant="dd/MM/yyyy h:mm a Z"'     | new Instant(92554380000)                                                  | "07/12/1972 5:33 AM +0000"
 	}
 
-	@Unroll({"getAsText formats $type instances correctly for HTML5"})
-	def "getAsText can use HTML5 format"() {
+	def "getAsText formats #type.simpleName instances correctly for HTML5"() {
 		given:
 		mockConfig 'jodatime.format.html5 = true'
 
@@ -123,8 +121,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		DateTimeZone.default = defaultTimeZone
 	}
 
-	@Unroll({"setAsText parses $type instances from $locale locale format text"})
-	def "setAsText accepts values in locale format"() {
+	def "setAsText parses #type.simpleName instances from #locale locale format text"() {
 		given:
 		def editor = new DateTimeEditor(type)
 
@@ -147,8 +144,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		Instant       | "12/7/72 5:33 AM" | US     | new Instant(92554380000)
 	}
 
-	@Unroll({"setAsText parses $type instances correctly according to a configured pattern"})
-	def "setAsText can use configured pattern"() {
+	def "setAsText parses #type.simpleName instances correctly according to a configured pattern"() {
 		given:
 		mockConfig config
 
@@ -167,8 +163,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		Instant       | 'jodatime.format.org.joda.time.Instant="dd/MM/yyyy h:mm a Z"'     | "07/12/1972 12:33 AM -0500" | new Instant(92554380000)
 	}
 
-	@Unroll({"setAsText parses $type instances correctly using HTML5 format"})
-	def "setAsText can use HTML5 pattern"() {
+	def "setAsText parses #type.simpleName instances correctly using HTML5 format"() {
 		given:
 		mockConfig 'jodatime.format.html5 = true'
 

@@ -20,6 +20,7 @@ import org.joda.time.*
 import static org.joda.time.DateTimeUtils.*
 import spock.lang.*
 
+@Unroll
 class JodaDynamicMethodsSpec extends Specification {
 
 	def setupSpec() {
@@ -31,8 +32,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		setCurrentMillisSystem()
 	}
 
-	@Unroll({"format works on $type"})
-	def "format works on various types"() {
+	def "format works on #type.simpleName"() {
 		expect:
 		type.newInstance().format(format) == expected
 
@@ -43,8 +43,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		LocalTime | "HH:mm:ss"            | "02:50:00"
 	}
 
-	@Unroll({"negation operator works on $type.simpleName"})
-	def "negation operator"() {
+	def "negation operator works on #type.simpleName"() {
 		expect: -value == expected
 
 		where:
@@ -53,8 +52,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		expected = type.newInstance(-3)
 	}
 
-	@Unroll({"multiplication operator works on $type.simpleName"})
-	def "multiplication operator"() {
+	def "multiplication operator works on #type.simpleName"() {
 		expect: value * 2 == expected
 
 		where:
@@ -63,8 +61,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		expected = type.newInstance(6)
 	}
 
-	@Unroll({"division operator works on $type.simpleName"})
-	def "division operator"() {
+	def "division operator works on #type.simpleName"() {
 		expect: "division producing an integeger works"
 		value / 3 == expected
 
@@ -77,8 +74,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		expected = type.newInstance(1)
 	}
 
-	@Unroll({"standard groovy operators work on $type.simpleName"})
-	def "standard groovy operators"() {
+	def "standard groovy operators work on #type.simpleName"() {
 		expect:
 		// the following should just work
 		value + value == type.newInstance(6)
@@ -93,8 +89,7 @@ class JodaDynamicMethodsSpec extends Specification {
 	}
 
 	@Issue("http://jira.grails.org/browse/GPJODATIME-14")
-	@Unroll({"can use `next` and `previous` on ${value.getClass().simpleName}"})
-	def "can use `next` and `previous` on Joda-Time types"() {
+	def "can use `next` and `previous` on #value.class.simpleName"() {
 		expect:
 		value.next() == value + increment
 		value.previous() == value - increment

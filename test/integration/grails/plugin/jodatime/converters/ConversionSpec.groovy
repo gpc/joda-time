@@ -21,10 +21,10 @@ import org.joda.time.*
 import static org.joda.time.DateTimeZone.UTC
 import spock.lang.*
 
+@Unroll
 class ConversionSpec extends Specification {
 
-	@Unroll({"can marshal a ${value.getClass().simpleName} object to XML"})
-	def "XML marshalling"() {
+	def "can marshal a #value.class.simpleName object to XML"() {
 		given:
 		def o = [value: value]
 
@@ -44,8 +44,7 @@ class ConversionSpec extends Specification {
 		DateTimeZone.forID("America/Vancouver")                  | "America/Vancouver"
 	}
 
-	@Unroll({"can marshal a ${value.getClass().simpleName} object to JSON"})
-	def "JSON marshalling"() {
+	def "can marshal a #value.class.simpleName object to JSON"() {
 		given:
 		def o = [value: value]
 

@@ -3,6 +3,7 @@ package jodatest
 import org.joda.time.Period
 import spock.lang.Unroll
 
+@Unroll
 class DurationScaffoldingSpec extends GebSpec {
 
 	def marathon1
@@ -64,8 +65,7 @@ class DurationScaffoldingSpec extends GebSpec {
 		$("form").time_seconds == "59"
 	}
 
-	@Unroll({"list view is sorted after clicking on the column header $x times"})
-	def "list view is sortable"() {
+	def "list view is sorted after clicking on the column header #x times"() {
 		given:
 		Marathon.build(runner: "Glenn Saqui", time: new Period(2, 36, 51, 0).toStandardDuration())
 		Marathon.build(runner: "Samuel Wanjiru", time: new Period(2, 5, 10, 0).toStandardDuration())

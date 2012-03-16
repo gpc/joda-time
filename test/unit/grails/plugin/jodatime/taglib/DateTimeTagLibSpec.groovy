@@ -24,6 +24,7 @@ import jodd.lagarto.dom.jerry.Jerry
 import static jodd.lagarto.dom.jerry.Jerry.jerry
 
 @TestFor(DateTimeTagLib)
+@Unroll
 class DateTimeTagLibSpec extends Specification {
 
 	def setup() {
@@ -125,8 +126,7 @@ class DateTimeTagLibSpec extends Specification {
 		dom.find('select[name=foo_second] option[selected]').attr('value') == '59'
 	}
 
-	@Unroll({"picker tags accept ${defaultValue.getClass().simpleName} default"})
-	def "picker tags accept ReadableInstant or ReadablePartial default"() {
+	def "picker tags accept #defaultValue.class.simpleName default"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" default="${defaultValue}"/>', [defaultValue: defaultValue])
 		def dom = $(output)
@@ -143,8 +143,7 @@ class DateTimeTagLibSpec extends Specification {
 		defaultValue << [new DateTime(1971, 11, 29, 16, 22, 0, 0), new LocalDateTime(1971, 11, 29, 16, 22, 0, 0)]
 	}
 
-	@Unroll({"picker tags accept ${value.getClass().simpleName} default"})
-	def "picker tags accept ReadableInstant or ReadablePartial value"() {
+	def "picker tags accept #value.class.simpleName value"() {
 		given:
 		def defaultValue = new DateTime(1971, 11, 29, 16, 22, 0, 0)
 
@@ -288,8 +287,7 @@ class DateTimeTagLibSpec extends Specification {
 		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = null
 	}
 
-	@Unroll({"picker tags accept '$precision' precision arg"})
-	def "picker tags accept precision arg"() {
+	def "picker tags accept '#precision' precision arg"() {
 		when:
 		def output = applyTemplate("<joda:dateTimePicker name=\"foo\" precision=\"$precision\"/>")
 		def dom = $(output)

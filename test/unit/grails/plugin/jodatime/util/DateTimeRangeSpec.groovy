@@ -5,6 +5,7 @@ import org.joda.time.*
 import static org.joda.time.DurationFieldType.*
 import spock.lang.*
 
+@Unroll
 class DateTimeRangeSpec extends Specification {
 
 	def setupSpec() {
@@ -23,8 +24,7 @@ class DateTimeRangeSpec extends Specification {
 		range.size() == 12
 	}
 
-	@Unroll({"can specify $increment as the range increment"})
-	def "can specify the range increment"() {
+	def "can specify #increment as the range increment"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 1, 0, 0)

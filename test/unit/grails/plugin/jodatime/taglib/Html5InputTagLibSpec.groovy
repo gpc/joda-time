@@ -25,6 +25,7 @@ import spock.lang.*
 
 @TestFor(Html5InputTagLib)
 @Mock(FormattingTagLib)
+@Unroll
 class Html5InputTagLibSpec extends Specification {
 
 	def setup() {
@@ -40,8 +41,7 @@ class Html5InputTagLibSpec extends Specification {
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
-	@Unroll({"$tag tag renders an HTML5 input"})
-	def "tags render HTML5 inputs"() {
+	def "#tag tag renders an HTML5 input"() {
 		expect:
 		applyTemplate("<joda:$tag name=\"foo\"/>") == expectedOutput
 
@@ -55,8 +55,7 @@ class Html5InputTagLibSpec extends Specification {
 		"datetimeField"      | '<input type="datetime" name="foo" id="foo" value="" />'
 	}
 
-	@Unroll({"$tag tag renders its value in the correct format"})
-	def "tags render their values in the correct format"() {
+	def "#tag tag renders its value in the correct format"() {
 		expect:
 		applyTemplate("<joda:$tag name=\"foo\" value=\"\${value}\"/>", [value: new DateTime()]).contains("value=\"$expectedOutput\"")
 
@@ -94,8 +93,7 @@ class Html5InputTagLibSpec extends Specification {
 		applyTemplate('<joda:datetimeField name="foo" value="${value}"/>', [value: value]).contains('value="2008-10-02T02:50:33.000Z"')
 	}
 
-	@Unroll({"joda:time rejects a ${value?.getClass()?.name} value attribute"})
-	def "joda:time requires a ReadablePartial or ReadableInstant value"() {
+	def "joda:time rejects a #value.class.simpleName value attribute"() {
 		when:
 		applyTemplate('<joda:time value="${value}">body</joda:time>', [value: value])
 
@@ -116,8 +114,7 @@ class Html5InputTagLibSpec extends Specification {
 		applyTemplate('<joda:time>body</joda:time>') ==~ /<time datetime="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(Z|[-\+]\d{2}:\d{2})">body<\/time>/
 	}
 
-	@Unroll({"joda:time outputs a time element with a datetime attribute '$datetimeAttribute' for the value $value"})
-	def "joda:time outputs a time element with a correct datetime attribute"() {
+	def "joda:time outputs a time element with a datetime attribute '#datetimeAttribute' for the value #value"() {
 		expect:
 		applyTemplate('<joda:time value="${value}">body</joda:time>', [value: value]) == "<time datetime=\"$datetimeAttribute\">body</time>"
 
@@ -140,8 +137,7 @@ class Html5InputTagLibSpec extends Specification {
 		applyTemplate('<joda:time value="${value}" var="theDate">${theDate.toString("MMMM d yyyy")}</joda:time>', [value: new LocalDate(2008, 10, 2)]) == '<time datetime="2008-10-02">October 2 2008</time>'
 	}
 
-	@Unroll({"joda:time outputs default text for a ${value.getClass().simpleName} value if the body is omitted"})
-	def "joda:time outputs default text if the body is omitted"() {
+	def "joda:time outputs default text for a #value.class.simpleName value if the body is omitted"() {
 		expect:
 		applyTemplate('<joda:time value="${value}"/>', [value: value]) == expectedOutput
 
