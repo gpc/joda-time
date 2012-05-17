@@ -1,7 +1,7 @@
 package jodatest
 
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.*
+import static org.hamcrest.CoreMatchers.*
 
 class AutoTimestampingTests extends GroovyTestCase {
 

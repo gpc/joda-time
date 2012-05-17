@@ -2,7 +2,7 @@ package jodatest
 
 import org.joda.time.DateTimeZone
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.CoreMatchers.equalTo
 
 class PersistenceTests extends GroovyTestCase {
 

@@ -11,15 +11,13 @@ grails.project.dependency.resolution = {
 		grailsCentral()
 		mavenLocal()
 		mavenCentral()
-		mavenRepo "http://m2repo.spockframework.org/ext/"
-		mavenRepo "https://nexus.codehaus.org/content/repositories/snapshots"
 	}
 
-	def gebVersion = '0.7.0-SNAPSHOT'
+	def gebVersion = '0.7.0'
 	def seleniumVersion = '2.20.0'
 
 	dependencies {
-		test "org.hamcrest:hamcrest-all:1.2"
+		compile "org.hamcrest:hamcrest-core:1.2"
 		test("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
 		test "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
 		test "org.codehaus.geb:geb-spock:$gebVersion"

@@ -3,7 +3,7 @@ package jodatest
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.joda.time.DateTime
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.CoreMatchers.equalTo
 
 class DomainClassTests extends GroovyTestCase {
 
