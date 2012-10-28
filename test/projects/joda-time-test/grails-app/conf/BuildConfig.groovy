@@ -17,7 +17,6 @@ grails.project.dependency.resolution = {
 	def seleniumVersion = '2.20.0'
 
 	dependencies {
-		compile "org.hamcrest:hamcrest-core:1.2"
 		test("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
 		test "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
 		test "org.codehaus.geb:geb-spock:$gebVersion"
@@ -30,7 +29,9 @@ grails.project.dependency.resolution = {
 		test ":build-test-data:1.1.2"
 		test ":fixtures:1.0.7"
 		test ":geb:$gebVersion"
-		test ":spock:0.6"
+		test(":spock:0.6") {
+			excludes "junit-dep", "groovy-all"
+		}
 	}
 }
 
