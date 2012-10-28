@@ -20,8 +20,7 @@ import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 import org.joda.time.*
 import spock.lang.*
 
-import jodd.lagarto.dom.jerry.Jerry
-import static jodd.lagarto.dom.jerry.Jerry.jerry
+import static jodd.jerry.Jerry.jerry as $
 
 @TestFor(DateTimeTagLib)
 @Unroll
@@ -36,10 +35,6 @@ class DateTimeTagLibSpec extends Specification {
 
 	def cleanup() {
 		DateTimeUtils.setCurrentMillisSystem()
-	}
-
-	static Jerry $(String html) {
-		jerry(html)
 	}
 
 	def "datePicker outputs only date fields"() {

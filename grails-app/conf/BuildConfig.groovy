@@ -14,7 +14,6 @@ grails.project.dependency.resolution = {
 		mavenLocal()
 		mavenCentral()
 		mavenRepo "http://repo.grails.org/grails/libs-releases"
-		mavenRepo "http://m2repo.spockframework.org/ext/"
 	}
 
 	int grailsMajorVersion = grailsVersion.find(/^\d+/).toInteger()
@@ -23,7 +22,7 @@ grails.project.dependency.resolution = {
 		test("org.hamcrest:hamcrest-all:1.1") {
 			export = false
 		}
-		test('org.jodd:jodd-wot:3.3.1') {
+		test('org.jodd:jodd-lagarto:3.4.0') {
 			export = false
 		}
 
@@ -42,10 +41,7 @@ grails.project.dependency.resolution = {
 	}
 
 	plugins {
-		build(":release:1.0.1") {
-			export = false
-		}
-		build(":svn:1.0.2") {
+		build(":release:2.0.4") {
 			export = false
 		}
 		test(":spock:0.6") {
