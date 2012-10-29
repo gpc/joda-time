@@ -1,10 +1,10 @@
-grails.project.work.dir = "target"
-grails.project.class.dir = "target/classes"
-grails.project.test.class.dir = "target/test-classes"
-grails.project.test.reports.dir = "target/test-reports"
+grails.project.work.dir = 'target'
+grails.project.class.dir = 'target/classes'
+grails.project.test.class.dir = 'target/test-classes'
+grails.project.test.reports.dir = 'target/test-reports'
 grails.project.dependency.resolution = {
-	inherits "global"
-	log "warn"
+	inherits 'global'
+	log 'warn'
 	repositories {
 		grailsPlugins()
 		grailsHome()
@@ -13,8 +13,8 @@ grails.project.dependency.resolution = {
 		mavenCentral()
 	}
 
-	def gebVersion = '0.7.0'
-	def seleniumVersion = '2.20.0'
+	def gebVersion = '0.7.2'
+	def seleniumVersion = '2.25.0'
 
 	dependencies {
 		test("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
@@ -26,13 +26,13 @@ grails.project.dependency.resolution = {
 		build ":tomcat:$grailsVersion"
 		runtime ":fields:1.2"
 		runtime ":hibernate:$grailsVersion"
-		test ":build-test-data:1.1.2"
-		test ":fixtures:1.0.7"
+		test ':build-test-data:1.1.2'
+		test ':fixtures:1.0.7'
 		test ":geb:$gebVersion"
-		test(":spock:0.6") {
-			excludes "junit-dep", "groovy-all"
+		test(':spock:0.6') {
+			excludes 'junit-dep', 'groovy-all'
 		}
 	}
 }
 
-grails.plugin.location.'joda-time' = "../../.."
+grails.plugin.location.'joda-time' = '../../..'
