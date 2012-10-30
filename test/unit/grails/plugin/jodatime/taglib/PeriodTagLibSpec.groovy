@@ -16,114 +16,115 @@
 package grails.plugin.jodatime.taglib
 
 import grails.test.mixin.TestFor
+import jodd.jerry.Jerry
 import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
 import org.joda.time.Period
+import spock.lang.*
 import org.junit.*
 import grails.plugin.jodatime.taglib.PeriodTagLib
+import static jodd.jerry.Jerry.jerry as $
 
 @TestFor(PeriodTagLib)
-class PeriodTagLibTests {
-	
-	@After void resetConfig() {
+class PeriodTagLibSpec extends Specification {
+
+	void cleanup() {
 		grailsApplication.config.jodatime.clear()
 	}
 
-	@Test
-	void periodPickerDefaultsIdFromName() {
+	void 'periodPicker defaults id from name'() {
+		given:
 		def output = applyTemplate('<joda:periodPicker name="foo"/>')
+		def dom = $(output)
 
-		["hours", "minutes", "seconds"].each {
-			assert output.contains(/<input type="text" name="foo_$it" id="foo_$it"/)
-		}
+		expect:
+		dom.find('#foo_hours').attr('name') == 'foo_hours'
+		dom.find('#foo_minutes').attr('name') == 'foo_minutes'
+		dom.find('#foo_seconds').attr('name') == 'foo_seconds'
 	}
 
-	@Test
-	void periodPickerUsesHoursMinutesAndSecondsByDefault() {
+	void 'periodPicker uses hours minutes and seconds by default'() {
+		given:
 		def output = applyTemplate('<joda:periodPicker name="foo"/>')
+		def dom = $(output)
 
-		assert !output.contains(/<input type="text" name="foo_years"/)
-		assert !output.contains(/<input type="text" name="foo_months"/)
-		assert !output.contains(/<input type="text" name="foo_weeks"/)
-		assert !output.contains(/<input type="text" name="foo_days"/)
-		assert output.contains(/<input type="text" name="foo_hours"/)
-		assert output.contains(/<input type="text" name="foo_minutes"/)
-		assert output.contains(/<input type="text" name="foo_seconds"/)
-		assert !output.contains(/<input type="text" name="foo_millis"/)
+		expect:
+		dom.find(':input[type=text]').get().collect { it.getAttribute('name') } == ['foo_hours', 'foo_minutes', 'foo_seconds']
 	}
 
-	@Test
-	void periodPickerUsesFieldsFromConfigIfPresent() {
+	void 'periodPicker uses fields from config if present'() {
+		given:
 		grailsApplication.config.jodatime.periodpicker.default.fields = "years,months , days"
 
+		and:
 		def output = applyTemplate('<joda:periodPicker name="foo"/>')
+		def dom = $(output)
 
-		assert output.contains(/<input type="text" name="foo_years"/)
-		assert output.contains(/<input type="text" name="foo_months"/)
-		assert !output.contains(/<input type="text" name="foo_weeks"/)
-		assert output.contains(/<input type="text" name="foo_days"/)
-		assert !output.contains(/<input type="text" name="foo_hours"/)
-		assert !output.contains(/<input type="text" name="foo_minutes"/)
-		assert !output.contains(/<input type="text" name="foo_seconds"/)
-		assert !output.contains(/<input type="text" name="foo_millis"/)
+		expect:
+		dom.find(':input[type=text]').get().collect { it.getAttribute('name') } == ['foo_years', 'foo_months', 'foo_days']
 	}
 
-	@Test
-	void periodPickerAcceptsFieldsAttribute() {
+	void 'periodPicker accepts fields attribute'() {
+		given:
 		def output = applyTemplate('<joda:periodPicker name="foo" fields="years,months,days"/>')
+		def dom = $(output)
 
-		assert output.contains(/<input type="text" name="foo_years"/)
-		assert output.contains(/<input type="text" name="foo_months"/)
-		assert !output.contains(/<input type="text" name="foo_weeks"/)
-		assert output.contains(/<input type="text" name="foo_days"/)
-		assert !output.contains(/<input type="text" name="foo_hours"/)
-		assert !output.contains(/<input type="text" name="foo_minutes"/)
-		assert !output.contains(/<input type="text" name="foo_seconds"/)
-		assert !output.contains(/<input type="text" name="foo_millis"/)
+		expect:
+		dom.find(':input[type=text]').get().collect { it.getAttribute('name') } == ['foo_years', 'foo_months', 'foo_days']
 	}
 
-	@Test
-	void periodPickerAcceptsValueAttribute() {
-		def value = new Period().withHours(8).withMinutes(12).withSeconds(35)
-
+	void 'periodPicker accepts value attribute'() {
+		given:
 		def output = applyTemplate('<joda:periodPicker name="foo" value="${value}"/>', [value: value])
+		def dom = $(output)
 
-		assert output.contains(/<input type="text" name="foo_hours" id="foo_hours" value="8"/)
-		assert output.contains(/<input type="text" name="foo_minutes" id="foo_minutes" value="12"/)
-		assert output.contains(/<input type="text" name="foo_seconds" id="foo_seconds" value="35"/)
+		expect:
+		dom.find('#foo_hours').attr('value') == "$value.hours"
+		dom.find('#foo_minutes').attr('value') == "$value.minutes"
+		dom.find('#foo_seconds').attr('value') == "$value.seconds"
+
+		where:
+		value = new Period().withHours(8).withMinutes(12).withSeconds(35)
 	}
 
-	@Test
-	void periodPickerAcceptsDurationValue() {
-		def value = new Period().withHours(8).withMinutes(12).withSeconds(35).toStandardDuration()
-
+	void 'periodPicker accepts duration value'() {
+		given:
 		def output = applyTemplate('<joda:periodPicker name="foo" value="${value}"/>', [value: value])
+		def dom = $(output)
 
-		assert output.contains(/<input type="text" name="foo_hours" id="foo_hours" value="8"/)
-		assert output.contains(/<input type="text" name="foo_minutes" id="foo_minutes" value="12"/)
-		assert output.contains(/<input type="text" name="foo_seconds" id="foo_seconds" value="35"/)
+		expect:
+		dom.find('#foo_hours').attr('value') == "$value.standardHours"
+		dom.find('#foo_minutes').attr('value') == '12'
+		dom.find('#foo_seconds').attr('value') == '35'
+
+		where:
+		value = new Period().withHours(8).withMinutes(12).withSeconds(35).toStandardDuration()
 	}
 
-	@Test
-	void periodPickerUsesHourAsHighestFieldWhenValueIsDuration() {
-		def value = new Period().withDays(1).withHours(1).toStandardDuration()
-
+	void 'periodPicker uses hour as highest field when value is duration'() {
+		given:
 		def output = applyTemplate('<joda:periodPicker name="foo" fields="days,hours,minutes,seconds" value="${value}"/>', [value: value])
+		def dom = $(output)
 
-		assert output.contains(/<input type="text" name="foo_days" id="foo_days" value="0"/)
-		assert output.contains(/<input type="text" name="foo_hours" id="foo_hours" value="25"/)
-		assert output.contains(/<input type="text" name="foo_minutes" id="foo_minutes" value="0"/)
-		assert output.contains(/<input type="text" name="foo_seconds" id="foo_seconds" value="0"/)
+		expect:
+		dom.find('#foo_days').attr('value') == '0'
+		dom.find('#foo_hours').attr('value') == "$value.standardHours"
+		dom.find('#foo_minutes').attr('value') == '0'
+		dom.find('#foo_seconds').attr('value') == '0'
+
+		where:
+		value = new Period().withDays(1).withHours(1).toStandardDuration()
 	}
 
-	@Test
-	void periodPickerHandlesNullValueAttribute() {
+	void 'periodPicker handles null value attribute'() {
+		given:
 		def output = applyTemplate('<joda:periodPicker name="foo" value="${value}"/>', [value: null])
+		def dom = $(output)
 
-		["hours", "minutes", "seconds"].each {
-			assert output.contains(/<input type="text" name="foo_$it" id="foo_$it" value="0"/)
-		}
+		expect:
+		dom.find(':input[type=text]').get()*.getAttribute('value') == ['0', '0', '0']
 	}
 
+/*
 	@Test
 	void periodPickerOutputsLabels() {
 		def output = applyTemplate('<joda:periodPicker name="foo" value="${value}"/>', [value: null])
@@ -204,5 +205,5 @@ class PeriodTagLibTests {
 
 		assert applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "8 hours, 12 minutes and 35 seconds"
 	}
-
+*/
 }

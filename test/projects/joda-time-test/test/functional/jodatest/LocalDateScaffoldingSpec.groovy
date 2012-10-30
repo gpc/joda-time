@@ -37,7 +37,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		when:
 		go "/person/create?lang=$locale"
 		$("form").name = "Alex"
-		$("form").birthday = value
+		$("form").birthday() << value
 		$("form").create().click()
 
 		then:
