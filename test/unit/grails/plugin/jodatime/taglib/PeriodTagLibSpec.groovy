@@ -18,9 +18,18 @@ package grails.plugin.jodatime.taglib
 import grails.test.mixin.TestFor
 import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
 import org.joda.time.Period
+import spock.lang.Issue
 import spock.lang.Specification
+import spock.lang.Unroll
+import static java.util.Locale.CHINESE
+import static java.util.Locale.ENGLISH
+import static java.util.Locale.FRENCH
+import static java.util.Locale.GERMAN
+import static java.util.Locale.ITALIAN
+import static java.util.Locale.JAPANESE
 import static jodd.jerry.Jerry.jerry as $
 
+@Unroll
 @TestFor(PeriodTagLib)
 class PeriodTagLibSpec extends Specification {
 
@@ -142,14 +151,14 @@ class PeriodTagLibSpec extends Specification {
 				"org.joda.time.DurationFieldType.minutes": "m",
 				"org.joda.time.DurationFieldType.seconds": "s"
 		]
-		messageSource.addMessages messages, Locale.ENGLISH
+		messageSource.addMessages messages, ENGLISH
 
 		and:
 		def output = applyTemplate('<joda:periodPicker name="foo"/>')
 		def dom = $(output)
 
 		expect:
-		dom.find('label')*.text() == ['\u00a0h ','\u00a0m ','\u00a0s ']
+		dom.find('label')*.text() == ['\u00a0h ', '\u00a0m ', '\u00a0s ']
 	}
 
 	void 'formatPeriod requires value attribute'() {
@@ -162,7 +171,7 @@ class PeriodTagLibSpec extends Specification {
 
 	void 'formatPeriod uses default fields'() {
 		expect:
-		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) ==  "2 years, 2 months, 2 weeks, 2 days, 2 hours, 2 minutes and 2 seconds"
+		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "2 years, 2 months, 2 weeks, 2 days, 2 hours, 2 minutes and 2 seconds"
 
 		where:
 		value = new Period().withYears(2).withMonths(2).withWeeks(2).withDays(2).withHours(2).withMinutes(2).withSeconds(2)
@@ -187,7 +196,7 @@ class PeriodTagLibSpec extends Specification {
 	void 'formatPeriod uses fields from config'() {
 		given:
 		grailsApplication.config.jodatime.periodpicker.default.fields = "years,months , days"
-		
+
 		expect:
 		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "3 years, 2 months and 2 days"
 
@@ -217,6 +226,23 @@ class PeriodTagLibSpec extends Specification {
 
 		where:
 		value = new Period().withHours(8).withMinutes(12).withSeconds(35).toStandardDuration()
+	}
+
+	@Issue('http://jira.grails.org/browse/GPJODATIME-33')
+	void 'formatPeriod correctly outputs value for #locale locale'() {
+		given:
+		request.addPreferredLocale locale
+
+		expect:
+		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == expectedOutput
+
+		where:
+		locale  | expectedOutput
+		ENGLISH | '1 hour'
+		FRENCH  | '1 heure'
+		GERMAN  | '1 Stunde'
+
+		value = new Period().withHours(1)
 	}
 
 }
