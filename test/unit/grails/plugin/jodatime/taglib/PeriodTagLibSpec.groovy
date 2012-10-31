@@ -16,12 +16,9 @@
 package grails.plugin.jodatime.taglib
 
 import grails.test.mixin.TestFor
-import jodd.jerry.Jerry
 import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
 import org.joda.time.Period
-import spock.lang.*
-import org.junit.*
-import grails.plugin.jodatime.taglib.PeriodTagLib
+import spock.lang.Specification
 import static jodd.jerry.Jerry.jerry as $
 
 @TestFor(PeriodTagLib)
@@ -48,7 +45,7 @@ class PeriodTagLibSpec extends Specification {
 		def dom = $(output)
 
 		expect:
-		dom.find(':input[type=text]').get().collect { it.getAttribute('name') } == ['foo_hours', 'foo_minutes', 'foo_seconds']
+		dom.find(':input[type=text]')*.attr('name') == ['foo_hours', 'foo_minutes', 'foo_seconds']
 	}
 
 	void 'periodPicker uses fields from config if present'() {
@@ -60,7 +57,7 @@ class PeriodTagLibSpec extends Specification {
 		def dom = $(output)
 
 		expect:
-		dom.find(':input[type=text]').get().collect { it.getAttribute('name') } == ['foo_years', 'foo_months', 'foo_days']
+		dom.find(':input[type=text]')*.attr('name') == ['foo_years', 'foo_months', 'foo_days']
 	}
 
 	void 'periodPicker accepts fields attribute'() {
@@ -69,7 +66,7 @@ class PeriodTagLibSpec extends Specification {
 		def dom = $(output)
 
 		expect:
-		dom.find(':input[type=text]').get().collect { it.getAttribute('name') } == ['foo_years', 'foo_months', 'foo_days']
+		dom.find(':input[type=text]')*.attr('name') == ['foo_years', 'foo_months', 'foo_days']
 	}
 
 	void 'periodPicker accepts value attribute'() {
@@ -121,89 +118,105 @@ class PeriodTagLibSpec extends Specification {
 		def dom = $(output)
 
 		expect:
-		dom.find(':input[type=text]').get()*.getAttribute('value') == ['0', '0', '0']
+		dom.find(':input[type=text]')*.attr('value') == ['0', '0', '0']
 	}
 
-/*
-	@Test
-	void periodPickerOutputsLabels() {
+	void 'periodPicker outputs labels'() {
+		given:
 		def output = applyTemplate('<joda:periodPicker name="foo" value="${value}"/>', [value: null])
+		def dom = $(output)
 
-		["hours", "minutes", "seconds"].each {
-			assert output =~ /<label for="foo_$it"><input type="text" name="foo_$it"[^\/]*\/>&nbsp;$it <\/label>/
+		expect:
+		def labels = dom.find('label')
+		labels*.attr('for') == ['foo_hours', 'foo_minutes', 'foo_seconds']
+		labels*.text() == ['\u00a0hours ', '\u00a0minutes ', '\u00a0seconds ']
+		labels.every {
+			it.find(':input').attr('id') == it.attr('for')
 		}
 	}
 
-	@Test
-	void periodPickerLabelsCanBeChangedWithMessageProperties() {
+	void 'periodPicker labels can be changed with message properties'() {
+		given:
 		def messages = [
 				"org.joda.time.DurationFieldType.hours": "h",
 				"org.joda.time.DurationFieldType.minutes": "m",
 				"org.joda.time.DurationFieldType.seconds": "s"
 		]
 		messageSource.addMessages messages, Locale.ENGLISH
-		
+
+		and:
 		def output = applyTemplate('<joda:periodPicker name="foo"/>')
+		def dom = $(output)
 
-		assert output =~ /<label for="foo_hours"><input type="text" name="foo_hours"[^\/]*\/>&nbsp;h <\/label>/
-		assert output =~ /<label for="foo_minutes"><input type="text" name="foo_minutes"[^\/]*\/>&nbsp;m <\/label>/
-		assert output =~ /<label for="foo_seconds"><input type="text" name="foo_seconds"[^\/]*\/>&nbsp;s <\/label>/
+		expect:
+		dom.find('label')*.text() == ['\u00a0h ','\u00a0m ','\u00a0s ']
 	}
 
-	@Test(expected = GrailsTagException)
-	void formatPeriodRequiresValueAttribute() {
+	void 'formatPeriod requires value attribute'() {
+		when:
 		applyTemplate('<joda:formatPeriod/>')
+
+		then:
+		thrown GrailsTagException
 	}
 
-	@Test
-	void formatPeriodUsesDefaultFields() {
-		def value = new Period().withYears(2).withMonths(2).withWeeks(2).withDays(2).withHours(2).withMinutes(2).withSeconds(2)
+	void 'formatPeriod uses default fields'() {
+		expect:
+		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) ==  "2 years, 2 months, 2 weeks, 2 days, 2 hours, 2 minutes and 2 seconds"
 
-		assert applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) ==  "2 years, 2 months, 2 weeks, 2 days, 2 hours, 2 minutes and 2 seconds"
+		where:
+		value = new Period().withYears(2).withMonths(2).withWeeks(2).withDays(2).withHours(2).withMinutes(2).withSeconds(2)
 	}
 
-	@Test
-	void formatPeriodNormalizesValue() {
-		def value = new Period().withYears(1).withMonths(12).withDays(7).withHours(48)
+	void 'formatPeriod normalizes value'() {
+		expect:
+		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "2 years, 1 week and 2 days"
 
-		assert applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "2 years, 1 week and 2 days"
+		where:
+		value = new Period().withYears(1).withMonths(12).withDays(7).withHours(48)
 	}
 
-	@Test
-	void formatPeriodAcceptsFieldAttribute() {
-		def value = new Period().withWeeks(2).withHours(50).withMinutes(2).withSeconds(2)
+	void 'formatPeriod accepts field attribute'() {
+		expect:
+		applyTemplate('<joda:formatPeriod fields="days,hours,minutes" value="${value}"/>', [value: value]) == "16 days, 2 hours and 2 minutes"
 
-		assert applyTemplate('<joda:formatPeriod fields="days,hours,minutes" value="${value}"/>', [value: value]) == "16 days, 2 hours and 2 minutes"
+		where:
+		value = new Period().withWeeks(2).withHours(50).withMinutes(2).withSeconds(2)
 	}
 
-	@Test
-	void formatPeriodUsesFieldsFromConfig() {
+	void 'formatPeriod uses fields from config'() {
+		given:
 		grailsApplication.config.jodatime.periodpicker.default.fields = "years,months , days"
 		
-		def value = new Period().withYears(2).withMonths(14).withDays(2).withHours(12)
+		expect:
+		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "3 years, 2 months and 2 days"
 
-		assert applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "3 years, 2 months and 2 days"
+		where:
+		value = new Period().withYears(2).withMonths(14).withDays(2).withHours(12)
 	}
 
-	@Test
-	void formatPeriodOmitsZeroValuedFields() {
-		def value = new Period().withMonths(2).withDays(2).withMinutes(2)
+	void 'formatPeriod omits zero valued fields'() {
+		expect:
+		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "2 months, 2 days and 2 minutes"
 
-		assert applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "2 months, 2 days and 2 minutes"
+		where:
+		value = new Period().withMonths(2).withDays(2).withMinutes(2)
 	}
 
-	@Test
-	void formatPeriodHandlesErrorIfValueHasYearsOrMonthsAndFieldsDoesNot() {
-		def value = new Period().withYears(1).withMonths(1).withDays(2).withMinutes(2)
+	void 'formatPeriod handles error if value has years or months and fields does not'() {
+		expect:
+		applyTemplate('<joda:formatPeriod fields="days,minutes" value="${value}"/>', [value: value]) == "2 days and 2 minutes"
 
-		assert applyTemplate('<joda:formatPeriod fields="days,minutes" value="${value}"/>', [value: value]) == "2 days and 2 minutes"
+		where:
+		value = new Period().withYears(1).withMonths(1).withDays(2).withMinutes(2)
 	}
 
-	@Test
-	void formatPeriodAcceptsDurationValue() {
-		def value = new Period().withHours(8).withMinutes(12).withSeconds(35).toStandardDuration()
+	void 'formatPeriod accepts duration value'() {
+		expect:
+		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "8 hours, 12 minutes and 35 seconds"
 
-		assert applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "8 hours, 12 minutes and 35 seconds"
+		where:
+		value = new Period().withHours(8).withMinutes(12).withSeconds(35).toStandardDuration()
 	}
-*/
+
 }

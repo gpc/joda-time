@@ -24,7 +24,7 @@ grails.project.dependency.resolution = {
 		test('org.hamcrest:hamcrest-all:1.1') {
 			export = false
 		}
-		test('org.jodd:jodd-lagarto:3.4.0') {
+		test('org.jodd:jodd-lagarto:3.4.1-SNAPSHOT') {
 			export = false
 		}
 
