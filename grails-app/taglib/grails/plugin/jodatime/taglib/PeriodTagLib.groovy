@@ -45,7 +45,7 @@ class PeriodTagLib {
 			def fieldType = periodType.getFieldType(i)
 			out << "<label for=\"${id}_${fieldType.name}\">"
 			out << """<input type="text" name="${name}_${fieldType.name}" id="${id}_${fieldType.name}" value="${value?.get(fieldType) ?: 0}" size="1"/>"""
-			out << "&nbsp;" << message(code: "${DurationFieldType.name}.$fieldType.name", default: fieldType.name) << " "
+			out << "&nbsp;" << getLabelFor(fieldType) << " "
 			out << "</label>"
 		}
 	}
@@ -102,6 +102,12 @@ class PeriodTagLib {
 			value = value.withMonths(0)
 		}
 		return value.normalizedStandard(periodType)
+	}
+
+	private String getLabelFor(DurationFieldType fieldType) {
+		def bundle = ResourceBundle.getBundle("${PeriodFormat.package.name}.messages", request.locale)
+		def defaultLabel = bundle.getString("PeriodFormat.$fieldType.name").trim()
+		message(code: "${DurationFieldType.name}.$fieldType.name", default: defaultLabel)
 	}
 
 }

@@ -144,6 +144,25 @@ class PeriodTagLibSpec extends Specification {
 		}
 	}
 
+	void 'periodPicker uses correct default labels in #locale locale'() {
+		given:
+		request.addPreferredLocale locale
+
+		and:
+		def output = applyTemplate('<joda:periodPicker name="foo" value="${value}"/>', [value: null])
+		def dom = $(output)
+
+		expect:
+		def labels = dom.find('label')
+		labels*.text() == expectedText
+
+		where:
+		locale  | expectedText
+		ENGLISH | ['\u00a0hours ', '\u00a0minutes ', '\u00a0seconds ']
+		FRENCH  | ['\u00a0heures ', '\u00a0minutes ', '\u00a0secondes ']
+		GERMAN  | ['\u00a0Stunden ', '\u00a0Minuten ', '\u00a0Sekunden ']
+	}
+
 	void 'periodPicker labels can be changed with message properties'() {
 		given:
 		def messages = [
