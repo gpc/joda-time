@@ -14,6 +14,7 @@ grails.project.dependency.resolution = {
 		mavenLocal()
 		mavenCentral()
 		mavenRepo 'http://repo.grails.org/grails/libs-releases'
+		mavenRepo 'https://oss.sonatype.org/content/groups/public'
 	}
 
 	int grailsMajorVersion = grailsVersion.find(/^\d+/).toInteger()
