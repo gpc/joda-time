@@ -1,0 +1,1 @@
+<g:textField name="${property}" value="${value}"/>
