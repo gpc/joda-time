@@ -30,6 +30,10 @@
 				padding: 0;
 			}
 
+			#status li {
+				line-height: 1.3;
+			}
+
 			#status h1 {
 				text-transform: uppercase;
 				font-size: 1.1em;
@@ -47,6 +51,7 @@
 			}
 
 			p {
+				line-height: 1.5;
 				margin: 0.25em 0;
 			}
 
@@ -55,6 +60,7 @@
 			}
 
 			#controller-list li {
+				line-height: 1.3;
 				list-style-position: inside;
 				margin: 0.25em 0;
 			}
@@ -81,8 +87,9 @@
 			<ul>
 				<li>App version: <g:meta name="app.version"/></li>
 				<li>Grails version: <g:meta name="app.grails.version"/></li>
-				<li>Groovy version: ${org.codehaus.groovy.runtime.InvokerHelper.getVersion()}</li>
+				<li>Groovy version: ${GroovySystem.getVersion()}</li>
 				<li>JVM version: ${System.getProperty('java.version')}</li>
+				<li>Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</li>
 				<li>Controllers: ${grailsApplication.controllerClasses.size()}</li>
 				<li>Domains: ${grailsApplication.domainClasses.size()}</li>
 				<li>Services: ${grailsApplication.serviceClasses.size()}</li>
@@ -90,8 +97,7 @@
 			</ul>
 			<h1>Installed Plugins</h1>
 			<ul>
-				<g:set var="pluginManager" value="${applicationContext.getBean('pluginManager')}"/>
-				<g:each var="plugin" in="${pluginManager.allPlugins}">
+				<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
 					<li>${plugin.name} - ${plugin.version}</li>
 				</g:each>
 			</ul>
@@ -99,9 +105,9 @@
 		<div id="page-body" role="main">
 			<h1>Welcome to Grails</h1>
 			<p>Congratulations, you have successfully started your first Grails application! At the moment
-            this is the default page, feel free to modify it to either redirect to a controller or display whatever
-            content you may choose. Below is a list of controllers that are currently deployed in this application,
-            click on each to execute its default action:</p>
+			   this is the default page, feel free to modify it to either redirect to a controller or display whatever
+			   content you may choose. Below is a list of controllers that are currently deployed in this application,
+			   click on each to execute its default action:</p>
 
 			<div id="controller-list" role="navigation">
 				<h2>Available Controllers:</h2>
