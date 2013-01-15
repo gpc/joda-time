@@ -17,8 +17,6 @@ grails.project.dependency.resolution = {
 		mavenRepo 'https://oss.sonatype.org/content/groups/public'
 	}
 
-	int grailsMajorVersion = grailsVersion.find(/^\d+/).toInteger()
-
 	dependencies {
 		compile 'joda-time:joda-time:2.1'
 
