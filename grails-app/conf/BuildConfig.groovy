@@ -4,8 +4,8 @@ grails.project.test.class.dir = 'target/test-classes'
 grails.project.test.reports.dir = 'target/test-reports'
 grails.project.dependency.resolution = {
 
-	inherits "global"
-	log "warn"
+	inherits 'global'
+	log 'warn'
 
 	repositories {
 		grailsPlugins()
@@ -22,32 +22,16 @@ grails.project.dependency.resolution = {
 	dependencies {
 		compile 'joda-time:joda-time:2.1'
 
-		test('org.hamcrest:hamcrest-all:1.1') {
-			export = false
-		}
-		test('org.jodd:jodd-lagarto:3.4.1-SNAPSHOT') {
-			export = false
-		}
-
-		if (grailsMajorVersion < 2) {
-			def datastoreVersion = '1.0.0.RC1'
-			compile("org.grails:grails-datastore-gorm-plugin-support:$datastoreVersion",
-					"org.grails:grails-datastore-gorm:$datastoreVersion",
-					"org.grails:grails-datastore-core:$datastoreVersion",
-					"org.grails:grails-datastore-simple:$datastoreVersion") {
-				transitive = false
-			}
-			test("org.grails:grails-datastore-gorm-test:$datastoreVersion") {
-				transitive = false
-			}
-		}
+		test('org.spockframework:spock-grails-support:0.7-groovy-2.0') { export = false }
+		test('org.hamcrest:hamcrest-all:1.1') { export = false }
+		test('org.jodd:jodd-lagarto:3.4.1') { export = false }
 	}
 
 	plugins {
-		build(':release:2.0.4') {
-			export = false
-		}
+		build(':release:2.2.0') { export = false }
+
 		test(':spock:0.7') {
+			exclude 'spock-grails-support'
 			export = false
 		}
 	}
