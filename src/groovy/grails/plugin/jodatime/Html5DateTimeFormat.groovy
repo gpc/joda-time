@@ -5,6 +5,7 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatterBuilder
 import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.format.DateTimePrinter
+import org.joda.time.format.DateTimeParser
 
 /**
  * Provides a set of DateTimeFormatters that parse and format correctly for the various HTML5 date & time input types.
@@ -24,12 +25,14 @@ class Html5DateTimeFormat {
 	}
 
 	static DateTimeFormatter time() {
+		DateTimeParser[] parsers = [
+			DateTimeFormat.forPattern( "HH:mm" ).getParser(),
+			DateTimeFormat.forPattern( "HH:mm:ss" ).getParser(),
+			DateTimeFormat.forPattern( "HH:mm:ss.SSS" ).getParser()
+		]		
 		new DateTimeFormatterBuilder()
-				.appendPattern("HH:mm")
-				.appendOptional(DateTimeFormat.forPattern(":ss").getParser())
-				.appendOptional(DateTimeFormat.forPattern(".SSS").getParser())
-				.append(DateTimeFormat.forPattern(":ss.SSS").getPrinter() as DateTimePrinter) // the cast is required or dispatch of append method gets confused
-				.toFormatter()
+				.append(DateTimeFormat.forPattern("HH:mm:ss.SSS").getPrinter(), parsers)		
+				.toFormatter()	
 	}
 
 	static DateTimeFormatter timeShort() {
