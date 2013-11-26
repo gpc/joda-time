@@ -67,7 +67,7 @@ class InstantScaffoldingSpec extends GebSpec {
 		Event.build(description: "Spacewalk", occurred: new Instant(93436020000))
 
 		when:
-		go "/event/list"
+		go "/event"
 		x.times {
 			$("th a", text: "Occurred").click()
 		}

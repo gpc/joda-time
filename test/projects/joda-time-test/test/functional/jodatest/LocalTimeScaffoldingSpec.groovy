@@ -79,7 +79,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		Alarm.build(description: "Lie In", time: new LocalTime(10, 30))
 
 		when:
-		go "/alarm/list"
+		go "/alarm"
 		x.times {
 			$("th a", text: "Time").click()
 		}

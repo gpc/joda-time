@@ -15,13 +15,18 @@
  */
 
 import grails.plugin.jodatime.JodaDynamicMethods
+import grails.plugin.jodatime.binding.DateTimeConverter
+import grails.plugin.jodatime.binding.DateTimeStructuredBindingEditor
+import grails.plugin.jodatime.binding.DateTimeZoneConverter
 import grails.plugin.jodatime.binding.JodaTimePropertyEditorRegistrar
+import grails.plugin.jodatime.binding.PeriodConverter
+import grails.plugin.jodatime.binding.PeriodStructuredBindingEditor
 import grails.plugin.jodatime.converters.JodaConverters
 
 class JodaTimeGrailsPlugin {
 
 	def version = '1.5-SNAPSHOT'
-	def grailsVersion = '2.0 > *'
+	def grailsVersion = '2.3 > *'
 	def dependsOn = [converters: '2.0 > *']
 
 	def title = 'Joda-Time Plugin'
@@ -44,10 +49,29 @@ class JodaTimeGrailsPlugin {
 
 	def doWithSpring = {
 		jodaTimePropertyEditorRegistrar(JodaTimePropertyEditorRegistrar)
+
+		DateTimeConverter.SUPPORTED_TYPES.each{ jodaType ->
+			"joda${jodaType.simpleName}Converter"(DateTimeConverter) {
+				grailsApplication = ref("grailsApplication")
+				type = jodaType
+			}
+		}
+		PeriodConverter.SUPPORTED_TYPES.each{ jodaType ->
+			"joda${jodaType.simpleName}Converter"(PeriodConverter) {
+				type = jodaType
+			}
+		}
+		"jodaDateTimeZoneConverter"(DateTimeZoneConverter)
 	}
 
 	def doWithDynamicMethods = { ctx ->
 		JodaDynamicMethods.registerDynamicMethods()
 		JodaConverters.registerJsonAndXmlMarshallers()
+		DateTimeStructuredBindingEditor.SUPPORTED_TYPES.each{ type ->
+			application.mainContext.grailsWebDataBinder.registerStructuredEditor type, new DateTimeStructuredBindingEditor(type)
+		}
+		PeriodStructuredBindingEditor.SUPPORTED_TYPES.each{ type ->
+			application.mainContext.grailsWebDataBinder.registerStructuredEditor type, new PeriodStructuredBindingEditor(type)
+		}
 	}
 }

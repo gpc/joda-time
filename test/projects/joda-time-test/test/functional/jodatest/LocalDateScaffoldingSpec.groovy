@@ -94,7 +94,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		Person.build(name: "Alex", birthday: new LocalDate(2008, 10, 2))
 
 		when:
-		go "/person/list"
+		go "/person"
 		x.times {
 			$("th a", text: "Birthday").click()
 		}

@@ -71,7 +71,7 @@ class DurationScaffoldingSpec extends GebSpec {
 		Marathon.build(runner: "Samuel Wanjiru", time: new Period(2, 5, 10, 0).toStandardDuration())
 
 		when:
-		go "/marathon/list"
+		go "/marathon"
 		x.times {
 			$("th a", text: "Time").click()
 		}
