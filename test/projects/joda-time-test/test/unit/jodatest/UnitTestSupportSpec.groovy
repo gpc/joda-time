@@ -1,5 +1,6 @@
 package jodatest
 
+import grails.plugin.jodatime.simpledatastore.SimpleMapJodaTimeMarshaller
 import grails.test.mixin.Mock
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
 import org.joda.time.*
@@ -9,13 +10,17 @@ import spock.lang.*
 @Unroll
 class UnitTestSupportSpec extends Specification {
 
-	def setup() {
+	void setupSpec() {
+		SimpleMapJodaTimeMarshaller.initialize()
+	}
+
+	void setup() {
 		new Person(name: "Alex", birthday: new LocalDate(2008, 10, 2)).save(failOnError: true)
 		new Person(name: "Nicholas", birthday: new LocalDate(2010, 11, 14)).save(failOnError: true)
 	}
 	
 	@Issue("http://jira.grails.org/browse/GPJODATIME-19")
-	def "can re-save instances"() {
+	void "can re-save instances"() {
 		given:
 		def record = new AuditedRecord(data: "foo").save(failOnError: true)
 		
@@ -23,12 +28,12 @@ class UnitTestSupportSpec extends Specification {
 		record.save(failOnError: true)
 	}
 
-	def "can read a LocalDate property of a domain instance retrieved from the simple datastore"() {
+	void "can read a LocalDate property of a domain instance retrieved from the simple datastore"() {
 		expect:
 		Person.findByName("Alex").birthday == new LocalDate(2008, 10, 2)
 	}
 
-	def "can us the dynamic query `#queryMethod` on a LocalDate property"() {
+	void "can us the dynamic query `#queryMethod` on a LocalDate property"() {
 		expect:
 		Person."$queryMethod"(argument).name == expected
 
@@ -41,7 +46,7 @@ class UnitTestSupportSpec extends Specification {
 		"findAllByBirthdayGreaterThanEquals" | new LocalDate(2008, 10, 2) | ["Alex", "Nicholas"]
 	}
 
-	def "can us the dynamic query `#queryMethod` on a Duration property"() {
+	void "can us the dynamic query `#queryMethod` on a Duration property"() {
 		given:
 		new Marathon(runner: "Haile Gebrselassie", time: new Period(2, 3, 59, 0).toStandardDuration()).save(failOnError: true)
 		new Marathon(runner: "Samuel Wanjiru", time: new Period(2, 5, 10, 0).toStandardDuration()).save(failOnError: true)
@@ -55,7 +60,7 @@ class UnitTestSupportSpec extends Specification {
 		"findAllByTimeLessThan" | new Period(2, 5, 10, 0).toStandardDuration() | ["Haile Gebrselassie"]
 	}
 
-	def "can us the dynamic query `#queryMethod` on a DateTimeZone property"() {
+	void "can us the dynamic query `#queryMethod` on a DateTimeZone property"() {
 		given:
 		new City(name: "London", timeZone: DateTimeZone.forID("Europe/London")).save(failOnError: true)
 		new City(name: "Vancouver", timeZone: DateTimeZone.forID("America/Vancouver")).save(failOnError: true)
@@ -69,7 +74,7 @@ class UnitTestSupportSpec extends Specification {
 		"findAllByTimeZoneNotEquals" | DateTimeZone.forID("Europe/London") | ["Vancouver"]
 	}
 
-	def "cannot use some operators on non-Comparable types"() {
+	void "cannot use some operators on non-Comparable types"() {
 		given:
 		new City(name: "London", timeZone: DateTimeZone.forID("Europe/London")).save(failOnError: true)
 		new City(name: "Vancouver", timeZone: DateTimeZone.forID("America/Vancouver")).save(failOnError: true)
@@ -81,7 +86,7 @@ class UnitTestSupportSpec extends Specification {
 		thrown RuntimeException
 	}
 
-	def "can use the `#operator` operator on a LocalDate property in a criteria query"() {
+	void "can use the `#operator` operator on a LocalDate property in a criteria query"() {
 		when:
 		def results = Person.withCriteria {
 			"$operator" "birthday", value
@@ -100,7 +105,7 @@ class UnitTestSupportSpec extends Specification {
 		"ne"     | new LocalDate(2010, 11, 14) | ["Alex"]
 	}
 
-	def "can use the `between` operator on a LocalDate property in a criteria query"() {
+	void "can use the `between` operator on a LocalDate property in a criteria query"() {
 		when:
 		def results = Person.withCriteria {
 			between "birthday", lowerBound, upperBound
@@ -116,7 +121,7 @@ class UnitTestSupportSpec extends Specification {
 		new LocalDate(2008, 1, 1) | new LocalDate(2011, 1, 1) | ["Alex", "Nicholas"]
 	}
 
-	def "empty results are handled correctly"() {
+	void "empty results are handled correctly"() {
 		when:
 		def results = Person.withCriteria {
 			isNull "birthday"
@@ -126,7 +131,7 @@ class UnitTestSupportSpec extends Specification {
 		results == []
 	}
 
-	def "can order #direction ending by a LocalDate property in a criteria query"() {
+	void "can order #direction ending by a LocalDate property in a criteria query"() {
 		when:
 		def results = Person.withCriteria {
 			order "birthday", direction
@@ -141,7 +146,7 @@ class UnitTestSupportSpec extends Specification {
 		"desc"    | ["Nicholas", "Alex"]
 	}
 
-	def "can use `#projection` projection on a LocalDate property in a criteria query"() {
+	void "can use `#projection` projection on a LocalDate property in a criteria query"() {
 		when:
 		def results = Person.withCriteria {
 			projections {
@@ -158,7 +163,7 @@ class UnitTestSupportSpec extends Specification {
 		"min"      | new LocalDate(2008, 10, 2)
 	}
 
-	def "cannot use `#projection` projection on a LocalDate property in a criteria query"() {
+	void "cannot use `#projection` projection on a LocalDate property in a criteria query"() {
 		when:
 		Person.withCriteria {
 			projections {
@@ -173,7 +178,7 @@ class UnitTestSupportSpec extends Specification {
 		projection << ["avg", "sum"]
 	}
 
-	def "metadata for LocalDate properties is correct"() {
+	void "metadata for LocalDate properties is correct"() {
 		given:
 		GrailsDomainClass dc = grailsApplication.getDomainClass(Person.name)
 		def prop = dc.getPersistentProperty("birthday")

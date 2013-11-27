@@ -16,7 +16,7 @@ grails.project.dependency.resolution = {
 	}
 
 	def gebVersion = '0.9.2'
-	def seleniumVersion = '2.28.0'
+	def seleniumVersion = '2.37.1'
 
 	dependencies {
 		test 'org.spockframework:spock-grails-support:0.7-groovy-2.0',
