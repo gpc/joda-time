@@ -20,7 +20,6 @@ import grails.converters.JSON
 import org.codehaus.groovy.grails.web.json.JSONElement
 import org.joda.time.DateTime
 import static org.joda.time.DateTimeZone.UTC
-import grails.plugin.jodatime.converters.JodaConverters
 
 class JodaConvertersSpec extends UnitSpec {
 

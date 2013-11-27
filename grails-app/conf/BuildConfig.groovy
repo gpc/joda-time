@@ -18,6 +18,7 @@ grails.project.dependency.resolution = {
 	dependencies {
 		compile 'joda-time:joda-time:2.3'
 
+		test('org.spockframework:spock-grails-support:0.7-groovy-2.0') { export = false }
 		test('org.hamcrest:hamcrest-all:1.1') { export = false }
 		test('org.jodd:jodd-lagarto:3.4.1') { export = false }
 	}
