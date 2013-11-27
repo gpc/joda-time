@@ -1,7 +1,7 @@
 package grails.plugin.jodatime.binding
 
 import grails.persistence.Entity
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.Specification
 import javax.servlet.http.HttpServletRequest
 import org.codehaus.groovy.grails.web.binding.GrailsDataBinder
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
@@ -9,7 +9,7 @@ import org.joda.time.LocalDate
 import org.springframework.mock.web.MockHttpServletRequest
 import spock.lang.Issue
 
-class StructuredBindingSpec extends IntegrationSpec {
+class StructuredBindingSpec extends Specification {
 
 	HttpServletRequest request = new MockHttpServletRequest()
 	GrailsParameterMap params = new GrailsParameterMap(request)

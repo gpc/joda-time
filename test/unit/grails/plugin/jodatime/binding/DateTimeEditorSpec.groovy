@@ -79,7 +79,7 @@ class DateTimeEditorSpec extends UnitSpec {
 		type          | config                                                            | value                                                                     | expected
 		LocalDate     | 'jodatime.format.org.joda.time.LocalDate="dd/MM/yyyy"'            | new LocalDate(1971, 11, 29)                                               | "29/11/1971"
 		LocalDateTime | 'jodatime.format.org.joda.time.LocalDateTime="dd/MM/yyyy h:mm a"' | new LocalDateTime(1971, 11, 29, 17, 0)                                    | "29/11/1971 5:00 PM"
-		DateTime      | 'jodatime.format.org.joda.time.DateTime="dd/MM/yyyy h:mm a Z"'    | new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("GMT")) | "06/03/2009 5:00 PM +0000"
+		DateTime      | 'jodatime.format.org.joda.time.DateTime="dd/MM/yyyy h:mm a Z"'    | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)                                | "06/03/2009 5:00 PM +0000"
 		LocalTime     | 'jodatime.format.org.joda.time.LocalTime="h:mm a"'                | new LocalTime(23, 59)                                                     | "11:59 PM"
 		Instant       | 'jodatime.format.org.joda.time.Instant="dd/MM/yyyy h:mm a Z"'     | new Instant(92554380000)                                                  | "07/12/1972 5:33 AM +0000"
 	}
@@ -140,8 +140,8 @@ class DateTimeEditorSpec extends UnitSpec {
 		DateTime      | "3/6/09 5:00 PM"  | US     | new DateTime(2009, 3, 6, 17, 0, 0, 0)
 		LocalTime     | "23:59"           | UK     | new LocalTime(23, 59)
 		LocalTime     | "11:59 PM"        | US     | new LocalTime(23, 59)
-		Instant       | "07/12/72 05:33"  | UK     | new Instant(92554380000)
-		Instant       | "12/7/72 5:33 AM" | US     | new Instant(92554380000)
+		Instant       | "07/12/72 05:33"  | UK     | new DateTime(1972, 12, 7, 5, 33, 0, 0).toInstant()
+		Instant       | "12/7/72 5:33 AM" | US     | new DateTime(1972, 12, 7, 5, 33, 0, 0).toInstant()
 	}
 
 	def "setAsText parses #type.simpleName instances correctly according to a configured pattern"() {
@@ -158,9 +158,9 @@ class DateTimeEditorSpec extends UnitSpec {
 		type          | config                                                            | text                        | expected
 		LocalDate     | 'jodatime.format.org.joda.time.LocalDate="dd/MM/yyyy"'            | "29/11/1971"                | new LocalDate(1971, 11, 29)
 		LocalDateTime | 'jodatime.format.org.joda.time.LocalDateTime="dd/MM/yyyy h:mm a"' | "29/11/1971 5:00 PM"        | new LocalDateTime(1971, 11, 29, 17, 0)
-		DateTime      | 'jodatime.format.org.joda.time.DateTime="dd/MM/yyyy h:mm a Z"'    | "06/03/2009 5:00 PM +0000"  | new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(DateTimeZone.forID("Europe/London"))
+		DateTime      | 'jodatime.format.org.joda.time.DateTime="dd/MM/yyyy h:mm a Z"'    | "06/03/2009 5:00 PM +0000"  | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
 		LocalTime     | 'jodatime.format.org.joda.time.LocalTime="h:mm a"'                | "11:59 PM"                  | new LocalTime(23, 59)
-		Instant       | 'jodatime.format.org.joda.time.Instant="dd/MM/yyyy h:mm a Z"'     | "07/12/1972 12:33 AM -0500" | new Instant(92554380000)
+		Instant       | 'jodatime.format.org.joda.time.Instant="dd/MM/yyyy h:mm a Z"'     | "07/12/1972 12:33 AM -0500" | new DateTime(1972, 12, 7, 5, 33, 0, 0, UTC).toInstant()
 	}
 
 	def "setAsText parses #type.simpleName instances correctly using HTML5 format"() {
@@ -177,11 +177,11 @@ class DateTimeEditorSpec extends UnitSpec {
 		type          | text                        | expected
 		LocalDate     | "1971-11-29"                | new LocalDate(1971, 11, 29)
 		LocalDateTime | "1971-11-29T17:00:00"       | new LocalDateTime(1971, 11, 29, 17, 0)
-		DateTime      | "2009-03-06T17:00:00+00:00" | new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(UTC)
-		DateTime      | "2009-03-06T17:00:00Z"      | new DateTime(2009, 3, 6, 17, 0, 0, 0).withZone(UTC)
-		DateTime      | "2009-03-06T17:00:00.123Z"  | new DateTime(2009, 3, 6, 17, 0, 0, 123).withZone(UTC)
+		DateTime      | "2009-03-06T17:00:00+00:00" | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
+		DateTime      | "2009-03-06T17:00:00Z"      | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
+		DateTime      | "2009-03-06T17:00:00.123Z"  | new DateTime(2009, 3, 6, 17, 0, 0, 123, UTC)
 		LocalTime     | "23:59:00"                  | new LocalTime(23, 59)
-		Instant       | "1972-12-07T05:33:00.000Z"  | new Instant(92554380000)
+		Instant       | "1972-12-07T05:33:00.000Z"  | new DateTime(1972, 12, 7, 5, 33, 0, 0, UTC).toInstant()
 	}
 
 	def "configured format trumps HTML5"() {

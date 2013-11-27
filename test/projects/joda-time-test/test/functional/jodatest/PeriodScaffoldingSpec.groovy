@@ -71,7 +71,7 @@ class PeriodScaffoldingSpec extends GebSpec {
 		Song.build(artist: "Motorhead", title: "Ace of Spades", duration: new Period(0, 2, 47, 0))
 
 		when:
-		go "/song/list"
+		go "/song"
 		x.times {
 			$("th a", text: "Duration").click()
 		}

@@ -23,14 +23,19 @@ import org.joda.time.*
 import grails.test.mixin.*
 import grails.plugin.jodatime.taglib.FormattingTagLib
 import grails.plugin.jodatime.JodaTimeUtils
+import org.springframework.context.i18n.LocaleContextHolder
 
 @TestFor(FormattingTagLib)
 class FormattingTagLibTests {
 
+    DateTimeZone defaultTimeZone
+
 	@Before
 	void setUp() {
-		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0)
+		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0, DateTimeZone.forID("Europe/London"))
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
+        defaultTimeZone = DateTimeZone.default
+        DateTimeZone.default = DateTimeZone.forID("Europe/London")
 
 		tagLib.request.addPreferredLocale Locale.UK
 	}
@@ -39,6 +44,7 @@ class FormattingTagLibTests {
 	void tearDown() {
 		grailsApplication.config.jodatime.clear()
 		DateTimeUtils.setCurrentMillisSystem()
+        DateTimeZone.default = defaultTimeZone
 	}
 
 	@Test
