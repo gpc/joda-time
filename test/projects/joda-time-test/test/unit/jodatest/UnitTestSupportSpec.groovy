@@ -33,7 +33,7 @@ class UnitTestSupportSpec extends Specification {
 		Person.findByName("Alex").birthday == new LocalDate(2008, 10, 2)
 	}
 
-	void "can us the dynamic query `#queryMethod` on a LocalDate property"() {
+	void "can use the dynamic query `#queryMethod` on a LocalDate property"() {
 		expect:
 		Person."$queryMethod"(argument).name == expected
 
@@ -46,7 +46,7 @@ class UnitTestSupportSpec extends Specification {
 		"findAllByBirthdayGreaterThanEquals" | new LocalDate(2008, 10, 2) | ["Alex", "Nicholas"]
 	}
 
-	void "can us the dynamic query `#queryMethod` on a Duration property"() {
+	void "can use the dynamic query `#queryMethod` on a Duration property"() {
 		given:
 		new Marathon(runner: "Haile Gebrselassie", time: new Period(2, 3, 59, 0).toStandardDuration()).save(failOnError: true)
 		new Marathon(runner: "Samuel Wanjiru", time: new Period(2, 5, 10, 0).toStandardDuration()).save(failOnError: true)
@@ -60,7 +60,7 @@ class UnitTestSupportSpec extends Specification {
 		"findAllByTimeLessThan" | new Period(2, 5, 10, 0).toStandardDuration() | ["Haile Gebrselassie"]
 	}
 
-	void "can us the dynamic query `#queryMethod` on a DateTimeZone property"() {
+	void "can use the dynamic query `#queryMethod` on a DateTimeZone property"() {
 		given:
 		new City(name: "London", timeZone: DateTimeZone.forID("Europe/London")).save(failOnError: true)
 		new City(name: "Vancouver", timeZone: DateTimeZone.forID("America/Vancouver")).save(failOnError: true)
