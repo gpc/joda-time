@@ -23,7 +23,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 
 	def "list"() {
 		when:
-		go "/alarm"
+		go "/alarm/index"
 
 		then:
 		$("tbody tr", 0).find("td", 0).text() == alarm1.description
@@ -79,7 +79,7 @@ class LocalTimeScaffoldingSpec extends GebSpec {
 		Alarm.build(description: "Lie In", time: new LocalTime(10, 30))
 
 		when:
-		go "/alarm"
+		go "/alarm/index"
 		x.times {
 			$("th a", text: "Time").click()
 		}

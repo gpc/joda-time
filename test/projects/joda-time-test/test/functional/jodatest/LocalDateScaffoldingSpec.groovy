@@ -23,7 +23,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 
 	def "list"() {
 		when:
-		go "/person"
+		go "/person/index"
 
 		then:
 		$("tbody tr", 0).find("td", 0).text() == rob.name
@@ -94,7 +94,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		Person.build(name: "Alex", birthday: new LocalDate(2008, 10, 2))
 
 		when:
-		go "/person"
+		go "/person/index"
 		x.times {
 			$("th a", text: "Birthday").click()
 		}

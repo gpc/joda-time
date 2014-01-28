@@ -22,7 +22,7 @@ class PeriodScaffoldingSpec extends GebSpec {
 
 	def "list"() {
 		when:
-		go "/song"
+		go "/song/index"
 
 		then:
 		$("tbody tr", 0).find("td", 0).text() == song1.artist
@@ -71,7 +71,7 @@ class PeriodScaffoldingSpec extends GebSpec {
 		Song.build(artist: "Motorhead", title: "Ace of Spades", duration: new Period(0, 2, 47, 0))
 
 		when:
-		go "/song"
+		go "/song/index"
 		x.times {
 			$("th a", text: "Duration").click()
 		}

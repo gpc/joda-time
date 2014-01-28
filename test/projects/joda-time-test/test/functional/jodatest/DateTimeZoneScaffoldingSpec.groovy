@@ -21,7 +21,7 @@ class DateTimeZoneScaffoldingSpec extends GebSpec {
 
 	def "list"() {
 		when:
-		go "/city"
+		go "/city/index"
 
 		then:
 		$("tbody tr", 0).find("td", 0).text() == london.name

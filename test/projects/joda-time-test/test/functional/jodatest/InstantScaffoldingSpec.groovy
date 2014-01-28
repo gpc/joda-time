@@ -22,7 +22,7 @@ class InstantScaffoldingSpec extends GebSpec {
 
 	def "list"() {
 		when:
-		go "/event"
+		go "/event/index"
 
 		then:
 		$("tbody tr", 0).find("td", 0).text() == event1.description
@@ -67,7 +67,7 @@ class InstantScaffoldingSpec extends GebSpec {
 		Event.build(description: "Spacewalk", occurred: new Instant(93436020000))
 
 		when:
-		go "/event"
+		go "/event/index"
 		x.times {
 			$("th a", text: "Occurred").click()
 		}
