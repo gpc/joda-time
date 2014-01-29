@@ -1,6 +1,7 @@
 package jodatest
 
-import grails.plugin.spock.IntegrationSpec
+import grails.test.spock.IntegrationSpec
+
 
 class AutoTimestampingSpec extends IntegrationSpec {
 

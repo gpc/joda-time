@@ -1,6 +1,6 @@
 package jodatest
 
-import grails.plugin.spock.IntegrationSpec
+import grails.test.spock.IntegrationSpec
 import org.joda.time.DateTime
 
 class DomainClassSpec extends IntegrationSpec {

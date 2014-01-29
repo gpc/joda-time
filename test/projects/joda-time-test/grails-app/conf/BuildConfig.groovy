@@ -19,8 +19,7 @@ grails.project.dependency.resolution = {
 	def seleniumVersion = '2.28.0'
 
 	dependencies {
-		test 'org.spockframework:spock-grails-support:0.7-groovy-2.0',
-				"org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion",
+		test "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion",
 				"org.seleniumhq.selenium:selenium-support:$seleniumVersion",
 				"org.gebish:geb-spock:$gebVersion"
 		compile 'org.jadira.usertype:usertype.jodatime:1.9'
