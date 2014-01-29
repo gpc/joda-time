@@ -1,11 +1,10 @@
 package grails.plugin.jodatime
 
-import spock.lang.*
-import org.joda.time.*
 import org.hamcrest.Matcher
+import org.joda.time.*
+import spock.lang.*
 import static org.joda.time.DateTimeZone.UTC
 import static org.hamcrest.Matchers.*
-import grails.plugin.jodatime.Html5DateTimeFormat
 
 @Unroll
 class Html5DateTimeFormatSpec extends Specification {

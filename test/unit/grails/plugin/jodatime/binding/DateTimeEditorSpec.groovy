@@ -193,7 +193,7 @@ class DateTimeEditorSpec extends Specification {
 
   def "configured format trumps HTML5"() {
     given:
-    grailsApplication.config.jodatime."org.joda.time.LocalDate" = "dd/MM/yyyy"
+    grailsApplication.config.jodatime.format."$LocalDate.name" = "dd/MM/yyyy"
     grailsApplication.config.jodatime.format.html5 = true
 
     and:
