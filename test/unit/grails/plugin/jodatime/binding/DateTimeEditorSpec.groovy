@@ -15,187 +15,192 @@
  */
 package grails.plugin.jodatime.binding
 
-import grails.plugin.spock.UnitSpec
-import org.springframework.context.i18n.LocaleContextHolder
-import spock.lang.Unroll
-import static java.util.Locale.*
+import grails.test.mixin.TestMixin
+import grails.test.mixin.support.GrailsUnitTestMixin
 import org.joda.time.*
+import org.springframework.context.i18n.LocaleContextHolder
+import spock.lang.*
+import static java.util.Locale.*
 import static org.joda.time.DateTimeZone.UTC
 
+@TestMixin(GrailsUnitTestMixin)
 @Unroll
-class DateTimeEditorSpec extends UnitSpec {
+class DateTimeEditorSpec extends Specification {
 
-	def "getAsText converts null to empty string"() {
-		given:
-		def editor = new DateTimeEditor(LocalDate)
+  void cleanup() {
+    // it is frankly shocking that Grails requires me to do this. The test environment is not properly idempotent as configuration changes will leak from one test to another
+    grailsApplication.config.remove("jodatime")
+  }
 
-		when: editor.value = null
-		then: editor.asText == ""
-	}
+  def "getAsText converts null to empty string"() {
+    given:
+    def editor = new DateTimeEditor(LocalDate)
 
-	def "setAsText converts empty string to null"() {
-		given:
-		def editor = new DateTimeEditor(LocalDate)
+    when: editor.value = null
+    then: editor.asText == ""
+  }
 
-		when: editor.asText = ""
-		then: editor.value == null
-	}
+  def "setAsText converts empty string to null"() {
+    given:
+    def editor = new DateTimeEditor(LocalDate)
 
-	def "getAsText formats #type.simpleName instances correctly for #locale locale"() {
-		given:
-		def editor = new DateTimeEditor(type)
+    when: editor.asText = ""
+    then: editor.value == null
+  }
 
-		and: LocaleContextHolder.locale = locale
+  def "getAsText formats #type.simpleName instances correctly for #locale locale"() {
+    given:
+    def editor = new DateTimeEditor(type)
 
-		when: editor.value = value
+    and: LocaleContextHolder.locale = locale
 
-		then: editor.asText == expected
+    when: editor.value = value
 
-		where:
-		type          | value                                 | locale | expected
-		LocalDate     | new LocalDate(1971, 11, 29)           | UK     | "29/11/71"
-		LocalDate     | new LocalDate(1971, 11, 29)           | US     | "11/29/71"
-		LocalDateTime | new LocalDateTime(2009, 3, 6, 17, 0)  | UK     | "06/03/09 17:00"
-		LocalDateTime | new LocalDateTime(2009, 3, 6, 17, 0)  | US     | "3/6/09 5:00 PM"
-		DateTime      | new DateTime(2009, 3, 6, 17, 0, 0, 0) | UK     | "06/03/09 17:00"
-		DateTime      | new DateTime(2009, 3, 6, 17, 0, 0, 0) | US     | "3/6/09 5:00 PM"
-		LocalTime     | new LocalTime(23, 59)                 | UK     | "23:59"
-		LocalTime     | new LocalTime(23, 59)                 | US     | "11:59 PM"
-		Instant       | new Instant(92554380000)              | UK     | "07/12/72 05:33"
-		Instant       | new Instant(92554380000)              | US     | "12/7/72 5:33 AM"
-	}
+    then: editor.asText == expected
 
-	def "getAsText formats #type.simpleName instances correctly according to a configured pattern"() {
-		given:
-		mockConfig config
+    where:
+    type          | value                                 | locale | expected
+    LocalDate     | new LocalDate(1971, 11, 29)           | UK     | "29/11/71"
+    LocalDate     | new LocalDate(1971, 11, 29)           | US     | "11/29/71"
+    LocalDateTime | new LocalDateTime(2009, 3, 6, 17, 0)  | UK     | "06/03/09 17:00"
+    LocalDateTime | new LocalDateTime(2009, 3, 6, 17, 0)  | US     | "3/6/09 5:00 PM"
+    DateTime      | new DateTime(2009, 3, 6, 17, 0, 0, 0) | UK     | "06/03/09 17:00"
+    DateTime      | new DateTime(2009, 3, 6, 17, 0, 0, 0) | US     | "3/6/09 5:00 PM"
+    LocalTime     | new LocalTime(23, 59)                 | UK     | "23:59"
+    LocalTime     | new LocalTime(23, 59)                 | US     | "11:59 PM"
+    Instant       | new Instant(92554380000)              | UK     | "07/12/72 05:33"
+    Instant       | new Instant(92554380000)              | US     | "12/7/72 5:33 AM"
+  }
 
-		and:
-		def editor = new DateTimeEditor(type)
+  def "getAsText formats #type.simpleName instances correctly according to a configured pattern"() {
+    given:
+    grailsApplication.config.jodatime.format."org.joda.time.$type.simpleName" = config
 
-		when: editor.value = value
-		then: editor.asText == expected
+    and:
+    def editor = new DateTimeEditor(type)
 
-		where:
-		type          | config                                                            | value                                                                     | expected
-		LocalDate     | 'jodatime.format.org.joda.time.LocalDate="dd/MM/yyyy"'            | new LocalDate(1971, 11, 29)                                               | "29/11/1971"
-		LocalDateTime | 'jodatime.format.org.joda.time.LocalDateTime="dd/MM/yyyy h:mm a"' | new LocalDateTime(1971, 11, 29, 17, 0)                                    | "29/11/1971 5:00 PM"
-		DateTime      | 'jodatime.format.org.joda.time.DateTime="dd/MM/yyyy h:mm a Z"'    | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)                                | "06/03/2009 5:00 PM +0000"
-		LocalTime     | 'jodatime.format.org.joda.time.LocalTime="h:mm a"'                | new LocalTime(23, 59)                                                     | "11:59 PM"
-		Instant       | 'jodatime.format.org.joda.time.Instant="dd/MM/yyyy h:mm a Z"'     | new Instant(92554380000)                                                  | "07/12/1972 5:33 AM +0000"
-	}
+    when: editor.value = value
+    then: editor.asText == expected
 
-	def "getAsText formats #type.simpleName instances correctly for HTML5"() {
-		given:
-		mockConfig 'jodatime.format.html5 = true'
+    where:
+    type          | config                | value                                      | expected
+    LocalDate     | "dd/MM/yyyy"          | new LocalDate(1971, 11, 29)                | "29/11/1971"
+    LocalDateTime | "dd/MM/yyyy h:mm a"   | new LocalDateTime(1971, 11, 29, 17, 0)     | "29/11/1971 5:00 PM"
+    DateTime      | "dd/MM/yyyy h:mm a Z" | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC) | "06/03/2009 5:00 PM +0000"
+    LocalTime     | "h:mm a"              | new LocalTime(23, 59)                      | "11:59 PM"
+    Instant       | "dd/MM/yyyy h:mm a Z" | new Instant(92554380000)                   | "07/12/1972 5:33 AM +0000"
+  }
 
-		and:
-		def editor = new DateTimeEditor(type)
+  def "getAsText formats #type.simpleName instances correctly for HTML5"() {
+    given:
+    grailsApplication.config.jodatime.format.html5 = true
 
-		when: editor.value = value
-		then: editor.asText == expected
+    and:
+    def editor = new DateTimeEditor(type)
 
-		where:
-		type          | value                                                                                              | expected
-		LocalDate     | new LocalDate(1971, 11, 29)                                                                        | "1971-11-29"
-		LocalDateTime | new LocalDateTime(1971, 11, 29, 17, 0)                                                             | "1971-11-29T17:00:00.000"
-		DateTime      | new DateTime(2009, 3, 6, 17, 0, 0, 0).toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(1)) | "2009-03-06T17:00:00.000+01:00"
-		LocalTime     | new LocalTime(23, 59)                                                                              | "23:59:00.000"
-		Instant       | new Instant(92554380000)                                                                           | "1972-12-07T05:33:00.000Z"
-	}
+    when: editor.value = value
+    then: editor.asText == expected
 
-	def "Instant values are always formatted as UTC"() {
-		given:
-		mockConfig 'jodatime.format.html5 = true'
+    where:
+    type          | value                                                                                              | expected
+    LocalDate     | new LocalDate(1971, 11, 29)                                                                        | "1971-11-29"
+    LocalDateTime | new LocalDateTime(1971, 11, 29, 17, 0)                                                             | "1971-11-29T17:00:00.000"
+    DateTime      | new DateTime(2009, 3, 6, 17, 0, 0, 0).toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(1)) | "2009-03-06T17:00:00.000+01:00"
+    LocalTime     | new LocalTime(23, 59)                                                                              | "23:59:00.000"
+    Instant       | new Instant(92554380000)                                                                           | "1972-12-07T05:33:00.000Z"
+  }
 
-		and:
-		def defaultTimeZone = DateTimeZone.default
-		DateTimeZone.default = DateTimeZone.forID("EST")
+  def "Instant values are always formatted as UTC"() {
+    given:
+    grailsApplication.config.jodatime.format.html5 = true
 
-		and:
-		def editor = new DateTimeEditor(Instant)
+    and:
+    def defaultTimeZone = DateTimeZone.default
+    DateTimeZone.default = DateTimeZone.forID("EST")
 
-		when: editor.value = new Instant(92554380000)
-		then: editor.asText == "1972-12-07T05:33:00.000Z"
+    and:
+    def editor = new DateTimeEditor(Instant)
 
-		cleanup:
-		DateTimeZone.default = defaultTimeZone
-	}
+    when: editor.value = new Instant(92554380000)
+    then: editor.asText == "1972-12-07T05:33:00.000Z"
 
-	def "setAsText parses #type.simpleName instances from #locale locale format text"() {
-		given:
-		def editor = new DateTimeEditor(type)
+    cleanup:
+    DateTimeZone.default = defaultTimeZone
+  }
 
-		and: LocaleContextHolder.locale = locale
+  def "setAsText parses #type.simpleName instances from #locale locale format text"() {
+    given:
+    def editor = new DateTimeEditor(type)
 
-		when: editor.asText = text
-		then: editor.value == expected
+    and: LocaleContextHolder.locale = locale
 
-		where:
-		type          | text              | locale | expected
-		LocalDate     | "29/11/71"        | UK     | new LocalDate(1971, 11, 29)
-		LocalDate     | "11/29/71"        | US     | new LocalDate(1971, 11, 29)
-		LocalDateTime | "06/03/09 17:00"  | UK     | new LocalDateTime(2009, 3, 6, 17, 0)
-		LocalDateTime | "3/6/09 5:00 PM"  | US     | new LocalDateTime(2009, 3, 6, 17, 0)
-		DateTime      | "06/03/09 17:00"  | UK     | new DateTime(2009, 3, 6, 17, 0, 0, 0)
-		DateTime      | "3/6/09 5:00 PM"  | US     | new DateTime(2009, 3, 6, 17, 0, 0, 0)
-		LocalTime     | "23:59"           | UK     | new LocalTime(23, 59)
-		LocalTime     | "11:59 PM"        | US     | new LocalTime(23, 59)
-		Instant       | "07/12/72 05:33"  | UK     | new DateTime(1972, 12, 7, 5, 33, 0, 0).toInstant()
-		Instant       | "12/7/72 5:33 AM" | US     | new DateTime(1972, 12, 7, 5, 33, 0, 0).toInstant()
-	}
+    when: editor.asText = text
+    then: editor.value == expected
 
-	def "setAsText parses #type.simpleName instances correctly according to a configured pattern"() {
-		given:
-		mockConfig config
+    where:
+    type          | text              | locale | expected
+    LocalDate     | "29/11/71"        | UK     | new LocalDate(1971, 11, 29)
+    LocalDate     | "11/29/71"        | US     | new LocalDate(1971, 11, 29)
+    LocalDateTime | "06/03/09 17:00"  | UK     | new LocalDateTime(2009, 3, 6, 17, 0)
+    LocalDateTime | "3/6/09 5:00 PM"  | US     | new LocalDateTime(2009, 3, 6, 17, 0)
+    DateTime      | "06/03/09 17:00"  | UK     | new DateTime(2009, 3, 6, 17, 0, 0, 0)
+    DateTime      | "3/6/09 5:00 PM"  | US     | new DateTime(2009, 3, 6, 17, 0, 0, 0)
+    LocalTime     | "23:59"           | UK     | new LocalTime(23, 59)
+    LocalTime     | "11:59 PM"        | US     | new LocalTime(23, 59)
+    Instant       | "07/12/72 05:33"  | UK     | new DateTime(1972, 12, 7, 5, 33, 0, 0).toInstant()
+    Instant       | "12/7/72 5:33 AM" | US     | new DateTime(1972, 12, 7, 5, 33, 0, 0).toInstant()
+  }
 
-		and:
-		def editor = new DateTimeEditor(type)
+  def "setAsText parses #type.simpleName instances correctly according to a configured pattern"() {
+    given:
+    grailsApplication.config.jodatime.format."org.joda.time.$type.simpleName" = config
 
-		when: editor.asText = text
-		then: editor.value == expected
+    and:
+    def editor = new DateTimeEditor(type)
 
-		where:
-		type          | config                                                            | text                        | expected
-		LocalDate     | 'jodatime.format.org.joda.time.LocalDate="dd/MM/yyyy"'            | "29/11/1971"                | new LocalDate(1971, 11, 29)
-		LocalDateTime | 'jodatime.format.org.joda.time.LocalDateTime="dd/MM/yyyy h:mm a"' | "29/11/1971 5:00 PM"        | new LocalDateTime(1971, 11, 29, 17, 0)
-		DateTime      | 'jodatime.format.org.joda.time.DateTime="dd/MM/yyyy h:mm a Z"'    | "06/03/2009 5:00 PM +0000"  | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
-		LocalTime     | 'jodatime.format.org.joda.time.LocalTime="h:mm a"'                | "11:59 PM"                  | new LocalTime(23, 59)
-		Instant       | 'jodatime.format.org.joda.time.Instant="dd/MM/yyyy h:mm a Z"'     | "07/12/1972 12:33 AM -0500" | new DateTime(1972, 12, 7, 5, 33, 0, 0, UTC).toInstant()
-	}
+    when: editor.asText = text
+    then: editor.value == expected
 
-	def "setAsText parses #type.simpleName instances correctly using HTML5 format"() {
-		given:
-		mockConfig 'jodatime.format.html5 = true'
+    where:
+    type          | config                | text                        | expected
+    LocalDate     | "dd/MM/yyyy"          | "29/11/1971"                | new LocalDate(1971, 11, 29)
+    LocalDateTime | "dd/MM/yyyy h:mm a"   | "29/11/1971 5:00 PM"        | new LocalDateTime(1971, 11, 29, 17, 0)
+    DateTime      | "dd/MM/yyyy h:mm a Z" | "06/03/2009 5:00 PM +0000"  | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
+    LocalTime     | "h:mm a"              | "11:59 PM"                  | new LocalTime(23, 59)
+    Instant       | "dd/MM/yyyy h:mm a Z" | "07/12/1972 12:33 AM -0500" | new DateTime(1972, 12, 7, 5, 33, 0, 0, UTC).toInstant()
+  }
 
-		and:
-		def editor = new DateTimeEditor(type)
+  def "setAsText parses #type.simpleName instances correctly using HTML5 format"() {
+    given:
+    grailsApplication.config.jodatime.format.html5 = true
 
-		when: editor.asText = text
-		then: editor.value == expected
+    and:
+    def editor = new DateTimeEditor(type)
 
-		where:
-		type          | text                        | expected
-		LocalDate     | "1971-11-29"                | new LocalDate(1971, 11, 29)
-		LocalDateTime | "1971-11-29T17:00:00"       | new LocalDateTime(1971, 11, 29, 17, 0)
-		DateTime      | "2009-03-06T17:00:00+00:00" | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
-		DateTime      | "2009-03-06T17:00:00Z"      | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
-		DateTime      | "2009-03-06T17:00:00.123Z"  | new DateTime(2009, 3, 6, 17, 0, 0, 123, UTC)
-		LocalTime     | "23:59:00"                  | new LocalTime(23, 59)
-		Instant       | "1972-12-07T05:33:00.000Z"  | new DateTime(1972, 12, 7, 5, 33, 0, 0, UTC).toInstant()
-	}
+    when: editor.asText = text
+    then: editor.value == expected
 
-	def "configured format trumps HTML5"() {
-		given:
-		mockConfig '''
-			jodatime.format.org.joda.time.LocalDate="dd/MM/yyyy"
-			jodatime.format.html5 = true
-		'''
+    where:
+    type          | text                        | expected
+    LocalDate     | "1971-11-29"                | new LocalDate(1971, 11, 29)
+    LocalDateTime | "1971-11-29T17:00:00"       | new LocalDateTime(1971, 11, 29, 17, 0)
+    DateTime      | "2009-03-06T17:00:00+00:00" | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
+    DateTime      | "2009-03-06T17:00:00Z"      | new DateTime(2009, 3, 6, 17, 0, 0, 0, UTC)
+    DateTime      | "2009-03-06T17:00:00.123Z"  | new DateTime(2009, 3, 6, 17, 0, 0, 123, UTC)
+    LocalTime     | "23:59:00"                  | new LocalTime(23, 59)
+    Instant       | "1972-12-07T05:33:00.000Z"  | new DateTime(1972, 12, 7, 5, 33, 0, 0, UTC).toInstant()
+  }
 
-		and:
-		def editor = new DateTimeEditor(LocalDate)
+  def "configured format trumps HTML5"() {
+    given:
+    grailsApplication.config.jodatime."org.joda.time.LocalDate" = "dd/MM/yyyy"
+    grailsApplication.config.jodatime.format.html5 = true
 
-		when: editor.value = new LocalDate(1971, 11, 29)
-		then: editor.asText == "29/11/1971"
-	}
+    and:
+    def editor = new DateTimeEditor(LocalDate)
+
+    when: editor.value = new LocalDate(1971, 11, 29)
+    then: editor.asText == "29/11/1971"
+  }
 
 }
