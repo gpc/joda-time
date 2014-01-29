@@ -15,18 +15,22 @@
  */
 package grails.plugin.jodatime.converters
 
-import grails.plugin.spock.*
 import grails.converters.JSON
+import grails.test.mixin.TestMixin
+import grails.test.mixin.web.ControllerUnitTestMixin
+import groovy.transform.CompileStatic
 import org.codehaus.groovy.grails.web.json.JSONElement
 import org.joda.time.DateTime
+import spock.lang.Specification
 import static org.joda.time.DateTimeZone.UTC
 
-class JodaConvertersSpec extends UnitSpec {
+@TestMixin(ControllerUnitTestMixin)
+class JodaConvertersSpec extends Specification {
 
 	def "json converter can be used in unit test"() {
 		given:
 		JodaConverters.registerJsonAndXmlMarshallers()
-		
+
 		when:
 		def o = [dateTime: new DateTime(0).withZone(UTC)]
 		def json = marshalAsJSON(o)
@@ -35,21 +39,11 @@ class JodaConvertersSpec extends UnitSpec {
 		json.dateTime == "1970-01-01T00:00:00Z"
 	}
 
-	def "converters are removed at the end if unit tests"() {
-		when:
-		def o = [dateTime: new DateTime(0).withZone(UTC)]
-		def json = marshalAsJSON(o)
-
-		then:
-		json.dateTime != "1970-01-01T00:00:00Z"
-	}
-
+  @CompileStatic
 	private JSONElement marshalAsJSON(object) {
 		def sw = new StringWriter()
 		(object as JSON).render(sw)
-		def json = JSON.parse(sw.toString())
-		println "marshalled $object to $sw"
-		return json
+    return JSON.parse(sw.toString())
 	}
 
 }
