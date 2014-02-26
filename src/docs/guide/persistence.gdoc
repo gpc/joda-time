@@ -2,7 +2,7 @@ h2. Persistence with Hibernate
 
 In order to persist Joda Time properties with Hibernate you first need to add one of the following dependencies to your application's @BuildConfig.groovy@ file:
 
-h3. To use the newer "Usertype Library":http://usertype.sourceforge.net/usertype.jodatime/index.html
+h3. To use the newer "Usertype Library":http://jadira.sourceforge.net/usertype.core/index.html
 
 {code}
 compile "org.jadira.usertype:usertype.jodatime:1.9"
@@ -57,7 +57,7 @@ If you are using the older Joda Time Hibernate library then the package names fo
 
 h3. Multi-column UserTypes
 
-To use multi-column types such as "PersistentDateTimeWithZone":http://usertype.sourceforge.net/apidocs/org/jadira/usertype/dateandtime/joda/PersistentDateTimeWithZone.html you need to include explicit mapping of both column names. For example:
+To use multi-column types such as "PersistentDateTimeWithZone":http://jadira.sourceforge.net/apidocs/org/jadira/usertype/dateandtime/joda/PersistentDateTimeWithZone.html you need to include explicit mapping of both column names. For example:
 
 {code}
 import org.joda.time.*
