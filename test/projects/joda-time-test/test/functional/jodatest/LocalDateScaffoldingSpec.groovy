@@ -2,12 +2,13 @@ package jodatest
 
 import org.joda.time.LocalDate
 import spock.lang.Unroll
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 @Unroll
 class LocalDateScaffoldingSpec extends GebSpec {
 
 	def rob
+
+    def grailsApplication
 
 	def setup() {
 		Person.withNewSession {
@@ -32,7 +33,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 
 	def "create accepts '#value' as a LocalDate for locale #locale when HTML5 format is #html5Format"() {
 		given:
-		ConfigurationHolder.config.jodatime.format.html5 = html5Format
+        grailsApplication.config.jodatime.format.html5 = html5Format
 
 		when:
 		go "/person/create?lang=$locale"
