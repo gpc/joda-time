@@ -1,14 +1,13 @@
 package jodatest
 
 import org.joda.time.LocalDate
+import grails.util.Holders
 import spock.lang.Unroll
 
 @Unroll
 class LocalDateScaffoldingSpec extends GebSpec {
 
 	def rob
-
-    def grailsApplication
 
 	def setup() {
 		Person.withNewSession {
@@ -33,7 +32,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 
 	def "create accepts '#value' as a LocalDate for locale #locale when HTML5 format is #html5Format"() {
 		given:
-        grailsApplication.config.jodatime.format.html5 = html5Format
+        Holders.config.jodatime.format.html5 = html5Format
 
 		when:
 		go "/person/create?lang=$locale"
@@ -49,7 +48,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		alex.birthday == new LocalDate(2008, 10, 2)
 
 		cleanup:
-		ConfigurationHolder.config.jodatime.format.html5 = true
+		Holders.config.jodatime.format.html5 = true
 
 		where:
 		html5Format | locale               | value
@@ -63,7 +62,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 
 	def "show formats LocalDate for #locale locale"() {
 		given:
-		ConfigurationHolder.config.jodatime.format.html5 = false
+		Holders.config.jodatime.format.html5 = false
 
 		when:
 		go "/person/show/$rob.id?lang=$locale"
@@ -72,7 +71,7 @@ class LocalDateScaffoldingSpec extends GebSpec {
 		$("li.fieldcontain", 1).find(".property-value").text() == expectedValue
 
 		cleanup:
-		ConfigurationHolder.config.jodatime.format.html5 = true
+		Holders.config.jodatime.format.html5 = true
 
 		where:
 		locale               | expectedValue
