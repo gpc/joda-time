@@ -7,6 +7,7 @@ import org.codehaus.groovy.grails.web.binding.GrailsDataBinder
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 import org.joda.time.LocalDate
 import org.springframework.mock.web.MockHttpServletRequest
+import spock.lang.Ignore
 import spock.lang.Issue
 
 class StructuredBindingSpec extends Specification {
@@ -91,6 +92,7 @@ class StructuredBindingSpec extends Specification {
 		person.boss.birthday == new LocalDate(2008, 10, 2)
 	}
 
+	@Ignore
 	@Issue('http://jira.grails.org/browse/GPJODATIME-28')
 	void 'can bind to a collection field'() {
 		given:
