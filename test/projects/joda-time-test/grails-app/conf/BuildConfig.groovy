@@ -15,7 +15,7 @@ grails.project.dependency.resolution = {
 	}
 
 	def gebVersion = '0.9.2'
-	def seleniumVersion = '2.37.1'
+	def seleniumVersion = '2.41.0'
 
 	dependencies {
 		test "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion",
