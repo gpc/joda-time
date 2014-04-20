@@ -9,7 +9,6 @@ grails.project.dependency.resolution = {
 
 	repositories {
 		grailsCentral()
-		mavenLocal()
 		mavenCentral()
 		mavenRepo 'http://repo.grails.org/grails/libs-releases'
 		mavenRepo 'https://oss.sonatype.org/content/groups/public'
