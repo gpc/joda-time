@@ -27,23 +27,24 @@ import static org.joda.time.DateTimeZone.UTC
 @TestMixin(ControllerUnitTestMixin)
 class JodaConvertersSpec extends Specification {
 
+	void setup() {
+		JodaConverters.registerJsonAndXmlMarshallers()
+	}
+
 	def "json converter can be used in unit test"() {
 		given:
-		JodaConverters.registerJsonAndXmlMarshallers()
-
-		when:
 		def o = [dateTime: new DateTime(0).withZone(UTC)]
 		def json = marshalAsJSON(o)
 
-		then:
+		expect:
 		json.dateTime == "1970-01-01T00:00:00Z"
 	}
 
-  @CompileStatic
+	@CompileStatic
 	private JSONElement marshalAsJSON(object) {
 		def sw = new StringWriter()
 		(object as JSON).render(sw)
-    return JSON.parse(sw.toString())
+		return JSON.parse(sw.toString())
 	}
 
 }

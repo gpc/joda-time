@@ -20,7 +20,8 @@ grails.project.dependency.resolution = {
 	dependencies {
 		test "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion",
 				"org.seleniumhq.selenium:selenium-support:$seleniumVersion",
-				"org.gebish:geb-spock:$gebVersion"
+				"org.gebish:geb-spock:$gebVersion",
+				"com.mashape.unirest:unirest-java:1.3.8"
 		compile 'org.jadira.usertype:usertype.jodatime:1.9'
 	}
 	plugins {

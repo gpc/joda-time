@@ -36,10 +36,10 @@ class JodaConverters {
 				it?.toString("yyyy-MM-dd")
 			}
 			converter.registerObjectMarshaller(LocalTime, 3) {
-				it?.toString("HH:mm:ss")
+				it?.toString("HH:mm:ss.SSS")
 			}
 			converter.registerObjectMarshaller(LocalDateTime, 4) {
-				it?.toString("yyyy-MM-dd'T'HH:mm:ss")
+				it?.toString("yyyy-MM-dd'T'HH:mm:ss.SSS")
 			}
 			converter.registerObjectMarshaller(DateTimeZone, 5) {
 				it?.ID
