@@ -18,6 +18,7 @@ package grails.plugin.jodatime.taglib
 import grails.test.mixin.TestFor
 import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
 import org.joda.time.Period
+import org.joda.time.format.PeriodFormatterBuilder
 import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -262,6 +263,19 @@ class PeriodTagLibSpec extends Specification {
 		GERMAN  | '1 Stunde'
 
 		value = new Period().withHours(1)
+	}
+
+	void 'formatPeriod accepts formatter attribute'() {
+		expect:
+		applyTemplate('<joda:formatPeriod fields="days,hours,minutes" value="${value}" formatter="${formatter}"/>', [value: value, formatter: formatter]) == "16d, 2h and 2m"
+
+		where:
+		value = new Period().withWeeks(2).withHours(50).withMinutes(2).withSeconds(2)
+                formatter = new PeriodFormatterBuilder()
+                        .appendDays().appendSuffix("d").appendSeparator(", ")
+                        .appendHours().appendSuffix("h").appendSeparator(" and ")
+                        .appendMinutes().appendSuffix("m")
+                        .toFormatter()
 	}
 
 }
