@@ -63,7 +63,7 @@ class PeriodTagLib {
 			value = safeNormalize(value, periodType)
 		}
 
-		def formatter = PeriodFormat.wordBased(request.locale)
+		def formatter = attrs.formatter ?: PeriodFormat.wordBased(request.locale)
 
 		out << formatter.print(value)
 	}
