@@ -265,17 +265,4 @@ class PeriodTagLibSpec extends Specification {
 		value = new Period().withHours(1)
 	}
 
-	void 'formatPeriod accepts formatter attribute'() {
-		expect:
-		applyTemplate('<joda:formatPeriod fields="days,hours,minutes" value="${value}" formatter="${formatter}"/>', [value: value, formatter: formatter]) == "16d, 2h and 2m"
-
-		where:
-		value = new Period().withWeeks(2).withHours(50).withMinutes(2).withSeconds(2)
-                formatter = new PeriodFormatterBuilder()
-                        .appendDays().appendSuffix("d").appendSeparator(", ")
-                        .appendHours().appendSuffix("h").appendSeparator(" and ")
-                        .appendMinutes().appendSuffix("m")
-                        .toFormatter()
-	}
-
 }

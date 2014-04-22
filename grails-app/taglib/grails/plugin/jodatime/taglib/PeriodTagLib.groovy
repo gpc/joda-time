@@ -17,11 +17,9 @@ package grails.plugin.jodatime.taglib
 
 import org.joda.time.Duration
 import org.joda.time.DurationFieldType
-import org.joda.time.Period
 import org.joda.time.PeriodType
 import org.joda.time.format.PeriodFormat
-import static org.joda.time.DurationFieldType.months
-import static org.joda.time.DurationFieldType.years
+import grails.plugin.jodatime.util.PeriodUtils
 
 class PeriodTagLib {
 
@@ -32,7 +30,7 @@ class PeriodTagLib {
 		def id = attrs.id ?: name
 		def value = attrs.value
 
-		def periodType = getPeriodType(attrs.fields, DEFAULT_PERIOD_TYPE)
+		def periodType = PeriodUtils.getPeriodType(attrs.fields, DEFAULT_PERIOD_TYPE)
 
 		if (value instanceof Duration) {
 			value = value.toPeriod(periodType)
@@ -50,58 +48,14 @@ class PeriodTagLib {
 	}
 
 	def formatPeriod = {attrs ->
-		def value = attrs.value
-		if (!value) {
+		if (!attrs.value) {
 			throwTagError("'value' attribute is required")
 		}
 
-		def periodType = getPeriodType(attrs.fields, PeriodType.standard())
-
-		if (value instanceof Duration) {
-			value = value.toPeriod(periodType)
-		} else {
-			value = safeNormalize(value, periodType)
-		}
-
-		def formatter = attrs.formatter ?: PeriodFormat.wordBased(request.locale)
-
-		out << formatter.print(value)
+		out << PeriodUtils.formatPeriod(attrs.value, attrs.fields, request.locale)
 	}
 
-	private PeriodType getPeriodType(String fields, PeriodType defaultPeriodType) {
-		PeriodType periodType
-		if (fields) {
-			periodType = getPeriodTypeForFields(fields)
-        } else if (grailsApplication.config.jodatime?.periodpicker?.default?.fields) {
-            periodType = getPeriodTypeForFields(grailsApplication.config.jodatime.periodpicker.default.fields)
-		} else {
-			periodType = defaultPeriodType
-		}
-		return periodType
-	}
-
-	private static final PeriodType DEFAULT_PERIOD_TYPE = getPeriodTypeForFields("hours,minutes,seconds")
-
-	private static PeriodType getPeriodTypeForFields(String fields) {
-		def fieldTypes = fields.split(/\s*,\s*/).collect { DurationFieldType."$it"() } as DurationFieldType[]
-		return PeriodType.forFields(fieldTypes)
-	}
-
-	/**
-	 * PeriodFormat.print will throw UnsupportedOperationException if years or months are present in period but
-	 * not supported by the formatter so we trim those fields off to avoid the problem.
-	 */
-	private Period safeNormalize(Period value, PeriodType periodType) {
-		if (!periodType.isSupported(years()) && years() in value.getFieldTypes()) {
-			log.warn "Omitting years from value '$value' as format '$periodType' does not support years"
-			value = value.withYears(0)
-		}
-		if (!periodType.isSupported(months()) && months() in value.getFieldTypes()) {
-			log.warn "Omitting months from value '$value' as format '$periodType' does not support months"
-			value = value.withMonths(0)
-		}
-		return value.normalizedStandard(periodType)
-	}
+	private static final PeriodType DEFAULT_PERIOD_TYPE = PeriodUtils.getPeriodTypeForFields("hours,minutes,seconds")
 
 	private String getLabelFor(DurationFieldType fieldType) {
 		def bundle = ResourceBundle.getBundle("${PeriodFormat.package.name}.messages", request.locale)
