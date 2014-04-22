@@ -11,10 +11,21 @@ import org.joda.time.format.PeriodFormatter
 import static org.joda.time.DurationFieldType.months
 import static org.joda.time.DurationFieldType.years
 
+/**
+ * Helper methods for Periods.
+ */
 class PeriodUtils {
 
 	private static final Logger log = Logger.getLogger(getClass())
 
+	/**
+	 * Format a Duration or Period for display
+	 * @param value the Period or Duration to format
+	 * @param fields a comma separated list of fields to display
+	 * @param locale the locale for the default formatter
+	 * @param formatter an optional formatter to use in place of the default word based formatter
+	 * @return the formatted string
+	 */
 	static formatPeriod(value, String fields, Locale locale, PeriodFormatter formatter=null) {
 		def periodType = getPeriodType(fields, PeriodType.standard())
 

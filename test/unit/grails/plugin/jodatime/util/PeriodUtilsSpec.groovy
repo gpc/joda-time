@@ -19,19 +19,20 @@ package grails.plugin.jodatime.util
 import spock.lang.Specification
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormatterBuilder
+import static java.util.Locale.ENGLISH
 
 class PeriodUtilsSpec extends Specification {
 
 	void 'formatPeriod accepts formatter attribute'() {
 		given:
 		def value = new Period().withWeeks(2).withHours(50).withMinutes(2).withSeconds(2)
-                def formatter = new PeriodFormatterBuilder()
-                        .appendDays().appendSuffix("d").appendSeparator(", ")
-                        .appendHours().appendSuffix("h").appendSeparator(" and ")
-                        .appendMinutes().appendSuffix("m")
-                        .toFormatter()
+		def formatter = new PeriodFormatterBuilder()
+			.appendDays().appendSuffix("d").appendSeparator(", ")
+			.appendHours().appendSuffix("h").appendSeparator(" and ")
+			.appendMinutes().appendSuffix("m")
+			.toFormatter()
 
 		expect:
-		PeriodUtils.formatPeriod(value, "days,hours,minutes", Locale.US, formatter) == "16d, 2h and 2m"
+		PeriodUtils.formatPeriod(value, "days,hours,minutes", ENGLISH, formatter) == "16d, 2h and 2m"
 	}
 }
