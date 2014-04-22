@@ -27,7 +27,7 @@ import org.joda.time.DateTimeZone
 class JodaConverters {
 
 	static void registerJsonAndXmlMarshallers() {
-		final dateTimeFormatter = ISODateTimeFormat.dateTimeNoMillis()
+		final dateTimeFormatter = ISODateTimeFormat.dateTime()
 		[JSON, XML].each {converter ->
 			converter.registerObjectMarshaller(DateTime, 1) {
 				it?.toString(dateTimeFormatter.withZone(it?.zone))

@@ -36,11 +36,11 @@ class ConversionSpec extends Specification {
 
 		where:
 		value                                                    | xmlForm
-		new DateTime(0).withZone(UTC)                            | "1970-01-01T00:00:00Z"
-		new DateTime(0).withZone(DateTimeZone.forOffsetHours(3)) | "1970-01-01T03:00:00+03:00"
+		new DateTime(0).withZone(UTC)                            | "1970-01-01T00:00:00.000Z"
+		new DateTime(0).withZone(DateTimeZone.forOffsetHours(3)) | "1970-01-01T03:00:00.000+03:00"
 		new LocalDate(2009, 8, 2)                                | "2009-08-02"
-		new LocalTime(6, 29)                                     | "06:29:00"
-		new LocalDateTime(2009, 7, 13, 6, 29)                    | "2009-07-13T06:29:00"
+		new LocalTime(6, 29)                                     | "06:29:00.000"
+		new LocalDateTime(2009, 7, 13, 6, 29)                    | "2009-07-13T06:29:00.000"
 		DateTimeZone.forID("America/Vancouver")                  | "America/Vancouver"
 	}
 
@@ -56,11 +56,11 @@ class ConversionSpec extends Specification {
 
 		where:
 		value                                                     | jsonForm
-		new DateTime(0).withZone(UTC)                             | "1970-01-01T00:00:00Z"
-		new DateTime(0).withZone(DateTimeZone.forOffsetHours(-5)) | "1969-12-31T19:00:00-05:00"
+		new DateTime(0).withZone(UTC)                             | "1970-01-01T00:00:00.000Z"
+		new DateTime(0).withZone(DateTimeZone.forOffsetHours(-5)) | "1969-12-31T19:00:00.000-05:00"
 		new LocalDate(2009, 8, 2)                                 | "2009-08-02"
-		new LocalTime(6, 29)                                      | "06:29:00"
-		new LocalDateTime(2009, 7, 13, 6, 29)                     | "2009-07-13T06:29:00"
+		new LocalTime(6, 29)                                      | "06:29:00.000"
+		new LocalDateTime(2009, 7, 13, 6, 29)                     | "2009-07-13T06:29:00.000"
 		DateTimeZone.forID("America/Vancouver")                   | "America/Vancouver"
 	}
 
