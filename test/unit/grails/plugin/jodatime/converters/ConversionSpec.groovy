@@ -15,14 +15,24 @@
  */
 package grails.plugin.jodatime.converters
 
+import groovy.transform.CompileStatic
 import org.codehaus.groovy.grails.web.json.JSONElement
 import grails.converters.*
+import grails.persistence.Entity
+import grails.test.mixin.TestMixin
+import grails.test.mixin.web.ControllerUnitTestMixin
+import grails.util.GrailsNameUtils
 import org.joda.time.*
 import static org.joda.time.DateTimeZone.UTC
 import spock.lang.*
 
+@TestMixin(ControllerUnitTestMixin)
 @Unroll
 class ConversionSpec extends Specification {
+
+	void setup() {
+		JodaConverters.registerJsonAndXmlMarshallers()
+	}
 
 	def "can marshal a #value.class.simpleName object to XML"() {
 		given:
@@ -64,19 +74,19 @@ class ConversionSpec extends Specification {
 		DateTimeZone.forID("America/Vancouver")                   | "America/Vancouver"
 	}
 
+	@CompileStatic
 	private JSONElement marshalAsJSON(object) {
 		def sw = new StringWriter()
 		(object as JSON).render(sw)
 		def json = JSON.parse(sw.toString())
-		println "marshalled $object to $sw"
 		return json
 	}
 
+	@CompileStatic
 	private marshalAsXML(object) {
 		def sw = new StringWriter()
 		(object as XML).render(sw)
 		def xml = XML.parse(sw.toString())
-		println "marshalled $object to $sw"
 		return xml
 	}
 
