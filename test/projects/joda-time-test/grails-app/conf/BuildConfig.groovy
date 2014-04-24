@@ -21,12 +21,12 @@ grails.project.dependency.resolution = {
 		test "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion",
 				"org.seleniumhq.selenium:selenium-support:$seleniumVersion",
 				"org.gebish:geb-spock:$gebVersion"
-		compile 'org.jadira.usertype:usertype.jodatime:1.9'
+		compile 'org.jadira.usertype:usertype.jodatime:2.0.1'
 	}
 	plugins {
 		build ":tomcat:7.0.52.1"
 		runtime ":fields:1.3",
-				":hibernate:3.6.10.12"
+				":hibernate4:4.3.4.2"
 		test ':build-test-data:2.1.2',
 				':fixtures:1.2',
 				":geb:$gebVersion"
