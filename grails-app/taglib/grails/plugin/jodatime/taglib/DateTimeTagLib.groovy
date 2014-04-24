@@ -25,6 +25,7 @@ import org.joda.time.*
 class DateTimeTagLib {
 
 	static namespace = "joda"
+	static defaultEncodeAs = "raw"
 
 	def datePicker = {attrs ->
 		log.debug '***** joda:datePicker *****'

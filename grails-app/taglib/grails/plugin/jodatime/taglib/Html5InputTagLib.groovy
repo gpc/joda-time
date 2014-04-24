@@ -23,6 +23,7 @@ import org.joda.time.*
 class Html5InputTagLib {
 
 	static final namespace = "joda"
+	static defaultEncodeAs = "raw"
 
 	def dateField = {attrs ->
 		attrs.type = "date"

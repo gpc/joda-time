@@ -22,6 +22,7 @@ import org.joda.time.format.DateTimeFormat
 class DateTimeZoneTagLib {
 
 	static namespace = "joda"
+	static defaultEncodeAs = "raw"
 
 	static final ZONE_FORMATTER = DateTimeFormat.forPattern("ZZ")
 

@@ -26,6 +26,7 @@ import static org.joda.time.DurationFieldType.years
 class PeriodTagLib {
 
 	static namespace = "joda"
+	static encodeAsForTags = [periodPicker: "raw"]
 
 	def periodPicker = {attrs ->
 		def name = attrs.name
