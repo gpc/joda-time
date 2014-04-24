@@ -25,35 +25,44 @@ import grails.util.GrailsNameUtils
 import org.joda.time.*
 import static org.joda.time.DateTimeZone.UTC
 import spock.lang.*
+import grails.plugin.jodatime.binding.DateTimeConverter
 
 @TestMixin(ControllerUnitTestMixin)
 @Mock(Timestamp)
 @Unroll
 class JSONBindingSpec extends Specification {
 
-	void setup() {
-		JodaConverters.registerJsonAndXmlMarshallers()
+	@Shared DateTimeZone originalTimeZone
+
+	void setupSpec() {
+		originalTimeZone = DateTimeZone.default
+		DateTimeZone.default = DateTimeZone.forID("America/Vancouver")
+	}
+
+	void cleanupSpec() {
+		DateTimeZone.default = originalTimeZone
 	}
 
 	def "can unmarshal a #expected.class.simpleName object from a JSON element #value"() {
 		given:
 		def json = JSON.parse("""{$propertyName: "$value"}""")
 
-		and:
-		def bean = new Timestamp()
-
 		when:
-		bean.properties = json
+		def bean = new Timestamp(json)
 
 		then:
 		bean[propertyName] == expected
 
 		where:
-		value                     | expected
-		'2014-04-23T04:30:45.123' | new LocalDateTime(2014, 4, 23, 4, 30, 45, 123)
-		'2014-04-23T04:30:45'     | new LocalDateTime(2014, 4, 23, 4, 30, 45)
-		'04:30:45.123'            | new LocalTime(4, 30, 45, 123)
-		'04:30:45'                | new LocalTime(4, 30, 45)
+		value                           | expected
+		'2014-04-23T04:30:45.123Z'      | new DateTime(2014, 4, 23, 4, 30, 45, 123).withZone(DateTimeZone.UTC)
+		'2014-04-23T04:30:45.123+01:00' | new DateTime(2014, 4, 23, 4, 30, 45, 123).withZone(DateTimeZone.forOffsetHours(1))
+		'2014-04-23T04:30:45.123'       | new DateTime(2014, 4, 23, 4, 30, 45, 123).withZone(DateTimeZone.default)
+		'2014-04-23T04:30'              | new DateTime(2014, 4, 23, 4, 30).withZone(DateTimeZone.default)
+		'2014-04-23T04:30:45.123'       | new LocalDateTime(2014, 4, 23, 4, 30, 45, 123)
+		'2014-04-23T04:30:45'           | new LocalDateTime(2014, 4, 23, 4, 30, 45)
+		'04:30:45.123'                  | new LocalTime(4, 30, 45, 123)
+		'04:30:45'                      | new LocalTime(4, 30, 45)
 
 		propertyName = GrailsNameUtils.getPropertyNameRepresentation(expected.class.simpleName)
 	}
@@ -63,6 +72,7 @@ class JSONBindingSpec extends Specification {
 @CompileStatic
 @Entity
 class Timestamp {
+	DateTime dateTime
 	LocalDateTime localDateTime
 	LocalTime localTime
 }

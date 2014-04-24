@@ -27,19 +27,18 @@ import org.joda.time.DateTimeZone
 class JodaConverters {
 
 	static void registerJsonAndXmlMarshallers() {
-		final dateTimeFormatter = ISODateTimeFormat.dateTime()
 		[JSON, XML].each {converter ->
 			converter.registerObjectMarshaller(DateTime, 1) {
-				it?.toString(dateTimeFormatter.withZone(it?.zone))
+				it?.toString(ISODateTimeFormat.dateTime().withZone(it?.zone))
 			}
 			converter.registerObjectMarshaller(LocalDate, 2) {
-				it?.toString("yyyy-MM-dd")
+				it?.toString(ISODateTimeFormat.date())
 			}
 			converter.registerObjectMarshaller(LocalTime, 3) {
-				it?.toString("HH:mm:ss.SSS")
+				it?.toString(ISODateTimeFormat.time())
 			}
 			converter.registerObjectMarshaller(LocalDateTime, 4) {
-				it?.toString("yyyy-MM-dd'T'HH:mm:ss.SSS")
+				it?.toString(ISODateTimeFormat.dateTime())
 			}
 			converter.registerObjectMarshaller(DateTimeZone, 5) {
 				it?.ID
