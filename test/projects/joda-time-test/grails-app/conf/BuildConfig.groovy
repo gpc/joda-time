@@ -26,7 +26,7 @@ grails.project.dependency.resolution = {
 	plugins {
 		build ":tomcat:7.0.52.1"
 		runtime ":fields:1.3",
-				":hibernate:3.6.10.4"
+				":hibernate:3.6.10.12"
 		test ':build-test-data:2.1.2',
 				':fixtures:1.2',
 				":geb:$gebVersion"
