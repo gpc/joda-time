@@ -43,6 +43,15 @@ class JSONBindingSpec extends Specification {
 		DateTimeZone.default = originalTimeZone
 	}
 
+	void setup() {
+		defineBeans {
+			dateTimeConverter(DateTimeConverter) {
+				type = DateTime
+				grailsApplication = ref("grailsApplication")
+			}
+		}
+	}
+
 	def "can unmarshal a #expected.class.simpleName object from a JSON element #value"() {
 		given:
 		def json = JSON.parse("""{$propertyName: "$value"}""")
