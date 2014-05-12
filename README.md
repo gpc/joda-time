@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gpc/grails-joda-time.svg)](https://travis-ci.org/gpc/grails-joda-time)
+
 # Joda-Time Plugin
 
 The Joda-Time Plugin integrates the [Joda-Time][1] date/time library into Grails. The plugin...
