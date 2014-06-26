@@ -1,6 +1,6 @@
 if(System.getenv('TRAVIS_BRANCH')) {
     grails.project.repos.grailsCentral.username = System.getenv("GRAILS_CENTRAL_USERNAME")
-    grails.project.repos.grailsCentral.password = System.getenv("GRAILS_CENTRAL_PASSWORD")    
+    grails.project.repos.grailsCentral.password = System.getenv("GRAILS_CENTRAL_PASSWORD")
 }
 
 grails.project.work.dir = 'target'
@@ -23,6 +23,7 @@ grails.project.dependency.resolution = {
 	dependencies {
 		compile 'joda-time:joda-time:2.3'
 
+    test("org.grails:grails-web-databinding-spring:$grailsVersion")
 		test('org.hamcrest:hamcrest-all:1.1') { export = false }
 		test('org.jodd:jodd-lagarto:3.4.1') { export = false }
 	}
