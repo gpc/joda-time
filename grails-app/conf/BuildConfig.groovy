@@ -14,7 +14,10 @@ grails.project.dependency.resolution = {
 	log 'warn'
 
 	repositories {
+    grailsHome()
+    grailsPlugins()
 		grailsCentral()
+
 		mavenCentral()
 		mavenRepo 'http://repo.grails.org/grails/libs-releases'
 		mavenRepo 'https://oss.sonatype.org/content/groups/public'
