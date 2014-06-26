@@ -112,6 +112,7 @@ class PeriodTagLibSpec extends Specification {
 		def dom = $(output)
 
 		expect:
+		output == "going to fail"
 		dom.find('#foo_days').attr('value') == '0'
 		dom.find('#foo_hours').attr('value') == "$value.standardHours"
 		dom.find('#foo_minutes').attr('value') == '0'
