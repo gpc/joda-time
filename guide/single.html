@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Joda-Time Plugin 1.4</title>
+        <title>Joda-Time Plugin 1.5</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -64,7 +64,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Joda-Time Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Rob Fletcher</p>
-                            <p><strong>Version:</strong> 1.4</p>
+                            <p><strong>Version:</strong> 1.5</p>
                             
                         </div>
 
@@ -104,6 +104,7 @@ The Joda-Time Plugin integrates the <a href="http://joda-time.sourceforge.net/" 
 </ul><p class="paragraph"/><h2>Known Issues</h2>
 <ul class="star">
 <li>It is currently not possible to do certain types of criteria query with  <em class="italic">DateTime</em>  properties mapped using  <em class="italic">PersistentLocalDateTimeWithZone</em>  (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the  <em class="italic">'between'</em>  criterion.</li>
+<li>Data binding to properties of embedded types does not work correctly (see <a href="http://jira.grails.org/browse/GPJODATIME-21" target="blank">GPJODATIME-21</a>).</li>
 </ul><p class="paragraph"/><h2>Release Notes</h2><p class="paragraph"/><h4>1.4</h4>
 <ul class="star">
 <li><a href="http://jira.grails.org/browse/GPJODATIME-24" target="blank">GPJODATIME-24</a> Adds templates for the Fields plugin.</li>
@@ -112,7 +113,7 @@ The Joda-Time Plugin integrates the <a href="http://joda-time.sourceforge.net/" 
 <li><a href="http://jira.grails.org/browse/GPJODATIME-23" target="blank">GPJODATIME-23</a> Fixes rendering of date/time pickers with null values.</li>
 </ul><p class="paragraph"/><h4>1.3.1</h4>
 <ul class="star">
-<li>GPJODATIME-17(http://jira.grails.org/browse/GPJODATIME-17) Adds binding and scaffolding support for `Instant`.</li>
+<li><a href="http://jira.grails.org/browse/GPJODATIME-17" target="blank">GPJODATIME-17</a> Adds binding and scaffolding support for `Instant`.</li>
 </ul><p class="paragraph"/><h4>1.3</h4>
 <ul class="star">
 <li>Upgrades joda-time library to 2.0.</li>
@@ -176,11 +177,9 @@ Plugin source code is hosted on <a href="http://github.com/gpc/grails-joda-time"
 
 
 <h1 id="persistence">2 Persistence</h1>
-<h2>Persistence with Hibernate</h2><p class="paragraph"/>In order to persist Joda Time properties with Hibernate you first need to add one of the following dependencies to your application's <code>BuildConfig.groovy</code> file:<p class="paragraph"/><h3>To use the newer <a href="http://usertype.sourceforge.net/usertype.jodatime/index.html" target="blank">Usertype Library</a></h3><p class="paragraph"/><div class="code"><pre>compile <span class="java&#45;quote">"org.jadira.usertype:usertype.jodatime:1.9"</span></pre></div><p class="paragraph"/><blockquote class="note">
+<h2>Persistence with Hibernate</h2><p class="paragraph"/>In order to persist Joda Time properties with Hibernate you first need to add one of the following dependencies to your application's <code>BuildConfig.groovy</code> file:<p class="paragraph"/><h3>To use the newer <a href="http://jadira.sourceforge.net/usertype.core/index.html" target="blank">Usertype Library</a></h3><p class="paragraph"/><div class="code"><pre>compile <span class="java&#45;quote">"org.jadira.usertype:usertype.jodatime:1.9"</span></pre></div><p class="paragraph"/><blockquote class="note">
 There is a version 2.0 of the Usertype library but it requires Hibernate 4 so is not currently compatible with Grails.
-</blockquote><p class="paragraph"/><h3>To use the older <a href="http://joda-time.sourceforge.net/contrib/hibernate/index.html" target="blank">Joda-Time Hibernate Library</a></h3><p class="paragraph"/><h4>For Grails 1.3 and below</h4><p class="paragraph"/><div class="code"><pre>compile(<span class="java&#45;quote">"joda&#45;time:joda&#45;time&#45;hibernate:1.2"</span>) &#123;
-	excludes <span class="java&#45;quote">"joda&#45;time"</span>, <span class="java&#45;quote">"hibernate"</span>
-&#125;</pre></div><p class="paragraph"/><h4>For Grails 2 and above</h4><p class="paragraph"/><div class="code"><pre>compile(<span class="java&#45;quote">"joda&#45;time:joda&#45;time&#45;hibernate:1.3"</span>) &#123;
+</blockquote><p class="paragraph"/><h3>To use the older <a href="http://joda-time.sourceforge.net/contrib/hibernate/index.html" target="blank">Joda-Time Hibernate Library</a></h3><p class="paragraph"/><div class="code"><pre>compile(<span class="java&#45;quote">"joda&#45;time:joda&#45;time&#45;hibernate:1.3"</span>) &#123;
 	excludes <span class="java&#45;quote">"joda&#45;time"</span>, <span class="java&#45;quote">"hibernate"</span>
 &#125;</pre></div><p class="paragraph"/><h3>Adding persistent types to your domain classes</h3><p class="paragraph"/>To persist Joda Time properties you can use the Hibernate UserType implementations in the mapping block of your class. For example:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> org.joda.time.&#42;
 <span class="java&#45;keyword">import</span> org.jadira.usertype.dateandtime.joda.&#42;<p class="paragraph"/>class Person &#123;
@@ -193,7 +192,7 @@ There is a version 2.0 of the Usertype library but it requires Hibernate 4 so is
 	<span class="java&#45;quote">"user&#45;type"</span> type: org.jadira.usertype.dateandtime.joda.PersistentDateTime, class: org.joda.time.DateTime
 	<span class="java&#45;quote">"user&#45;type"</span> type: org.jadira.usertype.dateandtime.joda.PersistentLocalDate, class: org.joda.time.LocalDate
 	// &#8230; define as many other user type mappings as you need
-&#125;</pre></div><p class="paragraph"/>The Joda Time plugin can even do this for you so long as you do not already have a <code>grails.gorm.default.mapping</code> section in your <code>Config.groovy</code> file. Just run <code>grails install-joda-time-gorm-mappings</code> and the plugin will add the standard mappings for all supported user types to your <code>Config.groovy</code> file.<p class="paragraph"/>If you are using the older Joda Time Hibernate library then the package names for the user type classes is <code>org.joda.time.contrib.hibernate</code><p class="paragraph"/><h3>Multi-column UserTypes</h3><p class="paragraph"/>To use multi-column types such as <a href="http://usertype.sourceforge.net/apidocs/org/jadira/usertype/dateandtime/joda/PersistentDateTimeWithZone.html" target="blank">PersistentDateTimeWithZone</a> you need to include explicit mapping of both column names. For example:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> org.joda.time.&#42;
+&#125;</pre></div><p class="paragraph"/>The Joda Time plugin can even do this for you so long as you do not already have a <code>grails.gorm.default.mapping</code> section in your <code>Config.groovy</code> file. Just run <code>grails install-joda-time-gorm-mappings</code> and the plugin will add the standard mappings for all supported user types to your <code>Config.groovy</code> file.<p class="paragraph"/>If you are using the older Joda Time Hibernate library then the package names for the user type classes is <code>org.joda.time.contrib.hibernate</code><p class="paragraph"/><h3>Multi-column UserTypes</h3><p class="paragraph"/>To use multi-column types such as <a href="http://jadira.sourceforge.net/apidocs/org/jadira/usertype/dateandtime/joda/PersistentDateTimeWithZone.html" target="blank">PersistentDateTimeWithZone</a> you need to include explicit mapping of both column names. For example:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> org.joda.time.&#42;
 <span class="java&#45;keyword">import</span> org.jadira.usertype.dateandtime.joda.&#42;<p class="paragraph"/>class User &#123;
     DateTime registered
     mapping &#123;

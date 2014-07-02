@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>1 Introduction 1.4</title>
+    <title>1 Introduction 1.5</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -81,7 +81,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Rob Fletcher</p>
 
-                    <p><strong>Version:</strong> 1.4</p>
+                    <p><strong>Version:</strong> 1.5</p>
 
                     
                 </div>
@@ -103,6 +103,7 @@ The Joda-Time Plugin integrates the <a href="http://joda-time.sourceforge.net/" 
 </ul><p class="paragraph"/><h2>Known Issues</h2>
 <ul class="star">
 <li>It is currently not possible to do certain types of criteria query with  <em class="italic">DateTime</em>  properties mapped using  <em class="italic">PersistentLocalDateTimeWithZone</em>  (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the  <em class="italic">'between'</em>  criterion.</li>
+<li>Data binding to properties of embedded types does not work correctly (see <a href="http://jira.grails.org/browse/GPJODATIME-21" target="blank">GPJODATIME-21</a>).</li>
 </ul><p class="paragraph"/><h2>Release Notes</h2><p class="paragraph"/><h4>1.4</h4>
 <ul class="star">
 <li><a href="http://jira.grails.org/browse/GPJODATIME-24" target="blank">GPJODATIME-24</a> Adds templates for the Fields plugin.</li>
