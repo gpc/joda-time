@@ -18,6 +18,7 @@ package grails.plugin.jodatime.taglib
 import grails.test.mixin.TestFor
 import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
 import org.joda.time.Period
+import org.joda.time.format.PeriodFormatterBuilder
 import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
