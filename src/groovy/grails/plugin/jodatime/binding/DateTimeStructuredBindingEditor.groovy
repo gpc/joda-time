@@ -62,7 +62,7 @@ class DateTimeStructuredBindingEditor implements StructuredBindingEditor {
             }
             return dt.toDateTime()."to$type.simpleName"()
         } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException("Unable to parse structured date from request for $type [$propertyName]")
+            throw new IllegalArgumentException("Unable to parse structured date from request for $type [$propertyName]", nfe)
         }
     }
 }
