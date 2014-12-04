@@ -37,7 +37,7 @@ class JSONBindingSpec extends Specification {
 
 	void setupSpec() {
 		originalTimeZone = DateTimeZone.default
-		DateTimeZone.default = DateTimeZone.forID("America/Vancouver")
+		DateTimeZone.default = DateTimeZone.forID("Etc/GMT+12")
 	}
 
 	void cleanupSpec() {
