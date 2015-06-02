@@ -17,7 +17,7 @@ package grails.plugins.jodatime.converters
 
 import grails.converters.JSON
 import grails.persistence.Entity
-import grails.plugin.jodatime.binding.DateTimeConverter
+import grails.plugins.jodatime.binding.DateTimeConverter
 import grails.test.mixin.Mock
 import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin

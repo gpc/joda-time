@@ -1,10 +1,8 @@
 #!/bin/bash
 set -e
 rm -rf *.zip
-./grailsw refresh-dependencies --non-interactive
-./grailsw test-app unit: integration: --non-interactive
-./grailsw package-plugin --non-interactive
-./grailsw doc --pdf --non-interactive
+./gradlew clean test assemble
+#./grailsw doc --pdf --non-interactive
 
 filename=$(find . -name "grails-*.zip" | head -1)
 filename=$(basename $filename)
@@ -16,23 +14,23 @@ if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_REPO_SLUG == "gpc/grails-joda-time" 
   echo "https://$GH_TOKEN:@github.com" > ~/.git-credentials
 
 
-  if [[ $filename != *-SNAPSHOT* ]]
-  then
-    git clone https://${GH_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git -b gh-pages gh-pages --single-branch > /dev/null
-    cd gh-pages
-    git rm -rf .
-    cp -r ../target/docs/. ./
-    git add *
-    git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
-    git push origin HEAD
-    cd ..
-    rm -rf gh-pages
-  else
-    echo "SNAPSHOT version, not publishing docs"
-  fi
-
-
-  ./grailsw publish-plugin --no-scm --allow-overwrite --non-interactive
+ # if [[ $filename != *-SNAPSHOT* ]]
+ # then
+ #   git clone https://${GH_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git -b gh-pages gh-pages --single-branch > /dev/null
+ #   cd gh-pages
+ #   git rm -rf .
+ #   cp -r ../target/docs/. ./
+ #   git add *
+ #   git commit -a -m "Updating docs for Travis build: https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID"
+ #   git push origin HEAD
+ #   cd ..
+ #   rm -rf gh-pages
+ # else
+ #   echo "SNAPSHOT version, not publishing docs"
+ # fi
+ #
+ #
+ # ./grailsw publish-plugin --no-scm --allow-overwrite --non-interactive
 else
   echo "Not on master branch, so not publishing"
   echo "TRAVIS_BRANCH: $TRAVIS_BRANCH"

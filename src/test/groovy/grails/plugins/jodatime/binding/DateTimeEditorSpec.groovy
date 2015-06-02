@@ -19,6 +19,7 @@ import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import org.joda.time.*
 import org.springframework.context.i18n.LocaleContextHolder
+import spock.lang.IgnoreRest
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -31,8 +32,8 @@ import static org.joda.time.DateTimeZone.UTC
 class DateTimeEditorSpec extends Specification {
 
   void cleanup() {
-    // it is frankly shocking that Grails requires me to do this. The test environment is not properly idempotent as configuration changes will leak from one test to another
     grailsApplication.config.remove("grails.plugins.jodatime")
+    // it is frankly shocking that Grails requires me to do this. The test environment is not properly idempotent as configuration changes will leak from one test to another
   }
 
   def "getAsText converts null to empty string"() {
@@ -77,7 +78,7 @@ class DateTimeEditorSpec extends Specification {
 
   def "getAsText formats #type.simpleName instances correctly according to a configured pattern"() {
     given:
-    grailsApplication.config.jodatime.format."org.joda.time.$type.simpleName" = config
+    grailsApplication.config.jodatime = [format: ["org.joda.time.$type.simpleName": config]]
 
     and:
     def editor = new DateTimeEditor(type)
@@ -96,7 +97,7 @@ class DateTimeEditorSpec extends Specification {
 
   def "getAsText formats #type.simpleName instances correctly for HTML5"() {
     given:
-    grailsApplication.config.jodatime.format.html5 = true
+    grailsApplication.config.jodatime = [format: [html5: true]]
 
     and:
     def editor = new DateTimeEditor(type)
@@ -113,9 +114,10 @@ class DateTimeEditorSpec extends Specification {
     Instant       | new Instant(92554380000)                                                                           | "1972-12-07T05:33:00.000Z"
   }
 
+  @IgnoreRest
   def "Instant values are always formatted as UTC"() {
     given:
-    grailsApplication.config.jodatime.format.html5 = true
+    grailsApplication.config.jodatime = [format:[html5: true]]
 
     and:
     def defaultTimeZone = DateTimeZone.default
@@ -156,7 +158,7 @@ class DateTimeEditorSpec extends Specification {
 
   def "setAsText parses #type.simpleName instances correctly according to a configured pattern"() {
     given:
-    grailsApplication.config.jodatime.format."org.joda.time.$type.simpleName" = config
+    grailsApplication.config.jodatime = [format: ["org.joda.time.$type.simpleName": config]]
 
     and:
     def editor = new DateTimeEditor(type)
@@ -175,7 +177,7 @@ class DateTimeEditorSpec extends Specification {
 
   def "setAsText parses #type.simpleName instances correctly using HTML5 format"() {
     given:
-    grailsApplication.config.jodatime.format.html5 = true
+    grailsApplication.config.jodatime = [format: [html5: true]]
 
     and:
     def editor = new DateTimeEditor(type)
@@ -196,8 +198,7 @@ class DateTimeEditorSpec extends Specification {
 
   def "configured format trumps HTML5"() {
     given:
-    grailsApplication.config.jodatime.format."$LocalDate.name" = "dd/MM/yyyy"
-    grailsApplication.config.jodatime.format.html5 = true
+    grailsApplication.config.jodatime = [format: [html5: true, "$LocalDate.name":"dd/MM/yyyy"]]
 
     and:
     def editor = new DateTimeEditor(LocalDate)

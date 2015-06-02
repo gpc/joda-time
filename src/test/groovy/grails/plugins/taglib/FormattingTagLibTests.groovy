@@ -15,9 +15,9 @@
  */
 package grails.plugins.taglib
 
-import grails.plugin.jodatime.JodaTimeUtils
+import grails.plugins.jodatime.JodaTimeUtils
 import grails.test.mixin.TestFor
-import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
+import org.grails.taglib.GrailsTagException
 import org.joda.time.*
 import org.joda.time.chrono.IslamicChronology
 import org.joda.time.format.DateTimeFormat

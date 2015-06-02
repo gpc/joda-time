@@ -18,8 +18,8 @@ package grails.plugins.taglib
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
-import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
+import org.grails.plugins.codecs.HTMLCodec
+import org.grails.taglib.GrailsTagException
 import org.joda.time.*
 import spock.lang.Ignore
 import spock.lang.Specification

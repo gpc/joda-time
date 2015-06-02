@@ -1,6 +1,6 @@
 package grails.plugins.jodatime
 
-import grails.plugin.jodatime.Html5DateTimeFormat
+import grails.plugins.jodatime.Html5DateTimeFormat
 import org.hamcrest.Matcher
 import org.joda.time.*
 import spock.lang.Shared

@@ -16,7 +16,7 @@
 package grails.plugins.taglib
 
 import grails.test.mixin.TestFor
-import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
+import org.grails.plugins.codecs.HTMLCodec
 import org.joda.time.*
 import spock.lang.Issue
 import spock.lang.Specification

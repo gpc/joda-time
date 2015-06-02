@@ -17,11 +17,10 @@ package grails.plugins.jodatime.converters
 
 import grails.converters.JSON
 import grails.converters.XML
-import grails.plugin.jodatime.converters.JodaConverters
 import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
 import groovy.transform.CompileStatic
-import org.codehaus.groovy.grails.web.json.JSONElement
+import org.grails.web.json.JSONElement
 import org.joda.time.*
 import spock.lang.Specification
 import spock.lang.Unroll

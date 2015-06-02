@@ -1,11 +1,11 @@
 package grails.plugins.jodatime.util
 
-import grails.plugin.jodatime.util.DateTimeRange
+import grails.plugins.jodatime.util.DateTimeRange
 import org.joda.time.*
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static grails.plugin.jodatime.JodaDynamicMethods.registerDynamicMethods
+import static grails.plugins.jodatime.JodaDynamicMethods.registerDynamicMethods
 import static org.joda.time.DurationFieldType.*
 
 @Unroll

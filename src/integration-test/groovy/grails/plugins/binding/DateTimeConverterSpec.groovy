@@ -1,14 +1,19 @@
 package grails.plugins.binding
 
+import grails.databinding.SimpleMapDataBindingSource
 import grails.persistence.Entity
-import org.grails.databinding.SimpleMapDataBindingSource
+import grails.test.mixin.integration.Integration
+import grails.web.databinding.GrailsWebDataBinder
 import org.joda.time.*
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.i18n.LocaleContextHolder
 import spock.lang.Specification
 
+@Integration
 class DateTimeConverterSpec extends Specification {
 
-    def grailsWebDataBinder
+    @Autowired
+    GrailsWebDataBinder grailsWebDataBinder
     static currentLocale
     static currentTimeZone
 

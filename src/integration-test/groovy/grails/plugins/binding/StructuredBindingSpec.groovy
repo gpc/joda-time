@@ -1,9 +1,12 @@
 package grails.plugins.binding
 
+import grails.databinding.SimpleMapDataBindingSource
 import grails.persistence.Entity
-import org.codehaus.groovy.grails.web.binding.GrailsDataBinder
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+import grails.test.mixin.integration.Integration
+import grails.web.databinding.GrailsWebDataBinder
+import grails.web.servlet.mvc.GrailsParameterMap
 import org.joda.time.LocalDate
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.mock.web.MockHttpServletRequest
 import spock.lang.Ignore
 import spock.lang.Issue
@@ -11,10 +14,14 @@ import spock.lang.Specification
 
 import javax.servlet.http.HttpServletRequest
 
+@Integration
 class StructuredBindingSpec extends Specification {
 
 	HttpServletRequest request = new MockHttpServletRequest()
 	GrailsParameterMap params = new GrailsParameterMap(request)
+
+	@Autowired
+	GrailsWebDataBinder grailsWebDataBinder
 
 	void 'can bind to a top level field'() {
 		given:
@@ -30,8 +37,9 @@ class StructuredBindingSpec extends Specification {
 		def person = new Person()
 
 		when:
-		def binder = GrailsDataBinder.createBinder(person, '', request)
-		binder.bind(params)
+//		def binder = GrailsDataBinder.createBinder(person, '', request)
+//		binder.bind(params)
+		grailsWebDataBinder.bind person, params as SimpleMapDataBindingSource
 
 		then:
 		person.name == 'Alex'
@@ -53,8 +61,9 @@ class StructuredBindingSpec extends Specification {
 		def person = new Parent(child: new Person()) // TODO: Grails, why you are make me do this?
 
 		when:
-		def binder = GrailsDataBinder.createBinder(person, '', request)
-		binder.bind(params)
+//		def binder = GrailsDataBinder.createBinder(person, '', request)
+//		binder.bind(params)
+		grailsWebDataBinder.bind person, params as SimpleMapDataBindingSource
 
 		then:
 		!person.errors.hasErrors()
@@ -81,8 +90,9 @@ class StructuredBindingSpec extends Specification {
 		def person = new Employee()
 
 		when:
-		def binder = GrailsDataBinder.createBinder(person, '', request)
-		binder.bind(params)
+//		def binder = GrailsDataBinder.createBinder(person, '', request)
+//		binder.bind(params)
+		grailsWebDataBinder.bind person, params as SimpleMapDataBindingSource
 
 		then:
 		!person.errors.hasErrors()
@@ -113,8 +123,9 @@ class StructuredBindingSpec extends Specification {
 		def event = new RecurringEvent(dates: [null, null])
 
 		when:
-		def binder = GrailsDataBinder.createBinder(event, '', request)
-		binder.bind(params)
+//		def binder = GrailsDataBinder.createBinder(event, '', request)
+//		binder.bind(params)
+		grailsWebDataBinder.bind person, params as SimpleMapDataBindingSource
 
 		then:
 		!event.errors.hasErrors()
