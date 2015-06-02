@@ -1,1 +1,0 @@
-<g:datePicker name="${property}" value="${value}" precision="day"/>

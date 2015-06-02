@@ -1,1 +1,0 @@
-<joda:datePicker name="${property}" value="${value}"/>
