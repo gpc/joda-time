@@ -16,13 +16,6 @@
 
 package grails.plugins.jodatime
 
-import grails.plugins.jodatime.JodaDynamicMethods
-//import binding.DateTimeConverter
-//import binding.DateTimeStructuredBindingEditor
-//import binding.DateTimeZoneConverter
-//import binding.JodaTimePropertyEditorRegistrar
-//import binding.PeriodConverter
-//import binding.PeriodStructuredBindingEditor
 import grails.plugins.jodatime.converters.JodaConverters
 import grails.plugins.Plugin
 import grails.plugins.jodatime.binding.DateTimeConverter
