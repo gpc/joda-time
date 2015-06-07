@@ -2,7 +2,7 @@
 grails:
     profile: web-plugin
     codegen:
-        defaultPackage: grails.joda.time
+        defaultPackage: grails.plugins.jodatime
 info:
     app:
         name: '@info.app.name@'
