@@ -1,5 +1,6 @@
 package grails.plugins.jodatime.binding
 
+import grails.core.GrailsApplication
 import grails.databinding.converters.ValueConverter
 import org.joda.time.*
 import org.joda.time.format.DateTimeFormat
@@ -11,7 +12,7 @@ class DateTimeConverter implements ValueConverter {
     static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime, Instant].asImmutable()
 
     Class type
-    def grailsApplication
+    GrailsApplication grailsApplication
 
     @Lazy private ConfigObject config = grailsApplication.config.jodatime.format
 
