@@ -28,6 +28,8 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static org.joda.time.DateTimeZone.UTC
+
 @TestMixin(ControllerUnitTestMixin)
 @Mock(Timestamp)
 @Unroll
