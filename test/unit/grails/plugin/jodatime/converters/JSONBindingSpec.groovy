@@ -65,14 +65,10 @@ class JSONBindingSpec extends Specification {
 
 		where:
 		value                           | expected
-    // this isn't really correct but it's not clear where this conversion is done
-//		'2014-04-23T04:30:45.123Z'      | new DateTime(2014, 4, 23, 4, 30, 45, 123).withZone(UTC)
-//		'2014-04-23T04:30:45.123+01:00' | new DateTime(2014, 4, 23, 4, 30, 45, 123).withZone(DateTimeZone.forOffsetHours(1))
-		'2014-04-23T04:30:45.123Z'      | new DateTime(2014, 4, 22, 21, 30, 45, 123).withZone(DateTimeZone.default)
-		'2014-04-23T04:30:45.123+01:00' | new DateTime(2014, 4, 22, 20, 30, 45, 123).withZone(DateTimeZone.default)
-    // end
-		'2014-04-23T04:30:45.123'       | new DateTime(2014, 4, 23, 4, 30, 45, 123).withZone(DateTimeZone.default)
-		'2014-04-23T04:30'              | new DateTime(2014, 4, 23, 4, 30).withZone(DateTimeZone.default)
+		'2014-04-23T04:30:45.123Z'      | new DateTime(2014, 4, 23, 4, 30, 45, 123, UTC)
+		'2014-04-23T04:30:45.123+01:00' | new DateTime(2014, 4, 23, 4, 30, 45, 123, DateTimeZone.forOffsetHours(1))
+		'2014-04-23T04:30:45.123'       | new DateTime(2014, 4, 23, 4, 30, 45, 123, DateTimeZone.default)
+		'2014-04-23T04:30'              | new DateTime(2014, 4, 23, 4, 30, DateTimeZone.default)
 		'2014-04-23T04:30:45.123'       | new LocalDateTime(2014, 4, 23, 4, 30, 45, 123)
 		'2014-04-23T04:30:45'           | new LocalDateTime(2014, 4, 23, 4, 30, 45)
 		'04:30:45.123'                  | new LocalTime(4, 30, 45, 123)
