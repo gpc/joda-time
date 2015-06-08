@@ -30,7 +30,7 @@ class PeriodStructuredBindingEditor implements StructuredBindingEditor {
             }
             return type == Duration ? period.toPeriod().toStandardDuration() : period.toPeriod()
         } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException("Unable to parse structured period from request for period [${propertyName}]")
+            throw new IllegalArgumentException("Unable to parse structured period from request for period [${propertyName}]", nfe)
         }
     }
 }
