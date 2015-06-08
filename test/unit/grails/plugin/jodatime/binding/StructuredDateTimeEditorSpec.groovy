@@ -26,7 +26,7 @@ class StructuredDateTimeEditorSpec extends Specification {
 	
 	def setupSpec() {
 		zone = DateTimeZone.default
-		DateTimeZone.default = DateTimeZone.forID("Europe/London")
+		DateTimeZone.default = DateTimeZone.forID("Etc/GMT+12")
 	}
 	
 	def cleanupSpec() {
@@ -48,7 +48,7 @@ class StructuredDateTimeEditorSpec extends Specification {
 		DateTime      | [year: "2009", month: "03", day: "06", hour: "17", minute: "21", second: "33"]              | new DateTime(2009, 3, 6, 17, 21, 33, 0)
 		LocalTime     | [hour: "17"]                                                                                | new LocalTime(17, 0)
 		LocalTime     | [hour: "17", minute: "55", second: "33"]                                                    | new LocalTime(17, 55, 33)
-		DateTime      | [year: "2009", month: "08", day: "24", hour: "13", minute: "06"]                            | new DateTime(2009, 8, 24, 13, 6, 0, 0).withZoneRetainFields(DateTimeZone.forID("Europe/London"))
+		DateTime      | [year: "2009", month: "08", day: "24", hour: "13", minute: "06"]                            | new DateTime(2009, 8, 24, 13, 6, 0, 0).withZoneRetainFields(DateTimeZone.forID("Etc/GMT+12"))
 		DateTime      | [year: "2009", month: "08", day: "24", hour: "13", minute: "06", zone: "America/Vancouver"] | new DateTime(2009, 8, 24, 13, 6, 0, 0).withZoneRetainFields(DateTimeZone.forID("America/Vancouver"))
 	}
 
