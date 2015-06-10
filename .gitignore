@@ -1,13 +1,31 @@
+# JetBrains IntelliJ IDEA files
 .idea/
-*.log
-*.zip
-target/
-plugin.xml
-web-app
-out/
 *.iml
 *.iws
+.gradle
+build/
+
+# Log files
+*.log
+
+# Libraries and others
+*.zip
+
+# Target
+target/
+target-eclipse/
+
+.DS_Store
+*.h2.db
+plugin.xml
+.settings
+
+# Unused grails files
+.classpath
+.project
+test/reports
+
+src/main/webapp
+out/
 *.tmproj
 *.sha1
-*.h2.db
-.settings
