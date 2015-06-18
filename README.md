@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gpc/grails-joda-time.svg)](https://travis-ci.org/gpc/grails-joda-time)
+[![Build Status](https://travis-ci.org/gpc/joda-time.svg)](https://travis-ci.org/gpc/joda-time)
 
 # Joda-Time Plugin
 
