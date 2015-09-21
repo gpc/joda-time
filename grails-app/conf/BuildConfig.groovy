@@ -24,7 +24,7 @@ grails.project.dependency.resolution = {
 	}
 
 	dependencies {
-		compile 'joda-time:joda-time:2.3'
+		compile 'joda-time:joda-time:2.8.2'
 
     test("org.grails:grails-web-databinding-spring:$grailsVersion")
 		test('org.hamcrest:hamcrest-all:1.1') { export = false }
