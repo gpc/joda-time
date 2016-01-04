@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>joda-time 2.0.0</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+    </head>
+
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                        <a href="../guide/index.html" class="button">Table of contents</a>
+                        <div id="nav-summary-childs" style="display:none;">
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#persistence"><strong>2</strong><span>Persistence</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#dataBinding"><strong>3</strong><span>Data binding</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#tags"><strong>4</strong><span>Tags</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#scaffolding"><strong>5</strong><span>Scaffolding</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#JSONAndXML"><strong>6</strong><span>JSON and XML</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#integratingWithOtherPlugins"><strong>7</strong><span>Integrating with other plugins</span></a></div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="separator selected">
+                    <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="images clearfix">
+                
+                
+            </div>
+            <p></p>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>joda-time - Reference Documentation</h1>
+                            <p><strong>Authors:</strong> </p>
+                            <p><strong>Version:</strong> 2.0.0</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#persistence"><strong>2</strong><span>Persistence</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#dataBinding"><strong>3</strong><span>Data binding</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#tags"><strong>4</strong><span>Tags</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#scaffolding"><strong>5</strong><span>Scaffolding</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#JSONAndXML"><strong>6</strong><span>JSON and XML</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#integratingWithOtherPlugins"><strong>7</strong><span>Integrating with other plugins</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
+
+<h1 id="introduction">1 Introduction</h1>
+The Joda-Time Plugin integrates the <a href="http://joda-time.sourceforge.net/" target="blank">Joda-Time</a> date/time library into Grails. The plugin&#8230;
+<ul class="star">
+<li>Provides the ability to bind from form inputs to Joda Time fields on domain or command objects.</li>
+<li>Adds unit testing support for domain classes that use Joda Time properties.</li>
+<li>Supports JSON and XML rendering of Joda Time types.</li>
+<li>Provides tag-libs for input and output of Joda Time data.</li>
+<li>Enhances Grails' scaffolding to support domain classes with Joda Time fields.</li>
+<li>Adds compatibility and consistency methods to Joda Time types so that they integrate better with Groovy.</li>
+<li>Provides templates for rendering inputs using the <a href="http://freeside.co/grails-fields" target="blank">Fields plugin</a>.</li>
+</ul><p class="paragraph"/><h2>Known Issues</h2>
+<ul class="star">
+<li>It is currently not possible to do certain types of criteria query with  <em class="italic">DateTime</em>  properties mapped using  <em class="italic">PersistentLocalDateTimeWithZone</em>  (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the  <em class="italic">'between'</em>  criterion.</li>
+<li>Data binding to properties of embedded types does not work correctly (see <a href="http://jira.grails.org/browse/GPJODATIME-21" target="blank">GPJODATIME-21</a>).</li>
+</ul><p class="paragraph"/><h2>Release Notes</h2><p class="paragraph"/><h4>1.4</h4>
+<ul class="star">
+<li><a href="http://jira.grails.org/browse/GPJODATIME-24" target="blank">GPJODATIME-24</a> Adds templates for the Fields plugin.</li>
+<li><a href="http://jira.grails.org/browse/GPJODATIME-15" target="blank">GPJODATIME-15</a> Fixes compatibility with Grails &#60; 2.</li>
+<li><a href="http://jira.grails.org/browse/GPJODATIME-24" target="blank">GPJODATIME-24</a> Adds templates for <a href="http://freeside.co/grails-fields" target="blank">Fields plugin</a> compatibility.</li>
+<li><a href="http://jira.grails.org/browse/GPJODATIME-23" target="blank">GPJODATIME-23</a> Fixes rendering of date/time pickers with null values.</li>
+</ul><p class="paragraph"/><h4>1.3.1</h4>
+<ul class="star">
+<li><a href="http://jira.grails.org/browse/GPJODATIME-17" target="blank">GPJODATIME-17</a> Adds binding and scaffolding support for `Instant`.</li>
+</ul><p class="paragraph"/><h4>1.3</h4>
+<ul class="star">
+<li>Upgrades joda-time library to 2.0.</li>
+<li>Removes `joda-time-hibernate` as a default dependency so that plugin can be used with alternate GORM implementations.</li>
+<li>Adds Grails 2 unit testing support.</li>
+<li>Adds joda:time tag.</li>
+<li>Adds `next()` and `previous()` methods to `ReadableInstant` and `ReadablePartial`.</li>
+<li>Adds overridden `step` method on `Range`.</li>
+</ul><p class="paragraph"/><h4>1.2</h4>
+<ul class="star">
+<li>Upgrades joda-time library to 1.6.2</li>
+<li>Upgrades joda-time-hibernate to 1.2</li>
+</ul><p class="paragraph"/><h4>1.1</h4>
+<ul class="star">
+<li>Adds HTML5 binding and tag libs</li>
+</ul><p class="paragraph"/><h4>1.0</h4>
+<ul class="star">
+<li>Adds joda:formatPeriod tag</li>
+<li>Allows joda:inputPattern to accept String attributes for convenience</li>
+<li>Fixes bug with joda:format that meant selected format was never displayed</li>
+</ul><p class="paragraph"/><h4>0.5.1</h4>
+<ul class="star">
+<li>Upgrades joda-time-hibernate to version 1.2</li>
+<li>Allows no-selection option to work with StructuredDateTimeEditor</li>
+</ul><p class="paragraph"/><h4>0.5</h4>
+<ul class="star">
+<li>Adds JSON and XML rendering support.</li>
+<li>Adds binding and scaffolding support for Duration and Period.</li>
+<li>Fixes compatibility problem with Grails 1.1 and 1.1.1.</li>
+</ul><p class="paragraph"/><h4>0.4.3</h4>
+<ul class="star">
+<li>No longer automatically tries to install scaffolding templates (use grails install-joda-time-templates instead).</li>
+<li>list.gsp and show.gsp templates are not used when application's Grails version is 1.2+ as they are not needed.</li>
+</ul><p class="paragraph"/><h4>0.4.2</h4>
+<ul class="star">
+<li>No longer tries to reinstall templates that are already installed.</li>
+<li>Adds DateTimeUtils.withCurrentTimestampFixed and withCurrentTImestampOffset</li>
+<li>Supports all Groovy mathematical operators on Joda Seconds, Minutes, Hours, Days, Months, Years, etc. classes.</li>
+</ul><p class="paragraph"/><h4>0.4.1</h4>
+<ul class="star">
+<li>Fixes template installation on Windows machines where Ant's patch task does not work.</li>
+</ul><p class="paragraph"/><h4>0.4</h4>
+<ul class="star">
+<li>Fixes corrupted template files from previous version.</li>
+<li>Fixes template compatibility with Grails 1.0.4.</li>
+</ul><p class="paragraph"/><h4>0.3</h4>
+<ul class="star">
+<li>Adds the dynamic format(String) method on ReadableInstant and ReadablePartial.</li>
+<li>Fixes installation script for Grails 1.0.4.</li>
+<li>Plugin requires Grails 1.0.4 + as earlier versions don't support registering custom editors.</li>
+</ul><p class="paragraph"/><h4>0.2</h4>
+<ul class="star">
+<li>Fixes bug where registration of structured date/time editor overrides registration of text -&#62; date/time editor.</li>
+</ul><p class="paragraph"/><h4>0.1</h4>
+<ul class="star">
+<li>Initial release</li>
+</ul><p class="paragraph"/><h2>Contact</h2><p class="paragraph"/>If you have questions, comments or suggestions please contact me via the <a href="http://www.grails.org/Mailing+lists" target="blank">Grails user mailing list</a>.
+Please raise bugs against the <a href="http://jira.grails.org/browse/GPJODATIME" target="blank">JodaTime Plugin</a> project on the Grails JIRA.
+Plugin source code is hosted on <a href="http://github.com/gpc/grails-joda-time" target="blank">GitHub</a>
+
+
+
+<h1 id="persistence">2 Persistence</h1>
+<h2>Persistence with Hibernate</h2><p class="paragraph"/>In order to persist Joda Time properties with Hibernate you first need to add one of the following dependencies to your application's <code>BuildConfig.groovy</code> file:<p class="paragraph"/><h3>To use the newer <a href="http://jadira.sourceforge.net/usertype.core/index.html" target="blank">Usertype Library</a></h3><p class="paragraph"/><div class="code"><pre>compile <span class="java&#45;quote">"org.jadira.usertype:usertype.jodatime:1.9"</span></pre></div><p class="paragraph"/><blockquote class="note">
+There is a version 2.0 of the Usertype library but it requires Hibernate 4 so is not currently compatible with Grails.
+</blockquote><p class="paragraph"/><h3>To use the older <a href="http://joda-time.sourceforge.net/contrib/hibernate/index.html" target="blank">Joda-Time Hibernate Library</a></h3><p class="paragraph"/><div class="code"><pre>compile(<span class="java&#45;quote">"joda&#45;time:joda&#45;time&#45;hibernate:1.3"</span>) &#123;
+	excludes <span class="java&#45;quote">"joda&#45;time"</span>, <span class="java&#45;quote">"hibernate"</span>
+&#125;</pre></div><p class="paragraph"/><h3>Adding persistent types to your domain classes</h3><p class="paragraph"/>To persist Joda Time properties you can use the Hibernate UserType implementations in the mapping block of your class. For example:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> org.joda.time.&#42;
+<span class="java&#45;keyword">import</span> org.jadira.usertype.dateandtime.joda.&#42;<p class="paragraph"/>class Person &#123;
+    <span class="java&#45;object">String</span> name
+    LocalDate birthdate
+    <span class="java&#45;keyword">static</span> mapping = &#123;
+    	birthdate type: PersistentLocalDate
+    &#125;
+&#125;</pre></div><p class="paragraph"/>This even works with some of the special functionality in Grails. For example fields <code>dateCreated</code> and <code>lastUpdated</code> in a Grails domain object will be updated automatically by the framework. Such properties do not have to be <code>java.util.Date</code> instances the functionality works fine if they are <code>org.joda.time.DateTime</code> or other types instead.<p class="paragraph"/><h3>Adding default type mappings</h3><p class="paragraph"/>To avoid having to add type mappings to every single domain class in your application you can create a default mappings block in <code>Config.groovy</code> that maps Joda Time types to their Hibernate user type implementation. For example:<p class="paragraph"/><div class="code"><pre>grails.gorm.<span class="java&#45;keyword">default</span>.mapping = &#123;
+	<span class="java&#45;quote">"user&#45;type"</span> type: org.jadira.usertype.dateandtime.joda.PersistentDateTime, class: org.joda.time.DateTime
+	<span class="java&#45;quote">"user&#45;type"</span> type: org.jadira.usertype.dateandtime.joda.PersistentLocalDate, class: org.joda.time.LocalDate
+	// &#8230; define as many other user type mappings as you need
+&#125;</pre></div><p class="paragraph"/>The Joda Time plugin can even do this for you so long as you do not already have a <code>grails.gorm.default.mapping</code> section in your <code>Config.groovy</code> file. Just run <code>grails install-joda-time-gorm-mappings</code> and the plugin will add the standard mappings for all supported user types to your <code>Config.groovy</code> file.<p class="paragraph"/>If you are using the older Joda Time Hibernate library then the package names for the user type classes is <code>org.joda.time.contrib.hibernate</code><p class="paragraph"/><h3>Multi-column UserTypes</h3><p class="paragraph"/>To use multi-column types such as <a href="http://jadira.sourceforge.net/apidocs/org/jadira/usertype/dateandtime/joda/PersistentDateTimeWithZone.html" target="blank">PersistentDateTimeWithZone</a> you need to include explicit mapping of both column names. For example:<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> org.joda.time.&#42;
+<span class="java&#45;keyword">import</span> org.jadira.usertype.dateandtime.joda.&#42;<p class="paragraph"/>class User &#123;
+    DateTime registered
+    mapping &#123;
+        registered type: PersistentDateTimeWithZone, &#123;
+            column name: <span class="java&#45;quote">"registered_timestamp"</span>
+            column name: <span class="java&#45;quote">"registered_zone"</span>
+        &#125;
+    &#125;
+&#125;</pre></div><p class="paragraph"/>You can use any name you like for the columns.<p class="paragraph"/><blockquote class="warning">
+It is currently not possible to do certain types of criteria query with  <em class="italic">DateTime</em>  properties mapped using  <em class="italic">PersistentDateTimeWithZone</em>  (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the  <em class="italic">'between'</em>  criterion.
+</blockquote><p class="paragraph"/><h2>Persistence with other GORM implementations</h2>
+
+
+
+<h1 id="dataBinding">3 Data binding</h1>
+<h2>Data Binding</h2><p class="paragraph"/>The Joda-Time plugin adds automatic binding support for the following types&#8230;
+<ul class="star">
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html" target="blank">LocalTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html" target="blank">LocalDate</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html" target="blank">LocalDateTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html" target="blank">DateTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html" target="blank">Duration</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html" target="blank">Period</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html" target="blank">DateTimeZone</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Instant.html" target="blank">Instant</a></li>
+</ul><p class="paragraph"/>Properties can be bound to simple text fields or to picker controls (see below).<p class="paragraph"/><h3>Binding text inputs</h3><p class="paragraph"/>By default text fields are bound in a locale-sensitive manner (e.g. to enter a LocalDate in the  <em class="italic">en_GB</em>  locale the format is  <em class="italic">dd/MM/yy</em> , in the  <em class="italic">en_US</em>  locale the format is  <em class="italic">MM/dd/yy</em>  and so on). Alternatively formats can be defined per type in config using keys such as  <em class="italic">'jodatime.format.org.joda.time.DateTime'</em>  and  <em class="italic">'jodatime.format.org.joda.time.LocalDate'</em>  which is partiularly useful when using rich UI type controls that may require a fixed format.<p class="paragraph"/><h3>HTML5 input types</h3><p class="paragraph"/>The HTML5 standard supports <a href="http://diveintohtml5.org/forms.html#type-date" target="blank">several new input types</a> that potentially useful for binding to Joda-Time properties. The input formats for those types are fixed rather than being locale-sensitive as they are designed for picker controls rendered by the browser or JavaScript. If you wish to use HTML5 inputs in your project simply set the config value  <em class="italic">'jodatime.format.html5 = true'</em>  in  <em class="italic">Config.groovy</em>  and the correct binding formats will be used.<p class="paragraph"/><blockquote class="note">
+Any formats configured using  <em class="italic">'jodatime.format.&#60;classname&#62;'</em>  will override the HTML5 format for that type.
+</blockquote><p class="paragraph"/><h4>HTML5 input formats</h4><p class="paragraph"/>For reference, the formats for the various input types are as follows:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Input type</strong></th><th><strong class="bold">Format</strong></th></tr><tr class="table-odd"><td>month</td><td>yyyy-MM</td></tr><tr class="table-even"><td>week</td><td>xxxx-'W'ww</td></tr><tr class="table-odd"><td>date</td><td>yyyy-MM-dd</td></tr><tr class="table-even"><td>time</td><td>HH:mm:ss.SSS</td></tr><tr class="table-odd"><td>datetime-local</td><td>yyyy-MM-dd'T'HH:mm:ss.SSS</td></tr><tr class="table-even"><td>datetime</td><td>yyyy-MM-dd'T'HH:mm:ss.SSSZZ</td></tr></table><p class="paragraph"/>For all types Seconds and milliseconds can be omitted on input but are always rendered on output. The time zone for  <em class="italic">datetime</em>  inputs can be either the literal  <em class="italic">'Z'</em>  representing the  <em class="italic">UTC</em>  time zone or a value such as  <em class="italic">+05:30</em>  or  <em class="italic">-08:00</em> 
+
+
+
+<h1 id="tags">4 Tags</h1>
+<h2>Tag Libs</h2><p class="paragraph"/>The plugin makes several new tags available. See the reference section for details.<p class="paragraph"/>
+
+
+<h1 id="scaffolding">5 Scaffolding</h1>
+<h2>Scaffolding</h2><p class="paragraph"/>The Joda-Time plugin enhances Grails' dynamic scaffolding so it is compatible with domain classes with the following types&#8230;
+<ul class="star">
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html" target="blank">LocalTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html" target="blank">LocalDate</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html" target="blank">LocalDateTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html" target="blank">DateTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html" target="blank">Duration</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html" target="blank">Period</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html" target="blank">DateTimeZone</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Instant.html" target="blank">Instant</a></li>
+</ul><p class="paragraph"/>To install scaffolding templates use the command:<p class="paragraph"/><div class="code"><pre>grails install&#45;joda&#45;time&#45;templates</pre></div><p class="paragraph"/>Create and edit views use the  <em class="italic">joda:dateTimePicker, joda:datePicker, joda:timePicker</em>  or  <em class="italic">joda:periodPicker</em>  (see above) as appropriate. Columns on list views are sortable.<p class="paragraph"/>
+
+
+<h1 id="JSONAndXML">6 JSON and XML</h1>
+<h2>JSON and XML Rendering</h2><p class="paragraph"/>The plugin registers JSON and XML converters for&#8230;
+<ul class="star">
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html" target="blank">LocalTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html" target="blank">LocalDate</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html" target="blank">LocalDateTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html" target="blank">DateTime</a></li>
+<li><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html" target="blank">DateTimeZone</a></li>
+</ul><p class="paragraph"/>
+
+
+<h1 id="integratingWithOtherPlugins">7 Integrating with other plugins</h1>
+<h2>Integrating With Other Plugins</h2><p class="paragraph"/><h3><a href="http://freeside.co/grails-fields" target="blank">Fields</a></h3><p class="paragraph"/>The Joda-Time plugin supplies templates so that inputs for Joda-Time properties will render correctly. You can override these templates in your own application if you want to render the inputs differently. See the Fields plugin documentation for details on how to do so.<p class="paragraph"/><h3><a href="http://grails.org/plugin/grails-ui" target="blank">Grails UI</a></h3><p class="paragraph"/>The Grails-UI Plugin's datePicker tag works quite well with  <em class="italic">Joda-Time</em>  types such as  <em class="italic">DateTime, LocalDate</em>  or  <em class="italic">LocalDateTime</em>  instances. The tag's  <em class="italic">formatString</em>  argument can easily be set with  <em class="italic">joda:inputPattern</em>  (see above). The value attribute needs to be converted to a  <em class="italic">java.util.Date</em>  instance. Examples of use might be:<p class="paragraph"/>A  <em class="italic">DateTime</em>  property with time input:<p class="paragraph"/><div class="code"><pre>&#60;gui:datePicker id=<span class="java&#45;quote">"myDateTimeProperty"</span> value=<span class="java&#45;quote">"$&#123;myInstance?.myDateTimeProperty?.toDate()&#125;"</span> includeTime=<span class="java&#45;quote">"<span class="java&#45;keyword">true</span>"</span> formatString=<span class="java&#45;quote">"$&#123;joda.inputPattern()&#125;"</span>/&#62;</pre></div><p class="paragraph"/>A  <em class="italic">LocalDate</em>  property:<p class="paragraph"/><div class="code"><pre>&#60;gui:datePicker id=<span class="java&#45;quote">"myLocalDateProperty"</span> value=<span class="java&#45;quote">"$&#123;myInstance?.myLocalDateProperty?.toDateTime()?.toDate()&#125;"</span> formatString=<span class="java&#45;quote">"$&#123;joda.inputPattern(type: org.joda.time.LocalDate)&#125;"</span>/&#62;</pre></div><p class="paragraph"/>
+
+                    </div>
+                </td>
+                <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Dynamic Methods</h1><div class="menu-sub">
+                        
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/div.html">div</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/format.html">format</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/multiply.html">multiply</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/negative.html">negative</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/next.html">next</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/previous.html">previous</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/step.html">step</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/withCurrentMillisFixed.html">withCurrentMillisFixed</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Dynamic%20Methods/withCurrentMillisOffset.html">withCurrentMillisOffset</a>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Tags</h1><div class="menu-sub">
+                        
+                        
+                        <div class="menu-item"><a href="../ref/Tags/dateField.html">dateField</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/datePicker.html">datePicker</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/dateTimePicker.html">dateTimePicker</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/dateTimeZoneSelect.html">dateTimeZoneSelect</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/datetimeField.html">datetimeField</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/datetimeLocalField.html">datetimeLocalField</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/format.html">format</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/formatPeriod.html">formatPeriod</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/inputPattern.html">inputPattern</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/monthField.html">monthField</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/periodPicker.html">periodPicker</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/time.html">time</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/timeField.html">timeField</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/timePicker.html">timePicker</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Tags/weekField.html">weekField</a>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+            </tr>
+        </table>
+
+        <div id="footer">
+            
+            
+        </div>
+
+
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+    </body>
+</html>
