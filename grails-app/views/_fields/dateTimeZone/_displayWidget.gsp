@@ -1,5 +1,5 @@
 <%
-    def attrs = [name: property, value: value]
+    def attrs = [name: property, value: value, pattern: 'ZZZ']
 	if (required) attrs.required = ''
-	out << joda.dateTimeZoneSelect(attrs)
+	out << joda.format(attrs)
 %>
