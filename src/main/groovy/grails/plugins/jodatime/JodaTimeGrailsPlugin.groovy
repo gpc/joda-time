@@ -27,7 +27,7 @@ import grails.plugins.jodatime.binding.PeriodStructuredBindingEditor
 
 class JodaTimeGrailsPlugin extends Plugin {
 
-    def version = "2.0.0-SNAPSHOT"
+    def version = "2.0.1.BUILD-SNAPSHOT"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "3.0.1 > *"
     // resources that are excluded from plugin packaging
@@ -56,7 +56,8 @@ Joda Time integration for Grails
 
     def developers = [
             [name: 'Rob Fletcher', email: 'rob@freeside.co'],
-            [name: "Puneet Behl", email: "puneet.behl007@gmail.com"]
+            [name: "Puneet Behl", email: "puneet.behl007@gmail.com"],
+            [name: "Hans Bogaards", email: "hbogaards@gmail.com"]
     ]
 
     def issueManagement = [system: 'JIRA', url: 'http://jira.grails.org/browse/GPJODATIME']
