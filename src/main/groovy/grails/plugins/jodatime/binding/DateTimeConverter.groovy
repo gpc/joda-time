@@ -1,20 +1,26 @@
 package grails.plugins.jodatime.binding
 
+import grails.config.Config
 import grails.core.GrailsApplication
+import grails.core.support.GrailsConfigurationAware
 import grails.databinding.converters.ValueConverter
+import grails.plugins.jodatime.Html5DateTimeFormat
 import org.joda.time.*
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.springframework.context.i18n.LocaleContextHolder
 
-class DateTimeConverter implements ValueConverter {
+class DateTimeConverter implements ValueConverter, GrailsConfigurationAware {
 
     static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime, Instant].asImmutable()
 
     Class type
-    GrailsApplication grailsApplication
+    private Config config
 
-    @Lazy private ConfigObject config = grailsApplication.config.jodatime.format
+    @Override
+    void setConfiguration(Config co) {
+        config = co
+    }
 
     public boolean canConvert(Object value) {
         value instanceof String
@@ -51,28 +57,28 @@ class DateTimeConverter implements ValueConverter {
     }
 
     private boolean hasConfigPatternFor(Class type) {
-        config.flatten()."$type.name"
+        config.hasProperty("jodatime.format.${type.name}")
     }
 
     private String getConfigPatternFor(Class type) {
-        config.flatten()."$type.name"
+        config.getProperty("jodatime.format.${type.name}")
     }
 
     private boolean useISO() {
-        config.html5
+        config.hasProperty("jodatime.format.html5")
     }
 
     private DateTimeFormatter getISOFormatterFor(Class type) {
         switch (type) {
             case LocalTime:
-                return grails.plugins.jodatime.Html5DateTimeFormat.time()
+                return Html5DateTimeFormat.time()
             case LocalDate:
-                return grails.plugins.jodatime.Html5DateTimeFormat.date()
+                return Html5DateTimeFormat.date()
             case LocalDateTime:
-                return grails.plugins.jodatime.Html5DateTimeFormat.datetimeLocal()
+                return Html5DateTimeFormat.datetimeLocal()
             case DateTime:
             case Instant:
-                return grails.plugins.jodatime.Html5DateTimeFormat.datetime()
+                return Html5DateTimeFormat.datetime()
         }
         return null
     }

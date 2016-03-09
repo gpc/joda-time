@@ -19,7 +19,6 @@ import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import org.joda.time.*
 import org.springframework.context.i18n.LocaleContextHolder
-import spock.lang.IgnoreRest
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -32,7 +31,7 @@ import static org.joda.time.DateTimeZone.UTC
 class DateTimeEditorSpec extends Specification {
 
   void cleanup() {
-    grailsApplication.config.remove("grails.plugins.jodatime")
+    grailsApplication.config.remove("jodatime")
     // it is frankly shocking that Grails requires me to do this. The test environment is not properly idempotent as configuration changes will leak from one test to another
   }
 
@@ -114,7 +113,6 @@ class DateTimeEditorSpec extends Specification {
     Instant       | new Instant(92554380000)                                                                           | "1972-12-07T05:33:00.000Z"
   }
 
-  @IgnoreRest
   def "Instant values are always formatted as UTC"() {
     given:
     grailsApplication.config.jodatime = [format:[html5: true]]
