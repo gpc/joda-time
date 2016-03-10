@@ -12,3 +12,6 @@ The Joda-Time Plugin integrates the [Joda-Time][1] date/time library into Grails
 * Adds compatibility and consistency methods to _Joda Time_ types so that they integrate better with Groovy.
 
 [1]:http://joda-time.sourceforge.net/
+
+## Documentation
+[2.x Documentation](https://gpc.github.io/joda-time/guide/index.html)
