@@ -16,7 +16,7 @@ plugins {
     id "com.jfrog.bintray" version "1.1"
 }
 
-version "2.0.0"
+version "2.0.1.BUILD-SNAPSHOT"
 group "org.grails.plugins"
 
 apply plugin: 'maven-publish'
@@ -62,12 +62,13 @@ dependencies {
     provided "org.grails:grails-dependencies"
     provided 'javax.servlet:javax.servlet-api:3.1.0'
 
-    compile 'joda-time:joda-time:2.3'
+    compile 'joda-time:joda-time:2.9.2'
 
     testCompile("org.grails:grails-web-databinding-spring:2.5.0")
     testCompile('org.hamcrest:hamcrest-all:1.1')
     testCompile('org.jodd:jodd-lagarto:3.4.1')
     testCompile "org.grails:grails-plugin-testing"
+    testCompile "org.grails.plugins:fields"
 
     console "org.grails:grails-console"
 }

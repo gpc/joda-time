@@ -213,8 +213,8 @@ class DateTimeTagLibSpec extends Specification {
 
 	def "dateTimePicker uses config for years"() {
 		given:
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = 1
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = 2
+		tagLib.yearsBelow = 1
+		tagLib.yearsAbove = 2
 
 		and:
 		def year = new LocalDate().year
@@ -232,8 +232,8 @@ class DateTimeTagLibSpec extends Specification {
 		yearSelect.find("option[value='${year + 3}']").length() == 0
 
 		cleanup:
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = null
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = null
+		tagLib.yearsBelow = null
+		tagLib.yearsAbove = null
 	}
 
 	def "picker tags accept years arg"() {
@@ -269,7 +269,7 @@ class DateTimeTagLibSpec extends Specification {
 
 	def "dateTimePicker uses config for precision"() {
 		given:
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = "second"
+		tagLib.precision = "second"
 
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
@@ -281,7 +281,7 @@ class DateTimeTagLibSpec extends Specification {
 		}
 
 		cleanup:
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = null
+		tagLib.precision = null
 	}
 
 	def "picker tags accept '#precision' precision arg"() {

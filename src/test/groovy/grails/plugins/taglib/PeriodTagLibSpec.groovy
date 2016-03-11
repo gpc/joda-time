@@ -30,10 +30,6 @@ import static jodd.jerry.Jerry.jerry as $
 @TestFor(PeriodTagLib)
 class PeriodTagLibSpec extends Specification {
 
-	void cleanup() {
-		grailsApplication.config.jodatime = [:]
-	}
-
 	void 'periodPicker defaults id from name'() {
 		given:
 		def output = applyTemplate('<joda:periodPicker name="foo"/>')
@@ -56,7 +52,7 @@ class PeriodTagLibSpec extends Specification {
 
 	void 'periodPicker uses fields from config if present'() {
 		given:
-		grailsApplication.config.jodatime = [periodpicker: [default: [fields : "years,months , days"]]]
+		tagLib.configFields = "years,months , days"
 
 		and:
 		def output = applyTemplate('<joda:periodPicker name="foo"/>')
@@ -212,7 +208,7 @@ class PeriodTagLibSpec extends Specification {
 
 	void 'formatPeriod uses fields from config'() {
 		given:
-		grailsApplication.config.jodatime = [periodpicker :[default: [fields : "years,months , days"]]]
+		tagLib.configFields = "years,months , days"
 
 		expect:
 		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "3 years, 2 months and 2 days"

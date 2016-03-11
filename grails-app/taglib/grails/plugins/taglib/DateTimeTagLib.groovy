@@ -15,6 +15,8 @@
  */
 package grails.plugins.taglib
 
+import grails.config.Config
+import grails.core.support.GrailsConfigurationAware
 import org.grails.taglib.GrailsTagException
 
 import java.text.DateFormatSymbols
@@ -23,10 +25,21 @@ import org.joda.time.format.ISODateTimeFormat
 import org.springframework.web.servlet.support.RequestContextUtils
 import org.joda.time.*
 
-class DateTimeTagLib {
+class DateTimeTagLib implements GrailsConfigurationAware {
 
 	static namespace = "joda"
 	static defaultEncodeAs = "raw"
+
+	String precision
+	Integer yearsBelow
+	Integer yearsAbove
+
+	@Override
+	void setConfiguration(Config co) {
+		precision = co.getProperty('grails.tags.datePicker.default.precision', 'minute')
+		yearsBelow = co.getProperty('grails.tags.datePicker.default.yearsBelow', Integer, 100)
+		yearsAbove = co.getProperty('grails.tags.datePicker.default.yearsAbove', Integer, 100)
+	}
 
 	def datePicker = {attrs ->
 		log.debug '***** joda:datePicker *****'
@@ -47,7 +60,7 @@ class DateTimeTagLib {
 	}
 
 	def renderPicker = {List fields, attrs ->
-		def precision = attrs.precision ?: (grailsApplication.config.grails.tags.datePicker.default.precision ?: 'minute')
+		def precision = attrs.precision ?: precision
 		log.debug "precision = $precision"
 
 		log.debug "fields = $fields"
@@ -75,7 +88,8 @@ class DateTimeTagLib {
 		def value = attrs.value
 		if (value == 'none') {
 			value = null
-		} else if (!value) {
+		}
+		else if (!value) {
 			value = defaultValue
 		}
 		log.debug "value = $value"
@@ -94,9 +108,13 @@ class DateTimeTagLib {
 
 		if (!years) {
 			def tempyear = null
-			if (value && value?.isSupported(DateTimeFieldType.year())) tempyear = value.year
-			else tempyear = new LocalDate().year
-            years = (tempyear - (grailsApplication.config.grails.tags.datePicker.default.yearsBelow ?: 100))..(tempyear + (grailsApplication.config.grails.tags.datePicker.default.yearsAbove ?: 100))
+			if (value && value?.isSupported(DateTimeFieldType.year())) {
+				tempyear = value.year
+			}
+			else {
+				tempyear = new LocalDate().year
+			}
+            years = (tempyear - yearsBelow)..(tempyear + yearsAbove)
 		}
 
 		log.debug "starting rendering"

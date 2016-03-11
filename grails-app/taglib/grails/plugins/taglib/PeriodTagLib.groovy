@@ -15,6 +15,8 @@
  */
 package grails.plugins.taglib
 
+import grails.config.Config
+import grails.core.support.GrailsConfigurationAware
 import org.joda.time.Duration
 import org.joda.time.DurationFieldType
 import org.joda.time.Period
@@ -23,10 +25,16 @@ import org.joda.time.format.PeriodFormat
 import static org.joda.time.DurationFieldType.months
 import static org.joda.time.DurationFieldType.years
 
-class PeriodTagLib {
+class PeriodTagLib implements GrailsConfigurationAware {
 
 	static namespace = "joda"
 	static encodeAsForTags = [periodPicker: "raw"]
+
+	String configFields
+
+	void setConfiguration(Config co) {
+		configFields = co.getProperty('jodatime.periodpicker.default.fields')
+	}
 
 	def periodPicker = {attrs ->
 		def name = attrs.name
@@ -73,8 +81,8 @@ class PeriodTagLib {
 		PeriodType periodType
 		if (fields) {
 			periodType = getPeriodTypeForFields(fields)
-        } else if (grailsApplication.config.jodatime?.periodpicker?.default?.fields) {
-            periodType = getPeriodTypeForFields(grailsApplication.config.jodatime.periodpicker.default.fields)
+        } else if (configFields) {
+            periodType = getPeriodTypeForFields(configFields)
 		} else {
 			periodType = defaultPeriodType
 		}
