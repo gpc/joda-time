@@ -28,5 +28,4 @@ class DateTimeZoneEditor extends PropertyEditorSupport {
 	void setAsText(String text) {
 		value = text ? DateTimeZone.forID(text) : null
 	}
-
 }

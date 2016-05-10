@@ -20,7 +20,13 @@ import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import org.grails.plugins.codecs.HTMLCodec
 import org.grails.taglib.GrailsTagException
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeUtils
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
+import org.joda.time.YearMonth
 import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -33,7 +39,7 @@ import static org.joda.time.DateTimeZone.UTC
 @Unroll
 class Html5InputTagLibSpec extends Specification {
 
-	def setup() {
+	void setup() {
 		mockCodec HTMLCodec
 
 		tagLib.request.addPreferredLocale Locale.UK
@@ -42,11 +48,11 @@ class Html5InputTagLibSpec extends Specification {
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
 	}
 
-	def cleanup() {
+	void cleanup() {
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
-	def "#tag tag renders an HTML5 input"() {
+	void "#tag tag renders an HTML5 input"() {
 		when:
 		def output = applyTemplate("<joda:$tag name=\"foo\"/>")
 
@@ -67,7 +73,7 @@ class Html5InputTagLibSpec extends Specification {
 		"datetimeField"      | 'datetime'
 	}
 
-	def "#tag tag renders its value in the correct format"() {
+	void "#tag tag renders its value in the correct format"() {
 		when:
 		def output = applyTemplate("<joda:$tag name=\"foo\" value=\"\${value}\"/>", [value: new DateTime()])
 
@@ -83,7 +89,7 @@ class Html5InputTagLibSpec extends Specification {
 		"weekField"          | "2008-W40"
 	}
 
-	def "datetimeField renders its value in the correct format for UTC"() {
+	void "datetimeField renders its value in the correct format for UTC"() {
 		given:
 		def value = new DateTime().toLocalDateTime().toDateTime(UTC)
 
@@ -94,7 +100,7 @@ class Html5InputTagLibSpec extends Specification {
 		$(output).find('input').attr('value') == '2008-10-02T02:50:33.000Z'
 	}
 
-	def "datetimeField renders its value in the correct format for non-UTC"() {
+	void "datetimeField renders its value in the correct format for non-UTC"() {
 		given:
 		def value = new DateTime().toLocalDateTime().toDateTime(DateTimeZone.forOffsetHours(-8))
 
@@ -106,7 +112,7 @@ class Html5InputTagLibSpec extends Specification {
 	}
 
 	@Ignore
-	def "datetimeField handles partial values"() {
+	void "datetimeField handles partial values"() {
 		given:
 		def value = new LocalDateTime()
 
@@ -117,7 +123,7 @@ class Html5InputTagLibSpec extends Specification {
 		$(output).find('input').attr('value') == '2008-10-02T02:50:33.000Z'
 	}
 
-	def "joda:time rejects a #value.class.simpleName value attribute"() {
+	void "joda:time rejects a #value.class.simpleName value attribute"() {
 		when:
 		applyTemplate('<joda:time value="${value}">body</joda:time>', [value: value])
 
@@ -128,12 +134,12 @@ class Html5InputTagLibSpec extends Specification {
 		value << ["a string", new Date(), new YearMonth()]
 	}
 
-	def "joda:time does nothing if passed a null value"() {
+	void "joda:time does nothing if passed a null value"() {
 		expect:
 		applyTemplate('<joda:time value="${value}">body</joda:time>', [value: null]) == ""
 	}
 
-	def "joda:time defaults the value to current time if no attribute is passed at all"() {
+	void "joda:time defaults the value to current time if no attribute is passed at all"() {
 		when:
 		def output = applyTemplate('<joda:time>body</joda:time>')
 
@@ -141,7 +147,7 @@ class Html5InputTagLibSpec extends Specification {
 		$(output).find('time').attr('datetime') ==~ /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(Z|[-\+]\d{2}:\d{2})/
 	}
 
-	def "joda:time outputs a time element with a datetime attribute '#datetimeAttribute' for the value #value"() {
+	void "joda:time outputs a time element with a datetime attribute '#datetimeAttribute' for the value #value"() {
 		when:
 		def output = applyTemplate('<joda:time value="${value}">body</joda:time>', [value: value])
 
@@ -157,7 +163,7 @@ class Html5InputTagLibSpec extends Specification {
 		new LocalDateTime(2008, 10, 2, 1, 50).toDateTime(DateTimeZone.forOffsetHours(-8)) | "2008-10-02T01:50-08:00"
 	}
 
-	def "joda:time passes the value to its body"() {
+	void "joda:time passes the value to its body"() {
 		given:
 		def value = new LocalDate(2008, 10, 2)
 
@@ -168,7 +174,7 @@ class Html5InputTagLibSpec extends Specification {
 		$(output).find('time').text() == 'October 2 2008'
 	}
 
-	def "joda:time accepts a var attribute"() {
+	void "joda:time accepts a var attribute"() {
 		given:
 		def value = new LocalDate(2008, 10, 2)
 
@@ -179,7 +185,7 @@ class Html5InputTagLibSpec extends Specification {
 		$(output).find('time').text() == 'October 2 2008'
 	}
 
-	def "joda:time outputs default text for a #value.class.simpleName value if the body is omitted"() {
+	void "joda:time outputs default text for a #value.class.simpleName value if the body is omitted"() {
 		when:
 		def output = applyTemplate('<joda:time value="${value}"/>', [value: value])
 
@@ -192,7 +198,7 @@ class Html5InputTagLibSpec extends Specification {
 		new LocalDateTime(2008, 10, 2, 1, 50).toDateTime(UTC) | '02-Oct-2008 01:50:00'
 	}
 
-	def "joda:time can accept other attributes"() {
+	void "joda:time can accept other attributes"() {
 		given:
 		def value = new LocalDate(2008, 10, 2)
 
@@ -202,5 +208,4 @@ class Html5InputTagLibSpec extends Specification {
 		then:
 		$(output).find('time').attr('pubdate') == ''
 	}
-
 }

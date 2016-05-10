@@ -20,6 +20,7 @@ import org.joda.time.DurationFieldType
 import org.joda.time.Period
 import org.joda.time.PeriodType
 import org.joda.time.format.PeriodFormat
+
 import static org.joda.time.DurationFieldType.months
 import static org.joda.time.DurationFieldType.years
 
@@ -28,7 +29,7 @@ class PeriodTagLib {
 	static namespace = "joda"
 	static encodeAsForTags = [periodPicker: "raw"]
 
-	def periodPicker = {attrs ->
+	def periodPicker = { attrs ->
 		def name = attrs.name
 		def id = attrs.id ?: name
 		def value = attrs.value
@@ -39,18 +40,18 @@ class PeriodTagLib {
 			value = value.toPeriod(periodType)
 		}
 
-		out << "<input type=\"hidden\" name=\"$name\" value=\"struct\" />"
+		out << """<input type="hidden" name="$name" value="struct" />"""
 
 		(0..<periodType.size()).each {i ->
 			def fieldType = periodType.getFieldType(i)
-			out << "<label for=\"${id}_${fieldType.name}\">"
+			out << """<label for="${id}_${fieldType.name}">"""
 			out << """<input type="text" name="${name}_${fieldType.name}" id="${id}_${fieldType.name}" value="${value?.get(fieldType) ?: 0}" size="1"/>"""
 			out << "&nbsp;" << getLabelFor(fieldType) << " "
 			out << "</label>"
 		}
 	}
 
-	def formatPeriod = {attrs ->
+	def formatPeriod = { attrs ->
 		def value = attrs.value
 		if (!value) {
 			throwTagError("'value' attribute is required")
@@ -70,15 +71,16 @@ class PeriodTagLib {
 	}
 
 	private PeriodType getPeriodType(String fields, PeriodType defaultPeriodType) {
-		PeriodType periodType
 		if (fields) {
-			periodType = getPeriodTypeForFields(fields)
-        } else if (grailsApplication.config.jodatime?.periodpicker?.default?.fields) {
-            periodType = getPeriodTypeForFields(grailsApplication.config.jodatime.periodpicker.default.fields)
-		} else {
-			periodType = defaultPeriodType
+			return getPeriodTypeForFields(fields)
 		}
-		return periodType
+
+		def defaultFields = grailsApplication.config.jodatime?.periodpicker?.default?.fields
+		if (defaultFields) {
+			return getPeriodTypeForFields(defaultFields)
+		}
+
+		defaultPeriodType
 	}
 
 	private static final PeriodType DEFAULT_PERIOD_TYPE = getPeriodTypeForFields("hours,minutes,seconds")
@@ -109,5 +111,4 @@ class PeriodTagLib {
 		def defaultLabel = bundle.getString("PeriodFormat.$fieldType.name").trim()
 		message(code: "${DurationFieldType.name}.$fieldType.name", default: defaultLabel)
 	}
-
 }

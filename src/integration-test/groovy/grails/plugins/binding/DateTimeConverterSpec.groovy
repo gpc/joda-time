@@ -4,7 +4,12 @@ import grails.databinding.SimpleMapDataBindingSource
 import grails.persistence.Entity
 import grails.test.mixin.integration.Integration
 import grails.web.databinding.GrailsWebDataBinder
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.i18n.LocaleContextHolder
 import spock.lang.Specification
@@ -14,10 +19,11 @@ class DateTimeConverterSpec extends Specification {
 
     @Autowired
     GrailsWebDataBinder grailsWebDataBinder
+
     static currentLocale
     static currentTimeZone
 
-    def setupSpec() {
+    void setupSpec() {
         currentLocale = LocaleContextHolder.locale
         LocaleContextHolder.locale = Locale.UK
 
@@ -25,7 +31,7 @@ class DateTimeConverterSpec extends Specification {
         DateTimeZone.default == DateTimeZone.UTC
     }
 
-    def cleanupSpec() {
+    void cleanupSpec() {
         LocaleContextHolder.locale = currentLocale
         DateTimeZone.default = currentTimeZone
     }

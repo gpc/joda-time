@@ -4,11 +4,11 @@ import grails.databinding.converters.ValueConverter
 import org.joda.time.DateTimeZone
 
 class DateTimeZoneConverter implements ValueConverter {
-    boolean canConvert(Object value) {
+    boolean canConvert(value) {
         value instanceof String
     }
 
-    Object convert(Object value) {
+    def convert(value) {
         DateTimeZone.forID(value)
     }
 

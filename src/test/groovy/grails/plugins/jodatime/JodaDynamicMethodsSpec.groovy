@@ -21,21 +21,22 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static grails.plugins.jodatime.JodaDynamicMethods.registerDynamicMethods
-import static org.joda.time.DateTimeUtils.*
+import static org.joda.time.DateTimeUtils.setCurrentMillisFixed
+import static org.joda.time.DateTimeUtils.setCurrentMillisSystem
 
 @Unroll
 class JodaDynamicMethodsSpec extends Specification {
 
-	def setupSpec() {
+	void setupSpec() {
 		registerDynamicMethods()
 		setCurrentMillisFixed new DateTime(2008, 10, 2, 2, 50, 0, 0).millis
 	}
 
-	def cleanupSpec() {
+	void cleanupSpec() {
 		setCurrentMillisSystem()
 	}
 
-	def "format works on #type.simpleName"() {
+	void "format works on #type.simpleName"() {
 		expect:
 		type.newInstance().format(format) == expected
 
@@ -46,7 +47,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		LocalTime | "HH:mm:ss"            | "02:50:00"
 	}
 
-	def "negation operator works on #type.simpleName"() {
+	void "negation operator works on #type.simpleName"() {
 		expect: -value == expected
 
 		where:
@@ -55,7 +56,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		expected = type.newInstance(-3)
 	}
 
-	def "multiplication operator works on #type.simpleName"() {
+	void "multiplication operator works on #type.simpleName"() {
 		expect: value * 2 == expected
 
 		where:
@@ -64,7 +65,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		expected = type.newInstance(6)
 	}
 
-	def "division operator works on #type.simpleName"() {
+	void "division operator works on #type.simpleName"() {
 		expect: "division producing an integeger works"
 		value / 3 == expected
 
@@ -77,7 +78,7 @@ class JodaDynamicMethodsSpec extends Specification {
 		expected = type.newInstance(1)
 	}
 
-	def "standard groovy operators work on #type.simpleName"() {
+	void "standard groovy operators work on #type.simpleName"() {
 		expect:
 		// the following should just work
 		value + value == type.newInstance(6)
@@ -92,7 +93,7 @@ class JodaDynamicMethodsSpec extends Specification {
 	}
 
 	@Issue("http://jira.grails.org/browse/GPJODATIME-14")
-	def "can use `next` and `previous` on #value.class.simpleName"() {
+	void "can use `next` and `previous` on #value.class.simpleName"() {
 		expect:
 		value.next() == value + increment
 		value.previous() == value - increment
@@ -108,5 +109,4 @@ class JodaDynamicMethodsSpec extends Specification {
 		new TimeOfDay(13, 11, 28)               | Hours.ONE
 		new YearMonth(2011, 10)                 | Months.ONE
 	}
-
 }

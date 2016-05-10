@@ -30,16 +30,16 @@ class StructuredPeriodEditor extends PeriodEditor implements StructuredPropertyE
 		super(type)
 	}
 
-	public List getRequiredFields() {
+	List getRequiredFields() {
 		return []
 	}
 
-	public List getOptionalFields() {
+	List getOptionalFields() {
 		def fields = type == Duration ? SUPPORTED_DURATION_FIELDS : SUPPORTED_PERIOD_FIELDS
 		return fields.collect { it.name }
 	}
 
-	public Object assemble(Class type, Map fieldValues) {
+	def assemble(Class type, Map fieldValues) {
 		try {
 			def fields = type == Duration ? SUPPORTED_DURATION_FIELDS : SUPPORTED_PERIOD_FIELDS
 			def period = new MutablePeriod()
@@ -53,5 +53,4 @@ class StructuredPeriodEditor extends PeriodEditor implements StructuredPropertyE
 			throw new IllegalArgumentException('Unable to parse structured period from request for period ["+propertyName+"]"')
 		}
 	}
-
 }

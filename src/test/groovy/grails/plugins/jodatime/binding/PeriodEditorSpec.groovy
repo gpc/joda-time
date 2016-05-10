@@ -23,7 +23,7 @@ import spock.lang.Unroll
 @Unroll
 class PeriodEditorSpec extends Specification {
 
-	def "getAsText formats #value correctly"() {
+	void "getAsText formats #value correctly"() {
 		given: def editor = new PeriodEditor(type)
 		when: editor.value = value
 		then: editor.asText == expected
@@ -35,7 +35,7 @@ class PeriodEditorSpec extends Specification {
 		Duration | new Period(1, 35, 16, 0).toStandardDuration() | "1 hour, 35 minutes and 16 seconds"
 	}
 
-	def "setAsText handles #text correctly"() {
+	void "setAsText handles #text correctly"() {
 		given: def editor = new PeriodEditor(type)
 		when: editor.asText = text
 		then: editor.value == expected
@@ -46,5 +46,4 @@ class PeriodEditorSpec extends Specification {
 		Period   | "1 year, 2 months, 4 days, 8 hours, 12 minutes and 35 seconds" | new Period(1, 2, 0, 4, 8, 12, 35, 0)
 		Duration | "1 hour, 35 minutes and 16 seconds"                            | new Period(1, 35, 16, 0).toStandardDuration()
 	}
-
 }

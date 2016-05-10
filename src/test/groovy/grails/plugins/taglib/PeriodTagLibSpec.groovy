@@ -23,7 +23,9 @@ import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static java.util.Locale.*
+import static java.util.Locale.ENGLISH
+import static java.util.Locale.FRENCH
+import static java.util.Locale.GERMAN
 import static jodd.jerry.Jerry.jerry as $
 
 @Unroll
@@ -261,5 +263,4 @@ class PeriodTagLibSpec extends Specification {
 
 		value = new Period().withHours(1)
 	}
-
 }

@@ -13,12 +13,14 @@ import spock.lang.Specification
 
 @Integration
 class PeriodConverterSpec extends Specification {
+
     @Autowired
     GrailsWebDataBinder grailsWebDataBinder
+
     static currentLocale
     static currentTimeZone
 
-    def setupSpec() {
+    void setupSpec() {
         currentLocale = LocaleContextHolder.locale
         LocaleContextHolder.locale = Locale.UK
 
@@ -26,7 +28,7 @@ class PeriodConverterSpec extends Specification {
         DateTimeZone.default == DateTimeZone.UTC
     }
 
-    def cleanupSpec() {
+    void cleanupSpec() {
         LocaleContextHolder.locale = currentLocale
         DateTimeZone.default = currentTimeZone
     }
@@ -53,4 +55,3 @@ class PeriodConverterSpecEntity {
     Period period
     Duration duration
 }
-

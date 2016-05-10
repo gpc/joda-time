@@ -17,7 +17,12 @@ package grails.plugins.jodatime.binding
 
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
 import org.springframework.context.i18n.LocaleContextHolder
 import spock.lang.IgnoreRest
 import spock.lang.Specification
@@ -36,7 +41,7 @@ class DateTimeEditorSpec extends Specification {
     // it is frankly shocking that Grails requires me to do this. The test environment is not properly idempotent as configuration changes will leak from one test to another
   }
 
-  def "getAsText converts null to empty string"() {
+  void "getAsText converts null to empty string"() {
     given:
     def editor = new DateTimeEditor(LocalDate)
 
@@ -44,7 +49,7 @@ class DateTimeEditorSpec extends Specification {
     then: editor.asText == ""
   }
 
-  def "setAsText converts empty string to null"() {
+  void "setAsText converts empty string to null"() {
     given:
     def editor = new DateTimeEditor(LocalDate)
 
@@ -52,7 +57,7 @@ class DateTimeEditorSpec extends Specification {
     then: editor.value == null
   }
 
-  def "getAsText formats #type.simpleName instances correctly for #locale locale"() {
+  void "getAsText formats #type.simpleName instances correctly for #locale locale"() {
     given:
     def editor = new DateTimeEditor(type)
 
@@ -76,7 +81,7 @@ class DateTimeEditorSpec extends Specification {
     Instant       | new Instant(92554380000)              | US     | "12/7/72 5:33 AM"
   }
 
-  def "getAsText formats #type.simpleName instances correctly according to a configured pattern"() {
+  void "getAsText formats #type.simpleName instances correctly according to a configured pattern"() {
     given:
     grailsApplication.config.jodatime = [format: ["org.joda.time.$type.simpleName": config]]
 
@@ -95,7 +100,7 @@ class DateTimeEditorSpec extends Specification {
     Instant       | "dd/MM/yyyy h:mm a Z" | new Instant(92554380000)                   | "07/12/1972 5:33 AM +0000"
   }
 
-  def "getAsText formats #type.simpleName instances correctly for HTML5"() {
+  void "getAsText formats #type.simpleName instances correctly for HTML5"() {
     given:
     grailsApplication.config.jodatime = [format: [html5: true]]
 
@@ -115,7 +120,7 @@ class DateTimeEditorSpec extends Specification {
   }
 
   @IgnoreRest
-  def "Instant values are always formatted as UTC"() {
+  void "Instant values are always formatted as UTC"() {
     given:
     grailsApplication.config.jodatime = [format:[html5: true]]
 
@@ -133,7 +138,7 @@ class DateTimeEditorSpec extends Specification {
     DateTimeZone.default = defaultTimeZone
   }
 
-  def "setAsText parses #type.simpleName instances from #locale locale format text"() {
+  void "setAsText parses #type.simpleName instances from #locale locale format text"() {
     given:
     def editor = new DateTimeEditor(type)
 
@@ -156,7 +161,7 @@ class DateTimeEditorSpec extends Specification {
     Instant       | "12/7/72 5:33 AM" | US     | new DateTime(1972, 12, 7, 5, 33, 0, 0).toInstant()
   }
 
-  def "setAsText parses #type.simpleName instances correctly according to a configured pattern"() {
+  void "setAsText parses #type.simpleName instances correctly according to a configured pattern"() {
     given:
     grailsApplication.config.jodatime = [format: ["org.joda.time.$type.simpleName": config]]
 
@@ -175,7 +180,7 @@ class DateTimeEditorSpec extends Specification {
     Instant       | "dd/MM/yyyy h:mm a Z" | "07/12/1972 12:33 AM -0500" | new DateTime(1972, 12, 7, 5, 33, 0, 0, UTC).toInstant()
   }
 
-  def "setAsText parses #type.simpleName instances correctly using HTML5 format"() {
+  void "setAsText parses #type.simpleName instances correctly using HTML5 format"() {
     given:
     grailsApplication.config.jodatime = [format: [html5: true]]
 
@@ -196,7 +201,7 @@ class DateTimeEditorSpec extends Specification {
     Instant       | "1972-12-07T05:33:00.000Z"  | new DateTime(1972, 12, 7, 5, 33, 0, 0, UTC).toInstant()
   }
 
-  def "configured format trumps HTML5"() {
+  void "configured format trumps HTML5"() {
     given:
     grailsApplication.config.jodatime = [format: [html5: true, "$LocalDate.name":"dd/MM/yyyy"]]
 
@@ -206,5 +211,4 @@ class DateTimeEditorSpec extends Specification {
     when: editor.value = new LocalDate(1971, 11, 29)
     then: editor.asText == "29/11/1971"
   }
-
 }

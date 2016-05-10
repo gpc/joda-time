@@ -21,7 +21,11 @@ import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
 import groovy.transform.CompileStatic
 import org.grails.web.json.JSONElement
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -35,7 +39,7 @@ class ConversionSpec extends Specification {
 		JodaConverters.registerJsonAndXmlMarshallers()
 	}
 
-	def "can marshal a #value.class.simpleName object to XML"() {
+	void "can marshal a #value.class.simpleName object to XML"() {
 		given:
 		def o = [value: value]
 
@@ -55,7 +59,7 @@ class ConversionSpec extends Specification {
 		DateTimeZone.forID("America/Vancouver")                  | "America/Vancouver"
 	}
 
-	def "can marshal a #value.class.simpleName object to JSON"() {
+	void "can marshal a #value.class.simpleName object to JSON"() {
 		given:
 		def o = [value: value]
 
@@ -90,5 +94,4 @@ class ConversionSpec extends Specification {
 		def xml = XML.parse(sw.toString())
 		return xml
 	}
-
 }

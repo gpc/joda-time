@@ -26,25 +26,25 @@ import spock.lang.Specification
 @TestFor(DateTimeZoneTagLib)
 class DateTimeZoneTagLibSpec extends Specification {
 
-	def defaultZone
+	private defaultZone
 
-	def setup() {
+	void setup() {
 		mockCodec HTMLCodec
 
 		defaultZone = DateTimeZone.default
 	}
 
-	def cleanup() {
+	void cleanup() {
 		DateTimeZone.default = defaultZone
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
-	def "current zone is selected by default"() {
+	void "current zone is selected by default"() {
 		expect:
 		applyTemplate('<joda:dateTimeZoneSelect name="foo"/>') =~ /<option value="${DateTimeZone.default.ID}" selected="selected" >/
 	}
 
-	def "value attribute is passed to select"() {
+	void "value attribute is passed to select"() {
 		given:
 		def zone = DateTimeZone.forID("Canada/Pacific")
 
@@ -52,7 +52,7 @@ class DateTimeZoneTagLibSpec extends Specification {
 		applyTemplate('<joda:dateTimeZoneSelect name="foo" value="${zone}"/>', [zone: zone]) =~ /<option value="${zone.ID}" selected="selected" >/
 	}
 
-	def "option formatting"() {
+	void "option formatting"() {
 		given:
 		DateTimeUtils.setCurrentMillisFixed new DateTime(2009, 1, 1, 0, 0, 0, 0, DateTimeZone.UTC).millis
 
@@ -64,7 +64,7 @@ class DateTimeZoneTagLibSpec extends Specification {
 		output.contains(">Europe/London +00:00<")
 	}
 
-	def "options are DST sensitive"() {
+	void "options are DST sensitive"() {
 		given:
 		DateTimeUtils.setCurrentMillisFixed new DateTime(2009, 8, 1, 0, 0, 0, 0, DateTimeZone.UTC).millis
 
@@ -77,7 +77,7 @@ class DateTimeZoneTagLibSpec extends Specification {
 	}
 
 	@Ignore
-	def "no duplicate options appear"() {
+	void "no duplicate options appear"() {
 		tagLib.dateTimeZoneSelect([:])
 		def options = selectAttrs.from.collect {
 			selectAttrs.optionValue(it)

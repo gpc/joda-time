@@ -23,7 +23,10 @@ import grails.test.mixin.TestMixin
 import grails.test.mixin.web.ControllerUnitTestMixin
 import grails.util.GrailsNameUtils
 import groovy.transform.CompileStatic
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -55,7 +58,7 @@ class JSONBindingSpec extends Specification {
 		}
 	}
 
-	def "can unmarshal a #expected.class.simpleName object from a JSON element #value"() {
+	void "can unmarshal a #expected.class.simpleName object from a JSON element #value"() {
 		given:
 		def json = JSON.parse("""{$propertyName: "$value"}""")
 
@@ -78,7 +81,6 @@ class JSONBindingSpec extends Specification {
 
 		propertyName = GrailsNameUtils.getPropertyNameRepresentation(expected.class.simpleName)
 	}
-
 }
 
 @CompileStatic

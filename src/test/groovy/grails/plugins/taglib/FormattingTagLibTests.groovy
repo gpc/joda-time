@@ -18,7 +18,11 @@ package grails.plugins.taglib
 import grails.plugins.jodatime.JodaTimeUtils
 import grails.test.mixin.TestFor
 import org.grails.taglib.GrailsTagException
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeUtils
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.joda.time.chrono.IslamicChronology
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
@@ -28,14 +32,14 @@ import org.junit.Test
 @TestFor(FormattingTagLib)
 class FormattingTagLibTests {
 
-    DateTimeZone defaultTimeZone
+	DateTimeZone defaultTimeZone
 
 	@Before
 	void setUp() {
 		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0, DateTimeZone.forID("Europe/London"))
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
-        defaultTimeZone = DateTimeZone.default
-        DateTimeZone.default = DateTimeZone.forID("Europe/London")
+		defaultTimeZone = DateTimeZone.default
+		DateTimeZone.default = DateTimeZone.forID("Europe/London")
 
 		tagLib.request.addPreferredLocale Locale.UK
 	}
@@ -44,7 +48,7 @@ class FormattingTagLibTests {
 	void tearDown() {
 		grailsApplication.config.jodatime.clear()
 		DateTimeUtils.setCurrentMillisSystem()
-        DateTimeZone.default = defaultTimeZone
+		DateTimeZone.default = defaultTimeZone
 	}
 
 	@Test
@@ -89,7 +93,7 @@ class FormattingTagLibTests {
 	@Test
 	void formatStyleAttributeInPreferenceToConfigDefault() {
 		grailsApplication.config.jodatime.format.org.joda.time.DateTime = "[z] dd-MM-yyyy@HH:mm:ss"
-		
+
 		JodaTimeUtils.withDateTimeZone(DateTimeZone.forID('Europe/London')) {
 			assert applyTemplate('<joda:format style="F-"/>') == "Thursday, 2 October 2008"
 		}
@@ -157,5 +161,4 @@ class FormattingTagLibTests {
 
 		assert applyTemplate('<joda:inputPattern/>') == "[z] dd-MM-yyyy@HH:mm:ss"
 	}
-
 }

@@ -1,6 +1,10 @@
 package grails.plugins.jodatime.util
 
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DurationFieldType
+import org.joda.time.Interval
+import org.joda.time.ReadableInstant
+import org.joda.time.ReadablePartial
 
 /**
  * A `Range` implementation useful for representing date/time ranges with different increments.
@@ -8,7 +12,7 @@ import org.joda.time.*
 class DateTimeRange extends ObjectRange {
 
 	private final DurationFieldType increment
-	
+
 	static <T extends ReadablePartial> Range<T> asRange(DurationFieldType increment, T from, T to) {
 		new DateTimeRange(increment, from, to)
 	}
@@ -68,13 +72,12 @@ class DateTimeRange extends ObjectRange {
 	}
 
 	@Override
-	protected Object increment(Object value) {
+	protected increment(value) {
 		value.withFieldAdded(increment, 1)
 	}
 
 	@Override
-	protected Object decrement(Object value) {
+	protected decrement(value) {
 		value.withFieldAdded(increment, -1)
 	}
-
 }

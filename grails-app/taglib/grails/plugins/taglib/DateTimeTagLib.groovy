@@ -16,38 +16,42 @@
 package grails.plugins.taglib
 
 import org.grails.taglib.GrailsTagException
-
-import java.text.DateFormatSymbols
+import org.joda.time.DateTime
+import org.joda.time.DateTimeFieldType
+import org.joda.time.LocalDate
+import org.joda.time.ReadableInstant
+import org.joda.time.ReadablePartial
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import org.springframework.web.servlet.support.RequestContextUtils
-import org.joda.time.*
+
+import java.text.DateFormatSymbols
 
 class DateTimeTagLib {
 
 	static namespace = "joda"
 	static defaultEncodeAs = "raw"
 
-	def datePicker = {attrs ->
+	def datePicker = { attrs ->
 		log.debug '***** joda:datePicker *****'
 		def fields = [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth()]
 		renderPicker(fields, attrs)
 	}
 
-	def timePicker = {attrs ->
+	def timePicker = { attrs ->
 		log.debug '***** joda:timePicker *****'
 		def fields = [DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour(), DateTimeFieldType.secondOfMinute()]
 		renderPicker(fields, attrs)
 	}
 
-	def dateTimePicker = {attrs ->
+	def dateTimePicker = { attrs ->
 		log.debug '***** joda:dateTimePicker *****'
 		def fields = [DateTimeFieldType.year(), DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth(), DateTimeFieldType.hourOfDay(), DateTimeFieldType.minuteOfHour(), DateTimeFieldType.secondOfMinute()]
 		renderPicker(fields, attrs)
 	}
 
 	def renderPicker = {List fields, attrs ->
-		def precision = attrs.precision ?: (grailsApplication.config.grails.tags.datePicker.default.precision ?: 'minute')
+		def precision = attrs.precision ?: (datePickerConfig.default.precision ?: 'minute')
 		log.debug "precision = $precision"
 
 		log.debug "fields = $fields"
@@ -93,10 +97,8 @@ class DateTimeTagLib {
 		def dfs = new DateFormatSymbols(RequestContextUtils.getLocale(request))
 
 		if (!years) {
-			def tempyear = null
-			if (value && value?.isSupported(DateTimeFieldType.year())) tempyear = value.year
-			else tempyear = new LocalDate().year
-            years = (tempyear - (grailsApplication.config.grails.tags.datePicker.default.yearsBelow ?: 100))..(tempyear + (grailsApplication.config.grails.tags.datePicker.default.yearsAbove ?: 100))
+			def tempyear = value && value?.isSupported(DateTimeFieldType.year()) ? value.year : new LocalDate().year
+			years = (tempyear - (datePickerConfig.default.yearsBelow ?: 100))..(tempyear + (datePickerConfig.default.yearsAbove ?: 100))
 		}
 
 		log.debug "starting rendering"
@@ -279,4 +281,7 @@ class DateTimeTagLib {
 		out << '>' << noSelectionValue.encodeAsHTML() << '</option>'
 	}
 
+	private getDatePickerConfig() {
+		grailsApplication.config.grails.tags.datePicker
+	}
 }

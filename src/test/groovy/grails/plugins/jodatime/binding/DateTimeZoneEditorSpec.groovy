@@ -15,32 +15,30 @@
  */
 package grails.plugins.jodatime.binding
 
-import grails.plugins.spock.*
 import org.joda.time.DateTimeZone
 import spock.lang.Specification
 
 class DateTimeZoneEditorSpec extends Specification {
 
-	def editor = new DateTimeZoneEditor()
+	private editor = new DateTimeZoneEditor()
 
-	def "getAsText handles null"() {
+	void "getAsText handles null"() {
 		when: editor.value = null
 		then: editor.asText == ""
 	}
 
-	def "getAsText returns zone ID"() {
+	void "getAsText returns zone ID"() {
 		when: editor.value = DateTimeZone.forID("Europe/London")
 		then: editor.asText == "Europe/London"
 	}
 
-	def "setAsText accepts zone ID"() {
+	void "setAsText accepts zone ID"() {
 		when: editor.asText = "Europe/London"
 		then: editor.value == DateTimeZone.forID("Europe/London")
 	}
 
-	def "setAsText handles null"() {
+	void "setAsText handles null"() {
 		when: editor.asText = ""
 		then: editor.value == null
 	}
-
 }

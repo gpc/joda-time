@@ -28,7 +28,7 @@ class PeriodEditor extends PropertyEditorSupport {
 
 	private static final PeriodFormatter FORMATTER = PeriodFormat.default
 
-	static final SUPPORTED_TYPES = [Duration, Period].asImmutable()
+	static final Collection<Class> SUPPORTED_TYPES = [Duration, Period].asImmutable()
 	private static final DURATION_PERIOD_TYPE = PeriodType.forFields([DurationFieldType.hours(), DurationFieldType.minutes(), DurationFieldType.seconds(), DurationFieldType.millis()] as DurationFieldType[])
 
 	protected final Class type
@@ -36,17 +36,21 @@ class PeriodEditor extends PropertyEditorSupport {
 	PeriodEditor(Class type) {
 		this.type = type
 	}
-	
+
 	String getAsText() {
 		if (!value) {
 			return ""
-		} else if (type == Period) {
-			return FORMATTER.print(value)
-		} else if (type == Duration) {
-			return FORMATTER.print(value.toPeriod(DURATION_PERIOD_TYPE))
-		} else {
-			throw new IllegalStateException("Unsupported type $type")
 		}
+
+		if (type == Period) {
+			return FORMATTER.print(value)
+		}
+
+		if (type == Duration) {
+			return FORMATTER.print(value.toPeriod(DURATION_PERIOD_TYPE))
+		}
+
+		throw new IllegalStateException("Unsupported type $type")
 	}
 
 	void setAsText(String text) {
@@ -60,5 +64,4 @@ class PeriodEditor extends PropertyEditorSupport {
 			throw new IllegalStateException("Unsupported type $type")
 		}
 	}
-
 }

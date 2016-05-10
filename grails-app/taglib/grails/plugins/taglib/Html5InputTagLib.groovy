@@ -16,9 +16,22 @@
 
 package grails.plugins.taglib
 
-import static grails.plugins.jodatime.Html5DateTimeFormat.*
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
+import org.joda.time.ReadableInstant
+import org.joda.time.YearMonthDay
 
+import static grails.plugins.jodatime.Html5DateTimeFormat.date
+import static grails.plugins.jodatime.Html5DateTimeFormat.datetime
+import static grails.plugins.jodatime.Html5DateTimeFormat.datetimeLocal
+import static grails.plugins.jodatime.Html5DateTimeFormat.datetimeLocalShort
+import static grails.plugins.jodatime.Html5DateTimeFormat.datetimeShort
+import static grails.plugins.jodatime.Html5DateTimeFormat.month
+import static grails.plugins.jodatime.Html5DateTimeFormat.time
+import static grails.plugins.jodatime.Html5DateTimeFormat.timeShort
+import static grails.plugins.jodatime.Html5DateTimeFormat.week
 import static org.grails.gsp.GroovyPage.EMPTY_BODY_CLOSURE
 
 class Html5InputTagLib {
@@ -26,7 +39,7 @@ class Html5InputTagLib {
 	static final namespace = "joda"
 	static defaultEncodeAs = "raw"
 
-	def dateField = {attrs ->
+	def dateField = { attrs ->
 		attrs.type = "date"
 		attrs.tagName = "dateField"
 		if (attrs.value) {
@@ -35,7 +48,7 @@ class Html5InputTagLib {
 		out << g.field(attrs)
 	}
 
-	def timeField = {attrs ->
+	def timeField = { attrs ->
 		attrs.type = "time"
 		attrs.tagName = "timeField"
 		if (attrs.value) {
@@ -44,7 +57,7 @@ class Html5InputTagLib {
 		out << g.field(attrs)
 	}
 
-	def datetimeField = {attrs ->
+	def datetimeField = { attrs ->
 		attrs.type = "datetime"
 		attrs.tagName = "datetimeField"
 		if (attrs.value) {
@@ -53,7 +66,7 @@ class Html5InputTagLib {
 		out << g.field(attrs)
 	}
 
-	def datetimeLocalField = {attrs ->
+	def datetimeLocalField = { attrs ->
 		attrs.type = "datetime-local"
 		attrs.tagName = "datetimeLocalField"
 		if (attrs.value) {
@@ -62,7 +75,7 @@ class Html5InputTagLib {
 		out << g.field(attrs)
 	}
 
-	def monthField = {attrs ->
+	def monthField = { attrs ->
 		attrs.type = "month"
 		attrs.tagName = "monthField"
 		if (attrs.value) {
@@ -71,7 +84,7 @@ class Html5InputTagLib {
 		out << g.field(attrs)
 	}
 
-	def weekField = {attrs ->
+	def weekField = { attrs ->
 		attrs.type = "week"
 		attrs.tagName = "weekField"
 		if (attrs.value) {
@@ -80,7 +93,7 @@ class Html5InputTagLib {
 		out << g.field(attrs)
 	}
 
-	def time = {attrs, body ->
+	def time = { attrs, body ->
 		def value = attrs.containsKey("value") ? attrs.remove("value") : new DateTime()
 		if (value) {
 			def var = attrs.remove("var")
@@ -119,5 +132,4 @@ class Html5InputTagLib {
 			out << '</time>'
 		}
 	}
-
 }

@@ -15,19 +15,18 @@
  */
 package grails.plugins.taglib
 
-import grails.core.GrailsApplication
 import org.apache.commons.lang.LocaleUtils
+import org.joda.time.DateTime
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import org.springframework.web.servlet.support.RequestContextUtils
-import org.joda.time.*
 
 class FormattingTagLib {
 
 	static namespace = "joda"
 
-	GrailsApplication grailsApplication
-
-	def format = {attrs ->
+	def format = { attrs ->
 		if (attrs.pattern && attrs.style) {
 			throwTagError('Cannot specify both pattern and style attributes')
 		}
@@ -100,5 +99,4 @@ class FormattingTagLib {
 	private String patternForType(String type) {
 		grailsApplication.config.flatten()."jodatime.format.${type}" ?: null
 	}
-
 }

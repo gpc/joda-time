@@ -2,11 +2,16 @@ package grails.plugins.jodatime.binding
 
 import grails.databinding.DataBindingSource
 import grails.databinding.StructuredBindingEditor
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
+import org.joda.time.MutableDateTime
 
 class DateTimeStructuredBindingEditor implements StructuredBindingEditor {
 
-    static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime].asImmutable()
+    static final Collection<Class> SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime].asImmutable()
 
     Class type
 
@@ -14,17 +19,16 @@ class DateTimeStructuredBindingEditor implements StructuredBindingEditor {
         this.type = type
     }
 
-    private static final FIELDS_BY_TYPE = [
+    private static final Map FIELDS_BY_TYPE = [
             (LocalDate): ["year", "month", "day"].asImmutable(),
             (LocalTime): ["hour", "minute", "second"].asImmutable(),
             (LocalDateTime): ["year", "month", "day", "hour", "minute", "second"].asImmutable(),
             (DateTime): ["year", "month", "day", "hour", "minute", "second", "zone"].asImmutable()
     ].asImmutable()
 
-    private static final DEFAULT_VALUES = [month: 1, day: 1, hour: 0, minute: 0, second: 0].asImmutable()
+    private static final Map DEFAULT_VALUES = [month: 1, day: 1, hour: 0, minute: 0, second: 0].asImmutable()
 
-    private static final JODA_PROP_NAMES = [year: "year", month: "monthOfYear", day: "dayOfMonth", hour: "hourOfDay", minute: "minuteOfHour", second: "secondOfMinute"].asImmutable()
-
+    private static final Map JODA_PROP_NAMES = [year: "year", month: "monthOfYear", day: "dayOfMonth", hour: "hourOfDay", minute: "minuteOfHour", second: "secondOfMinute"].asImmutable()
 
     List getRequiredFields() {
         return [FIELDS_BY_TYPE[type].head()]
@@ -34,7 +38,7 @@ class DateTimeStructuredBindingEditor implements StructuredBindingEditor {
         return FIELDS_BY_TYPE[type].tail()
     }
 
-    Object getPropertyValue(Object obj, String propertyName, DataBindingSource source) {
+    def getPropertyValue(obj, String propertyName, DataBindingSource source) {
         requiredFields.each {
             if (!source["${propertyName}_${it}"]) {
                 throw new IllegalArgumentException("Can't populate a $type without a $it")

@@ -9,24 +9,28 @@ import org.joda.time.format.PeriodFormatter
 class PeriodConverter implements ValueConverter {
     private static final PeriodFormatter FORMATTER = PeriodFormat.default
 
-    static final SUPPORTED_TYPES = [Duration, Period].asImmutable()
+    static final Collection<Class> SUPPORTED_TYPES = [Duration, Period].asImmutable()
 
     Class type
 
-    boolean canConvert(Object value) {
+    boolean canConvert(value) {
         value instanceof String
     }
 
-    Object convert(Object value) {
+    def convert(value) {
         if (!value) {
             return null
-        } else if (type == Period) {
-            return FORMATTER.parsePeriod(value)
-        } else if (type == Duration) {
-            return FORMATTER.parsePeriod(value).toStandardDuration()
-        } else {
-            throw new IllegalStateException("Unsupported type $type")
         }
+
+        if (type == Period) {
+            return FORMATTER.parsePeriod(value)
+        }
+
+        if (type == Duration) {
+            return FORMATTER.parsePeriod(value).toStandardDuration()
+        }
+
+        throw new IllegalStateException("Unsupported type $type")
     }
 
     Class<?> getTargetType() {

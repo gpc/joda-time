@@ -1,21 +1,25 @@
 package grails.plugins.jodatime.util
 
-import grails.plugins.jodatime.util.DateTimeRange
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.Interval
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import static grails.plugins.jodatime.JodaDynamicMethods.registerDynamicMethods
-import static org.joda.time.DurationFieldType.*
+import static org.joda.time.DurationFieldType.days
+import static org.joda.time.DurationFieldType.hours
+import static org.joda.time.DurationFieldType.minutes
 
 @Unroll
 class DateTimeRangeSpec extends Specification {
 
-	def setupSpec() {
+	void setupSpec() {
 		registerDynamicMethods()
 	}
 
-	def "default ranges use day"() {
+	void "default ranges use day"() {
 		given:
 		def start = new LocalDate(2011, 10, 31)
 		def end = new LocalDate(2011, 11, 11)
@@ -27,7 +31,7 @@ class DateTimeRangeSpec extends Specification {
 		range.size() == 12
 	}
 
-	def "can specify #increment as the range increment"() {
+	void "can specify #increment as the range increment"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 1, 0, 0)
@@ -45,7 +49,7 @@ class DateTimeRangeSpec extends Specification {
 		minutes() | (24 * 60) + 1
 	}
 
-	def "unsupported field types cannot be used"() {
+	void "unsupported field types cannot be used"() {
 		given:
 		def from = new LocalDate(2011, 11, 11)
 		def to = new LocalDate(2011, 11, 14)
@@ -58,7 +62,7 @@ class DateTimeRangeSpec extends Specification {
 		thrown IllegalArgumentException
 	}
 
-	def "can use ReadableInstant implementations"() {
+	void "can use ReadableInstant implementations"() {
 		given:
 		def from = new DateTime(2011, 11, 11, 0, 0)
 		def to = new DateTime(2011, 11, 11, 23, 0)
@@ -67,7 +71,7 @@ class DateTimeRangeSpec extends Specification {
 		DateTimeRange.asRange(hours(), from, to).size() == 24
 	}
 
-	def "can use an Interval"() {
+	void "can use an Interval"() {
 		given:
 		def from = new DateTime(2011, 11, 11, 0, 0)
 		def to = new DateTime(2011, 11, 11, 23, 0)
@@ -80,7 +84,7 @@ class DateTimeRangeSpec extends Specification {
 		range.size() == 24
 	}
 
-	def "can use step method to increment in larger chunks"() {
+	void "can use step method to increment in larger chunks"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 1, 0, 0)
@@ -91,8 +95,8 @@ class DateTimeRangeSpec extends Specification {
 		then:
 		range.size() == 13
 	}
-	
-	def "can use step method to increment with different fields"() {
+
+	void "can use step method to increment with different fields"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 30, 0, 0)
@@ -104,7 +108,7 @@ class DateTimeRangeSpec extends Specification {
 		range.size() == 31
 	}
 
-	def "can use step method to iterate with different fields"() {
+	void "can use step method to iterate with different fields"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 30, 0, 0)
@@ -121,7 +125,7 @@ class DateTimeRangeSpec extends Specification {
 		collectedElements.last() == end
 	}
 
-	def "can use step method to increment with different fields and chunk sizes"() {
+	void "can use step method to increment with different fields and chunk sizes"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 30, 0, 0)
@@ -133,7 +137,7 @@ class DateTimeRangeSpec extends Specification {
 		range.size() == 16
 	}
 
-	def "can use step method to iterate with different fields and chunk sizes"() {
+	void "can use step method to iterate with different fields and chunk sizes"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 30, 0, 0)
@@ -150,7 +154,7 @@ class DateTimeRangeSpec extends Specification {
 		collectedElements.last() == end
 	}
 
-	def "can use step with DurationFieldType argument to convert a regular range"() {
+	void "can use step with DurationFieldType argument to convert a regular range"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 30, 0, 0)
@@ -161,7 +165,7 @@ class DateTimeRangeSpec extends Specification {
 		range.step(2, days()).size() == 16
 	}
 
-	def "can use step with DurationFieldType argument to iterate over a regular range"() {
+	void "can use step with DurationFieldType argument to iterate over a regular range"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 30, 0, 0)
@@ -177,7 +181,7 @@ class DateTimeRangeSpec extends Specification {
 		collectedElements.size() == 31
 	}
 
-	def "can use step with DurationFieldType and int arguments to iterate over a regular range"() {
+	void "can use step with DurationFieldType and int arguments to iterate over a regular range"() {
 		given:
 		def start = new LocalDateTime(2011, 10, 31, 0, 0)
 		def end = new LocalDateTime(2011, 11, 30, 0, 0)
@@ -193,7 +197,7 @@ class DateTimeRangeSpec extends Specification {
 		collectedElements.size() == 16
 	}
 
-	def "step cannot be used with a DurationFieldType argument on non-joda ranges"() {
+	void "step cannot be used with a DurationFieldType argument on non-joda ranges"() {
 		given:
 		def range = 0..5
 
@@ -203,5 +207,4 @@ class DateTimeRangeSpec extends Specification {
 		then:
 		thrown MissingMethodException
 	}
-
 }

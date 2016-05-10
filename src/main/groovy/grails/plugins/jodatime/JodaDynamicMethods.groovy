@@ -15,9 +15,22 @@
  */
 package grails.plugins.jodatime
 
-import org.joda.time.*
+import grails.plugins.jodatime.util.DateTimeRange
+import org.joda.time.DateTimeUtils
+import org.joda.time.Days
+import org.joda.time.DurationFieldType
+import org.joda.time.Hours
+import org.joda.time.Minutes
+import org.joda.time.Months
+import org.joda.time.ReadableInstant
+import org.joda.time.ReadablePartial
+import org.joda.time.Seconds
+import org.joda.time.Weeks
+import org.joda.time.Years
 
-import static org.joda.time.DateTimeFieldType.*
+import static org.joda.time.DateTimeFieldType.dayOfMonth
+import static org.joda.time.DateTimeFieldType.hourOfDay
+import static org.joda.time.DateTimeFieldType.monthOfYear
 
 class JodaDynamicMethods {
 
@@ -140,7 +153,7 @@ class JodaDynamicMethods {
 
 	static List step(Range self, int step, DurationFieldType increment) {
 		if (self.from instanceof ReadablePartial || self.from instanceof ReadableInstant) {
-			new grails.plugins.jodatime.util.DateTimeRange(increment, self.from, self.to).step(step)
+			new DateTimeRange(increment, self.from, self.to).step(step)
 		} else {
 			throw new MissingMethodException("step", self.getClass(), [increment] as Object[])
 		}
@@ -148,10 +161,9 @@ class JodaDynamicMethods {
 
 	static void step(Range self, int step, DurationFieldType increment, Closure closure) {
 		if (self.from instanceof ReadablePartial || self.from instanceof ReadableInstant) {
-			new grails.plugins.jodatime.util.DateTimeRange(increment, self.from, self.to).step(step).each(closure)
+			new DateTimeRange(increment, self.from, self.to).step(step).each(closure)
 		} else {
 			throw new MissingMethodException("step", self.getClass(), [increment] as Object[])
 		}
 	}
-
 }

@@ -13,29 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.jodatime.binding
+package grails.plugins.jodatime.binding
 
-import org.grails.databinding.SimpleMapDataBindingSource
-import org.joda.time.*
+import grails.databinding.SimpleMapDataBindingSource
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 @Unroll
 class DateTimeStructuredBindingEditorSpec extends Specification {
-	
+
 	@Shared zone
-	
-	def setupSpec() {
+
+	void setupSpec() {
 		zone = DateTimeZone.default
 		DateTimeZone.default = DateTimeZone.forID("Europe/London")
 	}
-	
-	def cleanupSpec() {
+
+	void cleanupSpec() {
 		DateTimeZone.default = zone
 	}
 
-	def "getPropertyValue() creates #expected from the fields #fields"() {
+	void "getPropertyValue() creates #expected from the fields #fields"() {
 		given:
 		def editor = new DateTimeStructuredBindingEditor(type)
 		def obj = type.newInstance()
@@ -56,7 +60,7 @@ class DateTimeStructuredBindingEditorSpec extends Specification {
 		DateTime      | [year: "2009", month: "08", day: "24", hour: "13", minute: "06", zone: "America/Vancouver"] | new DateTime(2009, 8, 24, 13, 6, 0, 0).withZoneRetainFields(DateTimeZone.forID("America/Vancouver"))
 	}
 
-	def "getPropertyValue() requires year for date types"() {
+	void "getPropertyValue() requires year for date types"() {
 		given:
 		def editor = new DateTimeStructuredBindingEditor(LocalTime)
 		def obj = new LocalTime()
@@ -66,7 +70,7 @@ class DateTimeStructuredBindingEditorSpec extends Specification {
 		then: thrown(IllegalArgumentException)
 	}
 
-	def "getPropertyValue() requires hour for time types"() {
+	void "getPropertyValue() requires hour for time types"() {
 		given:
 		def editor = new DateTimeStructuredBindingEditor(LocalTime)
 		def obj = new LocalTime()

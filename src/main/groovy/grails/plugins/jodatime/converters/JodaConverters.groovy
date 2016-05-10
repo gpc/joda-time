@@ -17,7 +17,11 @@ package grails.plugins.jodatime.converters
 
 import grails.converters.JSON
 import grails.converters.XML
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
 import org.joda.time.format.ISODateTimeFormat
 
 class JodaConverters {
@@ -41,5 +45,4 @@ class JodaConverters {
 			}
 		}
 	}
-
 }

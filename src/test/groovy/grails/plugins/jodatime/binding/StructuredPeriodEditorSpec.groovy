@@ -15,7 +15,10 @@
  */
 package grails.plugins.jodatime.binding
 
-import org.joda.time.*
+import org.joda.time.Duration
+import org.joda.time.DurationFieldType
+import org.joda.time.Period
+import org.joda.time.PeriodType
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -33,7 +36,7 @@ class StructuredPeriodEditorSpec extends Specification {
 		map
 	}
 
-	def "a #type.simpleName value can be assembled from the fields #fields"() {
+	void "a #type.simpleName value can be assembled from the fields #fields"() {
 		given: def editor = new StructuredPeriodEditor(type)
 		expect: editor.assemble(type, fields) == expected
 		where:
@@ -48,5 +51,4 @@ class StructuredPeriodEditorSpec extends Specification {
 		Duration | [years: "1", hours: "1"]                | new Period(1, 0, 0, 0).toStandardDuration()
 		Duration | [months: "1", hours: "1"]               | new Period(1, 0, 0, 0).toStandardDuration()
 	}
-
 }

@@ -15,26 +15,30 @@
  */
 package grails.plugins.jodatime.binding
 
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 @Unroll
 class StructuredDateTimeEditorSpec extends Specification {
-	
+
 	@Shared zone
-	
-	def setupSpec() {
+
+	void setupSpec() {
 		zone = DateTimeZone.default
 		DateTimeZone.default = DateTimeZone.forID("Etc/GMT+12")
 	}
-	
-	def cleanupSpec() {
+
+	void cleanupSpec() {
 		DateTimeZone.default = zone
 	}
 
-	def "assemble creates #expected from the fields #fields"() {
+	void "assemble creates #expected from the fields #fields"() {
 		given: def editor = new StructuredDateTimeEditor(type)
 		expect: editor.assemble(type, fields) == expected
 		where:
@@ -53,16 +57,15 @@ class StructuredDateTimeEditorSpec extends Specification {
 		DateTime      | [year: "2009", month: "08", day: "24", hour: "13", minute: "06", zone: "America/Vancouver"] | new DateTime(2009, 8, 24, 13, 6, 0, 0).withZoneRetainFields(DateTimeZone.forID("America/Vancouver"))
 	}
 
-	def "assemble requires year for date types"() {
+	void "assemble requires year for date types"() {
 		given: def editor = new StructuredDateTimeEditor(LocalDate)
 		when: editor.assemble(LocalDate, [month: 11, day: 29])
 		then: thrown(IllegalArgumentException)
 	}
 
-	def "assemble requires hour for time types"() {
+	void "assemble requires hour for time types"() {
 		given: def editor = new StructuredDateTimeEditor(LocalTime)
 		when: editor.assemble(LocalTime, [minute: 29])
 		then: thrown(IllegalArgumentException)
 	}
-
 }

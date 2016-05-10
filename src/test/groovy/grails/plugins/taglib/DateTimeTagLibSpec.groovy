@@ -17,7 +17,10 @@ package grails.plugins.taglib
 
 import grails.test.mixin.TestFor
 import org.grails.plugins.codecs.HTMLCodec
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeUtils
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -28,18 +31,18 @@ import static jodd.jerry.Jerry.jerry as $
 @Unroll
 class DateTimeTagLibSpec extends Specification {
 
-	def setup() {
+	void setup() {
 		mockCodec HTMLCodec
 
 		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0)
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
 	}
 
-	def cleanup() {
+	void cleanup() {
 		DateTimeUtils.setCurrentMillisSystem()
 	}
 
-	def "datePicker outputs only date fields"() {
+	void "datePicker outputs only date fields"() {
 		when:
 		def output = applyTemplate('<joda:datePicker name="foo"/>')
 		def dom = $(output)
@@ -55,7 +58,7 @@ class DateTimeTagLibSpec extends Specification {
 		dom.find('select[name=foo_second]').length() == 0
 	}
 
-	def "timePicker outputs only time fields"() {
+	void "timePicker outputs only time fields"() {
 		when:
 		def output = applyTemplate('<joda:timePicker name="foo" precision="second"/>')
 		def dom = $(output)
@@ -71,7 +74,7 @@ class DateTimeTagLibSpec extends Specification {
 		dom.find('select[name=foo_year]').length() == 0
 	}
 
-	def "picker tags use current date & time as default"() {
+	void "picker tags use current date & time as default"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" precision="second"/>')
 		def dom = $(output)
@@ -86,7 +89,7 @@ class DateTimeTagLibSpec extends Specification {
 		dom.find('select[name=foo_second] option[selected]').attr('value') == '33'
 	}
 
-	def "picker tags accept string default"() {
+	void "picker tags accept string default"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" default="1971-11-29T16:22"/>')
 		def dom = $(output)
@@ -100,7 +103,7 @@ class DateTimeTagLibSpec extends Specification {
 		dom.find('select[name=foo_minute] option[selected]').attr('value') == '22'
 	}
 
-	def "string default format is appropriate for precision"() {
+	void "string default format is appropriate for precision"() {
 		when:
 		def output = applyTemplate('<joda:datePicker name="foo" default="1971-11-29"/>')
 		def dom = $(output)
@@ -112,7 +115,7 @@ class DateTimeTagLibSpec extends Specification {
 		dom.find('select[name=foo_year] option[selected]').attr('value') == '1971'
 	}
 
-	def "timePicker accepts string default"() {
+	void "timePicker accepts string default"() {
 		when:
 		def output = applyTemplate('<joda:timePicker name="foo" precision="second" default="23:59:59"/>')
 		def dom = $(output)
@@ -123,7 +126,7 @@ class DateTimeTagLibSpec extends Specification {
 		dom.find('select[name=foo_second] option[selected]').attr('value') == '59'
 	}
 
-	def "picker tags accept #defaultValue.class.simpleName default"() {
+	void "picker tags accept #defaultValue.class.simpleName default"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" default="${defaultValue}"/>', [defaultValue: defaultValue])
 		def dom = $(output)
@@ -140,7 +143,7 @@ class DateTimeTagLibSpec extends Specification {
 		defaultValue << [new DateTime(1971, 11, 29, 16, 22, 0, 0), new LocalDateTime(1971, 11, 29, 16, 22, 0, 0)]
 	}
 
-	def "picker tags accept #value.class.simpleName value"() {
+	void "picker tags accept #value.class.simpleName value"() {
 		given:
 		def defaultValue = new DateTime(1971, 11, 29, 16, 22, 0, 0)
 
@@ -161,7 +164,7 @@ class DateTimeTagLibSpec extends Specification {
 	}
 
 	@Issue('http://jira.grails.org/browse/GPJODATIME-23')
-	def "picker tags accept null value"() {
+	void "picker tags accept null value"() {
 		when:
 		def output = applyTemplate('''<joda:dateTimePicker name="foo" value="${value}" default="none" noSelection="['':'']"/>''', [value: null])
 		def dom = $(output)
@@ -178,7 +181,7 @@ class DateTimeTagLibSpec extends Specification {
 		}
 	}
 
-	def "picker tags accept noSelection arg"() {
+	void "picker tags accept noSelection arg"() {
 		when:
 		def output = applyTemplate('''<joda:dateTimePicker name="foo" default="none" noSelection="['': 'Choose sumfink innit']"/>''')
 		def dom = $(output)
@@ -187,7 +190,7 @@ class DateTimeTagLibSpec extends Specification {
 		for (node in ['day', 'month', 'year', 'hour', 'minute']) {
 			def select = dom.find("select[name=foo_$node]")
 			assert select.find('option[selected]').size() == 1
-			
+
 			def firstOption = select.find('option').first()
 			assert firstOption.attr('value') == ''
 			assert firstOption.text() == 'Choose sumfink innit'
@@ -195,7 +198,7 @@ class DateTimeTagLibSpec extends Specification {
 		}
 	}
 
-	def "picker tags use one hundred years as default"() {
+	void "picker tags use one hundred years as default"() {
 		given:
 		def year = new LocalDate().year
 
@@ -211,7 +214,7 @@ class DateTimeTagLibSpec extends Specification {
 		yearSelect.find("option[value='${year + 101}']").length() == 0
 	}
 
-	def "dateTimePicker uses config for years"() {
+	void "dateTimePicker uses config for years"() {
 		given:
 		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = 1
 		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = 2
@@ -236,7 +239,7 @@ class DateTimeTagLibSpec extends Specification {
 		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = null
 	}
 
-	def "picker tags accept years arg"() {
+	void "picker tags accept years arg"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo" years="${1979..1983}" default="1979-12-04T00:00"/>')
 		def dom = $(output)
@@ -253,7 +256,7 @@ class DateTimeTagLibSpec extends Specification {
 		yearSelect.find('option[selected]').attr('value') == '1979'
 	}
 
-	def "dateTimePicker uses minute as default precision"() {
+	void "dateTimePicker uses minute as default precision"() {
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
 		def dom = $(output)
@@ -267,7 +270,7 @@ class DateTimeTagLibSpec extends Specification {
 		dom.find('select[name=foo_second]').length() == 0
 	}
 
-	def "dateTimePicker uses config for precision"() {
+	void "dateTimePicker uses config for precision"() {
 		given:
 		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = "second"
 
@@ -284,7 +287,7 @@ class DateTimeTagLibSpec extends Specification {
 		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = null
 	}
 
-	def "picker tags accept '#precision' precision arg"() {
+	void "picker tags accept '#precision' precision arg"() {
 		when:
 		def output = applyTemplate("<joda:dateTimePicker name=\"foo\" precision=\"$precision\"/>")
 		def dom = $(output)
@@ -307,7 +310,7 @@ class DateTimeTagLibSpec extends Specification {
 		"second"  | true | true  | true  | true  | true   | true
 	}
 
-	def "dateTimePicker accepts useZone arg"() {
+	void "dateTimePicker accepts useZone arg"() {
 		given:
 		mockTagLib DateTimeZoneTagLib
 
@@ -318,5 +321,4 @@ class DateTimeTagLibSpec extends Specification {
 		then:
 		dom.find('select[name=foo_zone]').length() == 1
 	}
-
 }

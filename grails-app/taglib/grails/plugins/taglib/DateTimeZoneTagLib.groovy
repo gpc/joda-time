@@ -30,7 +30,7 @@ class DateTimeZoneTagLib {
 	 * A helper tag for creating DateTimeZone selects
 	 * e.g. <joda:dateTimeZoneSelect name="myTimeZone" value="${tz}" />
 	 */
-	def dateTimeZoneSelect = {attrs ->
+	def dateTimeZoneSelect = { attrs ->
 		attrs.from = DateTimeZone.getAvailableIDs();
 		attrs.value = attrs.value?.ID ?: DateTimeZone.default.ID
 		def time = DateTimeUtils.currentTimeMillis()
@@ -45,5 +45,4 @@ class DateTimeZoneTagLib {
 		// use generic select
 		out << select(attrs)
 	}
-
 }

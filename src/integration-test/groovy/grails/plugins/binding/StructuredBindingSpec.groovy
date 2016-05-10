@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequest
 @Integration
 class StructuredBindingSpec extends Specification {
 
-	HttpServletRequest request = new MockHttpServletRequest()
-	GrailsParameterMap params = new GrailsParameterMap(request)
+	private HttpServletRequest request = new MockHttpServletRequest()
+	private GrailsParameterMap params = new GrailsParameterMap(request)
 
 	@Autowired
 	GrailsWebDataBinder grailsWebDataBinder

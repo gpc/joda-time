@@ -16,7 +16,12 @@
 package grails.plugins.jodatime.binding
 
 import org.grails.web.binding.StructuredPropertyEditor
-import org.joda.time.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
+import org.joda.time.MutableDateTime
 
 class StructuredDateTimeEditor extends DateTimeEditor implements StructuredPropertyEditor {
 
@@ -24,16 +29,16 @@ class StructuredDateTimeEditor extends DateTimeEditor implements StructuredPrope
 		super(type)
 	}
 
-	private static final FIELDS_BY_TYPE = [
+	private static final Map FIELDS_BY_TYPE = [
 			(LocalDate): ["year", "month", "day"].asImmutable(),
 			(LocalTime): ["hour", "minute", "second"].asImmutable(),
 			(LocalDateTime): ["year", "month", "day", "hour", "minute", "second"].asImmutable(),
 			(DateTime): ["year", "month", "day", "hour", "minute", "second", "zone"].asImmutable()
 	].asImmutable()
 
-	private static final DEFAULT_VALUES = [month: 1, day: 1, hour: 0, minute: 0, second: 0].asImmutable()
+	private static final Map DEFAULT_VALUES = [month: 1, day: 1, hour: 0, minute: 0, second: 0].asImmutable()
 
-	private static final JODA_PROP_NAMES = [year: "year", month: "monthOfYear", day: "dayOfMonth", hour: "hourOfDay", minute: "minuteOfHour", second: "secondOfMinute"].asImmutable()
+	private static final Map JODA_PROP_NAMES = [year: "year", month: "monthOfYear", day: "dayOfMonth", hour: "hourOfDay", minute: "minuteOfHour", second: "secondOfMinute"].asImmutable()
 
 
 	List getRequiredFields() {
@@ -44,7 +49,7 @@ class StructuredDateTimeEditor extends DateTimeEditor implements StructuredPrope
 		return FIELDS_BY_TYPE[type].tail()
 	}
 
-	Object assemble(Class type, Map fieldValues) throws IllegalArgumentException {
+	def assemble(Class type, Map fieldValues) throws IllegalArgumentException {
 		if (fieldValues.isEmpty() || fieldValues.every { !it.value }) return null
 
 		requiredFields.each {
