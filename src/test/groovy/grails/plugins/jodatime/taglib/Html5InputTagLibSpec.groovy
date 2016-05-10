@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package grails.plugins.taglib
+package grails.plugins.jodatime.taglib
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor

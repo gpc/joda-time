@@ -1,4 +1,4 @@
-package grails.plugins.binding
+package grails.plugins.jodatime.binding
 
 import grails.databinding.SimpleMapDataBindingSource
 import grails.persistence.Entity

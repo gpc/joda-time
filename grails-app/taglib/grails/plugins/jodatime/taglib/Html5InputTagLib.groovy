@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package grails.plugins.taglib
+package grails.plugins.jodatime.taglib
 
 import org.joda.time.DateTime
 import org.joda.time.LocalDate

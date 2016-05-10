@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugins.taglib
+package grails.plugins.jodatime.taglib
 
 import org.joda.time.Duration
 import org.joda.time.DurationFieldType

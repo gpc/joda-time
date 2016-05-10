@@ -1,4 +1,4 @@
-package grails.plugins
+package grails.plugins.jodatime
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
