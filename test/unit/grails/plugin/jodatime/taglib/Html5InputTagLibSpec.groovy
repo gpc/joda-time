@@ -158,7 +158,7 @@ class Html5InputTagLibSpec extends Specification {
 		def value = new LocalDate(2008, 10, 2)
 
 		when:
-		def output = applyTemplate('<joda:time value="${value}">${it.toString("MMMM d yyyy")}</joda:time>', [value: value])
+		def output = applyTemplate('<joda:time value="${value}">${it.toString("MMMM d yyyy", Locale.ENGLISH)}</joda:time>', [value: value])
 
 		then:
 		$(output).find('time').text() == 'October 2 2008'
@@ -169,7 +169,7 @@ class Html5InputTagLibSpec extends Specification {
 		def value = new LocalDate(2008, 10, 2)
 
 		when:
-		def output = applyTemplate('<joda:time value="${value}" var="theDate">${theDate.toString("MMMM d yyyy")}</joda:time>', [value: value])
+		def output = applyTemplate('<joda:time value="${value}" var="theDate">${theDate.toString("MMMM d yyyy", Locale.ENGLISH)}</joda:time>', [value: value])
 
 		then:
 		$(output).find('time').text() == 'October 2 2008'
