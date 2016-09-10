@@ -51,7 +51,7 @@ dependencies {
     provided "org.grails:grails-dependencies"
     provided 'javax.servlet:javax.servlet-api:3.1.0'
 
-    compile 'joda-time:joda-time:2.4'
+    compile 'joda-time:joda-time:2.9.4'
 
     testCompile("org.grails:grails-web-databinding-spring:2.5.0")
     testCompile('org.hamcrest:hamcrest-all:1.1')
