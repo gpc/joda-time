@@ -5,5 +5,5 @@
 
 [NOTE]
 ====
-All issues must be reported to https://github.com/gpc/joda-time/issues[Joda-time GitHub Issues] as JIRA no longer exists
+Old JIRA links for Grails are not working anymore, so please ignore the issues links in documentation. Also, all issues must be reported to https://github.com/gpc/joda-time/issues[Joda-time GitHub Issues].
 ====
