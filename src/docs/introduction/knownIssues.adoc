@@ -1,0 +1,9 @@
+[[knowIssues]]
+=== Known Issues
+* It is currently not possible to do certain types of criteria query with DateTime properties mapped using PersistentLocalDateTimeWithZone (or any other multi-column Hibernate UserType). Aggregate functions (max, min, avg, count, etc.) in projections will not work on such properties and neither will the 'between' criterion.
+* Data binding to properties of embedded types does not work correctly (see http://jira.grails.org/browse/GPJODATIME-21[GPJODATIME-21]).
+
+[NOTE]
+====
+Old JIRA links for Grails are not working anymore, so please ignore the issues links in documentation. Also, all issues must be reported to https://github.com/gpc/joda-time/issues[Joda-time GitHub Issues].
+====

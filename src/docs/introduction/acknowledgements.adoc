@@ -1,0 +1,16 @@
+[[acknowledgements]]
+=== Acknowledgments
+
+Many thanks to all the users who reported issues and sent pull requests.
+
+#### Authors and Contributors
+
+* https://github.com/robfletcher[Rob Fletcher]
+* https://github.com/burtbeckwith[Burt Beckwith]
+* https://github.com/jamescookie[James Cook]
+* https://github.com/michaelcameron[Michael Cameron]
+* https://github.com/graemerocher[Graeme Rocher]
+* https://github.com/stokito[Sergey Ponomarev]
+* https://github.com/robertoschwald[Robert Oschwald]
+* https://github.com/ColinHarrington[Colin Harrington]
+* https://github.com/puneetbehl[Puneet Behl]

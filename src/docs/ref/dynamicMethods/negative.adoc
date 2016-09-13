@@ -1,0 +1,17 @@
+[[negative]]
+=== negative
+
+==== Purpose
+
+Negates an instance of `Days`, `Hours`, `Minutes`, `Months`, `Seconds`, `Weeks` or `Years`
+
+==== Examples
+
+[source,groovy]
+----
+assert -Years.THREE == Years.years(-3)
+----
+
+==== Description
+
+Provides compatibility with Groovy's mathematical operators but is otherwise identical to the `negated()` method in the Joda-Time API.

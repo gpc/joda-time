@@ -1,0 +1,27 @@
+[[formatPeriod]]
+=== joda:formatPeriod
+
+==== Purpose
+
+This tag renders a http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html[Duration] or http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html[Period] value.
+
+==== Examples
+
+[source,groovy]
+----
+<joda:formatPeriod value="${myValue}" />
+<joda:formatPeriod value="${myValue}" fields="days,hours,minutes" />
+----
+
+==== Description
+
+===== Attributes
+
+* `value` (required) - The value to format which can be a `Period` or `Duration` instance.
+* `fields` (optional) - A comma separated list of the fields to provide input elements for. Valid values are _"years", "months", "weeks", "days", "hours", "minutes", "seconds"_ and _"millis"_ with the default being _"hours,minutes,seconds"_
+
+Values are normalized using the _fields_ specified according to the rules in http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html#normalizedStandard(org.joda.time.PeriodType)[Period.normalizedStandard] although the tag will also silently drop _years_ and _months_ from the _value_ if they are not contained in the specified _fields_ as otherwise an `UnsupportedOperationException` would be thrown by Joda-Time.
+
+==== Configuration
+
+Default fields can be set in `Config.groovy` using the key _jodatime.periodpicker.default.fields_

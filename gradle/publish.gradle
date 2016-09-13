@@ -1,0 +1,23 @@
+// Publish gh-pages on github
+apply plugin: "org.ajoberstar.github-pages"
+
+ext {
+    githubApiKey = System.getProperty('githubApiKey')
+}
+
+githubPages {
+    repoUri = 'https://github.com/puneetbehl/grails-joda-time.git'
+
+    credentials {
+        username = project.hasProperty('githubApiKey') ? project.githubApiKey : ''
+        password = ''
+    }
+
+    pages {
+        from "${buildDir}/docs"
+    }
+}
+
+task publishDocs(dependsOn: [docs, publishGhPages]) << {
+
+}

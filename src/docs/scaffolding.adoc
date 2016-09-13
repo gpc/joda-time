@@ -1,0 +1,23 @@
+[[Scaffolding]]
+== Scaffolding
+
+The Joda-Time plugin enhances Grails's dynamic scaffolding so it is compatible with domain classes with the following types:
+
+* http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html[LocalTime]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html[LocalDate]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html[LocalDateTime]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html[DateTime]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html[Duration]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html[Period]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html[DateTimeZone]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/Instant.html[Instant]
+
+To install scaffolding templates use the command:
+
+[source,groovy]
+----
+grails install-joda-time-templates
+----
+
+Create and edit views use the _joda:dateTimePicker, joda:datePicker, joda:timePicker_ or _joda:periodPicker_ (see above) as appropriate. Columns on list views are sortable.
+

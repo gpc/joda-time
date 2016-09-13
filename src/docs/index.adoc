@@ -1,0 +1,32 @@
+= Jodatime Plugin - Reference Documentation
+Rob Fletcher
+
+:jodatime: http://www.joda.org/joda-time
+
+include::introduction.adoc[]
+
+include::persistence.adoc[]
+
+include::databinding.adoc[]
+
+include::tags.adoc[]
+
+include::scaffolding.adoc[]
+
+include::jsonandxml.adoc[]
+
+include::integrating.adoc[]
+
+//include::configuration.adoc[]
+//
+//include::mapping.adoc[]
+//
+//include::indexing.adoc[]
+//
+//include::searching.adoc[]
+//
+//include::admin.adoc[]
+//
+//include::lowLevelAPI.adoc[]
+//
+//include::example.adoc[]

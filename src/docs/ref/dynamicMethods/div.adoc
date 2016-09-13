@@ -1,0 +1,17 @@
+[[div]]
+=== div
+
+==== Purpose
+
+Divides an instance of `Days`, `Hours`, `Minutes`, `Months`, `Seconds`, `Weeks` or `Years` by an integer.
+
+==== Examples
+
+[source,groovy]
+----
+assert Years.THREE / 3 == Years.ONE
+----
+
+==== Description
+
+Provides compatibility with Groovy's mathematical operators but is otherwise identical to the `dividedBy()` method in the Joda-Time API.

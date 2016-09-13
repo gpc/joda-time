@@ -41,8 +41,8 @@ class JodaTimeGrailsPlugin extends Plugin {
         [name: 'Rob Fletcher', email: 'rob@freeside.co'],
         [name: "Puneet Behl", email: "puneet.behl007@gmail.com"]
     ]
-    def issueManagement = [url: 'http://jira.grails.org/browse/GPJODATIME']
-    def scm = [url: 'https://github.com/gpc/grails-joda-time/']
+    def issueManagement = [url: 'https://github.com/gpc/joda-time/issues']
+    def scm = [url: 'https://gpc.github.io/joda-time/latest/']
 
     Closure doWithSpring() {{ ->
         jodaTimePropertyEditorRegistrar(JodaTimePropertyEditorRegistrar)

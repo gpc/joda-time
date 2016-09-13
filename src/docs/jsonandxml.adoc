@@ -1,0 +1,11 @@
+[[jsonandxml]]
+== JSON and XML Rendering
+
+The plugin registers JSON and XML converters for:
+
+* http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html[LocalTime]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html[LocalDate]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html[LocalDateTime]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html[DateTime]
+* http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html[DateTimeZone]
+
