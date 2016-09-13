@@ -1,6 +1,10 @@
 [[releaseNotes]]
 === Release Notes
 
+.2.0.0
+
+* Migrated the plugin to support Grails 3
+
 .1.4
 
 * http://jira.grails.org/browse/GPJODATIME-24[GPJODATIME-24] Adds templates for the Fields plugin.
