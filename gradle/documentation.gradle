@@ -1,0 +1,82 @@
+buildscript {
+    repositories {
+        maven { url 'https://repo.grails.org/grails/core' }
+    }
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+        classpath 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.6'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+    }
+}
+
+apply plugin: 'org.asciidoctor.convert'
+
+def asciidoctorAttributes = [
+        copyright           : 'Apache License, Version 2.0',
+        docinfo1            : 'true',
+        doctype             : 'book',
+        encoding            : 'utf-8',
+        icons               : 'font',
+        id                  : project.name + ':' + project.version,
+        idprefix            : '',
+        idseparator         : '-',
+        lang                : 'en',
+        linkattrs           : true,
+        numbered            : '',
+        producer            : 'Asciidoctor',
+        revnumber           : project.version,
+        setanchors          : true,
+        'source-highlighter' : 'prettify',
+        toc                 : 'left',
+        toc2                : '',
+        toclevels           : '2',
+        grailsVersion       : project.grailsVersion,
+        jodatimeVersion     : '2.9.4'
+]
+
+import org.asciidoctor.gradle.AsciidoctorTask
+
+tasks.withType(AsciidoctorTask) {
+    attributes asciidoctorAttributes
+    outputDir new File(buildDir, 'docs/docs')
+    separateOutputDirs = false
+    sourceDir = file('src/docs')
+    sources {
+        include 'index.adoc'
+        include 'ref/index.adoc'
+    }
+}
+
+task asciidoc(type: AsciidoctorTask, description: 'Generates single-page HTML and PDF') {
+    backends 'html5', 'pdf'
+}
+
+task docs(dependsOn: [asciidoc]) << {
+    File dir = new File(buildDir, 'docs/docs')
+    ['pdf'].each { String ext ->
+        File f = new File(dir, 'index.' + ext)
+        if (f.exists()) {
+            f.renameTo new File(dir, project.name + '-' + project.version + '.' + ext)
+        }
+    }
+
+    File quickRefDir = new File(buildDir, 'docs/docs/ref')
+    ['pdf'].each { String ext ->
+        File f = new File(quickRefDir, 'index.' + ext)
+        if (f.exists()) {
+            f.renameTo new File(quickRefDir, project.name + '-' + project.version + '-' + 'quickReference' + '.' + ext)
+        }
+    }
+
+    File ghpages = new File(buildDir, 'docs/index.html')
+    if (ghpages.exists()) {
+        ghpages.delete()
+    }
+    ghpages << file('src/docs/index.tmpl').text.replaceAll('@VERSION@', project.version)
+
+    copy {
+        from 'src/docs'
+        into new File(buildDir, 'docs').path
+        include '**/*.png'
+    }
+}

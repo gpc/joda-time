@@ -1,0 +1,36 @@
+[[time]]
+=== joda:time
+
+==== Purpose
+
+This tag outputs an HTML5 `<time>` tag with a correctly formatted `datetime` attribute.
+
+==== Examples
+
+[source,groovy]
+----
+<joda:time value="${new LocalDate()}"/>
+<!-- output: <time datetime="2011-11-03">03-Nov-2011</time> -->
+
+<joda:time value="${new DateTime()}"/>
+<!-- output: <time datetime="2011-11-03T17:25+00:00">03-Nov-2011 17:25:00</time> -->
+
+<joda:time value="${new LocalDate()}" pubdate=""/>
+<!-- output: <time datetime="2011-11-03" pubdate="">03-Nov-2011</time> -->
+
+<joda:time value="${new LocalDate()}"><joda:format value="${it}" pattern="d MMMM"/></joda:time>
+<!-- output: <time datetime="2011-11-03">3 November</time> -->
+
+<joda:time value="${new LocalDate()}" var="theDate"><joda:format value="${theDate}" pattern="d MMMM"/></joda:time>
+<!-- output: <time datetime="2011-11-03">3 November</time> -->
+----
+
+==== Description
+
+If the tag has a body then the `value` attribute is passed to it (see example above). If the body is omitted then the value is formatted as per the `joda:format` tag.
+If the `value` attribute is omitted then the current `DateTime` is used. If the `value` attribute is `null` then the tag outputs nothing.
+
+===== Attributes
+
+* `value` (optional) - An instance of `ReadablePartial` or `ReadableInstant` or defaults to `new DateTime()`
+* `var` (optional) - A name for the variable that is passed to the tag body. Defaults to `it`

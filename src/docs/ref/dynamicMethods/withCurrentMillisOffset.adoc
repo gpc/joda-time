@@ -1,0 +1,19 @@
+[[withCurrentMillisOffset]]
+=== withCurrentMillisOffset
+
+==== Purpose
+
+Offsets the current time in the scope of a Closure.
+
+==== Examples
+
+[source,groovy]
+----
+DateTimeUtils.withCurrentMillisOffset(1000) {
+	assert DateTime.currentTimeMillis() > System.currentTimeMillis()
+}
+----
+
+==== Description
+
+Allows tests to simulate the current time during the scope of a Closure. This uses the Joda-Time methods http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeUtils.html#setCurrentMillisOffset(long)[setCurrentTimeMillis] and http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeUtils.html#setCurrentMillisSystem()[setCurrentMillisSystem] before and after invoking the Closure.

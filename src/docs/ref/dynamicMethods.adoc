@@ -1,0 +1,20 @@
+[[dynamicMethods]]
+== Dynamic Methods
+
+include::dynamicMethods/div.adoc[]
+
+include::dynamicMethods/format.adoc[]
+
+include::dynamicMethods/multiply.adoc[]
+
+include::dynamicMethods/negative.adoc[]
+
+include::dynamicMethods/next.adoc[]
+
+include::dynamicMethods/previous.adoc[]
+
+include::dynamicMethods/step.adoc[]
+
+include::dynamicMethods/withCurrentMillisFixed.adoc[]
+
+include::dynamicMethods/withCurrentMillisOffset.adoc[]

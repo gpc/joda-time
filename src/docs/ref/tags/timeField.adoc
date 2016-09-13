@@ -1,0 +1,18 @@
+[[timeField]]
+=== joda:timeField
+
+==== Purpose
+
+Renders an HTML5 _time_ input for _Joda-Time_ properties
+
+==== Examples
+
+[source,groovy]
+----
+<joda:timeField name="myProperty" value="${new LocalTime()}" />
+<joda:timeField name="myProperty" value="${myBean.myProperty}" />
+----
+
+==== Description
+
+The value should be a _ReadableInstant_ or _ReadablePartial_ that supports at least the _hourOfDay_ and _minuteOfHour_ fields and will be formatted correctly for the input type.

@@ -1,0 +1,17 @@
+[[multiply]]
+=== multiply
+
+==== Purpose
+
+Multiplies an instance of `Days`, `Hours`, `Minutes`, `Months`, `Seconds`, `Weeks` or `Years` by an integer.
+
+==== Examples
+
+[source,groovy]
+----
+assert Years.ONE * 3 == Years.THREE
+----
+
+==== Description
+
+Provides compatibility with Groovy's mathematical operators but is otherwise identical to the `multipliedBy()` method in the Joda-Time API.

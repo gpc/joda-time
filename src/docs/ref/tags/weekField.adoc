@@ -1,0 +1,18 @@
+[[weekField]]
+=== joda:weekField
+
+==== Purpose
+
+Renders an HTML5 _week_ input for _Joda-Time_ properties
+
+==== Examples
+
+[source,groovy]
+----
+<joda:weekField name="myProperty" value="${new LocalDate()}" />
+<joda:weekField name="myProperty" value="${myBean.myProperty}" />
+----
+
+==== Description
+
+The value should be a _ReadableInstant_ or _ReadablePartial_ that supports the _year_ and _weekyear_ fields and will be formatted correctly for the input type.

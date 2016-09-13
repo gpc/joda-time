@@ -1,0 +1,19 @@
+[[datePicker]]
+=== joda:datePicker
+
+==== Purpose
+
+Renders a date picker input for _Joda-Time_ properties in a similar way to the standard `g:datePicker` tag
+
+==== Examples
+
+[source,groovy]
+----
+<joda:datePicker name="myDate" value="${new LocalDate()}" noSelection="['':'-Choose-']"/>
+<joda:datePicker name="myDate" value="${new LocalDate()}" years="${1930..1970}"/>
+<joda:datePicker name="myDate" value="${new LocalDate()}" years="[1930, 1940, 1950, 1960, 1970]"/>
+----
+
+==== Description
+
+This tag is based on the default _g:datePicker_ tag and exhibits very similar functionality. However, it is designed to be used with _Joda-Time_ properties. All the attributes are as-per _g:datePicker_ except that _'value'_ and _'default'_ will expect either a http://joda-time.sourceforge.net/api-release/org/joda/time/ReadablePartial.html[ReadablePartial] or http://joda-time.sourceforge.net/api-release/org/joda/time/ReadableInstant.html[ReadableInstant] instance or a String in _ISO8601_ date/time format (such a String can be a partial representation depending on the precision attribute).
