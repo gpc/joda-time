@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+        classpath 'org.ajoberstar:gradle-git:1.4.2'
     }
 }
 
@@ -68,3 +69,4 @@ task wrapper(type: Wrapper) {
 
 
 apply from: "gradle/documentation.gradle"
+apply from: "gradle/publish.gradle"
