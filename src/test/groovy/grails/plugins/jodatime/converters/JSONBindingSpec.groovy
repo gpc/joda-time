@@ -46,15 +46,6 @@ class JSONBindingSpec extends Specification implements GrailsWebUnitTest, DataTe
 		DateTimeZone.default = originalTimeZone
 	}
 
-	void setup() {
-		defineBeans {
-			dateTimeConverter(DateTimeConverter) {
-				type = DateTime
-				configuration = config
-			}
-		}
-	}
-
 	void "can unmarshal a #expected.class.simpleName object from a JSON element #value"() {
 		given:
 		def json = JSON.parse("""{$propertyName: "$value"}""")

@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
+        classpath "org.grails.plugins:hibernate5:${gormVersion - ".RELEASE"}"
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
         classpath 'org.ajoberstar:gradle-git:1.4.2'
     }
@@ -19,14 +19,10 @@ plugins {
 version "2.1.0-SNAPSHOT"
 group "org.grails.plugins"
 
-apply plugin: 'maven-publish'
 apply plugin: 'idea'
 apply plugin: "org.grails.grails-plugin"
-apply plugin:"org.grails.grails-gsp"
-//apply plugin: "org.grails.grails-doc"
-// Used for publishing to central repository, remove if not needed
-//apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
-//apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
+apply plugin: "org.grails.grails-plugin-publish"
+apply plugin: "org.grails.grails-gsp"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -85,3 +81,19 @@ task wrapper(type: Wrapper) {
 
 apply from: "gradle/documentation.gradle"
 apply from: "gradle/publish.gradle"
+
+grailsPublish {
+    userOrg = 'grails'
+    githubSlug = 'gpc/joda-time'
+    license {
+        name = 'Apache-2.0'
+    }
+    title = 'Joda-Time Plugin'
+    desc = 'Grails Joda-Ti Plugin'
+    developers = [
+            robfletcher: 'Rob Fletcher',
+            graemerocher: 'Graeme Rocher',
+            puneetbehl      : "Puneet Behl",
+            sbglasius  : "Søren Berg Glasius"
+    ]
+}
