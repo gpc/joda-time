@@ -39,7 +39,7 @@ class FormattingTagLibTests extends Specification implements TagLibUnitTest<Form
 	}
 
 	void cleanup() {
-		grailsApplication.config.jodatime.clear()
+        grailsApplication.config.setAt('jodatime.format.org.joda.time.DateTime', null)
 		DateTimeUtils.setCurrentMillisSystem()
 		DateTimeZone.default = defaultTimeZone
 	}
@@ -85,8 +85,7 @@ class FormattingTagLibTests extends Specification implements TagLibUnitTest<Form
 
 	@Test
 	void formatStyleAttributeInPreferenceToConfigDefault() {
-		grailsApplication.config.jodatime.format.org.joda.time.DateTime = "[z] dd-MM-yyyy@HH:mm:ss"
-
+        grailsApplication.config.setAt('jodatime.format.org.joda.time.DateTime', "[z] dd-MM-yyyy@HH:mm:ss")
 		JodaTimeUtils.withDateTimeZone(DateTimeZone.forID('Europe/London')) {
 			assert applyTemplate('<joda:format style="F-"/>') == "Thursday, 2 October 2008"
 		}
@@ -116,7 +115,7 @@ class FormattingTagLibTests extends Specification implements TagLibUnitTest<Form
 
 	@Test
 	void formatUsesPatternIfConfigured() {
-		grailsApplication.config.jodatime.format.org.joda.time.DateTime = "[z] dd-MM-yyyy@HH:mm:ss"
+        grailsApplication.config.setAt('jodatime.format.org.joda.time.DateTime', "[z] dd-MM-yyyy@HH:mm:ss")
 
 		JodaTimeUtils.withDateTimeZone(DateTimeZone.forID("Europe/London")) {
 			assert applyTemplate('<joda:format/>') == "[BST] 02-10-2008@02:50:33"
@@ -150,7 +149,7 @@ class FormattingTagLibTests extends Specification implements TagLibUnitTest<Form
 
 	@Test
 	void patternDisplaysConfiguredPatternIfSet() {
-		grailsApplication.config.jodatime.format.org.joda.time.DateTime = "[z] dd-MM-yyyy@HH:mm:ss"
+        grailsApplication.config.setAt('jodatime.format.org.joda.time.DateTime', "[z] dd-MM-yyyy@HH:mm:ss")
 
 		assert applyTemplate('<joda:inputPattern/>') == "[z] dd-MM-yyyy@HH:mm:ss"
 	}

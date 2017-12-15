@@ -50,7 +50,7 @@ class JSONBindingSpec extends Specification implements GrailsWebUnitTest, DataTe
 		defineBeans {
 			dateTimeConverter(DateTimeConverter) {
 				type = DateTime
-				grailsApplication = ref("grailsApplication")
+				configuration = config
 			}
 		}
 	}

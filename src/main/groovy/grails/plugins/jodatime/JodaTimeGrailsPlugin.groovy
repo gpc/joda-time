@@ -50,7 +50,7 @@ class JodaTimeGrailsPlugin extends Plugin {
 
         DateTimeConverter.SUPPORTED_TYPES.each{ jodaType ->
             "joda${jodaType.simpleName}Converter"(DateTimeConverter) {
-                grailsApplication = grailsApplication
+                configuration = config
                 type = jodaType
             }
         }
