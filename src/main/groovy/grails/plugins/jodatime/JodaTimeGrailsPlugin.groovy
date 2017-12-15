@@ -27,8 +27,8 @@ import grails.plugins.jodatime.converters.JodaConverters
 
 class JodaTimeGrailsPlugin extends Plugin {
 
-    def version = "2.0.0-SNAPSHOT"
-    def grailsVersion = "3.0.1 > *"
+    def version = "2.1.0-SNAPSHOT"
+    def grailsVersion = "3.3.0 > *"
     def title = "Joda-Time Plugin"
     def author = "Rob Fletcher"
     def authorEmail = "rob@freeside.co"
@@ -39,7 +39,8 @@ class JodaTimeGrailsPlugin extends Plugin {
     def organization = [name: "TO THE NEW Digital", url: "http://www.tothenew.com/"]
     def developers = [
         [name: 'Rob Fletcher', email: 'rob@freeside.co'],
-        [name: "Puneet Behl", email: "puneet.behl007@gmail.com"]
+        [name: "Puneet Behl", email: "puneet.behl007@gmail.com"],
+        [name: "Søren Berg Glasius", email: "soeren@glasius.dk"]
     ]
     def issueManagement = [url: 'https://github.com/gpc/joda-time/issues']
     def scm = [url: 'https://gpc.github.io/joda-time/latest/']

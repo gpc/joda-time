@@ -15,7 +15,7 @@
  */
 package grails.plugins.jodatime.taglib
 
-import grails.test.mixin.TestFor
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.plugins.codecs.HTMLCodec
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
@@ -27,9 +27,8 @@ import spock.lang.Unroll
 
 import static jodd.jerry.Jerry.jerry as $
 
-@TestFor(DateTimeTagLib)
 @Unroll
-class DateTimeTagLibSpec extends Specification {
+class DateTimeTagLibSpec extends Specification implements TagLibUnitTest<DateTimeTagLib> {
 
 	void setup() {
 		mockCodec HTMLCodec

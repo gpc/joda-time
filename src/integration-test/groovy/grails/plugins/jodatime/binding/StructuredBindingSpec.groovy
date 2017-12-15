@@ -2,7 +2,7 @@ package grails.plugins.jodatime.binding
 
 import grails.databinding.SimpleMapDataBindingSource
 import grails.persistence.Entity
-import grails.test.mixin.integration.Integration
+import grails.testing.mixin.integration.Integration
 import grails.web.databinding.GrailsWebDataBinder
 import grails.web.servlet.mvc.GrailsParameterMap
 import org.joda.time.LocalDate
@@ -120,12 +120,13 @@ class StructuredBindingSpec extends Specification {
 		])
 
 		and:
-		def event = new RecurringEvent(dates: [null, null])
+		def event = new RecurringEvent()
 
 		when:
-//		def binder = GrailsDataBinder.createBinder(event, '', request)
-//		binder.bind(params)
-		grailsWebDataBinder.bind person, params as SimpleMapDataBindingSource
+		// Due to a bug in Grails this does not work even with regular Date
+		// Bug reported here: https://github.com/grails/grails-core/issues/10894
+		SimpleMapDataBindingSource dataBindingSource = params
+		grailsWebDataBinder.bind(event, dataBindingSource)
 
 		then:
 		!event.errors.hasErrors()

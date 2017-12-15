@@ -15,7 +15,7 @@
  */
 package grails.plugins.jodatime.taglib
 
-import grails.test.mixin.TestFor
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.taglib.GrailsTagException
 import org.joda.time.Period
 import spock.lang.IgnoreIf
@@ -23,14 +23,11 @@ import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static java.util.Locale.ENGLISH
-import static java.util.Locale.FRENCH
-import static java.util.Locale.GERMAN
+import static java.util.Locale.*
 import static jodd.jerry.Jerry.jerry as $
 
 @Unroll
-@TestFor(PeriodTagLib)
-class PeriodTagLibSpec extends Specification {
+class PeriodTagLibSpec extends Specification implements TagLibUnitTest<PeriodTagLib>{
 
 	void cleanup() {
 		grailsApplication.config.jodatime = [:]

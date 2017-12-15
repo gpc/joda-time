@@ -15,7 +15,7 @@
  */
 package grails.plugins.jodatime.taglib
 
-import grails.test.mixin.TestFor
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.plugins.codecs.HTMLCodec
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
@@ -23,8 +23,7 @@ import org.joda.time.DateTimeZone
 import spock.lang.Ignore
 import spock.lang.Specification
 
-@TestFor(DateTimeZoneTagLib)
-class DateTimeZoneTagLibSpec extends Specification {
+class DateTimeZoneTagLibSpec extends Specification implements TagLibUnitTest<DateTimeZoneTagLib>{
 
 	private defaultZone
 

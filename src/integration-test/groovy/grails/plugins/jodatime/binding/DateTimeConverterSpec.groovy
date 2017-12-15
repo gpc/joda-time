@@ -2,14 +2,9 @@ package grails.plugins.jodatime.binding
 
 import grails.databinding.SimpleMapDataBindingSource
 import grails.persistence.Entity
-import grails.test.mixin.integration.Integration
+import grails.testing.mixin.integration.Integration
 import grails.web.databinding.GrailsWebDataBinder
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.LocalTime
+import org.joda.time.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.i18n.LocaleContextHolder
 import spock.lang.Specification

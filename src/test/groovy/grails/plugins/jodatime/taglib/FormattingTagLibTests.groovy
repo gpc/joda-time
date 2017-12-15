@@ -16,26 +16,20 @@
 package grails.plugins.jodatime.taglib
 
 import grails.plugins.jodatime.JodaTimeUtils
-import grails.test.mixin.TestFor
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.taglib.GrailsTagException
-import org.joda.time.DateTime
-import org.joda.time.DateTimeUtils
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.*
 import org.joda.time.chrono.IslamicChronology
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
-import org.junit.Before
 import org.junit.Test
+import spock.lang.Specification
 
-@TestFor(FormattingTagLib)
-class FormattingTagLibTests {
+class FormattingTagLibTests extends Specification implements TagLibUnitTest<FormattingTagLib>{
 
 	DateTimeZone defaultTimeZone
 
-	@Before
-	void setUp() {
+	void setup() {
 		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0, DateTimeZone.forID("Europe/London"))
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
 		defaultTimeZone = DateTimeZone.default
@@ -44,8 +38,7 @@ class FormattingTagLibTests {
 		tagLib.request.addPreferredLocale Locale.UK
 	}
 
-	@After
-	void tearDown() {
+	void cleanup() {
 		grailsApplication.config.jodatime.clear()
 		DateTimeUtils.setCurrentMillisSystem()
 		DateTimeZone.default = defaultTimeZone
