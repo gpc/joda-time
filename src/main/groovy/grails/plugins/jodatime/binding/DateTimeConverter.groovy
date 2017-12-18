@@ -59,7 +59,7 @@ class DateTimeConverter implements ValueConverter, GrailsConfigurationAware {
     }
 
     private boolean hasConfigPatternFor(Class type) {
-        config.hasProperty("jodatime.format.${type.name}")
+        config.containsProperty("jodatime.format.${type.name}")
     }
 
     private String getConfigPatternFor(Class type) {

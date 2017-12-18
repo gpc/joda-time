@@ -11,7 +11,7 @@ include::databinding.adoc[]
 
 include::tags.adoc[]
 
-include::scaffolding.adoc[]
+//include::scaffolding.adoc[]
 
 include::jsonandxml.adoc[]
 

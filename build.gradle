@@ -34,17 +34,14 @@ repositories {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-logging"
-    compile "org.springframework.boot:spring-boot-autoconfigure"
-    compile "org.grails:grails-core"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    provided "org.springframework.boot:spring-boot-starter-logging"
+    provided "org.springframework.boot:spring-boot-autoconfigure"
+    provided "org.grails:grails-core"
+    provided "org.springframework.boot:spring-boot-starter-tomcat"
 
-    compile "org.grails:grails-web-boot"
-    compile "org.grails:grails-logging"
-    compile "org.grails:grails-plugin-databinding"
-    compile "org.grails:grails-plugin-services"
-    compile "org.grails.plugins:gsp"
+    provided "org.grails:grails-web-boot"
+    provided "org.grails:grails-logging"
+    provided "org.grails:grails-plugin-databinding"
 
     profile "org.grails.profiles:web-plugin"
 
@@ -55,8 +52,6 @@ dependencies {
     provided "org.grails.plugins:converters:3.3.1"
     provided 'javax.servlet:javax.servlet-api:3.1.0'
     provided "org.grails.plugins:hibernate5"
-    provided "org.grails:grails-datastore-gorm:${gormVersion}"
-    provided "org.grails:grails-datastore-gorm-test:${gormVersion}"
 
     provided "org.hibernate:hibernate-core:5.1.5.Final"
 

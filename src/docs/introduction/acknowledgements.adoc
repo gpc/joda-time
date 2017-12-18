@@ -14,3 +14,4 @@ Many thanks to all the users who reported issues and sent pull requests.
 * https://github.com/robertoschwald[Robert Oschwald]
 * https://github.com/ColinHarrington[Colin Harrington]
 * https://github.com/puneetbehl[Puneet Behl]
+* https://github.com/sbglasius[Soeren Berg Glasius]
