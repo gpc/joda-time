@@ -425,7 +425,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Jodatime Plugin - Reference Documentation</h1>
 <div class="details">
 <span id="author" class="author">Rob Fletcher</span><br>
-<span id="revnumber">version 2.0.0</span>
+<span id="revnumber">version 2.1.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -468,12 +468,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#weekField">4.13. joda:weekField</a></li>
 </ul>
 </li>
-<li><a href="#Scaffolding">5. Scaffolding</a></li>
-<li><a href="#jsonandxml">6. JSON and XML Rendering</a></li>
-<li><a href="#integrating">7. Integrating with Other Plugins</a>
+<li><a href="#jsonandxml">5. JSON and XML Rendering</a></li>
+<li><a href="#integrating">6. Integrating with Other Plugins</a>
 <ul class="sectlevel2">
-<li><a href="#a-href-http-freeside-co-grails-fields-fields-a">7.1. <a href="http://freeside.co/grails-fields">Fields</a></a></li>
-<li><a href="#a-href-http-grails-org-plugin-grails-ui-grails-ui-a">7.2. <a href="http://grails.org/plugin/grails-ui">Grails UI</a></a></li>
+<li><a href="#a-href-http-freeside-co-grails-fields-fields-a">6.1. <a href="http://freeside.co/grails-fields">Fields</a></a></li>
+<li><a href="#a-href-http-grails-org-plugin-grails-ui-grails-ui-a">6.2. <a href="http://grails.org/plugin/grails-ui">Grails UI</a></a></li>
 </ul>
 </li>
 </ul>
@@ -504,9 +503,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>Provides tag-libs for input and output of Joda Time data.</p>
-</li>
-<li>
-<p>Enhances Grails' scaffolding to support domain classes with Joda Time fields.</p>
 </li>
 <li>
 <p>Adds compatibility and consistency methods to Joda Time types so that they integrate better with Groovy.</p>
@@ -770,6 +766,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p><a href="https://github.com/puneetbehl">Puneet Behl</a></p>
+</li>
+<li>
+<p><a href="https://github.com/sbglasius">Soeren Berg Glasius</a></p>
 </li>
 </ul>
 </div>
@@ -1444,54 +1443,7 @@ If the <code>value</code> attribute is omitted then the current <code>DateTime</
 </div>
 </div>
 <div class="sect1">
-<h2 id="Scaffolding">5. Scaffolding</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The Joda-Time plugin enhances Grails&#8217;s dynamic scaffolding so it is compatible with domain classes with the following types:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalTime.html">LocalTime</a></p>
-</li>
-<li>
-<p><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDate.html">LocalDate</a></p>
-</li>
-<li>
-<p><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/LocalDateTime.html">LocalDateTime</a></p>
-</li>
-<li>
-<p><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTime.html">DateTime</a></p>
-</li>
-<li>
-<p><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Duration.html">Duration</a></p>
-</li>
-<li>
-<p><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Period.html">Period</a></p>
-</li>
-<li>
-<p><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/DateTimeZone.html">DateTimeZone</a></p>
-</li>
-<li>
-<p><a href="http://joda-time.sourceforge.net/api-release/org/joda/time/Instant.html">Instant</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>To install scaffolding templates use the command:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">grails install-joda-time-templates</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Create and edit views use the <em>joda:dateTimePicker, joda:datePicker, joda:timePicker</em> or <em>joda:periodPicker</em> (see above) as appropriate. Columns on list views are sortable.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="jsonandxml">6. JSON and XML Rendering</h2>
+<h2 id="jsonandxml">5. JSON and XML Rendering</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The plugin registers JSON and XML converters for:</p>
@@ -1518,16 +1470,16 @@ If the <code>value</code> attribute is omitted then the current <code>DateTime</
 </div>
 </div>
 <div class="sect1">
-<h2 id="integrating">7. Integrating with Other Plugins</h2>
+<h2 id="integrating">6. Integrating with Other Plugins</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="a-href-http-freeside-co-grails-fields-fields-a">7.1. <a href="http://freeside.co/grails-fields">Fields</a></h3>
+<h3 id="a-href-http-freeside-co-grails-fields-fields-a">6.1. <a href="http://freeside.co/grails-fields">Fields</a></h3>
 <div class="paragraph">
 <p>The Joda-Time plugin supplies templates so that inputs for Joda-Time properties will render correctly. You can override these templates in your own application if you want to render the inputs differently. See the Fields plugin documentation for details on how to do so.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="a-href-http-grails-org-plugin-grails-ui-grails-ui-a">7.2. <a href="http://grails.org/plugin/grails-ui">Grails UI</a></h3>
+<h3 id="a-href-http-grails-org-plugin-grails-ui-grails-ui-a">6.2. <a href="http://grails.org/plugin/grails-ui">Grails UI</a></h3>
 <div class="paragraph">
 <p>The Grails-UI Plugin&#8217;s datePicker tag works quite well with <em>Joda-Time</em> types such as <em>DateTime, LocalDate</em> or <em>LocalDateTime</em> instances. The tag&#8217;s <em>formatString</em> argument can easily be set with <em>joda:inputPattern</em> (see above). The value attribute needs to be converted to a <em>java.util.Date</em> instance. Examples of use might be:</p>
 </div>
@@ -1553,8 +1505,8 @@ If the <code>value</code> attribute is omitted then the current <code>DateTime</
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.0<br>
-Last updated 2016-09-11 12:19:07 IST
+Version 2.1.0-SNAPSHOT<br>
+Last updated 2017-12-19 19:11:54 +05:30
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
