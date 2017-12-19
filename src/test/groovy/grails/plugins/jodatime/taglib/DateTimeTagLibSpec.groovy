@@ -15,7 +15,7 @@
  */
 package grails.plugins.jodatime.taglib
 
-import grails.test.mixin.TestFor
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.plugins.codecs.HTMLCodec
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
@@ -27,9 +27,8 @@ import spock.lang.Unroll
 
 import static jodd.jerry.Jerry.jerry as $
 
-@TestFor(DateTimeTagLib)
 @Unroll
-class DateTimeTagLibSpec extends Specification {
+class DateTimeTagLibSpec extends Specification implements TagLibUnitTest<DateTimeTagLib> {
 
 	void setup() {
 		mockCodec HTMLCodec
@@ -216,8 +215,8 @@ class DateTimeTagLibSpec extends Specification {
 
 	void "dateTimePicker uses config for years"() {
 		given:
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = 1
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = 2
+		tagLib.yearsBelow = 1
+		tagLib.yearsAbove = 2
 
 		and:
 		def year = new LocalDate().year
@@ -235,8 +234,8 @@ class DateTimeTagLibSpec extends Specification {
 		yearSelect.find("option[value='${year + 3}']").length() == 0
 
 		cleanup:
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsBelow = null
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.yearsAbove = null
+		tagLib.yearsBelow = null
+		tagLib.yearsAbove = null
 	}
 
 	void "picker tags accept years arg"() {
@@ -272,7 +271,7 @@ class DateTimeTagLibSpec extends Specification {
 
 	void "dateTimePicker uses config for precision"() {
 		given:
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = "second"
+		tagLib.precision = "second"
 
 		when:
 		def output = applyTemplate('<joda:dateTimePicker name="foo"/>')
@@ -284,7 +283,7 @@ class DateTimeTagLibSpec extends Specification {
 		}
 
 		cleanup:
-		tagLib.grailsApplication.config.grails.tags.datePicker.default.precision = null
+		tagLib.precision = null
 	}
 
 	void "picker tags accept '#precision' precision arg"() {

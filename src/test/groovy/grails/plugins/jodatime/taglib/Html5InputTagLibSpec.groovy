@@ -16,17 +16,11 @@
 
 package grails.plugins.jodatime.taglib
 
-import grails.test.mixin.Mock
-import grails.test.mixin.TestFor
+import grails.testing.gorm.DataTest
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.plugins.codecs.HTMLCodec
 import org.grails.taglib.GrailsTagException
-import org.joda.time.DateTime
-import org.joda.time.DateTimeUtils
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.LocalTime
-import org.joda.time.YearMonth
+import org.joda.time.*
 import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -34,11 +28,11 @@ import spock.lang.Unroll
 import static jodd.jerry.Jerry.jerry as $
 import static org.joda.time.DateTimeZone.UTC
 
-@TestFor(Html5InputTagLib)
-@Mock(FormattingTagLib)
 @Unroll
-class Html5InputTagLibSpec extends Specification {
-
+class Html5InputTagLibSpec extends Specification implements TagLibUnitTest<Html5InputTagLib>, DataTest {
+    void setupSpec() {
+        mockTagLib FormattingTagLib
+    }
 	void setup() {
 		mockCodec HTMLCodec
 
@@ -51,10 +45,10 @@ class Html5InputTagLibSpec extends Specification {
 	void cleanup() {
 		DateTimeUtils.setCurrentMillisSystem()
 	}
-
-	void "#tag tag renders an HTML5 input"() {
+	@Unroll("#tag tag renders an HTML5 input")
+	void "tag renders an HTML5 input"(String tag, String expectedType) {
 		when:
-		def output = applyTemplate("<joda:$tag name=\"foo\"/>")
+		def output = applyTemplate("""<joda:$tag name="foo"/>""")
 
 		then:
 		def element = $(output).find('input')
@@ -73,9 +67,10 @@ class Html5InputTagLibSpec extends Specification {
 		"datetimeField"      | 'datetime'
 	}
 
-	void "#tag tag renders its value in the correct format"() {
+	@Unroll("#tag tag renders its value in the correct format")
+	void "tag renders its value in the correct format"() {
 		when:
-		def output = applyTemplate("<joda:$tag name=\"foo\" value=\"\${value}\"/>", [value: new DateTime()])
+		def output = applyTemplate("""<joda:$tag name="foo" value="\${value}"/>""", [value: new DateTime()])
 
 		then:
 		$(output).find('input').attr('value') == expectedOutput

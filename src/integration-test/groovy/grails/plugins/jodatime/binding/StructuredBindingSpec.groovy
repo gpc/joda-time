@@ -1,8 +1,11 @@
 package grails.plugins.jodatime.binding
 
+import grails.databinding.BindUsing
+import grails.databinding.BindingFormat
 import grails.databinding.SimpleMapDataBindingSource
 import grails.persistence.Entity
-import grails.test.mixin.integration.Integration
+import grails.testing.mixin.integration.Integration
+import grails.validation.Validateable
 import grails.web.databinding.GrailsWebDataBinder
 import grails.web.servlet.mvc.GrailsParameterMap
 import org.joda.time.LocalDate
@@ -37,8 +40,6 @@ class StructuredBindingSpec extends Specification {
 		def person = new Person()
 
 		when:
-//		def binder = GrailsDataBinder.createBinder(person, '', request)
-//		binder.bind(params)
 		grailsWebDataBinder.bind person, params as SimpleMapDataBindingSource
 
 		then:
@@ -61,8 +62,6 @@ class StructuredBindingSpec extends Specification {
 		def person = new Parent(child: new Person()) // TODO: Grails, why you are make me do this?
 
 		when:
-//		def binder = GrailsDataBinder.createBinder(person, '', request)
-//		binder.bind(params)
 		grailsWebDataBinder.bind person, params as SimpleMapDataBindingSource
 
 		then:
@@ -120,12 +119,13 @@ class StructuredBindingSpec extends Specification {
 		])
 
 		and:
-		def event = new RecurringEvent(dates: [null, null])
+		def event = new RecurringEvent()
 
 		when:
-//		def binder = GrailsDataBinder.createBinder(event, '', request)
-//		binder.bind(params)
-		grailsWebDataBinder.bind person, params as SimpleMapDataBindingSource
+		// Due to a bug in Grails this does not work even with regular Date
+		// Bug reported here: https://github.com/grails/grails-core/issues/10894
+		SimpleMapDataBindingSource dataBindingSource = params
+		grailsWebDataBinder.bind(event, dataBindingSource)
 
 		then:
 		!event.errors.hasErrors()
@@ -134,6 +134,27 @@ class StructuredBindingSpec extends Specification {
 		event.name == params.name
 		event.dates == [new LocalDate(2012, 11, 9), new LocalDate(2012, 12, 13)]
 	}
+
+	void 'can bind to a command object'() {
+		given:
+		params.putAll([
+			name       : 'GR8Conf EU 2018',
+			start      : '30-05-2018',
+			end        : '2018-06-01'
+		])
+
+		and:
+		def eventCommand = new EventCommand()
+
+		when:
+		grailsWebDataBinder.bind eventCommand, params as SimpleMapDataBindingSource
+
+		then:
+		eventCommand.name == 'GR8Conf EU 2018'
+		eventCommand.start == new LocalDate(2018, 05, 30)
+		eventCommand.end == new LocalDate(2018, 06, 1)
+	}
+
 
 }
 
@@ -159,4 +180,14 @@ class RecurringEvent {
 	String name
 	List<LocalDate> dates
 	static hasMany = [dates: LocalDate]
+}
+
+class EventCommand implements Validateable {
+	String name
+	@BindingFormat('dd-MM-yyyy')
+	LocalDate start
+	@BindUsing({ obj, source ->
+		source['end'] ? LocalDate.parse(source['end'].toString()) : null
+	})
+	LocalDate end
 }

@@ -15,7 +15,7 @@
  */
 package grails.plugins.jodatime.taglib
 
-import grails.test.mixin.TestFor
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.taglib.GrailsTagException
 import org.joda.time.Period
 import spock.lang.IgnoreIf
@@ -23,18 +23,11 @@ import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static java.util.Locale.ENGLISH
-import static java.util.Locale.FRENCH
-import static java.util.Locale.GERMAN
+import static java.util.Locale.*
 import static jodd.jerry.Jerry.jerry as $
 
 @Unroll
-@TestFor(PeriodTagLib)
-class PeriodTagLibSpec extends Specification {
-
-	void cleanup() {
-		grailsApplication.config.jodatime = [:]
-	}
+class PeriodTagLibSpec extends Specification implements TagLibUnitTest<PeriodTagLib>{
 
 	void 'periodPicker defaults id from name'() {
 		given:
@@ -58,7 +51,7 @@ class PeriodTagLibSpec extends Specification {
 
 	void 'periodPicker uses fields from config if present'() {
 		given:
-		grailsApplication.config.jodatime = [periodpicker: [default: [fields : "years,months , days"]]]
+		tagLib.configFields = "years,months , days"
 
 		and:
 		def output = applyTemplate('<joda:periodPicker name="foo"/>')
@@ -214,7 +207,7 @@ class PeriodTagLibSpec extends Specification {
 
 	void 'formatPeriod uses fields from config'() {
 		given:
-		grailsApplication.config.jodatime = [periodpicker :[default: [fields : "years,months , days"]]]
+		tagLib.configFields = "years,months , days"
 
 		expect:
 		applyTemplate('<joda:formatPeriod value="${value}"/>', [value: value]) == "3 years, 2 months and 2 days"

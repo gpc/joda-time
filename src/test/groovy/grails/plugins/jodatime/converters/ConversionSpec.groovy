@@ -17,23 +17,18 @@ package grails.plugins.jodatime.converters
 
 import grails.converters.JSON
 import grails.converters.XML
-import grails.test.mixin.TestMixin
-import grails.test.mixin.web.ControllerUnitTestMixin
+import grails.testing.web.GrailsWebUnitTest
+import grails.testing.web.controllers.ControllerUnitTest
 import groovy.transform.CompileStatic
 import org.grails.web.json.JSONElement
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.LocalTime
+import org.joda.time.*
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import static org.joda.time.DateTimeZone.UTC
 
-@TestMixin(ControllerUnitTestMixin)
 @Unroll
-class ConversionSpec extends Specification {
+class ConversionSpec extends Specification implements GrailsWebUnitTest {
 
 	void setup() {
 		JodaConverters.registerJsonAndXmlMarshallers()

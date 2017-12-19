@@ -97,6 +97,6 @@ class FormattingTagLib {
 	}
 
 	private String patternForType(String type) {
-		grailsApplication.config.flatten()."jodatime.format.${type}" ?: null
+		grailsApplication.config.getProperty("jodatime.format.${type}")
 	}
 }

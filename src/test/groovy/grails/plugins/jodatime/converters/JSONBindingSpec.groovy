@@ -18,9 +18,8 @@ package grails.plugins.jodatime.converters
 import grails.converters.JSON
 import grails.persistence.Entity
 import grails.plugins.jodatime.binding.DateTimeConverter
-import grails.test.mixin.Mock
-import grails.test.mixin.TestMixin
-import grails.test.mixin.web.ControllerUnitTestMixin
+import grails.testing.gorm.DataTest
+import grails.testing.web.GrailsWebUnitTest
 import grails.util.GrailsNameUtils
 import groovy.transform.CompileStatic
 import org.joda.time.DateTime
@@ -33,10 +32,8 @@ import spock.lang.Unroll
 
 import static org.joda.time.DateTimeZone.UTC
 
-@TestMixin(ControllerUnitTestMixin)
-@Mock(Timestamp)
 @Unroll
-class JSONBindingSpec extends Specification {
+class JSONBindingSpec extends Specification implements GrailsWebUnitTest, DataTest {
 
 	@Shared DateTimeZone originalTimeZone
 
@@ -47,15 +44,6 @@ class JSONBindingSpec extends Specification {
 
 	void cleanupSpec() {
 		DateTimeZone.default = originalTimeZone
-	}
-
-	void setup() {
-		defineBeans {
-			dateTimeConverter(DateTimeConverter) {
-				type = DateTime
-				grailsApplication = ref("grailsApplication")
-			}
-		}
 	}
 
 	void "can unmarshal a #expected.class.simpleName object from a JSON element #value"() {
