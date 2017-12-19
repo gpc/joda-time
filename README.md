@@ -14,4 +14,4 @@ The Joda-Time Plugin integrates the [Joda-Time][1] date/time library into Grails
 [1]:http://joda-time.sourceforge.net/
 
 ## Documentation
-[Documentation](https://gpc.github.io/joda-time/guide/index.html)
+[Documentation](https://gpc.github.io/joda-time/docs/index.html)
