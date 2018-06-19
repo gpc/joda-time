@@ -1,6 +1,13 @@
 [[releaseNotes]]
 === Release Notes
 
+.2.1.0-SNAPSHOT
+* Grails 3.3.x support.
+* All tests converted to new Trait based tests
+* Wrappers for fields-plugin removed. They cause too much trouble
+* SimpleMapJodaTimeMarshaller currently moved out of compiled scope
+* https://github.com/gpc/joda-time/pull/17[Correcting the field templates]
+
 .2.0.0
 
 * Migrated the plugin to support Grails 3

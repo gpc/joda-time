@@ -1,32 +1,33 @@
 package grails.plugins.jodatime.binding
 
+import grails.config.Config
 import grails.core.GrailsApplication
+import grails.core.support.GrailsConfigurationAware
 import grails.databinding.converters.ValueConverter
 import grails.plugins.jodatime.Html5DateTimeFormat
-import org.joda.time.DateTime
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.LocalTime
+import org.joda.time.*
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.springframework.context.i18n.LocaleContextHolder
 
-class DateTimeConverter implements ValueConverter {
+class DateTimeConverter implements ValueConverter, GrailsConfigurationAware {
 
     static final SUPPORTED_TYPES = [LocalTime, LocalDate, LocalDateTime, DateTime, Instant].asImmutable()
 
     Class type
-    GrailsApplication grailsApplication
+     Config config
 
-    @Lazy private ConfigObject config = grailsApplication.config.jodatime.format
+    @Override
+    void setConfiguration(Config co) {
+        config = co
+    }
 
-    boolean canConvert(value) {
+    boolean canConvert(Object value) {
         value instanceof String
     }
 
-    def convert(value) {
-        value ? formatter.parseDateTime(value)."to$type.simpleName"() : null
+    def convert(Object value) {
+        value ? formatter.parseDateTime(value as String)."to$type.simpleName"() : null
     }
 
     Class<?> getTargetType() {
@@ -53,23 +54,23 @@ class DateTimeConverter implements ValueConverter {
             default:
                 style = 'SS'
         }
-
-        return DateTimeFormat.forStyle(style).withLocale(LocaleContextHolder.locale)
+        Locale locale = LocaleContextHolder.locale
+        return DateTimeFormat.forStyle(style).withLocale(locale)
     }
 
     private boolean hasConfigPatternFor(Class type) {
-        config.flatten()."$type.name"
+        config.containsProperty("jodatime.format.${type.name}")
     }
 
     private String getConfigPatternFor(Class type) {
-        config.flatten()."$type.name"
+        config.getProperty("jodatime.format.${type.name}")
     }
 
     private boolean useISO() {
-        config.html5
+        config.hasProperty("jodatime.format.html5")
     }
 
-    private DateTimeFormatter getISOFormatterFor(Class type) {
+    private static DateTimeFormatter getISOFormatterFor(Class type) {
         switch (type) {
             case LocalTime:
                 return Html5DateTimeFormat.time()

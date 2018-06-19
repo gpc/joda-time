@@ -16,26 +16,20 @@
 package grails.plugins.jodatime.taglib
 
 import grails.plugins.jodatime.JodaTimeUtils
-import grails.test.mixin.TestFor
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.taglib.GrailsTagException
-import org.joda.time.DateTime
-import org.joda.time.DateTimeUtils
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.*
 import org.joda.time.chrono.IslamicChronology
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
-import org.junit.Before
 import org.junit.Test
+import spock.lang.Specification
 
-@TestFor(FormattingTagLib)
-class FormattingTagLibTests {
+class FormattingTagLibTests extends Specification implements TagLibUnitTest<FormattingTagLib>{
 
 	DateTimeZone defaultTimeZone
 
-	@Before
-	void setUp() {
+	void setup() {
 		def fixedDateTime = new DateTime(2008, 10, 2, 2, 50, 33, 0, DateTimeZone.forID("Europe/London"))
 		DateTimeUtils.setCurrentMillisFixed fixedDateTime.getMillis()
 		defaultTimeZone = DateTimeZone.default
@@ -44,9 +38,8 @@ class FormattingTagLibTests {
 		tagLib.request.addPreferredLocale Locale.UK
 	}
 
-	@After
-	void tearDown() {
-		grailsApplication.config.jodatime.clear()
+	void cleanup() {
+        grailsApplication.config.setAt('jodatime.format.org.joda.time.DateTime', null)
 		DateTimeUtils.setCurrentMillisSystem()
 		DateTimeZone.default = defaultTimeZone
 	}
@@ -92,8 +85,7 @@ class FormattingTagLibTests {
 
 	@Test
 	void formatStyleAttributeInPreferenceToConfigDefault() {
-		grailsApplication.config.jodatime.format.org.joda.time.DateTime = "[z] dd-MM-yyyy@HH:mm:ss"
-
+        grailsApplication.config.setAt('jodatime.format.org.joda.time.DateTime', "[z] dd-MM-yyyy@HH:mm:ss")
 		JodaTimeUtils.withDateTimeZone(DateTimeZone.forID('Europe/London')) {
 			assert applyTemplate('<joda:format style="F-"/>') == "Thursday, 2 October 2008"
 		}
@@ -123,7 +115,7 @@ class FormattingTagLibTests {
 
 	@Test
 	void formatUsesPatternIfConfigured() {
-		grailsApplication.config.jodatime.format.org.joda.time.DateTime = "[z] dd-MM-yyyy@HH:mm:ss"
+        grailsApplication.config.setAt('jodatime.format.org.joda.time.DateTime', "[z] dd-MM-yyyy@HH:mm:ss")
 
 		JodaTimeUtils.withDateTimeZone(DateTimeZone.forID("Europe/London")) {
 			assert applyTemplate('<joda:format/>') == "[BST] 02-10-2008@02:50:33"
@@ -157,7 +149,7 @@ class FormattingTagLibTests {
 
 	@Test
 	void patternDisplaysConfiguredPatternIfSet() {
-		grailsApplication.config.jodatime.format.org.joda.time.DateTime = "[z] dd-MM-yyyy@HH:mm:ss"
+        grailsApplication.config.setAt('jodatime.format.org.joda.time.DateTime', "[z] dd-MM-yyyy@HH:mm:ss")
 
 		assert applyTemplate('<joda:inputPattern/>') == "[z] dd-MM-yyyy@HH:mm:ss"
 	}
