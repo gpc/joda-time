@@ -18,6 +18,7 @@ cd gh-pages
 
 # If this is the master branch then update the snapshot
 if [[ $TRAVIS_BRANCH == 'master' ]]; then
+    git rm -rf latest/
     mkdir -p snapshot
     cp -r ../build/docs/manual/. ./snapshot/
 
