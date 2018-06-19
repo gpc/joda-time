@@ -38,7 +38,7 @@ import org.asciidoctor.gradle.AsciidoctorTask
 
 tasks.withType(AsciidoctorTask) {
     attributes asciidoctorAttributes
-    outputDir new File(buildDir, 'docs/docs')
+    outputDir new File(buildDir, 'docs/manual')
     separateOutputDirs = false
     sourceDir = file('src/docs')
     sources {
@@ -53,7 +53,7 @@ task asciidoc(type: AsciidoctorTask, description: 'Generates single-page HTML an
 
 task docs(dependsOn: [asciidoc])
 docs.doLast({
-    File dir = new File(buildDir, 'docs/docs')
+    File dir = new File(buildDir, 'docs/manual')
     ['pdf'].each { String ext ->
         File f = new File(dir, 'index.' + ext)
         if (f.exists()) {
@@ -61,7 +61,7 @@ docs.doLast({
         }
     }
 
-    File quickRefDir = new File(buildDir, 'docs/docs/ref')
+    File quickRefDir = new File(buildDir, 'docs/manual/ref')
     ['pdf'].each { String ext ->
         File f = new File(quickRefDir, 'index.' + ext)
         if (f.exists()) {
