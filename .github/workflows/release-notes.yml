@@ -1,0 +1,25 @@
+name: Changelog
+on:
+  issues:
+    types: [ closed,reopened ]
+  push:
+    branches:
+      - '[4-9]+.[0-9]+.x'
+  pull_request:
+    types: [ opened, reopened, synchronize, labeled ]
+  pull_request_target:
+    types: [ opened, reopened, synchronize, labeled ]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  release_notes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "value=${GITHUB_REF:11}" >> $GITHUB_OUTPUT
+      - uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

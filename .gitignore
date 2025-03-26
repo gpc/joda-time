@@ -1,10 +1,26 @@
+# Eclipse
+.classpath
+.project
+.settings/
+target-eclipse/
+
+# Intellij
+.idea/
 *.iml
 *.iws
+
 *.log
-*.tmproj
+*.zip
+*.sha1
 .DS_Store
-/.gradle
-/.idea
-/build
-/out
-/src/main/webapp
+plugin.xml
+target
+build
+classes
+.gradle
+web-app/WEB-INF/tld
+grails-app/conf/ApplicationResources.groovy
+grails-app/conf/BootStrap.groovy
+grails-app/conf/spring/
+grails-app/views/error.gsp
+grails-app/views/index.gsp

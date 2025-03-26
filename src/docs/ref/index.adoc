@@ -1,7 +1,0 @@
-= Quick Reference
-:toc: right
-:toc-title: Quick Reference
-
-include::dynamicMethods.adoc[]
-
-include::tags.adoc[]

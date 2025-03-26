@@ -1,94 +1,23 @@
-buildscript {
+allprojects {
     repositories {
-        mavenLocal()
+        mavenCentral()
         maven { url "https://repo.grails.org/grails/core" }
     }
-    dependencies {
-        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.grails.plugins:hibernate5:${gormVersion - ".RELEASE"}"
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'org.ajoberstar:gradle-git:1.4.2'
+}
+
+// Workaround needed for nexus publishing bug
+// version and group must be specified in the root project
+// https://github.com/gradle-nexus/publish-plugin/issues/310
+version = projectVersion
+group = 'this.will.be.overridden'
+
+def publishedProjects = [
+        'plugin',
+        'gorm-testing-support'
+]
+subprojects {
+    if (name in publishedProjects) {
+        // This has to be applied here
+        apply plugin: 'org.grails.grails-publish'
     }
-}
-
-plugins {
-//    id "io.spring.dependency-management" version "0.4.0.RELEASE"
-    id "com.jfrog.bintray" version "1.1"
-}
-
-version "2.1.1.BUILD-SNAPSHOT"
-group "org.grails.plugins"
-
-apply plugin: 'idea'
-apply plugin: "org.grails.grails-plugin"
-apply plugin: "org.grails.grails-plugin-publish"
-apply plugin: "org.grails.grails-gsp"
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven { url "https://repo.grails.org/grails/core" }
-}
-
-dependencies {
-    provided "org.springframework.boot:spring-boot-starter-logging"
-    provided "org.springframework.boot:spring-boot-autoconfigure"
-    provided "org.grails:grails-core"
-    provided "org.springframework.boot:spring-boot-starter-tomcat"
-
-    provided "org.grails:grails-web-boot"
-    provided "org.grails:grails-logging"
-    provided "org.grails:grails-plugin-databinding"
-
-    profile "org.grails.profiles:web-plugin"
-
-    provided "org.grails.plugins:cache"
-    provided "org.grails:grails-plugin-services"
-    provided "org.grails:grails-plugin-domain-class"
-
-    provided "org.grails.plugins:converters:3.3.1"
-    provided 'javax.servlet:javax.servlet-api:3.1.0'
-    provided "org.grails.plugins:hibernate5"
-
-    provided "org.hibernate:hibernate-core:5.1.5.Final"
-
-    compile 'joda-time:joda-time:2.9.9'
-
-    runtime "com.h2database:h2"
-
-    testCompile("org.grails:grails-web-databinding-spring:2.5.0")
-    testCompile('org.hamcrest:hamcrest-all:1.1')
-    testCompile('org.jodd:jodd-lagarto:3.4.1')
-    testCompile "org.grails:grails-gorm-testing-support"
-    testCompile "org.grails:grails-plugin-testing"
-    testCompile "org.grails:grails-web-testing-support"
-
-    console "org.grails:grails-console"
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
-}
-
-
-apply from: "gradle/documentation.gradle"
-apply from: "gradle/publish.gradle"
-
-grailsPublish {
-    userOrg = 'grails'
-    githubSlug = 'gpc/joda-time'
-    license {
-        name = 'Apache-2.0'
-    }
-    title = 'Joda-Time Plugin'
-    desc = 'Grails Joda-Time Plugin'
-    developers = [
-            robfletcher: 'Rob Fletcher',
-            graemerocher: 'Graeme Rocher',
-            puneetbehl      : "Puneet Behl",
-            sbglasius  : "Søren Berg Glasius"
-    ]
 }
