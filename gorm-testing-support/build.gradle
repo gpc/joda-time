@@ -1,0 +1,23 @@
+version = projectVersion
+group = "org.grails.plugins"
+
+apply plugin: 'groovy'
+apply plugin: 'java-library'
+
+ext {
+    pomArtifactId = 'grails-testing-support-gorm-joda-time'
+    pomDescription = "Provides unit test support for Joda Time binding in the simple datastore"
+}
+
+dependencies {
+    implementation platform("org.grails:grails-bom:$grailsVersion")
+
+    implementation 'org.apache.groovy:groovy'
+
+    api 'org.grails:grails-datastore-core'
+    api "joda-time:joda-time:$jodaVersion"
+}
+
+apply from: rootProject.layout.projectDirectory.file('gradle/java-config.gradle')
+apply from: rootProject.layout.projectDirectory.file('gradle/test-config.gradle')
+apply from: rootProject.layout.projectDirectory.file('gradle/publish-config.gradle')

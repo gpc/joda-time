@@ -1,0 +1,115 @@
+import grails.doc.gradle.PublishGuide
+
+buildscript {
+    repositories {
+        maven { url = 'https://repo.grails.org/grails/core' }
+    }
+    dependencies {
+        classpath "org.grails:grails-docs:$grailsVersion"
+    }
+}
+
+apply plugin: 'groovy'
+
+dependencies {
+    implementation platform("org.grails:grails-bom:$grailsVersion")
+    implementation 'org.apache.groovy:groovy-groovydoc'
+    implementation 'org.apache.groovy:groovy-ant'
+    implementation 'org.springframework:spring-core'
+}
+
+tasks.register('cleanDocs', Delete) {
+    group = 'documentation'
+    delete(project.layout.buildDirectory.dir('docs'))
+}
+
+tasks.register('aggregateGroovydoc', Groovydoc) {
+    group = 'documentation'
+    description = 'Copies Groovy API Documentation for all supporting projects'
+
+    Set<Project> groovyDocProjects = rootProject.subprojects.findAll {
+        it.name != 'docs' && !it.name.startsWith('example')
+    }
+    dependsOn(['cleanDocs'] + groovyDocProjects.collect { ":${it.name}:classes" as String })
+
+    source = groovyDocProjects.collectMany { prj ->
+        def dirs = []
+        // Always include main/groovy.
+        dirs += prj.sourceSets.main.groovy.srcDirs
+
+        // If this subproject defines an “ast” source set, include it.
+        def astSourceSet = prj.sourceSets.findByName('ast')
+        if (astSourceSet != null) {
+            dirs += astSourceSet.groovy.srcDirs
+        }
+        dirs
+    }
+
+    def groovydocClasspath = files(configurations.compileClasspath + groovyDocProjects.configurations.compileClasspath)
+    classpath = groovydocClasspath
+    groovyClasspath = groovydocClasspath
+
+    docTitle = "Grails Joda Time Plugin - ${project.version}"
+    access = GroovydocAccess.PROTECTED
+    includeAuthor = true
+    includeMainForScripts = false
+    processScripts = false
+
+    destinationDir = project.layout.buildDirectory.dir('docs/api').get().asFile
+
+    doLast { delete(project.layout.buildDirectory.dir('tmp')) }
+
+    inputs.files(source)
+    outputs.dir(destinationDir)
+}
+
+tasks.register('publishGuide', PublishGuide) {
+    group = 'documentation'
+    description = 'Generate Guide'
+    dependsOn('aggregateGroovydoc')
+
+    targetDir = project.layout.buildDirectory.dir('docs').get().asFile
+    def targetGhPagesIndex = project.layout.buildDirectory.dir('docs/ghpages.html')
+    outputs.dir(targetDir) // ensure gradle understands what this task generates
+    outputs.file(targetGhPagesIndex)
+    sourceRepo = "https://github.com/grails-plugins/grails-joda-time/edit/${githubBranch}/src/main/docs"
+    sourceDir = project.layout.projectDirectory.dir('src/main/docs').getAsFile()
+
+    def sourceGhPagesIndex = project.layout.projectDirectory.file('src/main/docs/index.tmpl')
+    inputs.dir(sourceDir) // ensure gradle understands what this task creates from
+    inputs.file(sourceGhPagesIndex)
+    propertiesFiles = [rootProject.layout.projectDirectory.file('gradle.properties').asFile]
+    asciidoc = true
+    resourcesDir = project.file('src/main/docs/resources')
+    properties = [
+            'safe'            : 'UNSAFE', // Make sure any asciidoc security is disabled
+            'version'         : projectVersion,
+            'title'           : 'Grails Joda Time Plugin',
+            'subtitle'        : 'Provides Joda Time databinding integration for Grails',
+            'api'             : '../api',
+            'exampleSourcedir': rootProject.layout.projectDirectory.dir('example').asFile.absolutePath,
+            'tags'            : '../ref/Tags'
+    ] as Properties
+
+    doLast {
+        File destination = project.layout.buildDirectory.file('docs/guide/index.html').get().asFile
+        destination.delete()
+        project.layout.buildDirectory.file('docs/guide/single.html').get().asFile.renameTo(destination)
+        project.layout.buildDirectory.file('docs/index.html').get().asFile.text = '''
+        <html lang="en">
+            <head>
+                <title>Redirecting...</title>
+                <meta http-equiv="refresh" content="0; url=guide/index.html" />
+            </head>
+            <body></body>
+        </html>
+        '''.stripIndent(8)
+
+        targetGhPagesIndex.get().asFile.text = sourceGhPagesIndex.asFile.text.replaceAll('@VERSION@', project.version)
+    }
+}
+
+tasks.register('docs') {
+    group = 'documentation'
+    dependsOn('aggregateGroovydoc', 'publishGuide')
+}

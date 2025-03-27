@@ -1,0 +1,15 @@
+introduction:
+  title: Introduction
+  features: Features
+  knownIssues: Known Issues
+  releaseNotes: Release Notes
+  acknowledgements: Acknowledgments
+  license: License
+persistence:
+  title: Persistence
+dataBinding:
+  title: Data Binding
+jsonandxml:
+  title: JSON and XML Rendering
+integrating:
+  title: Integrating with Other Plugins

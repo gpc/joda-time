@@ -1,9 +1,0 @@
-grails:
-    profile: web-plugin
-    codegen:
-        defaultPackage: grails.plugins.jodatime
-spring:
-    groovy:
-        template:
-            check-template-location: false
-

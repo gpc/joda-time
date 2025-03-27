@@ -1,0 +1,17 @@
+import org.grails.gradle.plugin.publishing.GrailsPublishExtension
+
+extensions.configure(GrailsPublishExtension) {
+    // Explicit `it` is required here
+    it.githubSlug = 'grails-plugins/grails-joda-time'
+    it.license.name = 'Apache-2.0'
+    it.title = findProperty('pomTitle') ?: 'Grails Joda Time Plugin'
+    it.desc = findProperty('pomDescription') ?: 'Provides integration with Grails and Joda Time'
+    it.developers = findProperty('pomDevelopers') as Map<String, String> ?: [
+            robfletcher : 'Rob Fletcher',
+            graemerocher: 'Graeme Rocher',
+            puneetbehl  : "Puneet Behl",
+            sbglasius : "Søren Berg Glasius",
+            jdaugherty: "James Daugherty"
+    ]
+    it.artifactId = findProperty('pomArtifactId') ?: name
+}

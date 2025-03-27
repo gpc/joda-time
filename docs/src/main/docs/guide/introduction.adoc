@@ -1,0 +1,3 @@
+The Joda Time Plugin integrates the http://www.joda.org/joda-time/[Joda Time] date/time library into Grails.
+
+In addition to this document, you may want to read the official Joda-time documentation http://www.joda.org/joda-time/[here].

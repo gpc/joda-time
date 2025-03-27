@@ -1,0 +1,8 @@
+The plugin registers JSON and XML converters for:
+
+* https://www.joda.org/joda-time/apidocs/org/joda/time/LocalTime.html[LocalTime]
+* https://www.joda.org/joda-time/apidocs/org/joda/time/LocalDate.html[LocalDate]
+* https://www.joda.org/joda-time/apidocs/org/joda/time/LocalDateTime.html[LocalDateTime]
+* https://www.joda.org/joda-time/apidocs/org/joda/time/DateTime.html[DateTime]
+* https://www.joda.org/joda-time/apidocs/org/joda/time/DateTimeZone.html[DateTimeZone]
+

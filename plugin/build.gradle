@@ -1,0 +1,45 @@
+version = projectVersion
+group = "org.grails.plugins"
+
+apply plugin: 'groovy'
+apply plugin: 'java-library'
+apply plugin: 'org.grails.grails-plugin'
+apply plugin: 'org.grails.grails-gsp'
+
+ext {
+    pomArtifactId = 'grails-joda-time'
+}
+
+dependencies {
+    implementation platform("org.grails:grails-bom:$grailsVersion")
+    //profile "org.grails.profiles:web-plugin"
+    implementation 'org.grails:grails-core'
+    implementation 'org.grails:grails-logging'
+    implementation 'org.grails:grails-plugin-databinding'
+    implementation 'org.grails:grails-plugin-i18n'
+    implementation 'org.grails:grails-web-boot'
+    implementation 'org.grails.plugins:gsp'
+    implementation 'org.grails.plugins:converters'
+
+    runtimeOnly 'org.fusesource.jansi:jansi'
+
+    console 'org.grails:grails-console'
+
+    // To support databinding to a domain object
+    testRuntimeOnly 'org.grails.plugins:hibernate5'
+    testRuntimeOnly 'com.h2database:h2'
+    testRuntimeOnly 'com.zaxxer:HikariCP'
+
+    testImplementation 'org.grails:grails-gorm-testing-support'
+    testImplementation 'org.grails:grails-web-testing-support'
+    testImplementation 'org.spockframework:spock-core'
+    testImplementation 'org.hamcrest:hamcrest-core'
+    testImplementation "org.jodd:jodd-lagarto:$joddVersion"
+
+    api 'org.apache.commons:commons-lang3'
+    api "joda-time:joda-time:$jodaVersion"
+}
+
+apply from: rootProject.layout.projectDirectory.file('gradle/java-config.gradle')
+apply from: rootProject.layout.projectDirectory.file('gradle/test-config.gradle')
+apply from: rootProject.layout.projectDirectory.file('gradle/publish-config.gradle')
