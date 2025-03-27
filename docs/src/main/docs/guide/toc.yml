@@ -7,7 +7,7 @@ introduction:
   license: License
 persistence:
   title: Persistence
-dataBinding:
+databinding:
   title: Data Binding
 jsonandxml:
   title: JSON and XML Rendering
