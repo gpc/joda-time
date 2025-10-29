@@ -1,11 +1,7 @@
 name: Java CI
 on:
   push:
-    branches:
-      - '[3-9]+.[0-9]+.x'
   pull_request:
-    branches:
-      - '[3-9]+.[0-9]+.x'
   workflow_dispatch:
 jobs:
   build:
@@ -33,7 +29,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write # updates gh-pages branch
       packages: read
     steps:
       - name: "📥 Checkout the repository"
@@ -49,10 +45,10 @@ jobs:
           develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       - name: "📤 Publish Snapshot to repo.grails.org"
         env:
-          GRADLE_PUBLISH_RELEASE: 'false'
+          GRAILS_PUBLISH_RELEASE: 'false'
           MAVEN_PUBLISH_USERNAME: ${{ secrets.MAVEN_PUBLISH_USERNAME }}
           MAVEN_PUBLISH_PASSWORD: ${{ secrets.MAVEN_PUBLISH_PASSWORD }}
-          MAVEN_PUBLISH_URL: ${{ secrets.MAVEN_PUBLISH_SNAPSHOT_URL }}
+          MAVEN_PUBLISH_URL: 'https://repo.grails.org/artifactory/plugins3-snapshots-local'
         run: ./gradlew publish
   docs:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'

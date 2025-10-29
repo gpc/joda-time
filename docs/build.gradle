@@ -1,18 +1,18 @@
-import grails.doc.gradle.PublishGuide
+import grails.doc.gradle.PublishGuideTask
 
 buildscript {
     repositories {
         maven { url = 'https://repo.grails.org/grails/core' }
     }
     dependencies {
-        classpath "org.grails:grails-docs:$grailsVersion"
+        classpath "org.apache.grails:grails-docs-core:7.0.0-RC2"
     }
 }
 
 apply plugin: 'groovy'
 
 dependencies {
-    implementation platform("org.grails:grails-bom:$grailsVersion")
+    implementation platform("org.apache.grails:grails-bom:$grailsVersion")
     implementation 'org.apache.groovy:groovy-groovydoc'
     implementation 'org.apache.groovy:groovy-ant'
     implementation 'org.springframework:spring-core'
@@ -63,7 +63,7 @@ tasks.register('aggregateGroovydoc', Groovydoc) {
     outputs.dir(destinationDir)
 }
 
-tasks.register('publishGuide', PublishGuide) {
+tasks.register('publishGuide', PublishGuideTask) {
     group = 'documentation'
     description = 'Generate Guide'
     dependsOn('aggregateGroovydoc')
@@ -78,7 +78,7 @@ tasks.register('publishGuide', PublishGuide) {
     def sourceGhPagesIndex = project.layout.projectDirectory.file('src/main/docs/index.tmpl')
     inputs.dir(sourceDir) // ensure gradle understands what this task creates from
     inputs.file(sourceGhPagesIndex)
-    propertiesFiles = [rootProject.layout.projectDirectory.file('gradle.properties').asFile]
+    propertiesFiles = files(rootProject.layout.projectDirectory.file('gradle.properties'))
     asciidoc = true
     resourcesDir = project.file('src/main/docs/resources')
     properties = [

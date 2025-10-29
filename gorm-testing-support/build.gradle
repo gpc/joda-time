@@ -10,11 +10,11 @@ ext {
 }
 
 dependencies {
-    implementation platform("org.grails:grails-bom:$grailsVersion")
+    implementation platform("org.apache.grails:grails-bom:$grailsVersion")
 
     implementation 'org.apache.groovy:groovy'
 
-    api 'org.grails:grails-datastore-core'
+    api 'org.apache.grails.data:grails-datastore-core'
     api "joda-time:joda-time:$jodaVersion"
 }
 

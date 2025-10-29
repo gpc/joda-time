@@ -1,7 +1,7 @@
 allprojects {
     repositories {
         mavenCentral()
-        maven { url "https://repo.grails.org/grails/core" }
+        maven { url "https://repo.grails.org/grails/restricted" }
     }
 }
 
@@ -18,6 +18,6 @@ def publishedProjects = [
 subprojects {
     if (name in publishedProjects) {
         // This has to be applied here
-        apply plugin: 'org.grails.grails-publish'
+        apply plugin: 'org.apache.grails.gradle.grails-publish'
     }
 }

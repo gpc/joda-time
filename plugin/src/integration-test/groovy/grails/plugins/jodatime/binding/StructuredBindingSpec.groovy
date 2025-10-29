@@ -12,10 +12,8 @@ import jakarta.inject.Inject
 import jakarta.servlet.http.HttpServletRequest
 import org.joda.time.LocalDate
 import org.springframework.mock.web.MockHttpServletRequest
-import spock.lang.Ignore
 import spock.lang.Issue
 import spock.lang.PendingFeature
-import spock.lang.PendingFeatureIf
 import spock.lang.Specification
 
 @Integration
