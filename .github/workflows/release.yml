@@ -78,7 +78,9 @@ jobs:
           publishToSonatype
           closeSonatypeStagingRepository
       - name: "Generate Build Date file"
-        run: echo "$SOURCE_DATE_EPOCH" >> build/BUILD_DATE.txt
+        run: |
+          mkdir -p build
+          echo "$SOURCE_DATE_EPOCH" >> build/BUILD_DATE.txt
       - name: "Upload Build Date file"
         uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
         with:
