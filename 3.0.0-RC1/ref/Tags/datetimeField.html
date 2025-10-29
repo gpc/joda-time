@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Grails Joda Time Plugin 3.0.0-RC1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+        function addJsClass(el) {
+            var classes = document.body.className.split(" ");
+            classes.push("js");
+            document.body.className = classes.join(" ");
+        }
+    </script>
+    <style>
+        .contribute-btn {
+            bottom: 0px;
+        }
+    </style>
+    <!-- Matomo -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(["setDoNotTrack", true]);
+        _paq.push(["disableCookies"]);
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="https://analytics.apache.org/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '79']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+</head>
+
+<body class="body" onload="addJsClass();">
+
+<div id="navigation">
+    <div class="navTitle">
+        
+        Grails Joda Time Plugin
+    </div>
+
+    <div class="navLinks">
+        <ul>
+            <li>
+                <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                    <a href="../../guide/index.html" class="button">Table of contents</a>
+
+                    <div id="nav-summary-childs">
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../../guide/persistence.html"><strong>2</strong><span>Persistence</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../../guide/databinding.html"><strong>3</strong><span>Data Binding</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../../guide/jsonandxml.html"><strong>4</strong><span>JSON and XML Rendering</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../../guide/integrating.html"><strong>5</strong><span>Integrating with Other Plugins</span></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </li>
+            <li class="separator selected">
+                <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="reference corner-all">
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+                
+                <div class='contribute-btn'>
+                    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails-plugins/grails-joda-time/edit/3.0.x/src/main/docs/ref/Tags/datetimeField.adoc"'>
+                        <i class='fa fa-pencil-square-o'></i> Improve this doc
+                    </button>
+                </div>
+                
+
+                <div class="sect2">
+<h3 id="datetimeField">joda:datetimeField</h3>
+<div class="sect3">
+<h4 id="_purpose">Purpose</h4>
+<div class="paragraph">
+<p>Renders an HTML5 <em>datetime</em> input for <em>Joda Time</em> properties</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples">Examples</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">&lt;<span class="key">joda</span>:datetimeField name=<span class="string"><span class="delimiter">&quot;</span><span class="content">myProperty</span><span class="delimiter">&quot;</span></span> value=<span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span><span class="keyword">new</span> DateTime()<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> /&gt;
+&lt;<span class="key">joda</span>:datetimeField name=<span class="string"><span class="delimiter">&quot;</span><span class="content">myProperty</span><span class="delimiter">&quot;</span></span> value=<span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>myBean.myProperty<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> /&gt;</code></pre>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_description">Description</h5>
+<div class="paragraph">
+<p>The value should be a <em>ReadableInstant</em> and will be formatted correctly for the input type.</p>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block">
+                        <h1 class="menu-title" onclick="toggleRef(nextElement(this))">Tags</h1>
+                        <div class="menu-sub selected">
+                            
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/dateField.html">dateField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/datePicker.html">datePicker</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/dateTimePicker.html">dateTimePicker</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/dateTimeZoneSelect.html">dateTimeZoneSelect</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/datetimeField.html">datetimeField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/datetimeLocalField.html">datetimeLocalField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/format.html">format</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/formatPeriod.html">formatPeriod</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/inputPattern.html">inputPattern</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/monthField.html">monthField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/periodPicker.html">periodPicker</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/time.html">time</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/timeField.html">timeField</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/timePicker.html">timePicker</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/weekField.html">weekField</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="menu-block">
+                        <h1 class="menu-title" onclick="toggleRef(nextElement(this))">dynamicMethods</h1>
+                        <div class="menu-sub">
+                            
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/div.html">div</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/format.html">format</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/multiply.html">multiply</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/negative.html">negative</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/next.html">next</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/previous.html">previous</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/step.html">step</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/withCurrentMillisFixed.html">withCurrentMillisFixed</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/dynamicMethods/withCurrentMillisOffset.html">withCurrentMillisOffset</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+
+<script type="text/javascript" src="../../js/docs.js"></script>
+
+</body>
+</html>
