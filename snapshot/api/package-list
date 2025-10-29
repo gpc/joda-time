@@ -1,6 +1,0 @@
-grails.plugins.jodatime
-grails.plugins.jodatime.binding
-grails.plugins.jodatime.converters
-grails.plugins.jodatime.simpledatastore
-grails.plugins.jodatime.taglib
-grails.plugins.jodatime.util
